@@ -1,2 +1,12 @@
-<p>index works!</p>
-<router-outlet></router-outlet>
+<div class="mdk-drawer-layout js-mdk-drawer-layout" data-push data-responsive-width="992px">
+    <div class="mdk-drawer-layout__content page-content">
+        <app-header></app-header>
+        <router-outlet></router-outlet>
+        <app-footer></app-footer>
+    </div>
+    <div class="mdk-drawer js-mdk-drawer" id="default-drawer">
+        <div class="mdk-drawer__content">
+            <app-sidebar></app-sidebar>
+        </div>
+    </div>
+</div>

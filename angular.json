@@ -27,9 +27,25 @@
               "src/assets"
             ],
             "styles": [
+              "src/assets/css/fonts-googleapis.css",
+              "src/assets/css/spinkit.css",
+              "src/assets/css/perfect-scrollbar.css",
+              "src/assets/css/material-icons.css",
+              "src/assets/css/fontawesome.css",
+              "src/assets/css/preloader.css",
+              "src/assets/css/app.css",
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [
+              "src/assets/js/jquery.min.js",
+              "src/assets/js/popper.min.js",
+              "src/assets/js/bootstrap.min.js",
+              "src/assets/js/perfect-scrollbar.min.js",
+              "src/assets/js/dom-factory.js",
+              "src/assets/js/material-design-kit.js",
+              "src/assets/js/app.js",
+              "src/assets/js/preloader.js"
+            ]
           },
           "configurations": {
             "production": {

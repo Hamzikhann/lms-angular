@@ -1,0 +1,18 @@
+.navigation {
+    overflow: scroll;
+}
+.sidebar-menu {
+    margin-bottom: 1.5rem;
+}
+.sidebar-dark-pickled-bluewood .sidebar-menu-button, .sidebar-dark-pickled-bluewood .sidebar-menu-toggle-icon {
+    color: rgba(172,182,191,.75);
+}
+.sidebar-dark-pickled-bluewood .sidebar-menu-icon {
+    color: rgba(172,182,191,.4);
+}
+.sidebar-menu-icon {
+    font-size: 20px;
+}
+.sidebar-menu-icon--left {
+    margin-right: .75rem;
+}

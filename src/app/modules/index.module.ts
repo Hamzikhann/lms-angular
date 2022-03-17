@@ -9,6 +9,9 @@ import { NgSelectizeModule } from 'ng-selectize';
 import { AuthGuard } from '../guards/auth.guard';
 import { IndexComponent } from './index.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { HeaderComponent } from '../shared/header/header.component';
+import { SidebarComponent } from '../shared/sidebar/sidebar.component';
+import { FooterComponent } from '../shared/footer/footer.component';
 
 const routes: Routes = [
   {
@@ -31,7 +34,10 @@ const routes: Routes = [
 @NgModule({
   declarations: [
     IndexComponent,
-    DashboardComponent
+    DashboardComponent,
+    HeaderComponent,
+    SidebarComponent,
+    FooterComponent
   ],
   imports: [
     CommonModule,
