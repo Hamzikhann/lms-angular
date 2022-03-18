@@ -2,16 +2,16 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgSelectizeModule } from 'ng-selectize';
 
 import { AuthGuard } from '../guards/auth.guard';
 import { IndexComponent } from './index.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
 import { HeaderComponent } from '../shared/header/header.component';
 import { SidebarComponent } from '../shared/sidebar/sidebar.component';
 import { FooterComponent } from '../shared/footer/footer.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { StickyNotesComponent } from './sticky-notes/sticky-notes.component';
 
 const routes: Routes = [
   {
@@ -24,8 +24,20 @@ const routes: Routes = [
         component: DashboardComponent
       }, 
       {
-        path: "users",
-        loadChildren: () => import("./users/users.module").then(m => m.UsersModule)
+        path: "sticky-notes",
+        component: StickyNotesComponent
+      }, 
+      {
+        path: "community",
+        loadChildren: () => import("./community/community.module").then(m => m.CommunityModule)
+      },
+      {
+        path: "account",
+        loadChildren: () => import("./account/account.module").then(m => m.AccountModule)
+      },
+      {
+        path: "help",
+        loadChildren: () => import("./help/help.module").then(m => m.HelpModule)
       },
     ]
   }
@@ -34,10 +46,11 @@ const routes: Routes = [
 @NgModule({
   declarations: [
     IndexComponent,
-    DashboardComponent,
     HeaderComponent,
     SidebarComponent,
-    FooterComponent
+    FooterComponent,
+    DashboardComponent,
+    StickyNotesComponent
   ],
   imports: [
     CommonModule,

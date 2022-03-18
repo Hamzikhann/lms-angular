@@ -1,117 +1,149 @@
 <div class="sidebar sidebar-dark-pickled-bluewood sidebar-left">
-    <a href="javascript:void(0)" class="sidebar-brand p-3 mb-3">
+    <a class="sidebar-brand p-3 mb-3">
         <img src="/assets/images/logo/logo.png" class="img-fluid" alt="logo" />
     </a>
     <div class="navigation">
         <div class="sidebar-heading">Navigation</div>
         <ul class="sidebar-menu">
-            <li class="sidebar-menu-item active">
-                <a class="sidebar-menu-button" href="javascript:void(0)">
-                    <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">home</span>
-                    <span class="sidebar-menu-text">Home</span>
+            <!-- Dashboard -->
+            <li class="sidebar-menu-item active" [class.active]="router.url == urls.dashboard" (click)="resetFilters()">
+                <a class="sidebar-menu-button" [routerLink]="[urls.dashboard]">
+                    <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">dashboard</span>
+                    <span class="sidebar-menu-text">Dashboard</span>
                 </a>
             </li>
-            <li class="sidebar-menu-item">
-                <a class="sidebar-menu-button" data-toggle="collapse" href="#ecommerce_menu">
+            <!-- Courses -->
+            <li class="sidebar-menu-item" [class.active]="submenuCourses" [class.open]="submenuCourses" (click)="toggleSubMenuCourses()">
+                <a class="sidebar-menu-button" data-toggle="collapse">
                     <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">local_library</span>
                     Courses
                     <span class="ml-auto sidebar-menu-toggle-icon"></span>
                 </a>
                 <ul class="sidebar-submenu collapse sm-indent" id="ecommerce_menu">
-                    <li class="sidebar-menu-item">
-                        <a class="sidebar-menu-button" href="javascript:void(0)">
+                    <li class="sidebar-menu-item" [class.active]="router.url == urls.courses">
+                        <a class="sidebar-menu-button" [routerLink]="[urls.courses]">
                             <span class="sidebar-menu-text">Browse Courses</span>
                         </a>
                     </li>
-                    <li class="sidebar-menu-item">
-                        <a class="sidebar-menu-button" href="javascript:void(0)">
+                    <li class="sidebar-menu-item" [class.active]="router.url == urls.courses_enrolled">
+                        <a class="sidebar-menu-button" [routerLink]="[urls.courses_enrolled]">
                             <span class="sidebar-menu-text">My Courses</span>
                         </a>
                     </li>
                 </ul>
             </li>
-            <li class="sidebar-menu-item">
-                <a class="sidebar-menu-button" data-toggle="collapse" href="#ecommerce_menu">
+            <!-- Sessions -->
+            <li class="sidebar-menu-item" [class.active]="submenuSessions" [class.open]="submenuSessions" (click)="toggleSubMenuSessions()">
+                <a class="sidebar-menu-button" data-toggle="collapse">
                     <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">dvr</span>
                     Sessions
                     <span class="sidebar-menu-badge badge badge-accent badge-notifications ml-auto">PRO</span>
                     <span class="ml-auto sidebar-menu-toggle-icon"></span>
                 </a>
                 <ul class="sidebar-submenu collapse sm-indent" id="ecommerce_menu">
-                    <li class="sidebar-menu-item">
-                        <a class="sidebar-menu-button" href="javascript:void(0)">
+                    <li class="sidebar-menu-item" [class.active]="router.url == urls.sessions">
+                        <a class="sidebar-menu-button" [routerLink]="[urls.sessions]">
                             <span class="sidebar-menu-text">Browse Sessions</span>
                         </a>
                     </li>
-                    <li class="sidebar-menu-item">
-                        <a class="sidebar-menu-button" href="javascript:void(0)">
+                    <li class="sidebar-menu-item" [class.active]="router.url == urls.sessions_enrolled">
+                        <a class="sidebar-menu-button" [routerLink]="[urls.sessions_enrolled]">
                             <span class="sidebar-menu-text">My Sessions</span>
                         </a>
                     </li>
                 </ul>
             </li>
-            <li class="sidebar-menu-item">
-                <a class="sidebar-menu-button" href="javascript:void(0)">
+            <!-- Messages -->
+            <li class="sidebar-menu-item" [class.active]="router.url == urls.messages" (click)="resetFilters()">
+                <a class="sidebar-menu-button" [routerLink]="[urls.messages]">
                     <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">message</span>
                     <span class="sidebar-menu-text">Messages</span>
                 </a>
             </li>
-            <li class="sidebar-menu-item">
-                <a class="sidebar-menu-button" href="javascript:void(0)">
+            <!-- Annoucements -->
+            <li class="sidebar-menu-item" [class.active]="router.url == urls.announcements" (click)="resetFilters()">
+                <a class="sidebar-menu-button" [routerLink]="[urls.announcements]">
                     <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">access_time</span>
                     <span class="sidebar-menu-text">Announcements</span>
                 </a>
             </li>
-            <li class="sidebar-menu-item">
-                <a class="sidebar-menu-button" href="javascript:void(0)">
+            <!-- Account Book -->
+            <li class="sidebar-menu-item" [class.active]="router.url == urls.account_book" (click)="resetFilters()">
+                <a class="sidebar-menu-button" [routerLink]="[urls.account_book]">
                     <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">import_contacts</span>
                     <span class="sidebar-menu-text">Account Book</span>
                 </a>
             </li>
-            <li class="sidebar-menu-item">
-                <a class="sidebar-menu-button" href="javascript:void(0)">
-                    <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">people_outline</span>
-                    <span class="sidebar-menu-text">Community</span>
+            <!-- Sticky Notes -->
+            <li class="sidebar-menu-item" [class.active]="router.url == urls.sticky_notes" (click)="resetFilters()">
+                <a class="sidebar-menu-button" [routerLink]="[urls.sticky_notes]">
+                    <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">style</span>
+                    <span class="sidebar-menu-text">Sticky Notes</span>
                 </a>
+            </li>
+            <!-- Community -->
+            <li class="sidebar-menu-item" [class.active]="submenuCommunity" [class.open]="submenuCommunity" (click)="toggleSubMenuCommunity()">
+                <a class="sidebar-menu-button" data-toggle="collapse">
+                    <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">people_outline</span>
+                    Community
+                    <span class="ml-auto sidebar-menu-toggle-icon"></span>
+                </a>
+                <ul class="sidebar-submenu collapse sm-indent" id="ecommerce_menu">
+                    <li class="sidebar-menu-item" [class.active]="router.url == urls.community_ask">
+                        <a class="sidebar-menu-button" [routerLink]="[urls.community_ask]">
+                            <span class="sidebar-menu-text">Ask Question</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-menu-item" [class.active]="router.url == urls.community">
+                        <a class="sidebar-menu-button" [routerLink]="[urls.community]">
+                            <span class="sidebar-menu-text">Discussions</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-menu-item" [class.active]="router.url == urls.community_topics">
+                        <a class="sidebar-menu-button" [routerLink]="[urls.community_topics]">
+                            <span class="sidebar-menu-text">Topics</span>
+                        </a>
+                    </li>
+                </ul>
             </li>
         </ul>
         <div class="sidebar-heading">Account</div>
         <ul class="sidebar-menu">
-            <li class="sidebar-menu-item">
-                <a class="sidebar-menu-button" href="instructor-dashboard.html">
+            <li class="sidebar-menu-item" [class.active]="router.url == urls.account" (click)="resetFilters()">
+                <a class="sidebar-menu-button" [routerLink]="[urls.account]">
                     <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">account_box</span>
                     <span class="sidebar-menu-text">Profile & Security</span>
                 </a>
             </li>
-            <li class="sidebar-menu-item">
-                <a class="sidebar-menu-button" href="instructor-courses.html">
+            <li class="sidebar-menu-item" [class.active]="router.url == urls.account_emails" (click)="resetFilters()">
+                <a class="sidebar-menu-button" [routerLink]="[urls.account_emails]">
                     <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">email</span>
                     <span class="sidebar-menu-text">Email Notifications</span>
                 </a>
             </li>
-            <li class="sidebar-menu-item">
-                <a class="sidebar-menu-button" href="instructor-quizzes.html">
-                    <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">style</span>
+            <li class="sidebar-menu-item" [class.active]="router.url == urls.account_payments" (click)="resetFilters()">
+                <a class="sidebar-menu-button" [routerLink]="[urls.account_payments]">
+                    <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">receipt</span>
                     <span class="sidebar-menu-text">Payments History</span>
                 </a>
             </li>
         </ul>
         <div class="sidebar-heading">Help Center</div>
         <ul class="sidebar-menu">
-            <li class="sidebar-menu-item">
-                <a class="sidebar-menu-button" href="instructor-quizzes.html">
+            <li class="sidebar-menu-item" [class.active]="router.url == urls.help" (click)="resetFilters()">
+                <a class="sidebar-menu-button" [routerLink]="[urls.help]">
                     <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">help</span>
                     <span class="sidebar-menu-text">FAQs</span>
                 </a>
             </li>
-            <li class="sidebar-menu-item">
-                <a class="sidebar-menu-button" href="instructor-quizzes.html">
+            <li class="sidebar-menu-item" [class.active]="router.url == urls.help_contact" (click)="resetFilters()">
+                <a class="sidebar-menu-button" [routerLink]="[urls.help_contact]">
                     <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">phone</span>
                     <span class="sidebar-menu-text">Contact Us</span>
                 </a>
             </li>
-            <li class="sidebar-menu-item">
-                <a class="sidebar-menu-button" href="instructor-quizzes.html">
+            <li class="sidebar-menu-item" [class.active]="router.url == urls.help_report" (click)="resetFilters()">
+                <a class="sidebar-menu-button" [routerLink]="[urls.help_report]">
                     <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">assignment_turned_in</span>
                     <span class="sidebar-menu-text">Report an Issue</span>
                 </a>

@@ -37,7 +37,7 @@
               "src/styles.css"
             ],
             "scripts": [
-              "src/assets/js/jquery.min.js",
+              "node_modules/jquery/dist/jquery.min.js",
               "src/assets/js/popper.min.js",
               "src/assets/js/bootstrap.min.js",
               "src/assets/js/perfect-scrollbar.min.js",
