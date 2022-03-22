@@ -27,7 +27,7 @@ export class SidebarComponent implements OnInit {
     community_topics: "/community/topics",
     account: "/account",
     account_emails: "/account/email-notifications",
-    account_payments: "/account/payments-history",
+    account_password: "/account/change-password",
     help: "/help",
     help_contact: "/help/contact-us",
     help_report: "/help/report-issue"

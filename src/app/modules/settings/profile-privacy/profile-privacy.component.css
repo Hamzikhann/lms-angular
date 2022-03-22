@@ -1,0 +1,11 @@
+form-label {
+    font-size: .75rem;
+}
+.page-separator {
+    margin-bottom: 1.75rem;
+}
+.page-separator__text {
+    background: #ddd;
+    border: 1px solid #bbb;
+    padding: 4px 8px;
+}

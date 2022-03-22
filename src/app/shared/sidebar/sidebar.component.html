@@ -99,11 +99,6 @@
                             <span class="sidebar-menu-text">Discussions</span>
                         </a>
                     </li>
-                    <li class="sidebar-menu-item" [class.active]="router.url == urls.community_topics">
-                        <a class="sidebar-menu-button" [routerLink]="[urls.community_topics]">
-                            <span class="sidebar-menu-text">Topics</span>
-                        </a>
-                    </li>
                 </ul>
             </li>
         </ul>
@@ -112,7 +107,7 @@
             <li class="sidebar-menu-item" [class.active]="router.url == urls.account" (click)="resetFilters()">
                 <a class="sidebar-menu-button" [routerLink]="[urls.account]">
                     <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">account_box</span>
-                    <span class="sidebar-menu-text">Profile & Security</span>
+                    <span class="sidebar-menu-text">Profile & Privacy</span>
                 </a>
             </li>
             <li class="sidebar-menu-item" [class.active]="router.url == urls.account_emails" (click)="resetFilters()">
@@ -121,10 +116,10 @@
                     <span class="sidebar-menu-text">Email Notifications</span>
                 </a>
             </li>
-            <li class="sidebar-menu-item" [class.active]="router.url == urls.account_payments" (click)="resetFilters()">
-                <a class="sidebar-menu-button" [routerLink]="[urls.account_payments]">
-                    <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">receipt</span>
-                    <span class="sidebar-menu-text">Payments History</span>
+            <li class="sidebar-menu-item" [class.active]="router.url == urls.account_password" (click)="resetFilters()">
+                <a class="sidebar-menu-button" [routerLink]="[urls.account_password]">
+                    <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">lock</span>
+                    <span class="sidebar-menu-text">Change Password</span>
                 </a>
             </li>
         </ul>

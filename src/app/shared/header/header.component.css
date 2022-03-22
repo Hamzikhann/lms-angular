@@ -11,6 +11,7 @@
 }
 .navbar {
     padding-top: 4px;
+    padding-left: 2.5rem;
 }
 .navbar-expand .navbar-nav {
     margin: 0 8px;

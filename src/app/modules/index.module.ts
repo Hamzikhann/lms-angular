@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgSelectizeModule } from 'ng-selectize';
+import { NgxMasonryModule } from 'ngx-masonry';
 
 import { AuthGuard } from '../guards/auth.guard';
 import { IndexComponent } from './index.component';
@@ -12,6 +13,10 @@ import { SidebarComponent } from '../shared/sidebar/sidebar.component';
 import { FooterComponent } from '../shared/footer/footer.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { StickyNotesComponent } from './sticky-notes/sticky-notes.component';
+import { TermsComponent } from './agreements/terms/terms.component';
+import { PoliciesComponent } from './agreements/policies/policies.component';
+import { AnnounementsComponent } from './announements/announements.component';
+import { MessagesComponent } from './messages/messages.component';
 
 const routes: Routes = [
   {
@@ -24,6 +29,18 @@ const routes: Routes = [
         component: DashboardComponent
       }, 
       {
+        path: "messages",
+        component: MessagesComponent
+      }, 
+      {
+        path: "announcements",
+        component: AnnounementsComponent
+      }, 
+      {
+        path: "account-book",
+        loadChildren: () => import("./account-book/account-book.module").then(m => m.AccountBookModule)
+      }, 
+      {
         path: "sticky-notes",
         component: StickyNotesComponent
       }, 
@@ -33,12 +50,20 @@ const routes: Routes = [
       },
       {
         path: "account",
-        loadChildren: () => import("./account/account.module").then(m => m.AccountModule)
+        loadChildren: () => import("./settings/settings.module").then(m => m.SettingsModule)
       },
       {
         path: "help",
         loadChildren: () => import("./help/help.module").then(m => m.HelpModule)
       },
+      {
+        path: "terms-and-conditions",
+        component: TermsComponent
+      }, 
+      {
+        path: "privacy-policies",
+        component: PoliciesComponent
+      }, 
     ]
   }
 ];
@@ -50,7 +75,11 @@ const routes: Routes = [
     SidebarComponent,
     FooterComponent,
     DashboardComponent,
-    StickyNotesComponent
+    StickyNotesComponent,
+    TermsComponent,
+    PoliciesComponent,
+    AnnounementsComponent,
+    MessagesComponent,
   ],
   imports: [
     CommonModule,
@@ -58,6 +87,7 @@ const routes: Routes = [
     ReactiveFormsModule,
     NgbModule,
     NgSelectizeModule,
+    NgxMasonryModule,
     RouterModule.forChild(routes)
   ]
 })

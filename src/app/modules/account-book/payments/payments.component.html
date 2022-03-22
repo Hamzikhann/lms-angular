@@ -1,0 +1,73 @@
+<div class="pt-32pt">
+    <div class="container page__container d-flex flex-column flex-md-row align-items-center text-center text-sm-left">
+        <div class="flex d-flex flex-column flex-sm-row align-items-center">
+            <div class="mb-24pt mb-sm-0 mr-sm-24pt">
+                <h2 class="mb-0">Account Book</h2>
+                <ol class="breadcrumb p-0 m-0">
+                    <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                    <li class="breadcrumb-item"><a href="javascript:void(0)">Account</a></li>
+                    <li class="breadcrumb-item active">
+                        Billing
+                    </li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="page-section container page__container">
+    <div class="page-separator">
+        <div class="page-separator__text">Outstanding Payments</div>
+    </div>
+    <div class="alert alert-soft-warning mb-lg-32pt">
+        <div class="d-flex flex-wrap align-items-center">
+            <div class="mr-8pt">
+                <i class="material-icons">access_time</i>
+            </div>
+            <div class="flex" style="min-width: 180px">
+                <small class="text-100">
+                    Please pay the due amount of
+                    <strong>&dollar;{{ outstanding_balance }}</strong> for your requests.
+                </small>
+            </div>
+        </div>
+    </div>
+
+    <div class="page-separator">
+        <div class="page-separator__text">Payment History</div>
+    </div>
+
+    <div class="card table-responsive">
+        <table class="table table-flush table-nowrap">
+            <thead>
+                <tr>
+                    <th>Invoice no.</th>
+                    <th>Date</th>
+                    <th>Payable</th>
+                    <th>Status</th>
+                    <th>Payment Mode</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let account of accounts">
+                    <td><a [routerLink]="[account.invoice]" class="text-underline">{{ account.invoice }}</a></td>
+                    <td>{{ account.date }}</td>
+                    <td class="text-center">{{ account.amount }}$</td>
+                    <td>
+                        <span class="badge badge-info" *ngIf="account.status == 'paid'">Paid</span>
+                        <span class="badge badge-danger" *ngIf="account.status == 'not paid'">Not Paid</span>
+                    </td>
+                    <td>{{ account.mode }}</td>
+                    <td class="text-right">
+                        <div class="d-inline-flex align-items-center">
+                            <a [routerLink]="[account.invoice]" class="btn btn-sm btn-outline-secondary mr-16pt">
+                                View invoice <i class="icon--right material-icons">keyboard_arrow_right</i>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

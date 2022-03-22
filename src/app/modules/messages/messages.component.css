@@ -1,0 +1,11 @@
+.card {
+    border: 1px solid #eaedf2;
+    border-radius: 0;
+}
+.message__body.card .card-body  {
+    padding: 0.75rem;
+}
+.input-group {
+    border: 1px solid #eee;
+    border-radius: 5px;
+}
