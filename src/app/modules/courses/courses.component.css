@@ -1,0 +1,18 @@
+.modal {
+    background: rgba(0, 0, 0, 0.63);
+}
+.modal-header, .modal-body {
+    padding: 1.5rem;
+}
+.modal-dialog {
+    display: inline-block;
+    margin: 0;
+    position: absolute;
+    right: 0;
+    width: 100%;
+}
+.modal-content {
+    border: unset;
+    border-radius: unset;
+    height: 100vh;
+}

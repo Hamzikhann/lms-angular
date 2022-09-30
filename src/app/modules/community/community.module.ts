@@ -24,7 +24,7 @@ const routes: Routes = [
     component: QuestionsAskComponent
   }, 
   {
-    path: "question-update",
+    path: "question/:id/update",
     component: QuestionsUpdateComponent
   }
 ];

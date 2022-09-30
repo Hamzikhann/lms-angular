@@ -1,0 +1,393 @@
+<div class="pt-32pt">
+    <div class="container page__container d-flex flex-column flex-md-row align-items-center text-center text-sm-left">
+        <div class="flex d-flex flex-column flex-sm-row align-items-center">
+            <div class="mb-24pt mb-sm-0 mr-sm-24pt">
+                <h2 class="mb-0">Courses</h2>
+                <ol class="breadcrumb p-0 m-0">
+                    <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                    <li class="breadcrumb-item active">
+                        Courses
+                    </li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container page__container">
+    <div class="page-section">
+        <div class="page-separator">
+            <div class="page-separator__text">A Level Courses</div>
+        </div>
+        <div class="row card-group-row">
+            <div class="col-lg-3 card-group-row__col">
+                <div class="card card-sm o-hidden" data-toggle="modal" data-target="#viewModal">
+                    <a href="javascript:void(0)" class="card-img-top js-image" data-height="140">
+                        <img src="/assets/images/paths/angular_430x168.png" alt="course">
+                        <span class="overlay__content">
+                            <span class="overlay__action d-flex flex-column text-center">
+                                <i class="material-icons icon-32pt">play_circle_outline</i>
+                                <span class="card-title text-white">Resume</span>
+                            </span>
+                        </span>
+                    </a>
+                    <div class="card-body flex">
+                        <div class="d-flex">
+                            <div class="flex">
+                                <a class="card-title" href="javascript:void(0)">Learn Angular</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="row justify-content-between">
+                            <div class="col-auto d-flex align-items-center">
+                                <span class="material-icons icon-16pt text-50 mr-4pt">account_circle</span>
+                                <p class="flex text-50 lh-1 mb-0"><small>Elijah Murray</small></p>
+                            </div>
+                            <div class="col-auto d-flex align-items-center">
+                                <span class="material-icons icon-16pt text-50 mr-4pt">play_circle_outline</span>
+                                <p class="flex text-50 lh-1 mb-0"><small>12 lessons</small></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3 card-group-row__col">
+                <div class="card card-sm o-hidden" [ngbPopover]="popContent">
+                    <a href="javascript:void(0)" class="card-img-top js-image" data-height="140">
+                        <img src="/assets/images/paths/swift_430x168.png" alt="course">
+                        <span class="overlay__content">
+                            <span class="overlay__action d-flex flex-column text-center">
+                                <i class="material-icons icon-32pt">play_circle_outline</i>
+                                <span class="card-title text-white">Resume</span>
+                            </span>
+                        </span>
+                    </a>
+                    <div class="card-body flex">
+                        <div class="d-flex">
+                            <div class="flex">
+                                <a class="card-title" href="javascript:void(0)">Build an iOS Application</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="row justify-content-between">
+                            <div class="col-auto d-flex align-items-center">
+                                <span class="material-icons icon-16pt text-50 mr-4pt">account_circle</span>
+                                <p class="flex text-50 lh-1 mb-0"><small>Elijah Murray</small></p>
+                            </div>
+                            <div class="col-auto d-flex align-items-center">
+                                <span class="material-icons icon-16pt text-50 mr-4pt">play_circle_outline</span>
+                                <p class="flex text-50 lh-1 mb-0"><small>12 lessons</small></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3 card-group-row__col">
+                <div class="card card-sm o-hidden" [ngbPopover]="popContent">
+                    <a href="javascript:void(0)" class="card-img-top js-image" data-height="140">
+                        <img src="/assets/images/paths/wordpress_430x168.png" alt="course">
+                        <span class="overlay__content">
+                            <span class="overlay__action d-flex flex-column text-center">
+                                <i class="material-icons icon-32pt">play_circle_outline</i>
+                                <span class="card-title text-white">Resume</span>
+                            </span>
+                        </span>
+                    </a>
+                    <div class="card-body flex">
+                        <div class="d-flex">
+                            <div class="flex">
+                                <a class="card-title" href="javascript:void(0)">Build a WordPress Website</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="row justify-content-between">
+                            <div class="col-auto d-flex align-items-center">
+                                <span class="material-icons icon-16pt text-50 mr-4pt">account_circle</span>
+                                <p class="flex text-50 lh-1 mb-0"><small>Elijah Murray</small></p>
+                            </div>
+                            <div class="col-auto d-flex align-items-center">
+                                <span class="material-icons icon-16pt text-50 mr-4pt">play_circle_outline</span>
+                                <p class="flex text-50 lh-1 mb-0"><small>12 lessons</small></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3 card-group-row__col">
+                <div class="card card-sm o-hidden" [ngbPopover]="popContent">
+                    <a href="javascript:void(0)" class="card-img-top js-image" data-height="140">
+                        <img src="/assets/images/paths/react_430x168.png"
+                             alt="course">
+                        <span class="overlay__content">
+                            <span class="overlay__action d-flex flex-column text-center">
+                                <i class="material-icons icon-32pt">play_circle_outline</i>
+                                <span class="card-title text-white">Resume</span>
+                            </span>
+                        </span>
+                    </a>
+
+                    <div class="card-body flex">
+                        <div class="d-flex">
+                            <div class="flex">
+                                <a class="card-title"
+                                   href="javascript:void(0)">Become a React Developer</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="row justify-content-between">
+                            <div class="col-auto d-flex align-items-center">
+                                <span class="material-icons icon-16pt text-50 mr-4pt">account_circle</span>
+                                <p class="flex text-50 lh-1 mb-0"><small>Elijah Murray</small></p>
+                            </div>
+                            <div class="col-auto d-flex align-items-center">
+                                <span class="material-icons material-icons-outlined icon-16pt text-50 mr-4pt">play_circle_outline</span>
+                                <p class="flex text-50 lh-1 mb-0"><small>12 lessons</small></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3 card-group-row__col">
+                <div class="card card-sm o-hidden" [ngbPopover]="popContent">
+                    <a href="javascript:void(0)" class="card-img-top js-image" data-height="140">
+                        <img src="/assets/images/paths/photoshop_430x168.png" alt="course">
+                        <span class="overlay__content">
+                            <span class="overlay__action d-flex flex-column text-center">
+                                <i class="material-icons icon-32pt">play_circle_outline</i>
+                                <span class="card-title text-white">Resume</span>
+                            </span>
+                        </span>
+                    </a>
+                    <div class="card-body flex">
+                        <div class="d-flex">
+                            <div class="flex">
+                                <a class="card-title" href="javascript:void(0)">Become a React Developer</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="row justify-content-between">
+                            <div class="col-auto d-flex align-items-center">
+                                <span class="material-icons icon-16pt text-50 mr-4pt">account_circle</span>
+                                <p class="flex text-50 lh-1 mb-0"><small>Elijah Murray</small></p>
+                            </div>
+                            <div class="col-auto d-flex align-items-center">
+                                <span class="material-icons material-icons-outlined icon-16pt text-50 mr-4pt">play_circle_outline</span>
+                                <p class="flex text-50 lh-1 mb-0"><small>12 lessons</small></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3 card-group-row__col">
+                <div class="card card-sm o-hidden" [ngbPopover]="popContent">
+                    <a href="javascript:void(0)" class="card-img-top js-image" data-height="140">
+                        <img src="/assets/images/paths/mailchimp_430x168.png"
+                             alt="course">
+                        <span class="overlay__content">
+                            <span class="overlay__action d-flex flex-column text-center">
+                                <i class="material-icons icon-32pt">play_circle_outline</i>
+                                <span class="card-title text-white">Resume</span>
+                            </span>
+                        </span>
+                    </a>
+
+                    <div class="card-body flex">
+                        <div class="d-flex">
+                            <div class="flex">
+                                <a class="card-title"
+                                   href="javascript:void(0)">Become a React Developer</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="row justify-content-between">
+                            <div class="col-auto d-flex align-items-center">
+                                <span class="material-icons icon-16pt text-50 mr-4pt">account_circle</span>
+                                <p class="flex text-50 lh-1 mb-0"><small>Elijah Murray</small></p>
+                            </div>
+                            <div class="col-auto d-flex align-items-center">
+                                <span class="material-icons material-icons-outlined icon-16pt text-50 mr-4pt">play_circle_outline</span>
+                                <p class="flex text-50 lh-1 mb-0"><small>12 lessons</small></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3 card-group-row__col">
+                <div class="card card-sm o-hidden" [ngbPopover]="popContent">
+                    <a href="javascript:void(0)" class="card-img-top js-image" data-height="140">
+                        <img src="/assets/images/paths/figma_430x168.png"
+                             alt="course">
+                        <span class="overlay__content">
+                            <span class="overlay__action d-flex flex-column text-center">
+                                <i class="material-icons icon-32pt">play_circle_outline</i>
+                                <span class="card-title text-white">Resume</span>
+                            </span>
+                        </span>
+                    </a>
+
+                    <div class="card-body flex">
+                        <div class="d-flex">
+                            <div class="flex">
+                                <a class="card-title"
+                                   href="javascript:void(0)">Become a React Developer</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="row justify-content-between">
+                            <div class="col-auto d-flex align-items-center">
+                                <span class="material-icons icon-16pt text-50 mr-4pt">account_circle</span>
+                                <p class="flex text-50 lh-1 mb-0"><small>Elijah Murray</small></p>
+                            </div>
+                            <div class="col-auto d-flex align-items-center">
+                                <span class="material-icons material-icons-outlined icon-16pt text-50 mr-4pt">play_circle_outline</span>
+                                <p class="flex text-50 lh-1 mb-0"><small>12 lessons</small></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <ng-template #popContent>
+            <div class="popoverContainer">
+                <div class="media">
+                    <div class="media-left mr-12pt">
+                        <img src="/assets/images/paths/angular_40x40@2x.png" width="40" height="40" alt="Angular" class="rounded">
+                    </div>
+                    <div class="media-body">
+                        <div class="card-title mb-0">Learn Angular fundamentals</div>
+                        <p class="lh-1 mb-0">
+                            <span class="text-50 small">with </span>
+                            <span class="text-50 small font-weight-bold">Elijah Murray</span>
+                        </p>
+                    </div>
+                </div>
+
+                <p class="my-16pt text-70">Learn the fundamentals of working with Angular and how to create basic applications. 
+                    working with Angular and how to create basic applications.
+                </p>
+
+                <div class="mb-16pt">
+                    <div class="d-flex align-items-center mb-1">
+                        <a href="javascript:void(0)">
+                            <span class="material-icons icon-16pt mr-8pt">open_in_new</span>
+                            <span class="flex text-70 lh-1 mb-0"><small>Index / Lessons</small></span>
+                        </a>
+                    </div>
+                    <div class="d-flex align-items-center mb-1">
+                        <a href="javascript:void(0)">
+                            <span class="material-icons icon-16pt mr-8pt">open_in_new</span>
+                            <span class="flex text-70 lh-1 mb-0"><small>Assignments</small></span>
+                        </a>
+                    </div>
+                    <div class="d-flex align-items-center mb-1">
+                        <a href="javascript:void(0)">
+                            <span class="material-icons icon-16pt mr-8pt">open_in_new</span>
+                            <span class="flex text-70 lh-1 mb-0"><small>GDB</small></span>
+                        </a>
+                    </div>
+                    <div class="d-flex align-items-center mb-1">
+                        <a href="javascript:void(0)">
+                            <span class="material-icons icon-16pt mr-8pt">open_in_new</span>
+                            <span class="flex text-70 lh-1 mb-0"><small>Quizes</small></span>
+                        </a>
+                    </div>
+                    <div class="d-flex align-items-center mb-1">
+                        <a href="javascript:void(0)">
+                            <span class="material-icons icon-16pt mr-8pt">open_in_new</span>
+                            <span class="flex text-70 lh-1 mb-0"><small>Announcements</small></span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="d-flex align-items-center justify-space-between">
+                    <a href="javascript:void(0)" class="btn btn-outline-primary w-100">View Course Details</a>
+                </div>
+            </div>
+        </ng-template>
+
+    </div>
+</div>
+
+<div class="modal" id="viewModal" tabindex="-1" role="dialog" aria-labelledby="viewModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="addModalLabel">Learn Angular JS</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <div class="pb-3">
+                <div class="page-nav__content">
+                    <div class="media align-items-center mt-2 mb-4">
+                        <span class="media-left mr-16pt">
+                            <img src="/assets/images/people/50/guy-6.jpg" width="60" alt="avatar" class="rounded-circle">
+                        </span>
+                        <div class="media-body">
+                            <a class="card-title m-0" href="teacher-profile.html">Eddie Bryan</a>
+                            <p class="text-50 lh-1 mb-0">ScD. Electrical Engineering <br>Massachusetts Institute of Technology, USA</p>
+                        </div>
+                    </div>
+
+                    <p class="my-16pt">The course uses the Dev-C++ Integrated Development Environment (IDE) as the vehicle for instruction. Starting with basic programming 
+                        concepts, the course develops skill in handling decision and looping structures. Moving on through the concept of pointers and arrays, 
+                        the course covers the essentials of the C programming language while staying away from object-oriented concepts. 
+                        The premise is that a good grounding in structured programming will be required when moving into the object-oriented domain that would be 
+                        covered in depth in a later course.<br>
+                        After covering file-handling and unions and structures, the course will finally introduce the concept of classes 
+                        and public and private members with an introduction to function overloading. 
+                    </p>
+
+                    <div class="mb-16pt">
+                        <div class="nav page-nav__menu">
+                            <a href="javascript:void(0)" class="nav-link align-items-center px-0 text-100">
+                                <span class="material-icons icon-16pt mr-8pt">open_in_new</span>Index / Lessons
+                            </a>
+                        </div>
+                        <div class="nav page-nav__menu">
+                            <a href="javascript:void(0)" class="nav-link align-items-center px-0 text-100">
+                                <span class="material-icons icon-16pt mr-8pt">open_in_new</span>Assignments
+                                <span class="sidebar-menu-badge badge badge-primary badge-notifications ml-2">1</span>
+                            </a>
+                        </div>
+                        <div class="nav page-nav__menu">
+                            <a href="javascript:void(0)" class="nav-link align-items-center px-0 text-100">
+                                <span class="material-icons icon-16pt mr-8pt">open_in_new</span>GDB
+                            </a>
+                        </div>
+                        <div class="nav page-nav__menu">
+                            <a href="javascript:void(0)" class="nav-link align-items-center px-0 text-100">
+                                <span class="material-icons icon-16pt mr-8pt">open_in_new</span>Quizes
+                            </a>
+                        </div>
+                        <div class="nav page-nav__menu">
+                            <a href="javascript:void(0)" class="nav-link align-items-center px-0 text-100">
+                                <span class="material-icons icon-16pt mr-8pt">open_in_new</span>Announcements
+                                <span class="sidebar-menu-badge badge badge-primary badge-notifications ml-2">2</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer p-0" style="border:0">
+                <a href="javascript:void(0)" class="btn btn-outline-primary w-100">View Course Details</a>
+            </div>
+        </div>
+      </div>
+    </div>
+</div>

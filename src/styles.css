@@ -5,3 +5,11 @@
         max-width: 1142px;
     }
 }
+
+.popover {
+    width: 312px !important;
+    max-width: 312px !important;
+}
+.popover-body {
+    padding: 1.25rem !important;
+}

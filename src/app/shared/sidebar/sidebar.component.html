@@ -6,52 +6,57 @@
         <div class="sidebar-heading">Navigation</div>
         <ul class="sidebar-menu">
             <!-- Dashboard -->
-            <li class="sidebar-menu-item active" [class.active]="router.url == urls.dashboard" (click)="resetFilters()">
-                <a class="sidebar-menu-button" [routerLink]="[urls.dashboard]">
+            <li class="sidebar-menu-item active" [class.active]="router.url == urls.home" (click)="resetFilters()">
+                <a class="sidebar-menu-button" [routerLink]="[urls.home]">
                     <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">dashboard</span>
-                    <span class="sidebar-menu-text">Dashboard</span>
+                    <span class="sidebar-menu-text">Home</span>
                 </a>
             </li>
-            <!-- Courses -->
-            <li class="sidebar-menu-item" [class.active]="submenuCourses" [class.open]="submenuCourses" (click)="toggleSubMenuCourses()">
+            <!-- To Do Calendar -->
+            <li class="sidebar-menu-item" [class.active]="router.url == urls.todo" (click)="resetFilters()">
+                <a class="sidebar-menu-button" [routerLink]="[urls.todo]">
+                    <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">calendar_today</span>
+                    <span class="sidebar-menu-text">To Do Calendar</span>
+                </a>
+            </li>
+            <!-- Assessment -->
+            <li class="sidebar-menu-item" [class.active]="router.url.includes('assessment')" [class.open]="submenuAssessment" (click)="toggleSubMenuAssessment()">
                 <a class="sidebar-menu-button" data-toggle="collapse">
                     <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">local_library</span>
-                    Courses
+                    Assessments
                     <span class="ml-auto sidebar-menu-toggle-icon"></span>
                 </a>
                 <ul class="sidebar-submenu collapse sm-indent" id="ecommerce_menu">
-                    <li class="sidebar-menu-item" [class.active]="router.url == urls.courses">
-                        <a class="sidebar-menu-button" [routerLink]="[urls.courses]">
-                            <span class="sidebar-menu-text">Browse Courses</span>
+                    <li class="sidebar-menu-item" [class.active]="router.url == urls.assessment.quizes">
+                        <a class="sidebar-menu-button" [routerLink]="[urls.assessment.quizes]">
+                            <span class="sidebar-menu-text">Quizes</span>
                         </a>
                     </li>
-                    <li class="sidebar-menu-item" [class.active]="router.url == urls.courses_enrolled">
-                        <a class="sidebar-menu-button" [routerLink]="[urls.courses_enrolled]">
-                            <span class="sidebar-menu-text">My Courses</span>
+                    <li class="sidebar-menu-item" [class.active]="router.url == urls.assessment.assignments">
+                        <a class="sidebar-menu-button" [routerLink]="[urls.assessment.assignments]">
+                            <span class="sidebar-menu-text">Assignments</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-menu-item" [class.active]="router.url == urls.assessment.gdb">
+                        <a class="sidebar-menu-button" [routerLink]="[urls.assessment.gdb]">
+                            <span class="sidebar-menu-text">GDB</span>
                         </a>
                     </li>
                 </ul>
             </li>
-            <!-- Sessions -->
-            <li class="sidebar-menu-item" [class.active]="submenuSessions" [class.open]="submenuSessions" (click)="toggleSubMenuSessions()">
-                <a class="sidebar-menu-button" data-toggle="collapse">
-                    <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">dvr</span>
-                    Sessions
-                    <span class="sidebar-menu-badge badge badge-accent badge-notifications ml-auto">PRO</span>
-                    <span class="ml-auto sidebar-menu-toggle-icon"></span>
+            <!-- File Manager -->
+            <li class="sidebar-menu-item" [class.active]="router.url == urls.file_manager" (click)="resetFilters()">
+                <a class="sidebar-menu-button" [routerLink]="[urls.file_manager]">
+                    <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">folder_open</span>
+                    <span class="sidebar-menu-text">File Manager</span>
                 </a>
-                <ul class="sidebar-submenu collapse sm-indent" id="ecommerce_menu">
-                    <li class="sidebar-menu-item" [class.active]="router.url == urls.sessions">
-                        <a class="sidebar-menu-button" [routerLink]="[urls.sessions]">
-                            <span class="sidebar-menu-text">Browse Sessions</span>
-                        </a>
-                    </li>
-                    <li class="sidebar-menu-item" [class.active]="router.url == urls.sessions_enrolled">
-                        <a class="sidebar-menu-button" [routerLink]="[urls.sessions_enrolled]">
-                            <span class="sidebar-menu-text">My Sessions</span>
-                        </a>
-                    </li>
-                </ul>
+            </li>
+            <!-- Grade Book -->
+            <li class="sidebar-menu-item" [class.active]="router.url == urls.grade_book" (click)="resetFilters()">
+                <a class="sidebar-menu-button" [routerLink]="[urls.grade_book]">
+                    <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">assessment</span>
+                    <span class="sidebar-menu-text">Grade Book</span>
+                </a>
             </li>
             <!-- Messages -->
             <li class="sidebar-menu-item" [class.active]="router.url == urls.messages" (click)="resetFilters()">
@@ -60,25 +65,18 @@
                     <span class="sidebar-menu-text">Messages</span>
                 </a>
             </li>
-            <!-- Annoucements -->
-            <li class="sidebar-menu-item" [class.active]="router.url == urls.announcements" (click)="resetFilters()">
-                <a class="sidebar-menu-button" [routerLink]="[urls.announcements]">
-                    <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">access_time</span>
-                    <span class="sidebar-menu-text">Announcements</span>
-                </a>
-            </li>
-            <!-- Account Book -->
-            <li class="sidebar-menu-item" [class.active]="router.url == urls.account_book" (click)="resetFilters()">
-                <a class="sidebar-menu-button" [routerLink]="[urls.account_book]">
-                    <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">import_contacts</span>
-                    <span class="sidebar-menu-text">Account Book</span>
-                </a>
-            </li>
             <!-- Sticky Notes -->
             <li class="sidebar-menu-item" [class.active]="router.url == urls.sticky_notes" (click)="resetFilters()">
                 <a class="sidebar-menu-button" [routerLink]="[urls.sticky_notes]">
                     <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">style</span>
                     <span class="sidebar-menu-text">Sticky Notes</span>
+                </a>
+            </li>
+            <!-- Account Book -->
+            <li class="sidebar-menu-item" [class.active]="router.url == urls.account_book" (click)="resetFilters()">
+                <a class="sidebar-menu-button" [routerLink]="[urls.account_book]">
+                    <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">account_balance_wallet</span>
+                    <span class="sidebar-menu-text">Account Book</span>
                 </a>
             </li>
             <!-- Community -->

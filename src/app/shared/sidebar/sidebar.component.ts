@@ -8,20 +8,22 @@ import { Router } from "@angular/router";
 })
 export class SidebarComponent implements OnInit {
 
-  submenuCourses: boolean = false;
+  submenuAssessment: boolean = false;
   submenuSessions: boolean = false;
   submenuCommunity: boolean = false;
 
   urls: any = {
-    dashboard: "/",
-    courses: "/courses",
-    courses_enrolled: "/courses/enrolled",
-    sessions: "/sessions",
-    sessions_enrolled: "/sessions/enrolled",
+    home: "/",
+    todos: "/todo",
+    assessment: "/assessments",
+    assessment_assignments: "/assessments/assignments",
+    assessment_quizes: "/assessments/quizes",
+    assessment_gdb: "/assessment/gdb",
+    file_manager: "/file_manager",
+    grade_book: "/grade_book",
     messages: "/messages",
-    announcements: "/announcements",
-    account_book: "/account-book",
     sticky_notes: "/sticky-notes",
+    account_book: "/account-book",
     community: "/community",
     community_ask: "/community/question-ask",
     community_topics: "/community/topics",
@@ -37,21 +39,21 @@ export class SidebarComponent implements OnInit {
 
   ngOnInit(): void {
     this.resetFilters();
-    if (this.router.url == '/courses' || this.router.url == '/courses/enrolled') {
-      this.submenuCourses = true;
+    if (this.router.url.includes('assessment')) {
+      this.submenuAssessment = true;
     }
-    if (this.router.url == '/sessions' || this.router.url == '/sessions/enrolled') {
+    if (this.router.url.includes('sessions')) {
       this.submenuSessions = true;
     }
-    if (this.router.url == '/community' || this.router.url == '/community/question-ask' || this.router.url == '/community/question-update' || this.router.url == '/community/topics') {
+    if (this.router.url.includes('community')) {
       this.submenuCommunity = true;
     }
   }
 
-  toggleSubMenuCourses() {
+  toggleSubMenuAssessment() {
     if (!this.router.url.includes('courses')) {
-      if (this.submenuCourses) this.submenuCourses = false;
-      else if (!this.submenuCourses) this.submenuCourses = true;
+      if (this.submenuAssessment) this.submenuAssessment = false;
+      else if (!this.submenuAssessment) this.submenuAssessment = true;
     }
     this.submenuCommunity = false;
     this.submenuSessions = false;
@@ -63,7 +65,7 @@ export class SidebarComponent implements OnInit {
       else if (!this.submenuSessions) this.submenuSessions = true;
     }
     this.submenuCommunity = false;
-    this.submenuCourses = false;
+    this.submenuAssessment = false;
   }
 
   toggleSubMenuCommunity() {
@@ -71,12 +73,12 @@ export class SidebarComponent implements OnInit {
       if (this.submenuCommunity) this.submenuCommunity = false;
       else if (!this.submenuCommunity) this.submenuCommunity = true;
     }
-    this.submenuCourses = false;
+    this.submenuAssessment = false;
     this.submenuSessions = false;
   }
 
   resetFilters() {
-    this.submenuCourses = false;
+    this.submenuAssessment = false;
     this.submenuSessions = false;
     this.submenuCommunity = false;
   }

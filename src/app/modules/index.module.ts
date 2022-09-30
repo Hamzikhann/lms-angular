@@ -15,8 +15,11 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { StickyNotesComponent } from './sticky-notes/sticky-notes.component';
 import { TermsComponent } from './agreements/terms/terms.component';
 import { PoliciesComponent } from './agreements/policies/policies.component';
-import { AnnounementsComponent } from './announements/announements.component';
 import { MessagesComponent } from './messages/messages.component';
+import { CoursesComponent } from './courses/courses.component';
+import { InstructorsComponent } from './instructors/instructors.component';
+import { AnnouncementsComponent } from './announcements/announcements.component';
+import { EnrollmentsComponent } from './enrollments/enrollments.component';
 
 const routes: Routes = [
   {
@@ -29,12 +32,28 @@ const routes: Routes = [
         component: DashboardComponent
       }, 
       {
+        path: "courses",
+        component: CoursesComponent
+      }, 
+      {
+        path: "instructors",
+        component: InstructorsComponent
+      }, 
+      {
+        path: "announcements",
+        component: AnnouncementsComponent
+      }, 
+      {
+        path: "enrollments",
+        component: EnrollmentsComponent
+      }, 
+      {
         path: "messages",
         component: MessagesComponent
       }, 
       {
         path: "announcements",
-        component: AnnounementsComponent
+        component: AnnouncementsComponent
       }, 
       {
         path: "account-book",
@@ -78,8 +97,11 @@ const routes: Routes = [
     StickyNotesComponent,
     TermsComponent,
     PoliciesComponent,
-    AnnounementsComponent,
     MessagesComponent,
+    CoursesComponent,
+    InstructorsComponent,
+    AnnouncementsComponent,
+    EnrollmentsComponent,
   ],
   imports: [
     CommonModule,
