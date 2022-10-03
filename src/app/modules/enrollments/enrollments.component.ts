@@ -7,9 +7,23 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EnrollmentsComponent implements OnInit {
 
+  enrollments: any;
+
   constructor() { }
 
   ngOnInit(): void {
+    this.enrollments = [
+      {
+        title: 'O Levels',
+        status: 'active',
+        courses: ['Biology', 'Mathematics', 'Physics', 'Pakistan Studies']
+      },
+      {
+        title: 'Matriculation',
+        status: 'inactive',
+        courses: ['Computer Science', 'Chemistry']
+      },
+    ]
   }
 
 }

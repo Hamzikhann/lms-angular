@@ -1,1 +1,76 @@
-<p>announcements works!</p>
+<div class="pt-32pt">
+    <div class="container page__container d-flex flex-column flex-md-row align-items-center text-center text-sm-left">
+        <div class="flex d-flex flex-column flex-sm-row align-items-center">
+            <div class="mb-24pt mb-sm-0 mr-sm-24pt">
+                <h2 class="mb-0">Announcements</h2>
+                <ol class="breadcrumb p-0 m-0">
+                    <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                    <li class="breadcrumb-item active">
+                        Announcements
+                    </li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container page__container">
+    <div class="page-section">
+        <div class="row mb-lg-8pt">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="list-group list-group-flush">
+                        <div class="list-group-item d-flex align-items-start p-16pt" *ngFor="let announcement of announcements">
+                            <div class="d-flex flex-column mr-16pt">
+                                <small class="text-uppercase text-50">{{ announcement.createdAt.month }}</small>
+                                <strong class="border-bottom-2 border-bottom-accent">{{ announcement.createdAt.date }}</strong>
+                            </div>
+                            <div class="flex">
+                                <div class="mb-4pt"><strong>{{ announcement.course }}</strong></div>
+                                <p class="mb-0 text-70">{{ announcement.content }}, <strong class="text-90">by {{ announcement.instructor }}</strong></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+
+                        <ul class="pagination justify-content-start pagination-xsm m-0">
+                            <li class="page-item disabled">
+                                <a class="page-link"
+                                   href="#"
+                                   aria-label="Previous">
+                                    <span aria-hidden="true"
+                                          class="material-icons">chevron_left</span>
+                                    <span>Prev</span>
+                                </a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link"
+                                   href="#"
+                                   aria-label="Page 1">
+                                    <span>1</span>
+                                </a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link"
+                                   href="#"
+                                   aria-label="Page 2">
+                                    <span>2</span>
+                                </a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link"
+                                   href="#"
+                                   aria-label="Next">
+                                    <span>Next</span>
+                                    <span aria-hidden="true"
+                                          class="material-icons">chevron_right</span>
+                                </a>
+                            </li>
+                        </ul>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

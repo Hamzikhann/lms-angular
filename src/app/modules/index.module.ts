@@ -20,6 +20,7 @@ import { CoursesComponent } from './courses/courses.component';
 import { InstructorsComponent } from './instructors/instructors.component';
 import { AnnouncementsComponent } from './announcements/announcements.component';
 import { EnrollmentsComponent } from './enrollments/enrollments.component';
+import { NotificationsComponent } from './notifications/notifications.component';
 
 const routes: Routes = [
   {
@@ -54,6 +55,10 @@ const routes: Routes = [
       {
         path: "announcements",
         component: AnnouncementsComponent
+      }, 
+      {
+        path: "notifications",
+        component: NotificationsComponent
       }, 
       {
         path: "account-book",
@@ -102,6 +107,7 @@ const routes: Routes = [
     InstructorsComponent,
     AnnouncementsComponent,
     EnrollmentsComponent,
+    NotificationsComponent,
   ],
   imports: [
     CommonModule,

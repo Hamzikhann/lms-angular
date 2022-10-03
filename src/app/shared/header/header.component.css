@@ -27,6 +27,9 @@
 .sidebar-menu-icon {
     font-size: 20px;
 }
+.dropdown-notifications {
+    outline: unset;
+}
 .dropdown-notifications .notification-text {
     line-height: normal;
     margin-top: 4px;
