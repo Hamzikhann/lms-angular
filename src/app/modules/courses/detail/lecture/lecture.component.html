@@ -1,0 +1,147 @@
+<div class="mdk-box js-mdk-box mb-0" [style.background]="'#6138c2'">
+    <div class="mdk-box__content" style="background-image: 'url(/assets/images/bg-course.jpg)'; background-size: contain; background-repeat: no-repeat;">
+    <div class="hero py-48pt text-center text-sm-left" [style.background]="'rgba(48, 57, 85, 0.71)'"
+        >
+        <div class="container page__container">
+            <h2 class="d-flex align-items-center justify-content-between text-white m-0">Analysis of Variance & Experimental Design
+                <span class="badge badge-secondary ml-3 mt-1"><small>Lecture</small></span>
+            </h2>
+            <p class="lead text-white-50 measure-hero-lead">STA301 - Statistics and Probability</p>
+        </div>
+    </div>
+    </div>
+</div>
+
+<div class="navbar navbar-expand-sm navbar-light bg-white border-bottom-2 navbar-list p-0 m-0 align-items-center">
+    <div class="container page__container">
+        <ul class="nav navbar-nav flex align-items-sm-center">
+            <li class="nav-item navbar-list__item">
+                <div class="media align-items-center">
+                    <span class="media-left mr-16pt">
+                        <img [src]="instructor.image" width="40" alt="avatar" class="rounded-circle">
+                    </span>
+                    <div class="media-body">
+                        <a class="card-title m-0 text-70" href="javascript:void(0)">{{ instructor.name }}</a>
+                        <p class="text-50 lh-1 mb-0">Instructor</p>
+                    </div>
+                </div>
+            </li>
+            <li class="nav-item ml-sm-auto text-sm-center flex-column navbar-list__item">
+                <ul class="nav navbar-nav flex align-items-sm-center">
+                    <li class="nav-item navbar-list__item pr-3" [class.active]="sections.videos" (click)="toggleSection('videos')">
+                        <i class="material-icons icon--left">videocam</i> <span>Videos</span>
+                    </li>
+                    <li class="nav-item navbar-list__item pr-3" [class.active]="sections.handouts" (click)="toggleSection('handouts')">
+                        <i class="material-icons icon--left">assignment</i> <span>Handouts</span>
+                    </li>
+                    <li class="nav-item navbar-list__item pr-3" [class.active]="sections.presentations" (click)="toggleSection('presentations')">
+                        <i class="material-icons icon--left">screen_share</i> <span>Presentations</span>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div class="pb-lg-64pt py-44pt">
+    <div class="container page__container">
+
+        <div *ngIf="sections.videos" class="js-player embed-responsive embed-responsive-16by9 mb-48pt">
+            <div class="player embed-responsive-item">
+                <div class="player__content">
+                    <div class="player__image" style="--player-image: url(../../public/images/illustration/player.svg)"></div>
+                    <a href="javascript:void(0)" class="player__play bg-primary">
+                        <span class="material-icons">play_arrow</span>
+                    </a>
+                </div>
+                <div class="player__embed d-none">
+                    <iframe class="embed-responsive-item" src="https://player.vimeo.com/video/97243285?title=0&amp;byline=0&amp;portrait=0" allowfullscreen=""></iframe>
+                </div>
+            </div>
+        </div>
+
+        <div *ngIf="sections.handouts" class=" mb-48pt">Handouts</div>
+
+        <div *ngIf="sections.presentations" class=" mb-48pt">Presentations</div>
+
+        <div class="row mt-36pt">
+            <div class="col-md-12">
+                <div class="d-flex mb-4">
+                    <a href="javascript:void(0)" class="avatar avatar-sm mr-12pt">
+                        <!-- <img src="/assets/images/people/50/guy-6.jpg" alt="people" class="avatar-img rounded-circle"> -->
+                        <span class="avatar-title rounded-circle">LB</span>
+                    </a>
+                    <div class="flex">
+                        <div class="form-group">
+                            <label for="comment" class="form-label">Your reply</label>
+                            <textarea class="form-control" name="comment" id="comment" rows="5"
+                                placeholder="Type here to reply to Matney ..."></textarea>
+                        </div>
+                        <button class="btn btn-outline-secondary">Post comment</button>
+                    </div>
+                </div>
+                <div class="pt-3">
+                    <h4>3 Comments</h4>
+                    <div class="d-flex mb-3">
+                        <a href="javascript:void(0)" class="avatar avatar-sm mr-12pt">
+                            <!-- <img src="/assets/images/people/256/256_rsz_karl-s-973833-unsplash.jpg" alt="people" class="avatar-img rounded-circle"> -->
+                            <span class="avatar-title rounded-circle">JF</span>
+                        </a>
+                        <div class="flex">
+                            <a href="javascript:void(0)" class="text-body"><strong>Joseph S. Ferland</strong></a><br>
+                            <p class="mt-1 text-70">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vero neque
+                                magnam modi corrupti in aliquid odit eligendi pariatur! Ad consequatur illo voluptates,
+                                dignissimos tenetur odit magni excepturi! Nesciunt, fuga, vel.</p>
+                            <div class="d-flex align-items-center">
+                                <small class="text-50 mr-2">27 min ago</small>
+                                <a href="javascript:void(0)" class="text-50"><small>Liked</small></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ml-sm-32pt mt-3 card p-3">
+                        <div class="d-flex">
+                            <a href="#" class="avatar avatar-sm mr-12pt">
+                                <!-- <img src="/assets/images/people/110/guy-6.jpg" alt="Guy" class="avatar-img rounded-circle"> -->
+                                <span class="avatar-title rounded-circle">FM</span>
+                            </a>
+                            <div class="flex">
+                                <div class="d-flex align-items-center">
+                                    <a href="javascript:void(0)" class="text-body"><strong>FrontendMatter</strong></a>
+                                    <small class="ml-auto text-muted">just now</small>
+                                </div>
+                                <p class="mt-1 text-70">Hi Joseph,<br> Thank you for purchasing our course!
+                                    <br><br>Please have a look at the charts library documentation <a href="#">here</a>
+                                    and follow the instructions.</p>
+        
+                                <div class="d-flex align-items-center">
+                                    <a href="javascript:void(0)" class="text-50 d-flex align-items-center text-decoration-0"><i
+                                            class="material-icons mr-1" style="font-size: inherit;">favorite_border</i>
+                                        3</a>
+                                    <a href="javascript:void(0)" class="text-50 d-flex align-items-center text-decoration-0 ml-3"><i
+                                            class="material-icons mr-1" style="font-size: inherit;">thumb_up</i> 13</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="pt-3">
+                    <div class="d-flex mb-3">
+                        <a href="javascript:void(0)" class="avatar avatar-sm mr-12pt">
+                            <span class="avatar-title rounded-circle">KR</span>
+                        </a>
+                        <div class="flex">
+                            <a href="javascript:void(0)" class="text-body"><strong>Katelyn Rankin</strong></a><br>
+                            <p class="mt-1 text-70">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vero neque
+                                magnam modi corrupti in aliquid odit eligendi pariatur! Ad consequatur illo voluptates,
+                                dignissimos tenetur odit magni excepturi! Nesciunt, fuga, vel.</p>
+                            <div class="d-flex align-items-center">
+                                <small class="text-50 mr-2">27 min ago</small>
+                                <a href="javascript:void(0)" class="text-50"><small>Liked</small></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

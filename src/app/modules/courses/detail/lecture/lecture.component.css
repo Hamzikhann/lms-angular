@@ -1,0 +1,11 @@
+.page-separator:before {
+    display: none;
+}
+.navbar-nav li {
+    cursor: pointer;
+    color: var(--secondary);
+}
+.navbar-nav li.active {
+    color: var(--gray-dark);
+    font-weight: bold;
+}
