@@ -60,15 +60,32 @@
             </div>
         </div>
 
-        <div *ngIf="sections.handouts" class=" mb-48pt">Handouts</div>
+        <div *ngIf="sections.handouts" class=" mb-48pt">
+            <div class="pdf-container">
+                <pdf-viewer
+                  [src]="'/assets/files/lecture-43.pdf'"
+                  [original-size]="false"
+                  [show-all]="true"
+                  [fit-to-page]="false"
+                  [zoom]="1"
+                  [zoom-scale]="'page-width'"
+                  [stick-to-page]="false"
+                  [render-text]="true"
+                  [external-link-target]="'blank'"
+                  [autoresize]="true"
+                  style="width: 100%; height: 600px; border: 1px solid #edf0f2; box-shadow: inset 0 1px 1px rgba(39,44,51,.075);"
+                ></pdf-viewer>
+            </div>
+        </div>
 
-        <div *ngIf="sections.presentations" class=" mb-48pt">Presentations</div>
+        <div *ngIf="sections.presentations" class=" mb-48pt">
+            <a href="javascript:void(0)" class="btn btn-outline-primary">Download</a>
+        </div>
 
         <div class="row mt-36pt">
             <div class="col-md-12">
                 <div class="d-flex mb-4">
                     <a href="javascript:void(0)" class="avatar avatar-sm mr-12pt">
-                        <!-- <img src="/assets/images/people/50/guy-6.jpg" alt="people" class="avatar-img rounded-circle"> -->
                         <span class="avatar-title rounded-circle">LB</span>
                     </a>
                     <div class="flex">
@@ -84,7 +101,6 @@
                     <h4>3 Comments</h4>
                     <div class="d-flex mb-3">
                         <a href="javascript:void(0)" class="avatar avatar-sm mr-12pt">
-                            <!-- <img src="/assets/images/people/256/256_rsz_karl-s-973833-unsplash.jpg" alt="people" class="avatar-img rounded-circle"> -->
                             <span class="avatar-title rounded-circle">JF</span>
                         </a>
                         <div class="flex">
@@ -101,7 +117,6 @@
                     <div class="ml-sm-32pt mt-3 card p-3">
                         <div class="d-flex">
                             <a href="#" class="avatar avatar-sm mr-12pt">
-                                <!-- <img src="/assets/images/people/110/guy-6.jpg" alt="Guy" class="avatar-img rounded-circle"> -->
                                 <span class="avatar-title rounded-circle">FM</span>
                             </a>
                             <div class="flex">

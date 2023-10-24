@@ -171,14 +171,21 @@ export class DetailComponent implements OnInit {
     this.index = [
       {
         id: 1,
-        title: 'Course Overview',
+        title: 'Introduction',
         content: [
           {
             id: 1,
             type: 'lecture',
-            title: 'Introduction',
+            title: 'Course Overview',
             status: 'open',
             time: '36m 10s'
+          }, 
+          {
+            id: 2,
+            type: 'lecture',
+            title: 'Recommended Books, FAQs, Files Access & Grading Scheme Overview',
+            status: 'open',
+            time: '12m 32s'
           }
         ]
       }, 
@@ -322,5 +329,5 @@ export class DetailComponent implements OnInit {
     }
     this.sections[name] = true;
   }
-  
+
 }

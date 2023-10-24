@@ -1,12 +1,15 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AssignmentsComponent } from './assignments/assignments.component';
-import { GdbComponent } from './gdb/gdb.component';
-import { QuizesComponent } from './quizes/quizes.component';
-import { AnnouncementsComponent } from './announcements/announcements.component';
-import { AboutComponent } from './about/about.component';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
+
+import { AssignmentsComponent } from './detail/assignments/assignments.component';
+import { GdbComponent } from './detail/gdb/gdb.component';
+import { QuizesComponent } from './detail/quizes/quizes.component';
+import { AnnouncementsComponent } from './detail/announcements/announcements.component';
 import { CoursesComponent } from './courses.component';
 import { RouterModule, Routes } from '@angular/router';
+import { DetailComponent } from './detail/detail.component';
+import { LectureComponent } from './detail/lecture/lecture.component';
 
 const routes: Routes = [
   {
@@ -21,23 +24,27 @@ const routes: Routes = [
         children: [
           {
             path: "",
-            component: AboutComponent
+            component: DetailComponent
           }, 
           {
             path: "announcements",
-            loadChildren: () => import("./announcements/announcements.module").then(m => m.AnnouncementsModule)
+            loadChildren: () => import("./detail/announcements/announcements.module").then(m => m.AnnouncementsModule)
           }, 
           {
             path: "assignments",
-            loadChildren: () => import("./assignments/assignments.module").then(m => m.AssignmentsModule)
+            loadChildren: () => import("./detail/assignments/assignments.module").then(m => m.AssignmentsModule)
           }, 
           {
             path: "gdb",
-            loadChildren: () => import("./gdb/gdb.module").then(m => m.GdbModule)
+            loadChildren: () => import("./detail/gdb/gdb.module").then(m => m.GdbModule)
           }, 
           {
             path: "quizes",
-            loadChildren: () => import("./quizes/quizes.module").then(m => m.QuizesModule)
+            loadChildren: () => import("./detail/quizes/quizes.module").then(m => m.QuizesModule)
+          }, 
+          {
+            path: "lectures/:id",
+            component: LectureComponent
           }, 
         ]
       }
@@ -51,10 +58,12 @@ const routes: Routes = [
     GdbComponent,
     QuizesComponent,
     AnnouncementsComponent,
-    AboutComponent
+    DetailComponent,
+    LectureComponent
   ],
   imports: [
     CommonModule,
+    PdfViewerModule,
     RouterModule.forChild(routes)
   ]
 })

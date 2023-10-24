@@ -15,11 +15,13 @@ export class EnrollmentsComponent implements OnInit {
     this.enrollments = [
       {
         title: 'O Levels',
+        content: 'Summers 2022',
         status: 'active',
         courses: ['Biology', 'Mathematics', 'Physics', 'Pakistan Studies']
       },
       {
         title: 'Matriculation',
+        content: 'Regular Session',
         status: 'inactive',
         courses: ['Computer Science', 'Chemistry']
       },

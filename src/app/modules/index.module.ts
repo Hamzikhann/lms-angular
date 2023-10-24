@@ -34,7 +34,7 @@ const routes: Routes = [
       }, 
       {
         path: "courses",
-        component: CoursesComponent
+        loadChildren: () => import("./courses/courses.module").then(m => m.CoursesModule)
       }, 
       {
         path: "instructors",

@@ -99,29 +99,32 @@
         <div class="row mb-0">
             <div class="col-lg-8">
                 <div class="accordion js-accordion accordion--boxed list-group-flush" id="parent">
-                    <div class="accordion__item" *ngFor="let group of index">
-                        <a href="javascript:void(0)" class="accordion__toggle collapsed" data-toggle="collapse" [attr.data-target]="'#course-toc-' + group.id" data-parent="#parent">
-                            <span class="flex">{{ group.title }}</span>
-                            <span class="accordion__toggle-icon material-icons">keyboard_arrow_down</span>
-                        </a>
-                        <div class="accordion__menu collapse" [id]="'course-toc-' + group.id">
-                            <ng-container  *ngFor="let item of group.content">
-                                <div class="accordion__menu-link" [class.active]="item.status == 'open'">
-                                    <span class="icon-holder icon-holder--small icon-holder--light rounded-circle d-inline-flex icon--left" *ngIf="item.type == 'lecture' && item.status == 'open'">
-                                        <i class="material-icons icon-16pt">play_circle_outline</i>
-                                    </span>
-                                    <span class="icon-holder icon-holder--small icon-holder--light rounded-circle d-inline-flex icon--left" *ngIf="item.type == 'assessment' && item.status == 'open'">
-                                        <i class="material-icons icon-16pt">hourglass_empty</i>
-                                    </span>
-                                    <span class="icon-holder icon-holder--small icon-holder--light rounded-circle d-inline-flex icon--left" *ngIf="item.status == 'closed'">
-                                        <i class="material-icons icon-16pt">lock</i>
-                                    </span>
-                                    <a class="flex" href="javascript:void(0)" [routerLink]="['/courses/1/lectures/2']">{{ item.title }}</a>
-                                    <span class="text-muted">{{ item.time }}</span>
-                                </div>
-                            </ng-container>
+                    <ng-container *ngFor="let group of index">
+                        <div class="accordion__item">
+                            <a href="javascript:void(0)" class="accordion__toggle collapsed" data-toggle="collapse" [attr.data-target]="'#course-toc-' + group.id">
+                                <span class="flex">{{ group.title }}</span>
+                                <span class="accordion__toggle-icon material-icons">keyboard_arrow_down</span>
+                            </a>
+                            <div class="accordion__menu collapse" [class.show]="group.open" [id]="'course-toc-' + group.id" data-parent="#parent">
+                                <ng-container  *ngFor="let item of group.content">
+                                    <div class="accordion__menu-link" [class.active]="item.status == 'open'">
+                                        <span class="icon-holder icon-holder--small icon-holder--light rounded-circle d-inline-flex icon--left" *ngIf="item.type == 'lecture' && item.status == 'open'">
+                                            <i class="material-icons icon-16pt">play_circle_outline</i>
+                                        </span>
+                                        <span class="icon-holder icon-holder--small icon-holder--primary rounded-circle d-inline-flex icon--left" *ngIf="item.type == 'assessment' && item.status == 'open'">
+                                            <i class="material-icons icon-16pt">hourglass_empty</i>
+                                        </span>
+                                        <span class="icon-holder icon-holder--small icon-holder--light rounded-circle d-inline-flex icon--left" *ngIf="item.status == 'closed'">
+                                            <i class="material-icons icon-16pt">lock</i>
+                                        </span>
+                                        <a class="flex" href="javascript:void(0)" *ngIf="item.status == 'closed'" >{{ item.title }}</a>
+                                        <a class="flex" href="javascript:void(0)" *ngIf="item.status == 'open'" [routerLink]="['/courses/1/lectures/2']">{{ item.title }}</a>
+                                        <span class="text-muted">{{ item.time }}</span>
+                                    </div>
+                                </ng-container>
+                            </div>
                         </div>
-                    </div>
+                    </ng-container>
                 </div>
             </div>
             <div class="col-lg-4 justify-content-center">

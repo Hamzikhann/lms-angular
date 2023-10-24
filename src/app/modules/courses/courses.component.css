@@ -16,3 +16,23 @@
     border-radius: unset;
     height: 100vh;
 }
+.overlay__content {
+    background: rgba(48, 57, 85, 0.71);
+    height: 140px;
+}
+.badge-course-notifications {
+    border-radius: 2rem;
+    font-size: 11px;
+    line-height: 10px;
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    padding: 8px 10px;
+}
+.text-ellipsis {
+    display: inherit;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 246px;
+}
