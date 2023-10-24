@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { NgSelectizeModule } from 'ng-selectize';
 
 import { ContactUsComponent } from './contact-us/contact-us.component';
 import { FaqsComponent } from './faqs/faqs.component';
@@ -11,32 +10,27 @@ import { ReportIssueComponent } from './report-issue/report-issue.component';
 
 const routes: Routes = [
   {
-    path: "",
-    component: FaqsComponent
-  }, 
+    path: '',
+    component: FaqsComponent,
+  },
   {
-    path: "contact-us",
-    component: ContactUsComponent
-  }, 
+    path: 'contact-us',
+    component: ContactUsComponent,
+  },
   {
-    path: "report-issue",
-    component: ReportIssueComponent
-  }
+    path: 'report-issue',
+    component: ReportIssueComponent,
+  },
 ];
 
 @NgModule({
-  declarations: [
-    FaqsComponent,
-    ContactUsComponent,
-    ReportIssueComponent
-  ],
+  declarations: [FaqsComponent, ContactUsComponent, ReportIssueComponent],
   imports: [
     CommonModule,
-    FormsModule, 
+    FormsModule,
     ReactiveFormsModule,
     NgbModule,
-    NgSelectizeModule,
-    RouterModule.forChild(routes)
-  ]
+    RouterModule.forChild(routes),
+  ],
 })
-export class HelpModule { }
+export class HelpModule {}

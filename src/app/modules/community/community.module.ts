@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { NgSelectizeModule } from 'ng-selectize';
 
 import { QuestionsComponent } from './questions/questions.component';
 import { QuestionsAskComponent } from './questions-ask/questions-ask.component';
@@ -12,21 +11,21 @@ import { QuestionsDetailComponent } from './questions-detail/questions-detail.co
 
 const routes: Routes = [
   {
-    path: "",
-    component: QuestionsComponent
-  }, 
+    path: '',
+    component: QuestionsComponent,
+  },
   {
-    path: "question/:id",
-    component: QuestionsDetailComponent
-  }, 
+    path: 'question/:id',
+    component: QuestionsDetailComponent,
+  },
   {
-    path: "question-ask",
-    component: QuestionsAskComponent
-  }, 
+    path: 'question-ask',
+    component: QuestionsAskComponent,
+  },
   {
-    path: "question/:id/update",
-    component: QuestionsUpdateComponent
-  }
+    path: 'question/:id/update',
+    component: QuestionsUpdateComponent,
+  },
 ];
 
 @NgModule({
@@ -34,15 +33,14 @@ const routes: Routes = [
     QuestionsComponent,
     QuestionsAskComponent,
     QuestionsUpdateComponent,
-    QuestionsDetailComponent
+    QuestionsDetailComponent,
   ],
   imports: [
     CommonModule,
-    FormsModule, 
+    FormsModule,
     ReactiveFormsModule,
     NgbModule,
-    NgSelectizeModule,
-    RouterModule.forChild(routes)
-  ]
+    RouterModule.forChild(routes),
+  ],
 })
-export class CommunityModule { }
+export class CommunityModule {}

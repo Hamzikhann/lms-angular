@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { NgSelectizeModule } from 'ng-selectize';
 
 import { ProfilePrivacyComponent } from './profile-privacy/profile-privacy.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
@@ -11,32 +10,31 @@ import { EmailNotificationsComponent } from './email-notifications/email-notific
 
 const routes: Routes = [
   {
-    path: "",
-    component: ProfilePrivacyComponent
-  }, 
+    path: '',
+    component: ProfilePrivacyComponent,
+  },
   {
-    path: "email-notifications",
-    component: EmailNotificationsComponent
-  }, 
+    path: 'email-notifications',
+    component: EmailNotificationsComponent,
+  },
   {
-    path: "change-password",
-    component: ChangePasswordComponent
-  }
+    path: 'change-password',
+    component: ChangePasswordComponent,
+  },
 ];
 
 @NgModule({
   declarations: [
     EmailNotificationsComponent,
     ChangePasswordComponent,
-    ProfilePrivacyComponent
+    ProfilePrivacyComponent,
   ],
   imports: [
     CommonModule,
-    FormsModule, 
+    FormsModule,
     ReactiveFormsModule,
     NgbModule,
-    NgSelectizeModule,
-    RouterModule.forChild(routes)
-  ]
+    RouterModule.forChild(routes),
+  ],
 })
-export class SettingsModule { }
+export class SettingsModule {}

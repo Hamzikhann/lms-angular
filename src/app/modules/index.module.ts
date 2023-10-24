@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { NgSelectizeModule } from 'ng-selectize';
 import { NgxMasonryModule } from 'ngx-masonry';
 
 import { AuthGuard } from '../guards/auth.guard';
@@ -24,72 +23,79 @@ import { NotificationsComponent } from './notifications/notifications.component'
 
 const routes: Routes = [
   {
-    path: "",
+    path: '',
     // canActivate: [AuthGuard],
     component: IndexComponent,
     children: [
       {
-        path: "",
-        component: DashboardComponent
-      }, 
-      {
-        path: "courses",
-        loadChildren: () => import("./courses/courses.module").then(m => m.CoursesModule)
-      }, 
-      {
-        path: "instructors",
-        component: InstructorsComponent
-      }, 
-      {
-        path: "announcements",
-        component: AnnouncementsComponent
-      }, 
-      {
-        path: "enrollments",
-        component: EnrollmentsComponent
-      }, 
-      {
-        path: "messages",
-        component: MessagesComponent
-      }, 
-      {
-        path: "announcements",
-        component: AnnouncementsComponent
-      }, 
-      {
-        path: "notifications",
-        component: NotificationsComponent
-      }, 
-      {
-        path: "account-book",
-        loadChildren: () => import("./account-book/account-book.module").then(m => m.AccountBookModule)
-      }, 
-      {
-        path: "sticky-notes",
-        component: StickyNotesComponent
-      }, 
-      {
-        path: "community",
-        loadChildren: () => import("./community/community.module").then(m => m.CommunityModule)
+        path: '',
+        component: DashboardComponent,
       },
       {
-        path: "account",
-        loadChildren: () => import("./settings/settings.module").then(m => m.SettingsModule)
+        path: 'courses',
+        loadChildren: () =>
+          import('./courses/courses.module').then((m) => m.CoursesModule),
       },
       {
-        path: "help",
-        loadChildren: () => import("./help/help.module").then(m => m.HelpModule)
+        path: 'instructors',
+        component: InstructorsComponent,
       },
       {
-        path: "terms-and-conditions",
-        component: TermsComponent
-      }, 
+        path: 'announcements',
+        component: AnnouncementsComponent,
+      },
       {
-        path: "privacy-policies",
-        component: PoliciesComponent
-      }, 
-    ]
-  }
+        path: 'enrollments',
+        component: EnrollmentsComponent,
+      },
+      {
+        path: 'messages',
+        component: MessagesComponent,
+      },
+      {
+        path: 'announcements',
+        component: AnnouncementsComponent,
+      },
+      {
+        path: 'notifications',
+        component: NotificationsComponent,
+      },
+      {
+        path: 'account-book',
+        loadChildren: () =>
+          import('./account-book/account-book.module').then(
+            (m) => m.AccountBookModule
+          ),
+      },
+      {
+        path: 'sticky-notes',
+        component: StickyNotesComponent,
+      },
+      {
+        path: 'community',
+        loadChildren: () =>
+          import('./community/community.module').then((m) => m.CommunityModule),
+      },
+      {
+        path: 'account',
+        loadChildren: () =>
+          import('./settings/settings.module').then((m) => m.SettingsModule),
+      },
+      {
+        path: 'help',
+        loadChildren: () =>
+          import('./help/help.module').then((m) => m.HelpModule),
+      },
+      {
+        path: 'terms-and-conditions',
+        component: TermsComponent,
+      },
+      {
+        path: 'privacy-policies',
+        component: PoliciesComponent,
+      },
+    ],
+  },
 ];
 
 @NgModule({
@@ -111,12 +117,11 @@ const routes: Routes = [
   ],
   imports: [
     CommonModule,
-    FormsModule, 
+    FormsModule,
     ReactiveFormsModule,
     NgbModule,
-    NgSelectizeModule,
     NgxMasonryModule,
-    RouterModule.forChild(routes)
-  ]
+    RouterModule.forChild(routes),
+  ],
 })
-export class IndexModule { }
+export class IndexModule {}
