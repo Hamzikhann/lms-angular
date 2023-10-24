@@ -18,6 +18,7 @@
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "allowedCommonJsDependencies": [
+              "jquery",
               "ng2-pdf-viewer",
               "pdfjs-dist/build/pdf",
               "pdfjs-dist/web/pdf_viewer"
@@ -46,8 +47,7 @@
               "src/assets/js/dom-factory.js",
               "src/assets/js/material-design-kit.js",
               "src/assets/js/app.js",
-              "src/assets/js/preloader.js",
-              "node_modules/pdfjs-dist/es5/build/pdf.js"
+              "src/assets/js/preloader.js"
             ]
           },
           "configurations": {

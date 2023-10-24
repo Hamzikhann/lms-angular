@@ -23,7 +23,7 @@
     "jquery": "^3.6.0",
     "masonry-layout": "^4.2.2",
     "ng2-pdf-viewer": "^9.1.2",
-    "ngx-masonry": "^13.0.0",
+    "ngx-masonry": "^14.0.1",
     "ngx-toastr": "^17.0.2",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
