@@ -1,72 +1,55 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Router } from "@angular/router";
+import { Router } from '@angular/router';
 
 import { environment } from 'src/environments/environment';
+import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
+  baseUrl: string = environment.ApiBaseURL + 'auth/';
+  imgUrl: string = environment.ImgBaseURL;
 
-  authToken: any;
-  baseUrl: string = environment.reqBaseUrl + 'auth/';
-  imgUrl: string = environment.imgBaseUrl;
-  user: any;
+  constructor(private http: HttpClient, private router: Router) {}
 
-  constructor(private http: HttpClient, private router: Router) { }
+  login(payload: any): Observable<any> {
+    return this.http.post<any[]>(this.baseUrl + 'login', payload);
+  }
 
-  login(payload: any) {
-    return this.http.post(this.baseUrl + "login", payload, {
-      observe: "response",
-    });
+  setToken(token: any) {
+    localStorage.setItem('oxibit-lms-token', token);
+  }
+
+  setUserId(id: any) {
+    localStorage.setItem('oxibit-lms-userId', id);
+  }
+
+  setUser(user: any) {
+    localStorage.setItem('oxibit-lms-user', JSON.stringify(user));
   }
 
   getToken() {
-    return localStorage.getItem("token");
+    return localStorage.getItem('oxibit-lms-token');
   }
 
   getUser() {
-    return localStorage.getItem("user") || '{}';
+    return localStorage.getItem('oxibit-lms-user') || '{}';
   }
 
-  forgotPassword(payload: any) {
-    return this.http.post(this.baseUrl + "forgot/password", payload, {
-      observe: "response",
-    });
-  }
-
-  resetPassword(token: string, payload: any) {
-    return this.http.post(this.baseUrl + "reset/password/" + token, payload, {
-      observe: "response",
-    });
-  }
-
-  setPassword(payload: any) {
-    return this.http.post(this.baseUrl + "forgot", payload, {
-      observe: "response",
-    });
+  getUserId() {
+    return localStorage.getItem('oxibit-lms-userId') || '{}';
   }
 
   loggedIn(): boolean {
-    return localStorage.getItem('token') !== null;
-  }
-
-  storeUserData(token?: string, user?: any) {
-    if (token) {
-      localStorage.setItem("token", token);
-      this.authToken = token;
-    }
-    if (user) {
-      localStorage.setItem("user", JSON.stringify(user));
-      this.user = user;
-    }
+    return localStorage.getItem('oxibit-lms-token') !== null;
   }
 
   logOut() {
-    this.authToken = null;
-    this.user = null;
-    localStorage.clear();
-    this.router.navigate(["/signin"]);
+    localStorage.removeItem('oxibit-lms-userId');
+    localStorage.removeItem('oxibit-lms-user');
+    localStorage.removeItem('oxibit-lms-token');
+    this.router.navigate(['/signin']);
   }
 }

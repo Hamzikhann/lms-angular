@@ -10,9 +10,10 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { PhoneMaskDirective } from './directives/phone-mask/phone-mask.directive';
+import { SigninComponent } from './components/signin/signin.component';
 
 @NgModule({
-  declarations: [AppComponent, PhoneMaskDirective],
+  declarations: [AppComponent, PhoneMaskDirective, SigninComponent],
   imports: [
     AppRoutingModule,
     BrowserModule,

@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes, PreloadAllModules } from "@angular/router";
+import { RouterModule, Routes, PreloadAllModules } from '@angular/router';
 
 import { SigninComponent } from './components/signin/signin.component';
 import { SignupComponent } from './components/signup/signup.component';
@@ -8,40 +8,40 @@ import { PasswordResetComponent } from './components/password-reset/password-res
 
 const routes: Routes = [
   {
-    path: "signin",
-    component: SigninComponent
-  }, 
+    path: 'signin',
+    component: SigninComponent,
+  },
   {
-    path: "signup",
-    component: SignupComponent
-  }, 
+    path: 'signup',
+    component: SignupComponent,
+  },
   {
-    path: "forgot-password",
-    component: PasswordForgotComponent
-  }, 
+    path: 'forgot-password',
+    component: PasswordForgotComponent,
+  },
   {
-    path: "reset-password/:token",
-    component: PasswordResetComponent
-  }, 
+    path: 'reset-password/:token',
+    component: PasswordResetComponent,
+  },
   {
-    path: "",
-    loadChildren: () => import("./modules/index.module").then(m => m.IndexModule)
+    path: '',
+    loadChildren: () =>
+      import('./modules/index.module').then((m) => m.IndexModule),
   },
   { path: '**', redirectTo: '' },
 ];
 
 @NgModule({
   declarations: [
-    SigninComponent, 
-    SignupComponent, 
-    PasswordForgotComponent, 
-    PasswordResetComponent
+    SignupComponent,
+    PasswordForgotComponent,
+    PasswordResetComponent,
   ],
   imports: [
     RouterModule.forRoot(routes, {
       preloadingStrategy: PreloadAllModules,
-    })
+    }),
   ],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
