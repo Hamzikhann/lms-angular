@@ -8,18 +8,17 @@ import { NgxMasonryModule } from 'ngx-masonry';
 import { AuthGuard } from '../guards/auth.guard';
 import { IndexComponent } from './index.component';
 import { HeaderComponent } from '../shared/header/header.component';
-import { SidebarComponent } from '../shared/sidebar/sidebar.component';
 import { FooterComponent } from '../shared/footer/footer.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { StickyNotesComponent } from './sticky-notes/sticky-notes.component';
 import { TermsComponent } from './agreements/terms/terms.component';
 import { PoliciesComponent } from './agreements/policies/policies.component';
-import { MessagesComponent } from './messages/messages.component';
 import { CoursesComponent } from './courses/courses.component';
-import { InstructorsComponent } from './instructors/instructors.component';
-import { AnnouncementsComponent } from './announcements/announcements.component';
-import { EnrollmentsComponent } from './enrollments/enrollments.component';
 import { NotificationsComponent } from './notifications/notifications.component';
+import { EnrollmentsComponent } from './enrollments/enrollments.component';
+import { HomeComponent } from './home/home.component';
+import { ClientsComponent } from './clients/clients.component';
+import { UsersComponent } from './users/users.component';
+import { LearningPathsComponent } from './learning-paths/learning-paths.component';
 
 const routes: Routes = [
   {
@@ -37,45 +36,30 @@ const routes: Routes = [
           import('./courses/courses.module').then((m) => m.CoursesModule),
       },
       {
-        path: 'instructors',
-        component: InstructorsComponent,
+        path: 'home',
+        component: HomeComponent,
       },
       {
-        path: 'announcements',
-        component: AnnouncementsComponent,
+        path: 'clients',
+        component: ClientsComponent,
+      },
+      {
+        path: 'users',
+        component: UsersComponent,
+      },
+      {
+        path: 'learningPaths',
+        component: LearningPathsComponent,
       },
       {
         path: 'enrollments',
         component: EnrollmentsComponent,
       },
       {
-        path: 'messages',
-        component: MessagesComponent,
-      },
-      {
-        path: 'announcements',
-        component: AnnouncementsComponent,
-      },
-      {
         path: 'notifications',
         component: NotificationsComponent,
       },
-      {
-        path: 'account-book',
-        loadChildren: () =>
-          import('./account-book/account-book.module').then(
-            (m) => m.AccountBookModule
-          ),
-      },
-      {
-        path: 'sticky-notes',
-        component: StickyNotesComponent,
-      },
-      {
-        path: 'community',
-        loadChildren: () =>
-          import('./community/community.module').then((m) => m.CommunityModule),
-      },
+
       {
         path: 'account',
         loadChildren: () =>
@@ -102,18 +86,16 @@ const routes: Routes = [
   declarations: [
     IndexComponent,
     HeaderComponent,
-    SidebarComponent,
     FooterComponent,
     DashboardComponent,
-    StickyNotesComponent,
     TermsComponent,
     PoliciesComponent,
-    MessagesComponent,
     CoursesComponent,
-    InstructorsComponent,
-    AnnouncementsComponent,
-    EnrollmentsComponent,
     NotificationsComponent,
+    HomeComponent,
+    ClientsComponent,
+    UsersComponent,
+    LearningPathsComponent,
   ],
   imports: [
     CommonModule,

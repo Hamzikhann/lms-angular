@@ -1,0 +1,271 @@
+<div class="container mt-5">
+  <div class="row">
+    <button
+      type="button"
+      class="btn btn-primary btn-create mb-5"
+      data-toggle="modal"
+      data-target="#createClient"
+    >
+      Create
+    </button>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <table class="table table-sm table-hover table-bordered">
+        <thead class="bg-light">
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Website</th>
+            <th scope="col">Logo</th>
+            <th scope="col">Users</th>
+            <th scope="col">Actions</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <ng-container>
+            <tr>
+              <th scope="row">1</th>
+              <td>Name</td>
+              <td>Oxibit.com</td>
+              <td>logo</td>
+              <td>
+                User
+                <a href="#" data-toggle="modal" data-target="#viewUser"
+                  ><i class="material-icons">visibility</i></a
+                >
+              </td>
+              <td>
+                <div class="d-flex align-items-center">
+                  <div class="buttons">
+                    <a href="#" data-toggle="modal" data-target="#editClient"
+                      ><i class="material-icons fa-lg">edit</i></a
+                    >
+                    <a href="#" data-toggle="modal" data-target="#deleteClient"
+                      ><i class="material-icons fa-lg">delete</i></a
+                    >
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </ng-container>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div
+  class="modal"
+  id="createClient"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="viewModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addModalLabel">Create Client</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form #addUser="ngForm">
+          <div class="modal-body text-primary text-left">
+            <div class="row mb-3">
+              <div class="col">
+                <label for="name" class="form-label">Name</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="name"
+                  name="name"
+                  ngModel
+                />
+              </div>
+            </div>
+            <div class="row mb-3">
+              <div class="col">
+                <label for="web" class="form-label">Website</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="web"
+                  name="web"
+                  ngModel
+                />
+              </div>
+            </div>
+            <div class="row mb-3">
+              <div class="col">
+                <label for="logo" class="form-label">Logo</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="logo"
+                  name="logo"
+                  ngModel
+                />
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Create</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="modal"
+  id="deleteClient"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="viewModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addModalLabel">Delete Client</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form #addUser="ngForm">
+          <div class="modal-body text-primary text-left">
+            <div class="row mb-3"></div>
+            <div class="row mb-3"></div>
+            <div class="row mb-3"></div>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Delete</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="modal"
+  id="editClient"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="viewModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addModalLabel">Update Client</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form #addUser="ngForm">
+          <div class="modal-body text-primary text-left">
+            <div class="row mb-3">
+              <div class="col">
+                <label for="name" class="form-label">Name</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="name"
+                  name="name"
+                  ngModel
+                />
+              </div>
+            </div>
+            <div class="row mb-3">
+              <div class="col">
+                <label for="web" class="form-label">Website</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="web"
+                  name="web"
+                  ngModel
+                />
+              </div>
+            </div>
+            <div class="row mb-3">
+              <div class="col">
+                <label for="logo" class="form-label">Logo</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="logo"
+                  name="logo"
+                  ngModel
+                />
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Update</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="modal"
+  id="viewUser"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="viewModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addModalLabel">View User Details</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form #addUser="ngForm">
+          <div class="modal-body text-primary text-left">
+            <div class="row mb-3"></div>
+            <div class="row mb-3"></div>
+            <div class="row mb-3"></div>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Close</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

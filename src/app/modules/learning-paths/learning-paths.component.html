@@ -1,0 +1,396 @@
+<div class="container mt-5">
+  <div class="row">
+    <button
+      type="button"
+      class="btn btn-primary btn-create mb-5"
+      data-toggle="modal"
+      data-target="#createPath"
+    >
+      Create
+    </button>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <table class="table table-sm table-hover table-bordered">
+        <thead class="bg-light">
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Title</th>
+            <th scope="col">Classes</th>
+            <th scope="col">Actions</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <ng-container>
+            <tr>
+              <th scope="row">1</th>
+              <td>Title</td>
+              <td>
+                Class
+                <a href="#" data-toggle="modal" data-target="#viewClass"
+                  ><i class="material-icons fa-lg">visibility</i></a
+                >
+              </td>
+              <td>
+                <div class="d-flex align-items-center">
+                  <div class="buttons">
+                    <a href="#" data-toggle="modal" data-target="#editPath"
+                      ><i class="material-icons fa-lg">edit</i></a
+                    >
+                    <a href="#" data-toggle="modal" data-target="#deletePath"
+                      ><i class="material-icons fa-lg">delete</i></a
+                    >
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </ng-container>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div
+  class="modal"
+  id="createPath"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="viewModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addModalLabel">Create Learning Path</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form #addUser="ngForm">
+          <div class="modal-body text-primary text-left">
+            <div class="row mb-3">
+              <div class="col">
+                <label for="title" class="form-label">Title</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="title"
+                  name="title"
+                  ngModel
+                />
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Create</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="modal"
+  id="deletePath"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="viewModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addModalLabel">Delete Learning Path</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form #addUser="ngForm">
+          <div class="modal-body text-primary text-left">
+            <div class="row mb-3"></div>
+            <div class="row mb-3"></div>
+            <div class="row mb-3"></div>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Delete</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="modal"
+  id="editPath"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="viewModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addModalLabel">Update Learning Path</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form #addUser="ngForm">
+          <div class="modal-body text-primary text-left">
+            <div class="row mb-3">
+              <div class="col">
+                <label for="title" class="form-label">Title</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="title"
+                  name="title"
+                  ngModel
+                />
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Update</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="modal"
+  id="viewClass"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="viewModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addModalLabel">View Classes Detail</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <button
+            class="btn btn-primary mb-3"
+            data-toggle="modal"
+            data-target="#createClass"
+          >
+            Create
+          </button>
+        </div>
+        <table class="table table-hover table-bordered">
+          <thead class="bg-light">
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Classes</th>
+              <th scope="col">Actions</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <ng-container>
+              <tr>
+                <th scope="row">1</th>
+                <td>Class</td>
+                <td>
+                  <div class="d-flex align-items-center">
+                    <div class="buttons">
+                      <a href="#" data-toggle="modal" data-target="#editClass"
+                        ><i class="material-icons fa-lg">edit</i></a
+                      >
+                      <a href="#" data-toggle="modal" data-target="#deleteClass"
+                        ><i class="material-icons fa-lg">delete</i></a
+                      >
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="modal"
+  id="createClass"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="viewModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addModalLabel">Create Class</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form #addUser="ngForm">
+          <div class="modal-body text-primary text-left">
+            <div class="row mb-3">
+              <div class="col">
+                <label for="title" class="form-label">Title</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="title"
+                  name="title"
+                  ngModel
+                />
+              </div>
+            </div>
+            <div class="row mb-3">
+              <div class="col">
+                <label for="pathID" class="form-label">Learning Path ID</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="pathID"
+                  name="pathID"
+                  ngModel
+                />
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Create</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<div
+  class="modal"
+  id="editClass"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="viewModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addModalLabel">Update Class</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form #addUser="ngForm">
+          <div class="modal-body text-primary text-left">
+            <div class="row mb-3">
+              <div class="col">
+                <label for="title" class="form-label">Title</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="title"
+                  name="title"
+                  ngModel
+                />
+              </div>
+            </div>
+            <div class="row mb-3">
+              <div class="col">
+                <label for="pathID" class="form-label">Learning Path ID</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="pathID"
+                  name="pathID"
+                  ngModel
+                />
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Update</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="modal"
+  id="deleteClass"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="viewModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addModalLabel">Delete Class</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form #addUser="ngForm">
+          <div class="modal-body text-primary text-left"></div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Delete</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
