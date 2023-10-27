@@ -22,7 +22,8 @@
     <div class="page-separator__text text-bold">Basic Info</div>
   </div>
   <div class="col-md-7 p-0">
-    <div class="row mb-2">
+    <!-- <div class="row mb-2">
+
       <div class="col-lg-12">
         <div class="form-group">
           <label class="form-label">Your photo</label>
@@ -50,125 +51,172 @@
           </div>
         </div>
       </div>
-    </div>
-    <div class="row mb-2">
-      <div class="col-lg-6">
-        <div class="form-group">
-          <label class="form-label">First Name</label>
-          <input
-            type="text"
-            class="form-control"
-            placeholder="Your first name ..."
-          />
+    </div> -->
+
+    <form>
+      <div class="row mb-2">
+        <div class="col-lg-6">
+          <div class="form-group">
+            <label class="form-label" for="fname">First Name</label>
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Your first name ..."
+              id="fname"
+              name="fname"
+              [(ngModel)]="userDetails.firstName"
+            />
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="form-group">
+            <label class="form-label" for="lname">Last Name</label>
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Your last name ..."
+              id="lname"
+              name="lname"
+              [(ngModel)]="userDetails.lastName"
+            />
+          </div>
         </div>
       </div>
-      <div class="col-lg-6">
-        <div class="form-group">
-          <label class="form-label">Last Name</label>
-          <input
-            type="text"
-            class="form-control"
-            placeholder="Your last name ..."
-          />
+      <div class="row mb-2">
+        <div class="col-lg-6">
+          <div class="form-group">
+            <label class="form-label" for="email">Email</label>
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Your email ..."
+              id="email"
+              name="email"
+              [(ngModel)]="userDetails.email"
+            />
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="form-group">
+            <label class="form-label" for="phone">Phone No.</label>
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Your phone ..."
+              id="phone"
+              name="phone"
+              [(ngModel)]="userDetails.phoneNumber"
+            />
+          </div>
         </div>
       </div>
-    </div>
-    <div class="row mb-2">
-      <div class="col-lg-6">
-        <div class="form-group">
-          <label class="form-label">Email</label>
-          <input
-            type="text"
-            class="form-control"
-            placeholder="Your email ..."
-          />
+      <div class="row mb-3">
+        <div class="col-lg-6">
+          <div class="form-group">
+            <label class="form-label" for="address">Address</label>
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Your address ..."
+              id="address"
+              name="address"
+              [(ngModel)]="userDetails.address"
+            />
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="form-group">
+            <label class="form-label" for="country">Country</label>
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Your country ..."
+              id="country"
+              name="country"
+              [(ngModel)]="userDetails.country"
+            />
+          </div>
         </div>
       </div>
-      <div class="col-lg-6">
-        <div class="form-group">
-          <label class="form-label">Phone No.</label>
-          <input
-            type="text"
-            class="form-control"
-            placeholder="Your phone ..."
-          />
+      <div class="row mb-3">
+        <div class="col-lg-6">
+          <div class="form-group">
+            <label class="form-label" for="city">City</label>
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Your city ..."
+              id="city"
+              name="city"
+              [(ngModel)]="userDetails.city"
+            />
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="form-group">
+            <label class="form-label" for="state">State</label>
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Your state ..."
+              id="state"
+              name="state"
+              [(ngModel)]="userDetails.state"
+            />
+          </div>
         </div>
       </div>
-    </div>
-    <div class="row mb-3">
-      <div class="col-lg-6">
-        <div class="form-group">
-          <label class="form-label">Address</label>
-          <input
-            type="text"
-            class="form-control"
-            placeholder="Your address ..."
-          />
+      <div class="row mb-3">
+        <div class="col-lg-6">
+          <div class="form-group">
+            <label class="form-label" for="zipcode">Zip Code</label>
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Your zipcode ..."
+              id="zipcode"
+              name="zipcode"
+              [(ngModel)]="userDetails.zipcode"
+            />
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="form-group">
+            <label class="form-label" for="skype">Skype</label>
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Your skype ..."
+              id="skype"
+              name="skype"
+              [(ngModel)]="userDetails.skype"
+            />
+          </div>
         </div>
       </div>
-      <div class="col-lg-6">
-        <div class="form-group">
-          <label class="form-label">Country</label>
-          <input
-            type="text"
-            class="form-control"
-            placeholder="Your country ..."
-          />
+      <div class="row mb-3">
+        <div class="col-lg-6">
+          <div class="form-group">
+            <label class="form-label" for="jobTitle">Job Title</label>
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Your job title ..."
+              id="jobTitle"
+              name="jobTitle"
+              [(ngModel)]="userDetails.jobTitle"
+            />
+          </div>
         </div>
       </div>
-    </div>
-    <div class="row mb-3">
-      <div class="col-lg-6">
-        <div class="form-group">
-          <label class="form-label">City</label>
-          <input type="text" class="form-control" placeholder="Your city ..." />
-        </div>
-      </div>
-      <div class="col-lg-6">
-        <div class="form-group">
-          <label class="form-label">State</label>
-          <input
-            type="text"
-            class="form-control"
-            placeholder="Your state ..."
-          />
-        </div>
-      </div>
-    </div>
-    <div class="row mb-3">
-      <div class="col-lg-6">
-        <div class="form-group">
-          <label class="form-label">Zip Code</label>
-          <input
-            type="text"
-            class="form-control"
-            placeholder="Your zipcode ..."
-          />
-        </div>
-      </div>
-      <div class="col-lg-6">
-        <div class="form-group">
-          <label class="form-label">Skype</label>
-          <input
-            type="text"
-            class="form-control"
-            placeholder="Your skype ..."
-          />
-        </div>
-      </div>
-    </div>
-    <div class="row mb-3">
-      <div class="col-lg-6">
-        <div class="form-group">
-          <label class="form-label">Job Title</label>
-          <input
-            type="text"
-            class="form-control"
-            placeholder="Your job title ..."
-          />
-        </div>
-      </div>
-    </div>
+      <button
+        type="submit"
+        class="btn btn-primary"
+        (click)="updateUserProfile()"
+      >
+        Save changes
+      </button>
+    </form>
   </div>
   <!-- <div class="page-separator">
     <div class="page-separator__text text-bold">Education</div>
@@ -209,5 +257,4 @@
       </div>
     </div>
   </div> -->
-  <button type="submit" class="btn btn-primary">Save changes</button>
 </div>
