@@ -6,7 +6,7 @@
       data-toggle="modal"
       data-target="#createPath"
     >
-      Create
+      Create Learning Path
     </button>
   </div>
   <div class="row">
@@ -22,23 +22,34 @@
         </thead>
 
         <tbody>
-          <ng-container>
+          <ng-container *ngFor="let path of learningPaths; let i = index">
             <tr>
-              <th scope="row">1</th>
-              <td>Title</td>
+              <th scope="row">{{ i + 1 }}</th>
+              <td>{{ path.title }}</td>
               <td>
-                Class
-                <a href="#" data-toggle="modal" data-target="#viewClass"
+                <a
+                  href="#"
+                  data-toggle="modal"
+                  data-target="#viewClass"
+                  (click)="setLearningPath(path); getClasses()"
                   ><i class="material-icons fa-lg">visibility</i></a
                 >
               </td>
               <td>
                 <div class="d-flex align-items-center">
                   <div class="buttons">
-                    <a href="#" data-toggle="modal" data-target="#editPath"
-                      ><i class="material-icons fa-lg">edit</i></a
+                    <a
+                      href="#"
+                      data-toggle="modal"
+                      data-target="#editPath"
+                      (click)="setLearningPath(path)"
+                      ><i class="material-icons fa-lg mr-3">edit</i></a
                     >
-                    <a href="#" data-toggle="modal" data-target="#deletePath"
+                    <a
+                      href="#"
+                      data-toggle="modal"
+                      data-target="#deletePath"
+                      (click)="setLearningPath(path)"
                       ><i class="material-icons fa-lg">delete</i></a
                     >
                   </div>
@@ -69,13 +80,14 @@
           class="close"
           data-dismiss="modal"
           aria-label="Close"
+          #closeModal
         >
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <form #addUser="ngForm">
-          <div class="modal-body text-primary text-left">
+        <form #createPath="ngForm" (ngSubmit)="addLearningPath(createPath)">
+          <div class="text-primary text-left">
             <div class="row mb-3">
               <div class="col">
                 <label for="title" class="form-label">Title</label>
@@ -115,21 +127,33 @@
           class="close"
           data-dismiss="modal"
           aria-label="Close"
+          #closeModal
         >
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
-        <form #addUser="ngForm">
-          <div class="modal-body text-primary text-left">
-            <div class="row mb-3"></div>
-            <div class="row mb-3"></div>
-            <div class="row mb-3"></div>
-          </div>
-          <div class="modal-footer">
-            <button type="submit" class="btn btn-primary">Delete</button>
-          </div>
-        </form>
+      <div class="modal-body text-primary text-left" *ngIf="selectedPath">
+        <div class="col-12">
+          <h6>Title:</h6>
+          <p class="text-primary">{{ selectedPath.title }}</p>
+        </div>
+        <div class="col-12 mt-3">
+          <p class="text-danger h6 bold">
+            Do you want to remove this learning path?
+          </p>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          Close
+        </button>
+        <button
+          type="submit"
+          class="btn btn-danger"
+          (click)="deleteLearningPath()"
+        >
+          Delete
+        </button>
       </div>
     </div>
   </div>
@@ -152,13 +176,14 @@
           class="close"
           data-dismiss="modal"
           aria-label="Close"
+          #closeModal
         >
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
-        <form #addUser="ngForm">
-          <div class="modal-body text-primary text-left">
+      <div class="modal-body" *ngIf="selectedPath">
+        <form #editPath="ngForm" (ngSubmit)="updateLearningPath(editPath)">
+          <div class="text-primary text-left">
             <div class="row mb-3">
               <div class="col">
                 <label for="title" class="form-label">Title</label>
@@ -167,7 +192,7 @@
                   class="form-control"
                   id="title"
                   name="title"
-                  ngModel
+                  [(ngModel)]="selectedPath.title"
                 />
               </div>
             </div>
@@ -192,12 +217,13 @@
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="addModalLabel">View Classes Detail</h5>
+        <h5 class="modal-title" id="addModalLabel">View Class Details</h5>
         <button
           type="button"
           class="close"
           data-dismiss="modal"
           aria-label="Close"
+          #closeModal
         >
           <span aria-hidden="true">&times;</span>
         </button>
@@ -205,11 +231,11 @@
       <div class="modal-body">
         <div class="row">
           <button
-            class="btn btn-primary mb-3"
+            class="btn btn-primary mb-3 ml-3"
             data-toggle="modal"
             data-target="#createClass"
           >
-            Create
+            Create Class
           </button>
         </div>
         <table class="table table-hover table-bordered">
@@ -222,17 +248,25 @@
           </thead>
 
           <tbody>
-            <ng-container>
+            <ng-container *ngFor="let class of classes; let i = index">
               <tr>
-                <th scope="row">1</th>
-                <td>Class</td>
+                <th scope="row">{{ i + 1 }}</th>
+                <td>{{ class.title }}</td>
                 <td>
                   <div class="d-flex align-items-center">
                     <div class="buttons">
-                      <a href="#" data-toggle="modal" data-target="#editClass"
-                        ><i class="material-icons fa-lg">edit</i></a
+                      <a
+                        href="#"
+                        data-toggle="modal"
+                        data-target="#editClass"
+                        (click)="setClass(class)"
+                        ><i class="material-icons fa-lg mr-3">edit</i></a
                       >
-                      <a href="#" data-toggle="modal" data-target="#deleteClass"
+                      <a
+                        href="#"
+                        data-toggle="modal"
+                        data-target="#deleteClass"
+                        (click)="setClass(class)"
                         ><i class="material-icons fa-lg">delete</i></a
                       >
                     </div>
@@ -264,13 +298,14 @@
           class="close"
           data-dismiss="modal"
           aria-label="Close"
+          #closeModal
         >
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <form #addUser="ngForm">
-          <div class="modal-body text-primary text-left">
+        <form #createClass="ngForm" (ngSubmit)="addClass(createClass)">
+          <div class="text-primary text-left">
             <div class="row mb-3">
               <div class="col">
                 <label for="title" class="form-label">Title</label>
@@ -279,18 +314,6 @@
                   class="form-control"
                   id="title"
                   name="title"
-                  ngModel
-                />
-              </div>
-            </div>
-            <div class="row mb-3">
-              <div class="col">
-                <label for="pathID" class="form-label">Learning Path ID</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="pathID"
-                  name="pathID"
                   ngModel
                 />
               </div>
@@ -321,13 +344,14 @@
           class="close"
           data-dismiss="modal"
           aria-label="Close"
+          #closeModal
         >
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
-        <form #addUser="ngForm">
-          <div class="modal-body text-primary text-left">
+      <div class="modal-body" *ngIf="selectedClass">
+        <form #editClass="ngForm" (ngSubmit)="updateClass(editClass)">
+          <div class="text-primary text-left">
             <div class="row mb-3">
               <div class="col">
                 <label for="title" class="form-label">Title</label>
@@ -336,19 +360,7 @@
                   class="form-control"
                   id="title"
                   name="title"
-                  ngModel
-                />
-              </div>
-            </div>
-            <div class="row mb-3">
-              <div class="col">
-                <label for="pathID" class="form-label">Learning Path ID</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="pathID"
-                  name="pathID"
-                  ngModel
+                  [(ngModel)]="selectedClass.title"
                 />
               </div>
             </div>
@@ -379,17 +391,30 @@
           class="close"
           data-dismiss="modal"
           aria-label="Close"
+          #closeModal
         >
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
-        <form #addUser="ngForm">
-          <div class="modal-body text-primary text-left"></div>
-          <div class="modal-footer">
-            <button type="submit" class="btn btn-primary">Delete</button>
+      <div class="modal-body" *ngIf="selectedClass">
+        <div class="row">
+          <div class="col-12">
+            <h6>Class Title:</h6>
+            <p class="text-primary">{{ selectedClass.title }}</p>
           </div>
-        </form>
+
+          <div class="col-12 mt-3">
+            <p class="text-danger h6 bold">Do you want to remove this class?</p>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          Close
+        </button>
+        <button type="button" class="btn btn-danger" (click)="deleteClass()">
+          Delete
+        </button>
       </div>
     </div>
   </div>

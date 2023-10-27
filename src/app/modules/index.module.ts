@@ -19,6 +19,7 @@ import { HomeComponent } from './home/home.component';
 import { ClientsComponent } from './clients/clients.component';
 import { UsersComponent } from './users/users.component';
 import { LearningPathsComponent } from './learning-paths/learning-paths.component';
+import { NgxDropzoneModule } from 'ngx-dropzone';
 
 const routes: Routes = [
   {
@@ -103,6 +104,7 @@ const routes: Routes = [
     ReactiveFormsModule,
     NgbModule,
     NgxMasonryModule,
+    NgxDropzoneModule,
     RouterModule.forChild(routes),
   ],
 })

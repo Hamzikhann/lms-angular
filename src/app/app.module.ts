@@ -11,6 +11,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { PhoneMaskDirective } from './directives/phone-mask/phone-mask.directive';
 import { SigninComponent } from './components/signin/signin.component';
+import { NgxDropzoneModule } from 'ngx-dropzone';
 
 @NgModule({
   declarations: [AppComponent, PhoneMaskDirective, SigninComponent],
