@@ -55,6 +55,7 @@ export class AuthInterceptor implements HttpInterceptor {
             this.router.navigate(['/signin']);
           }
         } else if (
+          error.status == 400 ||
           error.status == 401 ||
           error.status == 405 ||
           error.status == 406
