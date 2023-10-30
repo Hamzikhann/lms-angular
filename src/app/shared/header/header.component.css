@@ -1,45 +1,46 @@
 .badge-notifications {
-    border-radius: 100px;
-    padding: 0 .25rem;
+  border-radius: 100px;
+  padding: 0 0.25rem;
 }
 .dropdown-notifications .badge-notifications {
-    margin-left: -.5rem;
-    margin-top: -.5rem;
+  margin-left: -0.5rem;
+  margin-top: -0.5rem;
 }
 .nav-item .material-icons {
-    font-size: 1.25rem !important;
+  font-size: 1.25rem !important;
 }
 .navbar {
-    padding-top: 4px;
-    padding-left: 2.5rem;
+  padding-top: 4px;
+  padding-left: 2.5rem;
+  background: #fff;
 }
 .navbar-expand .navbar-nav {
-    margin: 0 8px;
+  margin: 0 8px;
 }
 .navbar-light .navbar-nav .nav-link {
-    color: rgba(48, 57, 85, 0.75);
-    font-size: 14px;
-    height: unset;
+  color: rgba(48, 57, 85, 0.75);
+  font-size: 14px;
+  height: unset;
 }
 .navbar-expand .navbar-nav .nav-item {
-    margin-right: 12px;
+  margin-right: 12px;
 }
 .sidebar-menu-icon {
-    font-size: 20px;
+  font-size: 20px;
 }
 .dropdown-notifications {
-    outline: unset;
+  outline: unset;
 }
 .dropdown-notifications .notification-text {
-    line-height: normal;
-    margin-top: 4px;
+  line-height: normal;
+  margin-top: 4px;
 }
 .dropdown-notifications .list-group-item {
-    padding: 0.75rem 1rem;
+  padding: 0.75rem 1rem;
 }
 .dropdown-notifications .list-group-item-view-all {
-    background: rgba(39,44,51,.05);
-    font-weight: 500;
-    padding: 4px 8px 8px 16px;
-    text-align: center;
+  background: rgba(39, 44, 51, 0.05);
+  font-weight: 500;
+  padding: 4px 8px 8px 16px;
+  text-align: center;
 }

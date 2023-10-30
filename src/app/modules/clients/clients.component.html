@@ -1,236 +1,116 @@
-<div class="container mt-5">
-  <div class="row">
-    <button
-      type="button"
-      class="btn btn-primary btn-create mb-4"
-      data-toggle="modal"
-      data-target="#createClient"
-    >
-      Create Client
-    </button>
-  </div>
-  <div class="row">
-    <div class="col-12">
-      <table class="table table-sm table-hover table-bordered">
-        <thead class="bg-light">
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">Name</th>
-            <th scope="col">Website</th>
-            <th scope="col">Logo</th>
-            <th scope="col">Actions</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          <ng-container *ngFor="let client of clients; let i = index">
-            <tr>
-              <th scope="row">{{ i + 1 }}</th>
-              <td>{{ client.name }}</td>
-              <td>{{ client.website }}</td>
-              <td>
-                <img
-                  [src]="ImgBaseURL + client.logoURL"
-                  height="28"
-                  *ngIf="client.logoURL"
-                />
-              </td>
-              <td>
-                <div class="d-flex align-items-center">
-                  <div class="buttons">
-                    <a
-                      href="#"
-                      data-toggle="modal"
-                      data-target="#editClient"
-                      (click)="setClient(client)"
-                      ><i class="material-icons fa-lg mr-3">edit</i></a
-                    >
-                    <a
-                      href="#"
-                      data-toggle="modal"
-                      data-target="#deleteClient"
-                      (click)="setClient(client)"
-                      ><i class="material-icons fa-lg mr-3">delete</i></a
-                    >
-                    <button
-                      data-toggle="modal"
-                      data-target="#updateLogo"
-                      class="btn btn-primary btn-sm"
-                      type="button"
-                      (click)="setClient(client)"
-                    >
-                      Update Logo
-                    </button>
-                  </div>
-                </div>
-              </td>
-            </tr>
-          </ng-container>
-        </tbody>
-      </table>
+<div class="container page__container d-flex flex-column flex-md-row align-items-center text-center text-sm-left">
+  <div class="flex d-flex flex-column flex-sm-row align-items-center">
+    <div class="my-24pt mr-sm-24pt">
+      <h2 class="mb-0">Clients</h2>
+      <ol class="breadcrumb p-0 m-0">
+        <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+        <li class="breadcrumb-item active">
+          Clients
+        </li>
+      </ol>
     </div>
   </div>
 </div>
 
-<div
-  class="modal"
-  id="createClient"
-  tabindex="-1"
-  role="dialog"
-  aria-labelledby="viewModalLabel"
-  aria-hidden="true"
->
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="addModalLabel">Create Client</h5>
-        <button
-          type="button"
-          class="close"
-          data-dismiss="modal"
-          aria-label="Close"
-          #closeModal
-        >
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form #createClient="ngForm" (ngSubmit)="addClient(createClient)">
-          <div class="modal-body text-primary text-left">
-            <div class="row mb-3">
-              <div class="col">
-                <label for="name" class="form-label">Name</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="name"
-                  name="name"
-                  ngModel
-                />
-              </div>
-            </div>
-            <div class="row mb-3">
-              <div class="col">
-                <label for="web" class="form-label">Website</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="web"
-                  name="web"
-                  ngModel
-                />
-              </div>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button type="submit" class="btn btn-primary">Create</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div
-  class="modal"
-  id="editClient"
-  tabindex="-1"
-  role="dialog"
-  aria-labelledby="viewModalLabel"
-  aria-hidden="true"
->
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="addModalLabel">Update Client</h5>
-        <button
-          type="button"
-          class="close"
-          data-dismiss="modal"
-          aria-label="Close"
-          #closeModal
-        ></button>
-      </div>
-      <div class="modal-body text-primary" *ngIf="selectedClient">
-        <form #editClient="ngForm" (ngSubmit)="updateClient(editClient)">
-          <div class="row mb-3">
-            <div class="col">
+<div class="container">
+  <div class="row">
+    <div class="col-lg-4 col-sm-12">
+      <div class="card">
+        <div class="card-header">
+          <h6 class="mb-0" *ngIf="formType == 'create'">Create New</h6>
+          <h6 class="mb-0" *ngIf="formType == 'update'">Update Information</h6>
+          <h6 class="mb-0" *ngIf="formType == 'delete'">Delete Information</h6>
+        </div>
+        <div class="card-body">
+          <form #formData="ngForm">
+            <div class="form-group">
               <label for="name" class="form-label">Name</label>
-              <input
-                type="text"
-                class="form-control"
-                id="name"
-                name="name"
-                [(ngModel)]="selectedClient.name"
-              />
+              <input type="text" class="form-control" id="name" name="name" [(ngModel)]="client.name"
+                [disabled]="formType=='delete'" />
             </div>
-          </div>
-          <div class="row mb-3">
-            <div class="col">
+            <div class="form-group">
               <label for="web" class="form-label">Website</label>
-              <input
-                type="text"
-                class="form-control"
-                id="web"
-                name="web"
-                [(ngModel)]="selectedClient.website"
-              />
+              <input type="url" class="form-control" id="web" name="web" [(ngModel)]="client.website"
+                [disabled]="formType=='delete'" />
             </div>
-          </div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-dismiss="modal"
-            >
-              Close
-            </button>
-            <button type="submit" class="btn btn-primary">Update</button>
-          </div>
-        </form>
+            <div class="form-buttons">
+              <button type="submit" class="btn btn-primary" (click)="addClient()" *ngIf="formType == 'create'"
+                [disabled]="!client.name || !client.website">Create</button>
+              <button type="submit" class="btn btn-primary" (click)="updateClient()" *ngIf="formType == 'update'"
+                [disabled]="!client.id || !client.name || !client.website">Update</button>
+              <button type="submit" class="btn btn-danger" (click)="deleteClient()" *ngIf="formType == 'delete'"
+                [disabled]="!client.id || !client.name || !client.website">Delete</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-8 col-sm-12">
+      <div class="card">
+        <div class="card-header">
+          <h6 class="mb-0">List of Clients</h6>
+        </div>
+        <div class="card-body">
+          <table class="table table-sm table-hover table-bordered mb-0">
+            <thead class="bg-light">
+              <tr>
+                <th scope="col">Logo</th>
+                <th scope="col">Name</th>
+                <th scope="col">Website</th>
+                <th scope="col" class="text-center">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <ng-container *ngFor="let client of clients; let i = index">
+                <tr>
+                  <td class="d-flex align-items-center">
+                    <span class="badge badge-primary p-1 mr-2" data-toggle="modal" data-target="#updateLogo"
+                      (click)="setClientId(client.id)">
+                      <i class="material-icons mr-0">edit</i>
+                    </span>
+                    <img [src]="ImgBaseURL + client.logoURL" height="24" *ngIf="client.logoURL" />
+                  </td>
+                  <td>{{ client.name }}</td>
+                  <td>{{ client.website }}</td>
+                  <td>
+                    <div class="text-center">
+                      <div class="buttons">
+                        <span class="badge badge-primary p-1 mr-2" (click)="setClient(client); setFormType('update')">
+                          <i class="material-icons mr-0">edit</i>
+                        </span>
+                        <span class="badge badge-primary p-1 mr-2" (click)="setClient(client); setFormType('delete')">
+                          <i class="material-icons mr-0">delete</i>
+                        </span>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              </ng-container>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>
 </div>
 
-<div
-  class="modal"
-  id="updateLogo"
-  tabindex="-1"
-  role="dialog"
-  aria-labelledby="viewModalLabel"
-  aria-hidden="true"
->
+<div class="modal" id="updateLogo" tabindex="-1" role="dialog" aria-labelledby="viewModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="addModalLabel">Update Logo</h5>
-        <button
-          type="button"
-          class="close"
-          data-dismiss="modal"
-          aria-label="Close"
-          #closeModal
-        ></button>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" #closeModal></button>
       </div>
       <div class="modal-body text-primary">
-        <ngx-dropzone
-          [multiple]="false"
-          [maxFileSize]="1000000"
-          accept="image/jpeg,image/jpg,image/png,image/gif"
-          (change)="onSelectImage($event)"
-        >
+        <ngx-dropzone [multiple]="false" [maxFileSize]="1000000" accept="image/jpeg,image/jpg,image/png,image/gif"
+          (change)="onSelectLogo($event)">
           <ngx-dropzone-label>
             Upload / Drop the logo!
             <p *ngIf="logoError" class="alert alert-danger">
               {{ logoError }}
             </p>
           </ngx-dropzone-label>
-          <ngx-dropzone-preview
-            *ngIf="logo"
-            [removable]="true"
-            (removed)="onRemove(logo)"
-          >
+          <ngx-dropzone-preview *ngIf="logo" [removable]="true" (removed)="onRemoveLogo(logo)">
             <ngx-dropzone-label>
               {{ logo.name }} ({{ logo.type }})
             </ngx-dropzone-label>
@@ -243,57 +123,6 @@
         </button>
         <button type="submit" class="btn btn-primary" (click)="updateLogo()">
           Save
-        </button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div
-  class="modal"
-  id="deleteClient"
-  tabindex="-1"
-  role="dialog"
-  aria-labelledby="viewModalLabel"
-  aria-hidden="true"
->
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="addModalLabel">Delete Client</h5>
-        <button
-          type="button"
-          class="close"
-          data-dismiss="modal"
-          aria-label="Close"
-          #closeModal
-        >
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body text-left" *ngIf="selectedClient">
-        <div class="row">
-          <div class="col-12">
-            <h6>Name:</h6>
-            <p class="text-primary">{{ selectedClient.name }}</p>
-          </div>
-          <div class="col-12">
-            <h6>Website:</h6>
-            <p class="text-primary">{{ selectedClient.website }}</p>
-          </div>
-          <div class="col-12 mt-3">
-            <p class="text-danger h6 bold">
-              Do you want to remove this client?
-            </p>
-          </div>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">
-          Close
-        </button>
-        <button type="button" class="btn btn-danger" (click)="deleteClient()">
-          Delete
         </button>
       </div>
     </div>

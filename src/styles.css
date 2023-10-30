@@ -1,21 +1,43 @@
 /* You can add global styles to this file, and also import other style files */
 
-@media (min-width: 992px){
-    .mdk-drawer-layout .container {
-        max-width: 1142px;
-    }
+@media (min-width: 992px) {
+  .mdk-drawer-layout .container {
+    max-width: 1142px;
+  }
 }
 
 .popover {
-    width: 312px !important;
-    max-width: 312px !important;
+  width: 312px !important;
+  max-width: 312px !important;
 }
 .popover-body {
-    padding: 1.25rem !important;
+  padding: 1.25rem !important;
 }
 .font-size-14 {
-    font-size: 14px;
+  font-size: 14px;
 }
 .font-size-20 {
-    font-size: 20px;
+  font-size: 20px;
+}
+
+.h-42px {
+  height: 42px;
+}
+
+.form-label {
+  font-weight: 500;
+  font-size: 12px;
+  text-transform: capitalize;
+}
+
+.modal {
+  background: #00000075;
+}
+
+.badge .material-icons {
+  cursor: pointer;
+}
+
+.table tbody td {
+  vertical-align: baseline;
 }

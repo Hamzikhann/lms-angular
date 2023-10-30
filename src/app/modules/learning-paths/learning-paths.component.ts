@@ -8,20 +8,28 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./learning-paths.component.css'],
 })
 export class LearningPathsComponent {
-  learningPaths: any;
-  selectedPath: any;
   classes: any;
-  selectedClass: any;
+  class: any = {
+    id: '',
+    title: '',
+  };
+  classFormType: string = 'create';
+
+  learningPaths: any;
+  learningPath: any = {
+    id: '',
+    title: '',
+  };
+  learningPathFormType: string = 'create';
 
   constructor(private toastr: ToastrService, private apiServices: ApiService) {}
-
-  @ViewChild('closeModal') closeModal: ElementRef | undefined;
 
   ngOnInit(): void {
     this.getLearningPaths();
   }
 
   getLearningPaths() {
+    this.learningPaths = [];
     const data = {
       path: 'learning-paths/list',
       payload: {},
@@ -33,10 +41,11 @@ export class LearningPathsComponent {
   }
 
   getClasses() {
+    this.classes = [];
     const data = {
       path: 'learning-paths/classes/list',
       payload: {
-        learningPathId: this.selectedPath?.id,
+        learningPathId: this.learningPath.id,
       },
     };
     this.apiServices.postRequest(data).subscribe((res) => {
@@ -45,121 +54,127 @@ export class LearningPathsComponent {
     });
   }
 
-  addLearningPath(path: any) {
+  addLearningPath() {
     const data = {
       path: 'learning-paths/create',
       payload: {
-        title: path.value.title,
+        title: this.learningPath.title,
       },
     };
     this.apiServices.postRequest(data).subscribe((data) => {
-      if (this.closeModal) {
-        this.closeModal.nativeElement.click();
-      }
-      path.reset();
-      this.toastr.success('User added successfully!');
+      this.toastr.success('Learning path added successfully!');
+      this.resetLearningPathData();
       this.getLearningPaths();
     });
   }
 
-  setLearningPath(obj: any) {
-    this.selectedPath = obj;
-    console.log(this.selectedPath);
+  updateLearningPath() {
+    const data = {
+      path: 'learning-paths/update',
+      payload: {
+        learningPathId: this.learningPath.id,
+        title: this.learningPath.title,
+      },
+    };
+    this.apiServices.postRequest(data).subscribe((data) => {
+      this.toastr.success('Learning path updated successfully!');
+      this.resetLearningPathData();
+      this.getLearningPaths();
+    });
   }
 
   deleteLearningPath() {
     const data = {
       path: 'learning-paths/delete',
       payload: {
-        learningPathId: this.selectedPath.id,
+        learningPathId: this.learningPath.id,
       },
     };
     this.apiServices.postRequest(data).subscribe((data) => {
-      if (this.closeModal) {
-        this.closeModal.nativeElement.click();
-      }
-      this.selectedPath = null;
       this.toastr.success('Learning path deleted successfully!');
+      this.resetLearningPathData();
       this.getLearningPaths();
     });
   }
 
-  updateLearningPath(path: any) {
-    const data = {
-      path: 'learning-paths/update',
-      payload: {
-        learningPathId: this.selectedPath.id,
-        title: path.value.title,
-      },
+  setLearningPath(obj: any) {
+    this.learningPath = {
+      id: obj.id,
+      title: obj.title,
     };
-    this.apiServices.postRequest(data).subscribe((data) => {
-      if (this.closeModal) {
-        this.closeModal.nativeElement.click();
-      }
-      path.reset();
-      this.selectedPath = null;
-      this.toastr.success('Learning path updated successfully!');
-      this.getLearningPaths();
-    });
   }
 
-  addClass(obj: any) {
+  setlearningPathFormType(name: string) {
+    this.learningPathFormType = name;
+  }
+
+  resetLearningPathData() {
+    this.learningPathFormType = 'create';
+    this.learningPath = {
+      id: '',
+      title: '',
+    };
+  }
+
+  addClass() {
     const data = {
       path: 'learning-paths/classes/create',
       payload: {
-        title: obj.value.title,
-        learningPathId: this.selectedPath.id,
+        title: this.class.title,
+        learningPathId: this.learningPath.id,
       },
     };
     this.apiServices.postRequest(data).subscribe((data) => {
-      if (this.closeModal) {
-        this.closeModal.nativeElement.click();
-      }
-      obj.reset();
       this.toastr.success('Class added successfully!');
-      this.getClasses();
-      console.log(this.getClasses);
+      this.resetClassData();
+      this.getLearningPaths();
     });
   }
 
-  setClass(obj: any) {
-    this.selectedClass = obj;
-    console.log(this.selectedClass);
+  updateClass() {
+    const data = {
+      path: 'learning-paths/classes/update',
+      payload: {
+        classId: this.class.id,
+        title: this.class.title,
+      },
+    };
+    this.apiServices.postRequest(data).subscribe((data) => {
+      this.toastr.success('Class updated successfully!');
+      this.resetClassData();
+      this.getLearningPaths();
+    });
   }
 
   deleteClass() {
     const data = {
       path: 'learning-paths/classes/delete',
       payload: {
-        classId: this.selectedClass.id,
+        classId: this.class.id,
       },
     };
     this.apiServices.postRequest(data).subscribe((data) => {
-      if (this.closeModal) {
-        this.closeModal.nativeElement.click();
-      }
-      this.selectedClass = null;
       this.toastr.success('Class deleted successfully!');
-      this.getClasses();
+      this.resetClassData();
+      this.getLearningPaths();
     });
   }
 
-  updateClass(obj: any) {
-    const data = {
-      path: 'learning-paths/classes/update',
-      payload: {
-        classId: this.selectedClass.id,
-        title: obj.value.title,
-      },
+  setClass(obj: any) {
+    this.class = {
+      id: obj.id,
+      title: obj.title,
     };
-    this.apiServices.postRequest(data).subscribe((data) => {
-      if (this.closeModal) {
-        this.closeModal.nativeElement.click();
-      }
-      obj.reset();
-      this.selectedClass = null;
-      this.toastr.success('Class updated successfully!');
-      this.getClasses();
-    });
+  }
+
+  setClassFormType(name: string) {
+    this.classFormType = name;
+  }
+
+  resetClassData() {
+    this.class = {
+      id: '',
+      title: '',
+    };
   }
 }

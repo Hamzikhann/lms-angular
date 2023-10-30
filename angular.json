@@ -37,6 +37,7 @@
               "src/assets/css/fontawesome.css",
               "src/assets/css/preloader.css",
               "src/assets/css/app.css",
+              "node_modules/ngx-toastr/toastr.css",
               "src/styles.css"
             ],
             "scripts": [

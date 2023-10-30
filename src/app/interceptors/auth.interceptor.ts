@@ -6,7 +6,7 @@ import {
   HttpHandler,
   HttpEvent,
   HttpInterceptor,
-  HttpErrorResponse
+  HttpErrorResponse,
 } from '@angular/common/http';
 import { map, catchError } from 'rxjs/operators';
 
@@ -15,38 +15,53 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
+  constructor(
+    private authService: AuthService,
+    private toastr: ToastrService,
+    private router: Router
+  ) {}
 
-  constructor(private authService: AuthService, private toastr: ToastrService, private router: Router) { }
-
-  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+  intercept(
+    request: HttpRequest<any>,
+    next: HttpHandler
+  ): Observable<HttpEvent<any>> {
     request = request.clone({
       setHeaders: {
-        'Accept': 'application/json',
+        Accept: 'application/json',
         'access-token': `${this.authService.getToken()}`,
       },
     });
     return next.handle(request).pipe(
-      catchError((error: HttpErrorResponse,) => {
+      catchError((error: HttpErrorResponse) => {
         if (error.status == 440) {
           this.authService.logOut();
           this.router.navigate(['/signin']);
-          this.toastr.info("Your session has expired. Please signin again.", "Session Expired")
+          this.toastr.info(
+            'Your session has expired. Please signin again.',
+            'Session Expired'
+          );
         } else if (error.status == 403) {
-          if (request.url.endsWith("auth/login")) {
-            this.toastr.error("Please enter correct email and password.", "Incorrect Credentials")
+          if (request.url.endsWith('auth/login')) {
+            this.toastr.error(
+              'Please enter correct email and password.',
+              'Incorrect Credentials'
+            );
           } else {
-            this.toastr.info("You do not have permission to perform this task.", "Access Denied")
+            this.toastr.info(
+              'You do not have permission to perform this task.',
+              'Access Denied'
+            );
             this.authService.logOut();
             this.router.navigate(['/signin']);
           }
-        } else if (error.status == 401) {
-          this.toastr.error("Email is already Registered.")
-        } else if (error.status == 405) {
-          this.toastr.info(error.error.message, error.error.title)
-        } else if (error.status == 406) {
-          this.toastr.info("Old Password was incorrect.")
+        } else if (
+          error.status == 401 ||
+          error.status == 405 ||
+          error.status == 406
+        ) {
+          this.toastr.error(error.error.message, error.error.title);
         } else {
-          this.toastr.error("Something went wrong.");
+          this.toastr.error('Something went wrong.');
         }
         return throwError(error);
       })
