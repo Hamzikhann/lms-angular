@@ -41,3 +41,7 @@
 .table tbody td {
   vertical-align: baseline;
 }
+
+.w-10 {
+  width: 10%;
+}

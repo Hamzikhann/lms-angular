@@ -10,46 +10,61 @@ import { CoursesComponent } from './courses.component';
 import { RouterModule, Routes } from '@angular/router';
 import { DetailComponent } from './detail/detail.component';
 import { LectureComponent } from './detail/lecture/lecture.component';
+import { CourseCreateComponent } from './course-create/course-create.component';
 
 const routes: Routes = [
   {
-    path: "",
+    path: '',
     children: [
       {
-        path: "",
+        path: '',
         component: CoursesComponent,
       },
       {
-        path: ":id",
+        path: 'create',
+        component: CourseCreateComponent,
+      },
+      {
+        path: ':id',
         children: [
           {
-            path: "",
-            component: DetailComponent
-          }, 
+            path: '',
+            component: DetailComponent,
+          },
           {
-            path: "announcements",
-            loadChildren: () => import("./detail/announcements/announcements.module").then(m => m.AnnouncementsModule)
-          }, 
+            path: 'announcements',
+            loadChildren: () =>
+              import('./detail/announcements/announcements.module').then(
+                (m) => m.AnnouncementsModule
+              ),
+          },
           {
-            path: "assignments",
-            loadChildren: () => import("./detail/assignments/assignments.module").then(m => m.AssignmentsModule)
-          }, 
+            path: 'assignments',
+            loadChildren: () =>
+              import('./detail/assignments/assignments.module').then(
+                (m) => m.AssignmentsModule
+              ),
+          },
           {
-            path: "gdb",
-            loadChildren: () => import("./detail/gdb/gdb.module").then(m => m.GdbModule)
-          }, 
+            path: 'gdb',
+            loadChildren: () =>
+              import('./detail/gdb/gdb.module').then((m) => m.GdbModule),
+          },
           {
-            path: "quizes",
-            loadChildren: () => import("./detail/quizes/quizes.module").then(m => m.QuizesModule)
-          }, 
+            path: 'quizes',
+            loadChildren: () =>
+              import('./detail/quizes/quizes.module').then(
+                (m) => m.QuizesModule
+              ),
+          },
           {
-            path: "lectures/:id",
-            component: LectureComponent
-          }, 
-        ]
-      }
-    ]
-  }
+            path: 'lectures/:id',
+            component: LectureComponent,
+          },
+        ],
+      },
+    ],
+  },
 ];
 
 @NgModule({
@@ -59,12 +74,9 @@ const routes: Routes = [
     QuizesComponent,
     AnnouncementsComponent,
     DetailComponent,
-    LectureComponent
+    LectureComponent,
+    CourseCreateComponent,
   ],
-  imports: [
-    CommonModule,
-    PdfViewerModule,
-    RouterModule.forChild(routes)
-  ]
+  imports: [CommonModule, PdfViewerModule, RouterModule.forChild(routes)],
 })
-export class CoursesModule { }
+export class CoursesModule {}
