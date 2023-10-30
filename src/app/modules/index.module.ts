@@ -20,6 +20,7 @@ import { ClientsComponent } from './clients/clients.component';
 import { UsersComponent } from './users/users.component';
 import { LearningPathsComponent } from './learning-paths/learning-paths.component';
 import { NgxDropzoneModule } from 'ngx-dropzone';
+import { ChangePasswordComponent } from './settings/change-password/change-password.component';
 
 const routes: Routes = [
   {
@@ -78,6 +79,10 @@ const routes: Routes = [
       {
         path: 'privacy-policies',
         component: PoliciesComponent,
+      },
+      {
+        path: 'change-password',
+        component: ChangePasswordComponent,
       },
     ],
   },

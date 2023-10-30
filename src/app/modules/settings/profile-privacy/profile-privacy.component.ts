@@ -1,6 +1,7 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { ApiService } from 'src/app/services/users/api.service';
 import { ToastrService } from 'ngx-toastr';
+import { ConfigService } from 'src/app/config/config.service';
 
 @Component({
   selector: 'app-profile-privacy',
@@ -26,8 +27,15 @@ export class ProfilePrivacyComponent {
     phoneNumber: '',
     skype: '',
   };
+  selectedImage: any;
 
-  constructor(private toastr: ToastrService, private apiServices: ApiService) {}
+  ImgBaseURL: string = this.config.ImgBaseURL;
+
+  constructor(
+    private toastr: ToastrService,
+    private apiServices: ApiService,
+    private config: ConfigService
+  ) {}
 
   @ViewChild('closeModal') closeModal: ElementRef | undefined;
 
@@ -69,10 +77,10 @@ export class ProfilePrivacyComponent {
       path: 'users/update/profile',
       payload: {
         firstName: this.userDetails.firstName,
-        lastName: this.userDetails.lname,
+        lastName: this.userDetails.lastName,
         email: this.userDetails.email,
         jobTitle: this.userDetails.jobTitle,
-        phoneNumber: this.userDetails.phone,
+        phoneNumber: this.userDetails.phoneNumber,
         skype: this.userDetails.skype,
         address: this.userDetails.address,
         city: this.userDetails.city,
@@ -89,5 +97,31 @@ export class ProfilePrivacyComponent {
       this.toastr.success('Profile updated successfully!');
       this.getUserDetails();
     });
+  }
+
+  uploadImage(image: File) {
+    const payload = new FormData();
+
+    payload.append('image', this.userDetails.imageUrl);
+
+    const data = {
+      path: 'users/update/profile/image ',
+      payload: {},
+    };
+    this.apiServices.postRequest(data).subscribe((res) => {
+      this.toastr.success('Image updated successfully!');
+    });
+  }
+
+  onImageSelected(event: any) {
+    this.selectedImage = event.target.files[0];
+  }
+
+  onSubmit() {
+    if (this.selectedImage) {
+      this.apiServices
+        .postRequest(this.selectedImage)
+        .subscribe((response) => {});
+    }
   }
 }
