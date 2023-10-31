@@ -25,7 +25,7 @@ import { ChangePasswordComponent } from './settings/change-password/change-passw
 const routes: Routes = [
   {
     path: '',
-    // canActivate: [AuthGuard],
+    canActivate: [AuthGuard],
     component: IndexComponent,
     children: [
       {

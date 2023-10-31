@@ -6,16 +6,11 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { ProfilePrivacyComponent } from './profile-privacy/profile-privacy.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
-import { EmailNotificationsComponent } from './email-notifications/email-notifications.component';
 
 const routes: Routes = [
   {
     path: '',
     component: ProfilePrivacyComponent,
-  },
-  {
-    path: 'email-notifications',
-    component: EmailNotificationsComponent,
   },
   {
     path: 'change-password',
@@ -24,11 +19,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [
-    EmailNotificationsComponent,
-    ChangePasswordComponent,
-    ProfilePrivacyComponent,
-  ],
+  declarations: [ChangePasswordComponent, ProfilePrivacyComponent],
   imports: [
     CommonModule,
     FormsModule,

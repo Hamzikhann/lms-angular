@@ -1,409 +1,183 @@
-<div class="container mt-5">
-  <div class="row">
-    <button
-      type="button"
-      class="btn btn-primary btn-create mb-5"
-      data-toggle="modal"
-      data-target="#createUser"
-    >
-      Create User
-    </button>
+<div class="container page__container d-flex flex-column flex-md-row align-items-center text-center text-sm-left">
+  <div class="flex d-flex flex-column flex-sm-row align-items-center">
+    <div class="my-24pt mr-sm-24pt">
+      <h2 class="mb-0">App Users</h2>
+      <ol class="breadcrumb p-0 m-0">
+        <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+        <li class="breadcrumb-item active">
+          App Users
+        </li>
+      </ol>
+    </div>
   </div>
-  <div class="row">
-    <div class="col-12">
-      <table class="table table-sm table-hover table-bordered">
-        <thead class="bg-light">
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">First Name</th>
-            <th scope="col">Last Name</th>
-            <th scope="col">Client ID</th>
-            <th scope="col">Email</th>
-            <th scope="col">Actions</th>
-          </tr>
-        </thead>
+</div>
 
-        <tbody>
-          <ng-container *ngFor="let user of users; let i = index">
-            <tr>
-              <th scope="row">{{ i + 1 }}</th>
-              <td>{{ user.firstName }}</td>
-              <td>{{ user.lastName }}</td>
-              <td>{{ user.clientId }}</td>
-              <td>{{ user.email }}</td>
-              <td>
-                <div class="d-flex align-items-center">
-                  <div class="buttons">
-                    <a
-                      href="#"
-                      data-toggle="modal"
-                      data-target="#editUser"
-                      (click)="setUser(user)"
-                      ><i class="material-icons fa-lg mr-3">edit</i></a
-                    >
-                    <a
-                      href="#"
-                      data-toggle="modal"
-                      data-target="#deleteUser"
-                      (click)="setUser(user)"
-                      ><i class="material-icons fa-lg">delete</i></a
-                    >
-                  </div>
+<div class="container">
+  <div class="row">
+    <div class="col-lg-4 col-sm-12">
+      <div class="card">
+        <div class="card-header">
+          <h6 class="mb-0" *ngIf="formType == 'create'">Create New</h6>
+          <h6 class="mb-0" *ngIf="formType == 'update'">Update Information</h6>
+          <h6 class="mb-0" *ngIf="formType == 'delete'">Delete Information</h6>
+        </div>
+        <div class="card-body">
+          <form #formData="ngForm">
+            <div class="row">
+              <div class="col-lg-6">
+                <div class="form-group">
+                  <label for="fname" class="form-label">First Name</label>
+                  <input type="text" class="form-control" id="fname" name="fname" [(ngModel)]="user.firstName"
+                    [disabled]="formType == 'delete'" />
                 </div>
-              </td>
-            </tr>
-          </ng-container>
-        </tbody>
-      </table>
-    </div>
-  </div>
-</div>
-
-<div
-  class="modal"
-  id="createUser"
-  tabindex="-1"
-  role="dialog"
-  aria-labelledby="viewModalLabel"
-  aria-hidden="true"
->
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="addModalLabel">Create User</h5>
-        <button
-          type="button"
-          class="close"
-          data-dismiss="modal"
-          aria-label="Close"
-          #closeModal
-        ></button>
-        <span aria-hidden="true">&times;</span>
-      </div>
-      <div class="modal-body">
-        <form #createUser="ngForm" (ngSubmit)="addUser(createUser)">
-          <div class="modal-body text-primary text-left">
-            <div class="row mb-3">
-              <div class="col-6">
-                <label for="fname" class="form-label">First Name</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="fname"
-                  name="fname"
-                  ngModel
-                />
               </div>
-              <div class="col-6">
-                <label for="lname" class="form-label">Last Name</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="lname"
-                  name="lname"
-                  ngModel
-                />
+              <div class="col-lg-6">
+                <div class="form-group">
+                  <label for="lname" class="form-label">Last Name</label>
+                  <input type="text" class="form-control" id="lname" name="lname" [(ngModel)]="user.lastName"
+                    [disabled]="formType == 'delete'" />
+                </div>
+              </div>
+              <div class="col-lg-12">
+                <div class="form-group">
+                  <label for="email" class="form-label">Email</label>
+                  <input type="email" class="form-control" id="email" name="email" [(ngModel)]="user.email"
+                    [disabled]="formType == 'delete'" />
+                </div>
+              </div>
+              <div class="col-lg-12" *ngIf="formType == 'create'">
+                <div class="form-group">
+                  <label for="password" class="form-label">Password</label>
+                  <input type="password" class="form-control" id="password" name="password"
+                    [(ngModel)]="user.password" />
+                </div>
               </div>
             </div>
-            <div class="row mb-3">
-              <div class="col-6">
-                <label for="email" class="form-label">Email</label>
-                <input
-                  type="email"
-                  class="form-control"
-                  id="email"
-                  name="email"
-                  ngModel
-                />
+            <div class="row">
+              <div class="col-lg-6" *ngIf="loggedInUser.role.title == 'Client'">
+                <div class="form-group">
+                  <label for="departmentId" class="form-label">Department</label>
+                  <select class="form-select form-control" id="departmentId" name="departmentId"
+                    [(ngModel)]="user.departmentId" [disabled]="formType == 'delete'">
+                    <ng-container *ngFor="let department of departments">
+                      <option [value]="department.id">{{ department.title }}</option>
+                    </ng-container>
+                  </select>
+                </div>
               </div>
-              <div class="col-6">
-                <label for="pass" class="form-label">Password</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="pass"
-                  name="pass"
-                  ngModel
-                />
+              <div class="col-lg-6" *ngIf="loggedInUser.role.title == 'Client'">
+                <div class="form-group">
+                  <label for="designationId" class="form-label">Designation</label>
+                  <select class="form-select form-control" id="designationId" name="designationId"
+                    [(ngModel)]="user.designationId" [disabled]="formType == 'delete'">
+                    <ng-container *ngFor="let designation of designations">
+                      <option [value]="designation.id">{{ designation.title }}</option>
+                    </ng-container>
+                  </select>
+                </div>
               </div>
-            </div>
-            <div class="row mb-3">
-              <div class="col-6">
-                <label class="form-label" for="managerId">Manager</label>
-                <select
-                  class="form-select form-control"
-                  id="managerId"
-                  name="managerId"
-                  ngModel
-                >
-                  <ng-container *ngFor="let user of users">
-                    <option [value]="user.id">
-                      {{ user.firstName + " " + user.lastName }}
-                    </option>
-                  </ng-container>
-                </select>
+              <div class="col-lg-12" *ngIf="loggedInUser.role.title == 'Client'">
+                <div class="form-group">
+                  <label for="managerId" class="form-label">Manager</label>
+                  <select class="form-select form-control" id="managerId" name="managerId" [(ngModel)]="user.managerId"
+                    [disabled]="formType == 'delete'">
+                    <ng-container *ngFor="let user of users">
+                      <option [value]="user.id">{{ user.firstName + " " + user.lastName }}</option>
+                    </ng-container>
+                  </select>
+                </div>
               </div>
-              <div class="col-6">
-                <label class="form-label" for="deptId">Department</label>
-                <select
-                  class="form-select form-control"
-                  id="deptId"
-                  name="deptId"
-                  ngModel
-                >
-                  <ng-container *ngFor="let department of departments">
-                    <option [value]="department.id">
-                      {{ department.title }}
-                    </option>
-                  </ng-container>
-                </select>
+              <div class="col-lg-6" *ngIf="loggedInUser.role.title == 'Administrator'">
+                <div class="form-group">
+                  <label for="clientId" class="form-label">Client</label>
+                  <select class="form-select form-control" id="clientId" name="clientId" [(ngModel)]="user.clientId"
+                    [disabled]="formType == 'delete'">
+                    <ng-container *ngFor="let client of clients">
+                      <option [value]="client.id">{{ client.name }}</option>
+                    </ng-container>
+                  </select>
+                </div>
               </div>
-            </div>
-            <div class="row mb-3">
-              <div class="col-6">
-                <label class="form-label" for="desigId">Designation</label>
-                <select
-                  class="form-select form-control"
-                  id="desigId"
-                  name="desigId"
-                  ngModel
-                >
-                  <ng-container *ngFor="let designation of designations">
-                    <option [value]="designation.id">
-                      {{ designation.title }}
-                    </option>
-                  </ng-container>
-                </select>
-              </div>
-              <div class="col-6">
-                <label class="form-label" for="role">Role</label>
-                <select
-                  class="form-select form-control"
-                  id="role"
-                  name="roleId"
-                  ngModel
-                >
-                  <ng-container *ngFor="let role of roles">
-                    <option [value]="role.id">
-                      {{ role.title }}
-                    </option>
-                  </ng-container>
-                </select>
+              <div class="col-lg-6" *ngIf="loggedInUser.role.title == 'Administrator'">
+                <div class="form-group">
+                  <label for="roleId" class="form-label">Role</label>
+                  <select class="form-select form-control" id="roleId" name="roleId" [(ngModel)]="user.roleId"
+                    [disabled]="formType == 'delete'">
+                    <ng-container *ngFor="let role of roles">
+                      <option [value]="role.id">{{ role.title }}</option>
+                    </ng-container>
+                  </select>
+                </div>
               </div>
             </div>
-            <div class="row mb-3">
-              <div class="col">
-                <label class="form-label" for="clientId">Client</label>
-                <select
-                  class="form-select form-control"
-                  id="clientId"
-                  name="clientId"
-                  ngModel
-                >
-                  <ng-container *ngFor="let client of clients">
-                    <option [value]="client.id">
-                      {{ client.name }}
-                    </option>
-                  </ng-container>
-                </select>
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="form-buttons">
+                  <button type="submit" class="btn btn-primary" (click)="addUser()"
+                    *ngIf="formType == 'create'">Create</button>
+                  <button type="submit" class="btn btn-primary" (click)="updateUser()"
+                    *ngIf="formType == 'update'">Update</button>
+                  <button type="submit" class="btn btn-danger" (click)="deleteUser()"
+                    *ngIf="formType == 'delete'">Delete</button>
+                </div>
               </div>
             </div>
-          </div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              data-dismiss="modal"
-              class="btn btn-secondary"
-            >
-              Close
-            </button>
-            <button type="submit" class="btn btn-primary">Create</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div
-  class="modal"
-  id="deleteUser"
-  tabindex="-1"
-  role="dialog"
-  aria-labelledby="viewModalLabel"
-  aria-hidden="true"
->
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="addModalLabel">Delete User</h5>
-        <button
-          type="button"
-          class="close"
-          data-dismiss="modal"
-          aria-label="Close"
-          #closeModal
-        >
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body text-left" *ngIf="selectedUser">
-        <div class="row">
-          <div class="col-12">
-            <h6>First Name:</h6>
-            <p class="text-primary">{{ selectedUser.firstName }}</p>
-          </div>
-          <div class="col-12">
-            <h6>Last Name:</h6>
-            <p class="text-primary">{{ selectedUser.lastName }}</p>
-          </div>
-          <div class="col-12">
-            <h6>Email:</h6>
-            <p class="text-primary">{{ selectedUser.email }}</p>
-          </div>
-          <div class="col-12">
-            <h6>Role:</h6>
-            <p class="text-primary">{{ selectedUser.role.title }}</p>
-          </div>
-          <div class="col-12">
-            <h6>Client ID:</h6>
-            <p class="text-primary">{{ selectedUser.clientId }}</p>
-          </div>
-          <div class="col-12 mt-3">
-            <p class="text-danger h6 bold">Do you want to remove this user?</p>
-          </div>
+          </form>
         </div>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">
-          Close
-        </button>
-        <button type="button" class="btn btn-danger" (click)="deleteUser()">
-          Delete
-        </button>
-      </div>
     </div>
-  </div>
-</div>
-
-<div
-  class="modal"
-  id="editUser"
-  tabindex="-1"
-  role="dialog"
-  aria-labelledby="viewModalLabel"
-  aria-hidden="true"
->
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="addModalLabel">Update User</h5>
-        <button
-          type="button"
-          class="close"
-          data-dismiss="modal"
-          aria-label="Close"
-          #closeModal
-        >
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body" *ngIf="selectedUser">
-        <form #editUser="ngForm" (ngSubmit)="updateUser(editUser)">
-          <div class="modal-body text-primary text-left">
-            <div class="row mb-3">
-              <div class="col-6">
-                <label for="fname" class="form-label">First Name</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="fname"
-                  name="fname"
-                  [(ngModel)]="selectedUser.firstName"
-                />
-              </div>
-              <div class="col-6">
-                <label for="lname" class="form-label">Last Name</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="lname"
-                  name="lname"
-                  [(ngModel)]="selectedUser.lastName"
-                />
-              </div>
-            </div>
-            <div class="row mb-3">
-              <div class="col-6">
-                <label for="email" class="form-label">Email</label>
-                <input
-                  type="email"
-                  class="form-control"
-                  id="email"
-                  name="email"
-                  [(ngModel)]="selectedUser.email"
-                />
-              </div>
-              <div class="col-6">
-                <label class="form-label" for="managerId">Manager</label>
-                <select
-                  class="form-select form-control"
-                  id="managerId"
-                  name="managerId"
-                  [(ngModel)]="selectedUser.managerId"
-                >
-                  <ng-container *ngFor="let user of users">
-                    <option [value]="user.id">
-                      {{ user.firstName + " " + user.lastName }}
-                    </option>
+    <div class="col-lg-8 col-sm-12">
+      <div class="card">
+        <div class="card-header">
+          <h6 class="mb-0">List of Users</h6>
+        </div>
+        <div class="card-body">
+          <table class="table table-sm table-hover table-bordered mb-0">
+            <thead class="bg-light">
+              <tr>
+                <th scope="col">Full Name</th>
+                <th scope="col">Email</th>
+                <ng-container *ngIf="loggedInUser.role.title == 'Administrator'">
+                  <th scope="col">Client</th>
+                  <th scope="col">Role</th>
+                </ng-container>
+                <ng-container *ngIf="loggedInUser.role.title == 'Client'">
+                  <th scope="col">Department</th>
+                  <th scope="col">Manager</th>
+                </ng-container>
+                <th scope="col" class="text-center">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <ng-container *ngFor="let user of users; let i = index">
+                <tr>
+                  <td>{{ user.firstName + ' ' + user.lastName }}</td>
+                  <td>{{ user.email }}</td>
+                  <ng-container *ngIf="loggedInUser.role.title == 'Administrator'">
+                    <td>{{ user.client?.name }}</td>
+                    <td>{{ user.role.title }}</td>
                   </ng-container>
-                </select>
-              </div>
-            </div>
-            <div class="row mb-3">
-              <div class="col-6">
-                <label class="form-label" for="deptId">Department</label>
-                <select
-                  class="form-select form-control"
-                  id="deptId"
-                  name="deptId"
-                  [(ngModel)]="selectedUser.userDepartmentId"
-                >
-                  <ng-container *ngFor="let department of departments">
-                    <option [value]="department.id">
-                      {{ department.title }}
-                    </option>
+                  <ng-container *ngIf="loggedInUser.role.title == 'Client'">
+                    <td>{{ user.userDepartment?.title }}</td>
+                    <td>
+                      <span *ngIf="user.manager">{{ user.manager.firstName + ' ' + user.manager.lastName }}</span>
+                    </td>
                   </ng-container>
-                </select>
-              </div>
-              <div class="col-6">
-                <label class="form-label" for="desigId">Designation</label>
-                <select
-                  class="form-select form-control"
-                  id="desigId"
-                  name="desigId"
-                  [(ngModel)]="selectedUser.userDesignationId"
-                >
-                  <ng-container *ngFor="let designation of designations">
-                    <option [value]="designation.id">
-                      {{ designation.title }}
-                    </option>
-                  </ng-container>
-                </select>
-              </div>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              data-dismiss="modal"
-              class="btn btn-secondary"
-            >
-              Close
-            </button>
-            <button type="submit" class="btn btn-primary">Update</button>
-          </div>
-        </form>
+                  <td class="text-center">
+                    <div class="buttons" *ngIf="loggedInUser.id != user.id">
+                      <span class="badge badge-primary p-1 mr-2" (click)="setUser(user); setFormType('update')">
+                        <i class="material-icons mr-0">edit</i>
+                      </span>
+                      <span class="badge badge-primary p-1 mr-2" (click)="setUser(user); setFormType('delete')">
+                        <i class="material-icons mr-0">delete</i>
+                      </span>
+                    </div>
+                  </td>
+                </tr>
+              </ng-container>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>

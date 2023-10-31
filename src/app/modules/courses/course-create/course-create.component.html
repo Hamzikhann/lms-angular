@@ -1,0 +1,125 @@
+<div class="pt-32pt">
+  <div class="container page__container d-flex flex-column flex-md-row align-items-center text-center text-sm-left">
+    <div class="flex d-flex flex-column flex-sm-row align-items-center">
+      <div class="mb-24pt mb-sm-0 mr-sm-24pt">
+        <h2 class="mb-0">Add New Course</h2>
+        <ol class="breadcrumb p-0 m-0">
+          <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+          <li class="breadcrumb-item"><a href="javascript:void(0)">Courses</a></li>
+          <li class="breadcrumb-item active">
+            Create New
+          </li>
+        </ol>
+      </div>
+    </div>
+    <div class="row" role="tablist">
+      <div class="col-auto">
+        <a [routerLink]="['create']" class="btn btn-outline-primary">Save Changes</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container page__container">
+  <div class="page-section">
+    <div class="row">
+      <div class="col-lg-9">
+        <div class="card">
+          <div class="card-body">
+            <div class="form-group">
+              <label>Title</label>
+              <input type="text" class="form-control" name="title">
+            </div>
+            <div class="form-group">
+              <label>About</label>
+              <textarea class="form-control" name="about" rows="10"></textarea>
+            </div>
+            <div class="form-group">
+              <label>What you'll learn</label>
+              <table class="table table-bordered table-hover">
+                <tbody>
+                  <tr *ngFor="let objective of objectives; let i = index">
+                    <td class="text-center">{{ i+1 }}</td>
+                    <td>{{ objective }}</td>
+                    <td class="w-10">
+                      <div class="buttons text-center">
+                        <span class="badge badge-primary p-1 mr-2">
+                          <i class="material-icons mr-0">edit</i>
+                        </span>
+                        <span class="badge badge-primary p-1 mr-2">
+                          <i class="material-icons mr-0">delete</i>
+                        </span>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td>
+                      <input type="text" name="objective" class="form-control" placeholder="">
+                    </td>
+                    <td>
+                      <button type="button" class="btn btn-outline-primary">Add</button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-3">
+        <div class="card">
+          <div class="card-body">
+            <div class="form-group">
+              <label>Status</label>
+              <div class="form-control">
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="status" id="statusDraft" value="Draft">
+                  <label class="form-check-label" for="statusDraft">Draft</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="status" id="statusPublish" value="Publish">
+                  <label class="form-check-label" for="statusPublish">Publish</label>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Course Code</label>
+              <input type="text" class="form-control" name="title">
+            </div>
+            <div class="form-group">
+              <label>Level of Difficulty</label>
+              <input type="text" class="form-control" name="title">
+            </div>
+            <div class="form-group">
+              <label>Language</label>
+              <input type="text" class="form-control" name="title">
+            </div>
+            <div class="form-group">
+              <label>Class</label>
+              <select class="form-control" name="class">
+                <option></option>
+                <option>Project Management</option>
+                <option>Quality Control and Six Sigma</option>
+                <option>Remote Work and Virtual Collaboration</option>
+                <option>Sales and Customer Service</option>
+                <option>Soft Skills</option>
+                <option>Team Building and Collaboration</option>
+                <option>Technical and IT</option>
+                <option>Time Management and Productivity</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Department</label>
+              <select class="form-control" name="class">
+                <option></option>
+                <option>Sales and Marketing</option>
+                <option>Information Technology</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

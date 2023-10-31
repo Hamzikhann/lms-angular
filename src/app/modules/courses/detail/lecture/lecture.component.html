@@ -1,14 +1,15 @@
 <div class="mdk-box js-mdk-box mb-0" [style.background]="'#6138c2'">
-    <div class="mdk-box__content" style="background-image: 'url(/assets/images/bg-course.jpg)'; background-size: contain; background-repeat: no-repeat;">
-    <div class="hero py-48pt text-center text-sm-left" [style.background]="'rgba(48, 57, 85, 0.71)'"
-        >
-        <div class="container page__container">
-            <h2 class="d-flex align-items-center justify-content-between text-white m-0">Analysis of Variance & Experimental Design
-                <span class="badge badge-secondary ml-3 mt-1"><small>Lecture</small></span>
-            </h2>
-            <p class="lead text-white-50 measure-hero-lead">STA301 - Statistics and Probability</p>
+    <div class="mdk-box__content"
+        style="background-image: 'url(/assets/images/bg-course.jpg)'; background-size: contain; background-repeat: no-repeat;">
+        <div class="hero py-48pt text-center text-sm-left" [style.background]="'rgba(48, 57, 85, 0.71)'">
+            <div class="container page__container">
+                <h2 class="d-flex align-items-center justify-content-between text-white m-0">Analysis of Variance &
+                    Experimental Design
+                    <span class="badge badge-secondary ml-3 mt-1"><small>Lecture</small></span>
+                </h2>
+                <p class="lead text-white-50 measure-hero-lead">STA301 - Statistics and Probability</p>
+            </div>
         </div>
-    </div>
     </div>
 </div>
 
@@ -28,13 +29,16 @@
             </li>
             <li class="nav-item ml-sm-auto text-sm-center flex-column navbar-list__item">
                 <ul class="nav navbar-nav flex align-items-sm-center">
-                    <li class="nav-item navbar-list__item pr-3" [class.active]="sections.videos" (click)="toggleSection('videos')">
+                    <li class="nav-item navbar-list__item pr-3" [class.active]="sections.videos"
+                        (click)="toggleSection('videos')">
                         <i class="material-icons icon--left">videocam</i> <span>Videos</span>
                     </li>
-                    <li class="nav-item navbar-list__item pr-3" [class.active]="sections.handouts" (click)="toggleSection('handouts')">
+                    <li class="nav-item navbar-list__item pr-3" [class.active]="sections.handouts"
+                        (click)="toggleSection('handouts')">
                         <i class="material-icons icon--left">assignment</i> <span>Handouts</span>
                     </li>
-                    <li class="nav-item navbar-list__item pr-3" [class.active]="sections.presentations" (click)="toggleSection('presentations')">
+                    <li class="nav-item navbar-list__item pr-3" [class.active]="sections.presentations"
+                        (click)="toggleSection('presentations')">
                         <i class="material-icons icon--left">screen_share</i> <span>Presentations</span>
                     </li>
                 </ul>
@@ -49,32 +53,26 @@
         <div *ngIf="sections.videos" class="js-player embed-responsive embed-responsive-16by9 mb-48pt">
             <div class="player embed-responsive-item">
                 <div class="player__content">
-                    <div class="player__image" style="--player-image: url(../../public/images/illustration/player.svg)"></div>
+                    <div class="player__image" style="--player-image: url(../../public/images/illustration/player.svg)">
+                    </div>
                     <a href="javascript:void(0)" class="player__play bg-primary">
                         <span class="material-icons">play_arrow</span>
                     </a>
                 </div>
                 <div class="player__embed d-none">
-                    <iframe class="embed-responsive-item" src="https://player.vimeo.com/video/97243285?title=0&amp;byline=0&amp;portrait=0" allowfullscreen=""></iframe>
+                    <iframe class="embed-responsive-item"
+                        src="https://player.vimeo.com/video/97243285?title=0&amp;byline=0&amp;portrait=0"
+                        allowfullscreen=""></iframe>
                 </div>
             </div>
         </div>
 
         <div *ngIf="sections.handouts" class=" mb-48pt">
             <div class="pdf-container">
-                <pdf-viewer
-                  [src]="'/assets/files/lecture-43.pdf'"
-                  [original-size]="false"
-                  [show-all]="true"
-                  [fit-to-page]="false"
-                  [zoom]="1"
-                  [zoom-scale]="'page-width'"
-                  [stick-to-page]="false"
-                  [render-text]="true"
-                  [external-link-target]="'blank'"
-                  [autoresize]="true"
-                  style="width: 100%; height: 600px; border: 1px solid #edf0f2; box-shadow: inset 0 1px 1px rgba(39,44,51,.075);"
-                ></pdf-viewer>
+                <pdf-viewer [src]="'/assets/files/lecture-43.pdf'" [original-size]="false" [show-all]="true"
+                    [fit-to-page]="false" [zoom]="1" [zoom-scale]="'page-width'" [stick-to-page]="false"
+                    [render-text]="true" [external-link-target]="'blank'" [autoresize]="true"
+                    style="width: 100%; height: 600px; border: 1px solid #edf0f2; box-shadow: inset 0 1px 1px rgba(39,44,51,.075);"></pdf-viewer>
             </div>
         </div>
 
@@ -126,13 +124,16 @@
                                 </div>
                                 <p class="mt-1 text-70">Hi Joseph,<br> Thank you for purchasing our course!
                                     <br><br>Please have a look at the charts library documentation <a href="#">here</a>
-                                    and follow the instructions.</p>
-        
+                                    and follow the instructions.
+                                </p>
+
                                 <div class="d-flex align-items-center">
-                                    <a href="javascript:void(0)" class="text-50 d-flex align-items-center text-decoration-0"><i
+                                    <a href="javascript:void(0)"
+                                        class="text-50 d-flex align-items-center text-decoration-0"><i
                                             class="material-icons mr-1" style="font-size: inherit;">favorite_border</i>
                                         3</a>
-                                    <a href="javascript:void(0)" class="text-50 d-flex align-items-center text-decoration-0 ml-3"><i
+                                    <a href="javascript:void(0)"
+                                        class="text-50 d-flex align-items-center text-decoration-0 ml-3"><i
                                             class="material-icons mr-1" style="font-size: inherit;">thumb_up</i> 13</a>
                                 </div>
                             </div>

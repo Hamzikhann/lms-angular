@@ -10,7 +10,14 @@ import { ConfigService } from 'src/app/config/config.service';
 export class ClientsComponent {
   ImgBaseURL: string = this.config.ImgBaseURL;
 
+  formType: string = 'create';
   clients: any;
+  client: any = {
+    id: '',
+    name: '',
+    website: '',
+    logoURL: '',
+  };
   selectedClient: any;
   logo: any;
   logoError: any;
@@ -28,98 +35,108 @@ export class ClientsComponent {
   }
 
   getClients() {
+    this.clients = [];
     const data = {
       path: 'clients/list',
       payload: {},
     };
     this.apiServices.postRequest(data).subscribe((data) => {
       this.clients = data.data;
-      console.log(this.clients);
     });
   }
 
-  addClient(client: any) {
+  addClient() {
     const data = {
       path: 'clients/create',
       payload: {
-        name: client.value.name,
-        website: client.value.web,
+        name: this.client.name,
+        website: this.client.website,
       },
     };
     this.apiServices.postRequest(data).subscribe((data) => {
-      if (this.closeModal) {
-        this.closeModal.nativeElement.click();
-      }
-      client.reset();
       this.toastr.success('Client added successfully!');
+      this.resetClientData();
       this.getClients();
     });
   }
 
-  setClient(obj: any) {
-    this.selectedClient = obj;
-    console.log(this.selectedClient);
+  updateClient() {
+    const data = {
+      path: 'clients/update',
+      payload: {
+        clientId: this.client.id,
+        name: this.client.name,
+        website: this.client.website,
+      },
+    };
+    this.apiServices.postRequest(data).subscribe((data) => {
+      this.toastr.success('Client updated successfully!');
+      this.resetClientData();
+      this.getClients();
+    });
   }
 
   deleteClient() {
     const data = {
       path: 'clients/delete',
       payload: {
-        clientId: this.selectedClient.id,
+        clientId: this.client.id,
       },
     };
     this.apiServices.postRequest(data).subscribe((data) => {
-      if (this.closeModal) {
-        this.closeModal.nativeElement.click();
-      }
-      this.selectedClient = null;
       this.toastr.success('Client deleted successfully!');
+      this.resetClientData();
       this.getClients();
     });
   }
 
-  updateClient(client: any) {
-    const data = {
-      path: 'clients/update',
-      payload: {
-        clientId: this.selectedClient.id,
-        name: client.value.name,
-        website: client.value.web,
-      },
+  setClientId(id: string) {
+    this.client.id = id;
+  }
+
+  setClient(obj: any) {
+    this.client = {
+      id: obj.id,
+      name: obj.name,
+      website: obj.website,
+      logoURL: obj.logoURL,
     };
-    this.apiServices.postRequest(data).subscribe((data) => {
-      if (this.closeModal) {
-        this.closeModal.nativeElement.click();
-      }
-      client.reset();
-      this.selectedClient = null;
-      this.toastr.success('Client updated successfully!');
-      this.getClients();
-    });
+  }
+
+  resetClientData() {
+    this.formType = 'create';
+    this.client = {
+      id: '',
+      name: '',
+      website: '',
+      logoURL: '',
+    };
+  }
+
+  setFormType(name: string) {
+    this.formType = name;
   }
 
   updateLogo() {
     const payload = new FormData();
     payload.append('image', this.logo);
-    payload.append('clientId', this.selectedClient.id);
+    payload.append('clientId', this.client.id);
 
     const data = {
       path: 'clients/update/image',
       payload,
     };
-    console.log(data);
-
     this.apiServices.postRequest(data).subscribe((data) => {
+      this.toastr.success('Logo updated successfully!');
+      this.resetClientData();
+      this.getClients();
       if (this.closeModal) {
         this.closeModal.nativeElement.click();
       }
-
-      this.getClients();
-      this.toastr.success('Logo updated successfully!');
     });
   }
 
-  onSelectImage(event: any) {
+  onSelectLogo(event: any) {
     if (event.addedFiles[0]) {
       this.logo = event.addedFiles[0];
     }
@@ -131,10 +148,9 @@ export class ClientsComponent {
         this.logoError = 'File types other than jpeg or png not allowed.';
       }
     }
-    console.log(this.logo);
   }
 
-  onRemove(event: any) {
+  onRemoveLogo(event: any) {
     this.logo = null;
   }
 }

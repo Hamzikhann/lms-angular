@@ -2,26 +2,11 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes, PreloadAllModules } from '@angular/router';
 
 import { SigninComponent } from './components/signin/signin.component';
-import { SignupComponent } from './components/signup/signup.component';
-import { PasswordForgotComponent } from './components/password-forgot/password-forgot.component';
-import { PasswordResetComponent } from './components/password-reset/password-reset.component';
 
 const routes: Routes = [
   {
     path: 'signin',
     component: SigninComponent,
-  },
-  {
-    path: 'signup',
-    component: SignupComponent,
-  },
-  {
-    path: 'forgot-password',
-    component: PasswordForgotComponent,
-  },
-  {
-    path: 'reset-password/:token',
-    component: PasswordResetComponent,
   },
   {
     path: '',
@@ -32,11 +17,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [
-    SignupComponent,
-    PasswordForgotComponent,
-    PasswordResetComponent,
-  ],
+  declarations: [],
   imports: [
     RouterModule.forRoot(routes, {
       preloadingStrategy: PreloadAllModules,

@@ -9,7 +9,8 @@ import { ConfigService } from 'src/app/config/config.service';
   styleUrls: ['./profile-privacy.component.css'],
 })
 export class ProfilePrivacyComponent {
-  userDetails: any = {
+  ImgBaseURL: string = this.config.ImgBaseURL;
+  user: any = {
     userId: '',
     firstName: '',
     lastName: '',
@@ -27,9 +28,7 @@ export class ProfilePrivacyComponent {
     phoneNumber: '',
     skype: '',
   };
-  selectedImage: any;
-
-  ImgBaseURL: string = this.config.ImgBaseURL;
+  profileImage: any;
 
   constructor(
     private toastr: ToastrService,
@@ -50,7 +49,7 @@ export class ProfilePrivacyComponent {
     };
     this.apiServices.postRequest(data).subscribe((res) => {
       const data = res.data;
-      this.userDetails = {
+      this.user = {
         userId: data.id,
         firstName: data.firstName,
         lastName: data.lastName,
@@ -68,7 +67,6 @@ export class ProfilePrivacyComponent {
         phoneNumber: data.userProfile.phoneNumber,
         skype: data.userProfile.skype,
       };
-      console.log(this.userDetails);
     });
   }
 
@@ -76,52 +74,44 @@ export class ProfilePrivacyComponent {
     const data = {
       path: 'users/update/profile',
       payload: {
-        firstName: this.userDetails.firstName,
-        lastName: this.userDetails.lastName,
-        email: this.userDetails.email,
-        jobTitle: this.userDetails.jobTitle,
-        phoneNumber: this.userDetails.phoneNumber,
-        skype: this.userDetails.skype,
-        address: this.userDetails.address,
-        city: this.userDetails.city,
-        state: this.userDetails.state,
-        zipcode: this.userDetails.zipcode,
-        country: this.userDetails.country,
+        firstName: this.user.firstName,
+        lastName: this.user.lastName,
+        email: this.user.email,
+        phoneNumber: this.user.phoneNumber,
+        skype: this.user.skype,
+        jobTitle: this.user.jobTitle,
+        address: this.user.address,
+        city: this.user.city,
+        state: this.user.state,
+        zipcode: this.user.zipcode,
+        country: this.user.country,
       },
     };
     this.apiServices.postRequest(data).subscribe((data) => {
-      if (this.closeModal) {
-        this.closeModal.nativeElement.click();
-      }
-      // user.reset();
       this.toastr.success('Profile updated successfully!');
       this.getUserDetails();
     });
   }
 
-  uploadImage(image: File) {
-    const payload = new FormData();
-
-    payload.append('image', this.userDetails.imageUrl);
-
-    const data = {
-      path: 'users/update/profile/image ',
-      payload: {},
-    };
-    this.apiServices.postRequest(data).subscribe((res) => {
-      this.toastr.success('Image updated successfully!');
-    });
-  }
-
   onImageSelected(event: any) {
-    this.selectedImage = event.target.files[0];
+    this.profileImage = event.target.files[0];
   }
 
-  onSubmit() {
-    if (this.selectedImage) {
-      this.apiServices
-        .postRequest(this.selectedImage)
-        .subscribe((response) => {});
+  onImageUpload() {
+    if (this.profileImage) {
+      const payload = new FormData();
+      payload.append('image', this.profileImage);
+
+      const data = {
+        path: 'users/update/profile/image',
+        payload,
+      };
+      this.apiServices.postRequest(data).subscribe((data) => {
+        this.toastr.success('Profile image updated successfully!');
+        this.getUserDetails();
+      });
+    } else {
+      this.toastr.error('Error!', 'Kindly select the profile image to upload.');
     }
   }
 }
