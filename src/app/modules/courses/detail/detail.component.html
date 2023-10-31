@@ -124,41 +124,55 @@
     <div class="row mb-0">
       <div class="col-lg-9">
         <div class="accordion js-accordion accordion--boxed list-group-flush" id="parent">
-          <ng-container *ngFor="let module of modules">
-            <div class="accordion__item">
-              <a href="javascript:void(0)" class="accordion__toggle collapsed" data-toggle="collapse"
-                [attr.data-target]="'#course-toc-' + module.id">
-                <span class="flex">{{ module.title }}</span>
-                <span class="accordion__toggle-icon material-icons">keyboard_arrow_down</span>
-              </a>
-              <div class="accordion__menu collapse show" [id]="'course-toc-' + module.id" data-parent="#parent">
-                <ng-container *ngFor="let item of module.courseTasks[0]">
-                  <div class="accordion__menu-link" [class.active]="item.status == 'open'">
-                    <span
-                      class="icon-holder icon-holder--small icon-holder--light rounded-circle d-inline-flex icon--left"
-                      *ngIf="
-                            item.type == 'lecture' && item.status == 'open'
-                          ">
-                      <i class="material-icons icon-16pt">play_circle_outline</i>
-                    </span>
-                    <span
-                      class="icon-holder icon-holder--small icon-holder--primary rounded-circle d-inline-flex icon--left"
-                      *ngIf="
-                            item.type == 'assessment' && item.status == 'open'
-                          ">
-                      <i class="material-icons icon-16pt">hourglass_empty</i>
-                    </span>
-                    <span
-                      class="icon-holder icon-holder--small icon-holder--light rounded-circle d-inline-flex icon--left"
-                      *ngIf="item.status == 'closed'">
-                      <i class="material-icons icon-16pt">lock</i>
-                    </span>
-                    <a class="flex" href="javascript:void(0)" *ngIf="item.status == 'closed'">{{ item.title }}</a>
-                    <a class="flex" href="javascript:void(0)" *ngIf="item.status == 'open'"
-                      [routerLink]="['/courses/1/lectures/2']">{{ item.title }}</a>
-                    <span class="text-muted">{{ item.time }}</span>
+          <ng-container *ngFor="let module of courseDetails.courseSyllabus.courseModules">
+            <div class="row">
+              <div class="col-10">
+                <div class="accordion__item">
+                  <a href="javascript:void(0)" class="accordion__toggle collapsed" data-toggle="collapse"
+                    [attr.data-target]="'#course-toc-' + module.id">
+                    <span class="flex">{{ module.title }}</span>
+                    <span class="accordion__toggle-icon material-icons">keyboard_arrow_down</span>
+                  </a>
+                  <div class="accordion__menu collapse" [class.show]="module.open" [id]="'course-toc-' + module.id"
+                    data-parent="#parent">
+                    <ng-container *ngFor="let item of module.courseTasks">
+                      <div class="accordion__menu-link" [class.active]="item.status == 'open'">
+                        <span
+                          class="icon-holder icon-holder--small icon-holder--light rounded-circle d-inline-flex icon--left"
+                          *ngIf="item.status != 'closed'">
+                          <i class="material-icons icon-16pt">play_circle_outline</i>
+                        </span>
+                        <span
+                          class="icon-holder icon-holder--small icon-holder--light rounded-circle d-inline-flex icon--left"
+                          *ngIf="item.status == 'closed'">
+                          <i class="material-icons icon-16pt">lock</i>
+                        </span>
+                        <a class="flex" href="javascript:void(0)" [routerLink]="['/courses/1/lectures/2']">{{ item.title
+                          }}</a>
+                        <span class="text-muted">{{ item.estimatedTime }}</span>
+
+                        <div class="d-flex align-items-center px-3">
+                          <div class="buttons">
+                            <a href="#" data-toggle="modal" data-target="#editTask" (click)="setTask(item)"><i
+                                class="material-icons fa-lg mr-3">edit</i></a>
+                            <a href="#" data-toggle="modal" data-target="#deleteTask" (click)="setTask(item)"><i
+                                class="material-icons fa-lg mr-3">delete</i></a>
+                          </div>
+                        </div>
+                      </div>
+                    </ng-container>
                   </div>
-                </ng-container>
+                </div>
+              </div>
+              <div class="col">
+                <div class="d-flex align-items-center mt-3">
+                  <div class="buttons">
+                    <a href="#" data-toggle="modal" data-target="#editIndex" (click)="setModule(module)"><i
+                        class="material-icons fa-lg mr-3">edit</i></a>
+                    <a href="#" data-toggle="modal" data-target="#deleteIndex" (click)="setModule(module)"><i
+                        class="material-icons fa-lg mr-3">delete</i></a>
+                  </div>
+                </div>
               </div>
             </div>
           </ng-container>
@@ -354,27 +368,84 @@
       </div>
       <div class="modal-body text-primary">
         <form #editIndex="ngForm">
-          <div class="row mb-3">
-            <div class="col">
-              <label for="title" class="form-label">Title</label>
-              <input type="text" class="form-control" id="title" name="title" [(ngModel)]="module.title"
-                [disabled]="moduleFormType == 'delete'" />
-            </div>
+          <div class="form-group">
+            <label for="title" class="form-label">Title</label>
+            <input type="text" class="form-control" id="title" name="title" [(ngModel)]="module.title"
+              [disabled]="moduleFormType == 'delete'" />
           </div>
-          <div class="row mb-3">
-            <div class="col">
-              <label for="description" class="form-label">Description</label>
-              <input type="text" class="form-control" id="description" name="description"
-                [(ngModel)]="module.description" [disabled]="moduleFormType == 'delete'" />
-            </div>
+          <div class="form-group">
+            <label for="description" class="form-label">Description</label>
+            <input type="text" class="form-control" id="description" name="description" [(ngModel)]="module.description"
+              [disabled]="moduleFormType == 'delete'" />
           </div>
-          <div class="modal-footer">
+          <div class="buttons">
             <button type="submit" class="btn btn-primary" (click)="createModule()"
               *ngIf="moduleFormType == 'create'">Create</button>
             <button type="submit" class="btn btn-primary" (click)="updateModule()"
               *ngIf="moduleFormType == 'update'">Update</button>
             <button type="submit" class="btn btn-danger" (click)="deleteModule()"
               *ngIf="moduleFormType == 'delete'">Delete</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal" id="taskModal" tabindex="-1" role="dialog" aria-labelledby="taskModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="taskModalLabel" *ngIf="taskFormType == 'create'">Create Task</h5>
+        <h5 class="modal-title" id="taskModalLabel" *ngIf="taskFormType == 'update'">Update Task</h5>
+        <h5 class="modal-title" id="taskModalLabel" *ngIf="taskFormType == 'delete'">Delete Task</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" #closeTaskModal>
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body text-primary">
+        <form #editTask="ngForm">
+          <div class="form-group">
+            <label for="taskTitle" class="form-label">Title</label>
+            <input type="text" class="form-control" id="taskTitle" name="taskTitle" [(ngModel)]="task.title" />
+          </div>
+          <div class="form-group">
+            <label for="taskEstimatedTime" class="form-label">Estimated Time</label>
+            <input type="text" class="form-control" id="taskEstimatedTime" name="taskEstimatedTime"
+              [(ngModel)]="task.estimatedTime" />
+          </div>
+          <div class="form-group">
+            <label for="taskDescription" class="form-label">Content Description</label>
+            <input type="text" class="form-control" id="taskDescription" name="taskDescription"
+              [(ngModel)]="task.description" />
+          </div>
+          <div class="form-group">
+            <label for="taskVideoLink" class="form-label">Video Link</label>
+            <input type="text" class="form-control" id="taskVideoLink" name="taskVideoLink"
+              [(ngModel)]="task.contentVideoLink" />
+          </div>
+          <div class="form-group">
+            <label for="taskHandoutLink" class="form-label">Handout Link</label>
+            <input type="text" class="form-control" id="taskHandoutLink" name="taskHandoutLink"
+              [(ngModel)]="task.contentHandoutLink" />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="taskTypeId">Task Type</label>
+            <select class="form-select form-control" id="taskTypeId" name="taskTypeId"
+              [(ngModel)]="task.courseTaskTypeId">
+              <ng-container *ngFor="let type of taskTypes">
+                <option [value]="type.id">
+                  {{ type.title }}
+                </option>
+              </ng-container>
+            </select>
+          </div>
+          <div class="buttons">
+            <button type="submit" class="btn btn-primary" (click)="createTask()"
+              *ngIf="taskFormType == 'create'">Create</button>
+            <button type="submit" class="btn btn-primary" (click)="updateTask()"
+              *ngIf="taskFormType == 'update'">Update</button>
+            <button type="submit" class="btn btn-danger" (click)="deleteTask()"
+              *ngIf="taskFormType == 'delete'">Delete</button>
           </div>
         </form>
       </div>
@@ -513,6 +584,194 @@
               *ngIf="faqFormType == 'delete'">Delete</button>
           </div>
         </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="createTask" tabindex="-1" role="dialog" aria-labelledby="viewModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addModalLabel">Create Task</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" #closeModal>
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form #createTask="ngForm">
+          <div class="modal-body text-primary text-left">
+            <div class="row mb-3">
+              <div class="col">
+                <label for="title" class="form-label">Title</label>
+                <input type="text" class="form-control" id="title" name="title" ngModel />
+              </div>
+              <div class="col">
+                <label for="estimatedTime" class="form-label">Estimated Time</label>
+                <input type="text" class="form-control" id="estimatedTime" name="estimatedTime" ngModel />
+              </div>
+            </div>
+            <div class="row mb-3">
+              <div class="col">
+                <label for="description" class="form-label">Content Description</label>
+                <input type="text" class="form-control" id="description" name="description" ngModel />
+              </div>
+            </div>
+            <div class="row mb-3">
+              <div class="col">
+                <label for="videoLink" class="form-label">Video Link</label>
+                <input type="text" class="form-control" id="videoLink" name="videoLink" ngModel />
+              </div>
+            </div>
+            <div class="row mb-3">
+              <div class="col">
+                <label for="handoutLink" class="form-label">Handout Link</label>
+                <input type="text" class="form-control" id="handoutLink" name="handoutLink" ngModel />
+              </div>
+            </div>
+            <div class="row mb-3">
+              <div class="col">
+                <label class="form-label" for="typeId">Task Type</label>
+                <select class="form-select form-control" id="typeId" name="typeId" ngModel>
+                  <ng-container *ngFor="let type of taskTypes">
+                    <option [value]="type.id">
+                      {{ type.title }}
+                    </option>
+                  </ng-container>
+                </select>
+              </div>
+              <div class="col">
+                <label class="form-label" for="moduleId">Course Module</label>
+                <select class="form-select form-control" id="moduleId" name="moduleId" ngModel>
+                  <ng-container *ngFor="let module of courseIndexes">
+                    <option></option>
+                    <option [value]="module.id">
+                      {{ module.title }}
+                    </option>
+                  </ng-container>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Create</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal" id="editTask" tabindex="-1" role="dialog" aria-labelledby="viewModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addModalLabel">Update Task</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" #closeModal></button>
+      </div>
+      <div class="modal-body text-primary" *ngIf="selectedTask">
+        <form #editTask="ngForm">
+          <div class="row mb-3">
+            <div class="col">
+              <label for="title" class="form-label">Title</label>
+              <input type="text" class="form-control" id="title" name="title" [(ngModel)]="selectedTask.title" />
+            </div>
+            <div class="col">
+              <label for="estimatedTime" class="form-label">Estimated Time</label>
+              <input type="text" class="form-control" id="estimatedTime" name="estimatedTime"
+                [(ngModel)]="selectedTask.estimatedTime" />
+            </div>
+          </div>
+          <div class="row mb-3">
+            <div class="col">
+              <label for="description" class="form-label">Content Description</label>
+              <input type="text" class="form-control" id="description" name="description"
+                [(ngModel)]="selectedTask.description" />
+            </div>
+          </div>
+          <div class="row mb-3">
+            <div class="col">
+              <label for="videoLink" class="form-label">Video Link</label>
+              <input type="text" class="form-control" id="videoLink" name="videoLink"
+                [(ngModel)]="selectedTask.contentVideoLink" />
+            </div>
+          </div>
+          <div class="row mb-3">
+            <div class="col">
+              <label for="handoutLink" class="form-label">Handout Link</label>
+              <input type="text" class="form-control" id="handoutLink" name="handoutLink"
+                [(ngModel)]="selectedTask.contentHandoutLink" />
+            </div>
+          </div>
+          <div class="row mb-3">
+            <div class="col">
+              <label class="form-label" for="typeId">Task Type</label>
+              <select class="form-select form-control" id="typeId" name="typeId"
+                [(ngModel)]="selectedTask.courseTaskType.id">
+                <ng-container *ngFor="let type of taskTypes">
+                  <option [value]="type.id">
+                    {{ type.title }}
+                  </option>
+                </ng-container>
+              </select>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">
+              Close
+            </button>
+            <button type="submit" class="btn btn-primary">Update</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal" id="deleteTask" tabindex="-1" role="dialog" aria-labelledby="viewModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addModalLabel">Delete Task</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" #closeModal>
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body text-left" *ngIf="selectedTask">
+        <div class="row">
+          <div class="col-12">
+            <h6>Title:</h6>
+            <p class="text-primary">{{ selectedTask.title }}</p>
+          </div>
+          <div class="col-12">
+            <h6>Estimated Time:</h6>
+            <p class="text-primary">{{ selectedTask.estimatedTime }}</p>
+          </div>
+          <div class="col-12">
+            <h6>Description:</h6>
+            <p class="text-primary">{{ selectedTask.description }}</p>
+          </div>
+          <div class="col-12">
+            <h6>Video Link:</h6>
+            <p class="text-primary">{{ selectedTask.contentVideoLink }}</p>
+          </div>
+          <div class="col-12">
+            <h6>Handout Link:</h6>
+            <p class="text-primary">{{ selectedTask.contentHandoutLink }}</p>
+          </div>
+          <div class="col-12">
+            <h6>Task Type:</h6>
+            <p class="text-primary">{{ selectedTask.courseTaskType.title }}</p>
+          </div>
+
+          <div class="col-12 mt-3">
+            <p class="text-danger h6 bold">Do you want to remove this task?</p>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" (click)="deleteTask()">
+          Delete
+        </button>
       </div>
     </div>
   </div>

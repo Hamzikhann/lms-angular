@@ -71,6 +71,9 @@ export class DetailComponent {
   useFulLinks: any;
   selectedLink: any;
   selectedFaq: any;
+  taskTypes: any;
+  taskDetails: any;
+  selectedTask: any;
 
   @ViewChild('closeModal') closeModal: ElementRef | undefined;
   @ViewChild('closeModuleModal') closeModuleModal: ElementRef | undefined;
@@ -89,6 +92,10 @@ export class DetailComponent {
 
     this.getCourseDetails();
     this.getBooks();
+    this.getUsefulLinks();
+    this.getFaqs();
+    this.getTaskTypes();
+    // this.getTaskDetails();
   }
 
   toggleSection(name: string) {
@@ -119,20 +126,8 @@ export class DetailComponent {
       this.books = this.courseDetails.courseBooks;
       this.usefulLinks = this.courseDetails.courseUsefulLinks;
       this.faqs = this.courseDetails.courseFaqs;
-      this.getCourseIndexes();
+      this.getModules();
       console.log(this.courseDetails);
-    });
-  }
-
-  getCourseIndexes() {
-    const data = {
-      path: 'course/modules/list',
-      payload: {
-        courseSyllabusId: this.courseDetails?.courseSyllabus?.id,
-      },
-    };
-    this.apiServices.postRequest(data).subscribe((response) => {
-      this.modules = response.data;
     });
   }
 
@@ -479,5 +474,84 @@ export class DetailComponent {
       title: '',
       description: '',
     };
+  }
+
+  getTaskTypes() {
+    const data = {
+      path: 'course/tasks/list/types',
+      payload: {},
+    };
+    this.apiServices.postRequest(data).subscribe((data) => {
+      this.taskTypes = data.data;
+      this.getCourseDetails();
+
+      console.log(this.taskTypes);
+    });
+  }
+
+  createModuleTask(task: any) {
+    console.log(task);
+    const data = {
+      path: 'course/tasks/create',
+      payload: {
+        title: task.value.title,
+        estimatedTime: task.value.estimatedTime,
+        contentDescription: task.value.description,
+        contentVideoLink: task.value.videoLink,
+        contentHandoutLink: task.value.handoutLink,
+        courseTaskTypeId: task.value.typeId,
+        courseModuleId: task.value.moduleId,
+      },
+    };
+    this.apiServices.postRequest(data).subscribe((data) => {
+      if (this.closeModal) {
+        this.closeModal.nativeElement.click();
+      }
+      task.reset();
+      this.toastr.success('Task added successfully!');
+    });
+  }
+  updateModuleTask(task: any) {
+    const data = {
+      path: 'course/tasks/update ',
+      payload: {
+        courseTaskId: this.selectedTask.id,
+        title: task.value.title,
+        estimatedTime: task.value.estimatedTime,
+        contentDescription: task.value.description,
+        contentVideoLink: task.value.videoLink,
+        contentHandoutLink: task.value.handoutLink,
+        courseTaskTypeId: task.value.typeId,
+      },
+    };
+    this.apiServices.postRequest(data).subscribe((data) => {
+      if (this.closeModal) {
+        this.closeModal.nativeElement.click();
+      }
+      task.reset();
+      this.selectedTask = null;
+      this.toastr.success('Task updated successfully!');
+      this.getCourseDetails();
+    });
+  }
+  deleteModuleTask() {
+    const data = {
+      path: 'course/tasks/delete',
+      payload: {
+        courseTaskId: this.selectedTask.id,
+      },
+    };
+    this.apiServices.postRequest(data).subscribe((data) => {
+      if (this.closeModal) {
+        this.closeModal.nativeElement.click();
+      }
+      this.selectedTask = null;
+      this.toastr.success('Task deleted successfully!');
+      this.getCourseDetails();
+    });
+  }
+  setModuleTask(task: any) {
+    this.selectedTask = task;
+    console.log(this.selectedTask);
   }
 }
