@@ -71,6 +71,7 @@ const routes: Routes = [
 
 @NgModule({
   declarations: [
+    CourseCreateComponent,
     AssignmentsComponent,
     GdbComponent,
     QuizesComponent,
