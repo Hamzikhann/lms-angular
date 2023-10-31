@@ -34,6 +34,9 @@ export class DetailComponent {
   useFulLinks: any;
   selectedLink: any;
   selectedFaq: any;
+  taskTypes: any;
+  taskDetails: any;
+  selectedTask: any;
 
   constructor(
     private toastr: ToastrService,
@@ -49,6 +52,8 @@ export class DetailComponent {
     this.getBooks();
     this.getUseFulLinks();
     this.getFaqs();
+    this.getTaskTypes();
+    // this.getTaskDetails();
   }
 
   toggleSection(name: string) {
@@ -80,7 +85,7 @@ export class DetailComponent {
 
   getCourseIndexes() {
     const data = {
-      path: 'course/module/list',
+      path: 'course/modules/list',
       payload: {
         courseSyllabusId: this.courseDetails?.courseSyllabus?.id,
       },
@@ -93,7 +98,7 @@ export class DetailComponent {
 
   addIndex(index: any) {
     const data = {
-      path: 'course/module/create',
+      path: 'course/modules/create',
       payload: {
         courseSyllabusId: this.courseDetails?.courseSyllabus?.id,
         title: index.value.title,
@@ -116,7 +121,7 @@ export class DetailComponent {
 
   updateIndex(index: any) {
     const data = {
-      path: 'course/module/update',
+      path: 'course/modules/update',
       payload: {
         moduleId: this.selectedIndex.id,
         title: index.value.title,
@@ -136,7 +141,7 @@ export class DetailComponent {
 
   deleteIndex() {
     const data = {
-      path: 'course/module/delete ',
+      path: 'course/modules/delete ',
       payload: {
         moduleId: this.selectedIndex.id,
       },
@@ -320,7 +325,7 @@ export class DetailComponent {
       this.faqs = data.data;
       this.getCourseDetails();
 
-      console.log(this.faqs);
+      // console.log(this.faqs);
     });
   }
 
@@ -381,6 +386,103 @@ export class DetailComponent {
       this.selectedFaq = null;
       this.toastr.success('Faq deleted successfully!');
       this.getFaqs();
+    });
+  }
+
+  getTaskTypes() {
+    const data = {
+      path: 'course/tasks/list/types',
+      payload: {},
+    };
+    this.apiServices.postRequest(data).subscribe((data) => {
+      this.taskTypes = data.data;
+      this.getCourseDetails();
+
+      console.log(this.taskTypes);
+    });
+  }
+
+  // getTaskDetails() {
+  //   const data = {
+  //     path: 'course/tasks/detail',
+  //     payload: {
+  //       courseId: this.courseId,
+  //     },
+  //   };
+  //   this.apiServices.postRequest(data).subscribe((data) => {
+  //     this.taskDetails = data;
+  //     this.getCourseDetails();
+
+  //     console.log(this.taskDetails);
+  //   });
+  // }
+
+  addCourseTask(task: any) {
+    console.log(task);
+    const data = {
+      path: 'course/tasks/create',
+      payload: {
+        title: task.value.title,
+        estimatedTime: task.value.estimatedTime,
+        contentDescription: task.value.description,
+        contentVideoLink: task.value.videoLink,
+        contentHandoutLink: task.value.handoutLink,
+        courseTaskTypeId: task.value.typeId,
+        courseModuleId: task.value.moduleId,
+      },
+    };
+    this.apiServices.postRequest(data).subscribe((data) => {
+      if (this.closeModal) {
+        this.closeModal.nativeElement.click();
+      }
+      task.reset();
+      this.toastr.success('Task added successfully!');
+    });
+  }
+
+  setTask(task: any) {
+    this.selectedTask = task;
+    console.log(this.selectedTask);
+  }
+
+  updateCourseTask(task: any) {
+    const data = {
+      path: 'course/tasks/update ',
+      payload: {
+        courseTaskId: this.selectedTask.id,
+        title: task.value.title,
+        estimatedTime: task.value.estimatedTime,
+        contentDescription: task.value.description,
+        contentVideoLink: task.value.videoLink,
+        contentHandoutLink: task.value.handoutLink,
+        courseTaskTypeId: task.value.typeId,
+      },
+    };
+    this.apiServices.postRequest(data).subscribe((data) => {
+      if (this.closeModal) {
+        this.closeModal.nativeElement.click();
+      }
+      task.reset();
+      this.selectedTask = null;
+      this.toastr.success('Task updated successfully!');
+      this.getCourseDetails();
+    });
+  }
+
+  deleteTask() {
+    const data = {
+      path: 'course/tasks/delete',
+      payload: {
+        courseTaskId: this.selectedTask.id,
+      },
+    };
+    this.apiServices.postRequest(data).subscribe((data) => {
+      if (this.closeModal) {
+        this.closeModal.nativeElement.click();
+      }
+      this.selectedTask = null;
+      this.toastr.success('Task deleted successfully!');
+      this.getCourseDetails();
     });
   }
 }
