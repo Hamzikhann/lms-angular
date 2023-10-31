@@ -317,7 +317,7 @@ export class DetailComponent {
       },
     };
     this.apiServices.postRequest(data).subscribe((data) => {
-      this.faqs = data;
+      this.faqs = data.data;
       this.getCourseDetails();
 
       console.log(this.faqs);
