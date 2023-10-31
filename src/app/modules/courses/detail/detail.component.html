@@ -124,7 +124,7 @@
     <div class="row mb-0">
       <div class="col-lg-9">
         <div class="accordion js-accordion accordion--boxed list-group-flush" id="parent">
-          <ng-container *ngFor="let module of courseDetails.courseSyllabus.courseModules">
+          <ng-container *ngFor="let module of modules">
             <div class="row">
               <div class="col-10">
                 <div class="accordion__item">
@@ -153,9 +153,11 @@
 
                         <div class="d-flex align-items-center px-3">
                           <div class="buttons">
-                            <a href="#" data-toggle="modal" data-target="#editTask" (click)="setTask(item)"><i
-                                class="material-icons fa-lg mr-3">edit</i></a>
-                            <a href="#" data-toggle="modal" data-target="#deleteTask" (click)="setTask(item)"><i
+                            <a href="#" data-toggle="modal" data-target="#taskModal"
+                              (click)="setTask(item); setTaskFormType('update')">
+                              <i class="material-icons fa-lg mr-3">edit</i></a>
+                            <a href="#" data-toggle="modal" data-target="#taskModal"
+                              (click)="setTask(item); setTaskFormType('delete')"><i
                                 class="material-icons fa-lg mr-3">delete</i></a>
                           </div>
                         </div>
@@ -403,7 +405,7 @@
         </button>
       </div>
       <div class="modal-body text-primary">
-        <form #editTask="ngForm">
+        <form #formTask="ngForm">
           <div class="form-group">
             <label for="taskTitle" class="form-label">Title</label>
             <input type="text" class="form-control" id="taskTitle" name="taskTitle" [(ngModel)]="task.title" />
@@ -440,8 +442,8 @@
             </select>
           </div>
           <div class="buttons">
-            <button type="submit" class="btn btn-primary" (click)="createTask()"
-              *ngIf="taskFormType == 'create'">Create</button>
+            <!-- <button type="submit" class="btn btn-primary" (click)="createTask()"
+              *ngIf="taskFormType == 'create'">Create</button> -->
             <button type="submit" class="btn btn-primary" (click)="updateTask()"
               *ngIf="taskFormType == 'update'">Update</button>
             <button type="submit" class="btn btn-danger" (click)="deleteTask()"
@@ -589,7 +591,7 @@
   </div>
 </div>
 
-<div class="modal" id="createTask" tabindex="-1" role="dialog" aria-labelledby="viewModalLabel" aria-hidden="true">
+<!-- <div class="modal" id="createTask" tabindex="-1" role="dialog" aria-labelledby="viewModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -775,4 +777,4 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->

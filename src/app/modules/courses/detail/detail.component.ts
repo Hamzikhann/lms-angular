@@ -26,6 +26,19 @@ export class DetailComponent {
   };
   moduleFormType: string = '';
 
+  tasks: any;
+  task: any = {
+    id: '',
+    title: '',
+    estimatedTime: '',
+    contentDescription: '',
+    contentVideoLink: '',
+    contentHandoutLink: '',
+    courseTaskTypeId: '',
+    courseModuleId: '',
+  };
+  taskFormType: string = '';
+
   books: any;
   book: any = {
     id: '',
@@ -77,6 +90,7 @@ export class DetailComponent {
 
   @ViewChild('closeModal') closeModal: ElementRef | undefined;
   @ViewChild('closeModuleModal') closeModuleModal: ElementRef | undefined;
+  @ViewChild('closeTaskModal') closeTaskModal: ElementRef | undefined;
   @ViewChild('closeBookModal') closeBookModal: ElementRef | undefined;
   @ViewChild('closeFaqModal') closeFaqModal: ElementRef | undefined;
   @ViewChild('closeLinkModal') closeLinkModal: ElementRef | undefined;
@@ -95,7 +109,6 @@ export class DetailComponent {
     this.getUsefulLinks();
     this.getFaqs();
     this.getTaskTypes();
-    // this.getTaskDetails();
   }
 
   toggleSection(name: string) {
@@ -210,6 +223,105 @@ export class DetailComponent {
       id: '',
       title: '',
       description: '',
+    };
+  }
+
+  getTaskTypes() {
+    const data = {
+      path: 'course/tasks/list/types',
+      payload: {},
+    };
+    this.apiServices.postRequest(data).subscribe((data) => {
+      this.taskTypes = data.data;
+    });
+  }
+  createTask() {
+    const data = {
+      path: 'course/tasks/create',
+      payload: {
+        title: this.task.title,
+        estimatedTime: this.task.estimatedTime,
+        contentDescription: this.task.description,
+        contentVideoLink: this.task.videoLink,
+        contentHandoutLink: this.task.handoutLink,
+        courseTaskTypeId: this.task.typeId,
+        courseModuleId: this.task.moduleId,
+      },
+    };
+    this.apiServices.postRequest(data).subscribe((data) => {
+      if (this.closeTaskModal) {
+        this.closeTaskModal.nativeElement.click();
+      }
+      this.toastr.success('Task added successfully!');
+      this.getModules();
+      this.resetTaskData();
+    });
+  }
+  updateTask() {
+    const data = {
+      path: 'course/tasks/update ',
+      payload: {
+        courseTaskId: this.task.id,
+        title: this.task.title,
+        estimatedTime: this.task.estimatedTime,
+        contentDescription: this.task.description,
+        contentVideoLink: this.task.videoLink,
+        contentHandoutLink: this.task.handoutLink,
+        courseTaskTypeId: this.task.typeId,
+      },
+    };
+    this.apiServices.postRequest(data).subscribe((data) => {
+      if (this.closeTaskModal) {
+        this.closeTaskModal.nativeElement.click();
+      }
+      this.toastr.success('Task updated successfully!');
+      this.getModules();
+      this.resetTaskData();
+    });
+  }
+  deleteTask() {
+    const data = {
+      path: 'course/tasks/delete',
+      payload: {
+        courseTaskId: this.task.id,
+      },
+    };
+    this.apiServices.postRequest(data).subscribe((data) => {
+      if (this.closeTaskModal) {
+        this.closeTaskModal.nativeElement.click();
+      }
+      this.toastr.success('Task deleted successfully!');
+      this.getModules();
+      this.resetTaskData();
+    });
+  }
+  setTask(task: any) {
+    console.log(task);
+    this.task = {
+      id: '',
+      title: '',
+      estimatedTime: '',
+      contentDescription: '',
+      contentVideoLink: '',
+      contentHandoutLink: '',
+      courseTaskTypeId: '',
+      courseModuleId: '',
+    };
+  }
+  setTaskFormType(name: any) {
+    this.taskFormType = name;
+  }
+  resetTaskData() {
+    this.taskFormType = 'create';
+    this.task = {
+      id: '',
+      title: '',
+      estimatedTime: '',
+      contentDescription: '',
+      contentVideoLink: '',
+      contentHandoutLink: '',
+      courseTaskTypeId: '',
+      courseModuleId: '',
     };
   }
 
@@ -474,84 +586,5 @@ export class DetailComponent {
       title: '',
       description: '',
     };
-  }
-
-  getTaskTypes() {
-    const data = {
-      path: 'course/tasks/list/types',
-      payload: {},
-    };
-    this.apiServices.postRequest(data).subscribe((data) => {
-      this.taskTypes = data.data;
-      this.getCourseDetails();
-
-      console.log(this.taskTypes);
-    });
-  }
-
-  createModuleTask(task: any) {
-    console.log(task);
-    const data = {
-      path: 'course/tasks/create',
-      payload: {
-        title: task.value.title,
-        estimatedTime: task.value.estimatedTime,
-        contentDescription: task.value.description,
-        contentVideoLink: task.value.videoLink,
-        contentHandoutLink: task.value.handoutLink,
-        courseTaskTypeId: task.value.typeId,
-        courseModuleId: task.value.moduleId,
-      },
-    };
-    this.apiServices.postRequest(data).subscribe((data) => {
-      if (this.closeModal) {
-        this.closeModal.nativeElement.click();
-      }
-      task.reset();
-      this.toastr.success('Task added successfully!');
-    });
-  }
-  updateModuleTask(task: any) {
-    const data = {
-      path: 'course/tasks/update ',
-      payload: {
-        courseTaskId: this.selectedTask.id,
-        title: task.value.title,
-        estimatedTime: task.value.estimatedTime,
-        contentDescription: task.value.description,
-        contentVideoLink: task.value.videoLink,
-        contentHandoutLink: task.value.handoutLink,
-        courseTaskTypeId: task.value.typeId,
-      },
-    };
-    this.apiServices.postRequest(data).subscribe((data) => {
-      if (this.closeModal) {
-        this.closeModal.nativeElement.click();
-      }
-      task.reset();
-      this.selectedTask = null;
-      this.toastr.success('Task updated successfully!');
-      this.getCourseDetails();
-    });
-  }
-  deleteModuleTask() {
-    const data = {
-      path: 'course/tasks/delete',
-      payload: {
-        courseTaskId: this.selectedTask.id,
-      },
-    };
-    this.apiServices.postRequest(data).subscribe((data) => {
-      if (this.closeModal) {
-        this.closeModal.nativeElement.click();
-      }
-      this.selectedTask = null;
-      this.toastr.success('Task deleted successfully!');
-      this.getCourseDetails();
-    });
-  }
-  setModuleTask(task: any) {
-    this.selectedTask = task;
-    console.log(this.selectedTask);
   }
 }
