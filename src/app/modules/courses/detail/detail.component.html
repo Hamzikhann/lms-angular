@@ -4,11 +4,12 @@
       background-size: contain;
       background-repeat: no-repeat;
     ">
-    <div class="hero py-48pt text-center text-sm-left" [style.background]="'rgba(48, 57, 85, 0.71)'">
+    <div class="hero py-48pt text-center text-sm-left" [style.background]="'rgba(48, 57, 85, 0.71)'"
+      *ngIf="courseDetails">
       <div class="container page__container">
-        <h2 class="text-white m-0">{{ courseDetails?.title }}</h2>
+        <h2 class="text-white m-0">{{ courseDetails.title }}</h2>
         <p class="lead text-white-50 measure-hero-lead">
-          {{ courseDetails?.code }}
+          {{ courseDetails.code }} - {{ courseDetails.courseDepartment?.title }}
         </p>
       </div>
     </div>
@@ -20,19 +21,21 @@
   <div class="container page__container">
     <ul class="nav navbar-nav flex align-items-sm-center">
       <li class="nav-item navbar-list__item">
-        <div class="media align-items-center">
-          <!-- <span class="media-left mr-16pt">
-            <img
-              [src]="instructor.image"
-              width="40"
-              alt="avatar"
-              class="rounded-circle"
-            />
-          </span> -->
-          <div class="media-body" *ngIf="
-              courseDetails.courseInstructors &&
-              courseDetails.courseInstructors.length > 0
-            ">
+        <div class="media align-items-center" *ngIf="
+            courseDetails.courseInstructors &&
+            courseDetails.courseInstructors.length > 0
+          ">
+          <span class="media-left mr-16pt">
+            <span *ngIf="courseDetails.courseInstructors[0].imageUrl">
+              <img src="courseDetails.courseInstructors[0].imageUrl" width="40" alt="avatar" class="rounded-circle" />
+            </span>
+            <span class="avatar avatar-sm mr-8pt2" *ngIf="!courseDetails.courseInstructors[0].imageUrl">
+              <span class="avatar-title rounded-circle bg-primary">
+                <i class="material-icons">account_box</i>
+              </span>
+            </span>
+          </span>
+          <div class="media-body">
             <a class="card-title m-0 text-70" href="javascript:void(0)">{{
               courseDetails.courseInstructors[0]?.name
               }}</a>
@@ -45,19 +48,23 @@
           <li class="nav-item navbar-list__item pr-3" [class.active]="sections.about" (click)="toggleSection('about')">
             <i class="material-icons icon--left">info</i> <span>About</span>
           </li>
-          <li class="nav-item navbar-list__item pr-3" [class.active]="sections.index" (click)="toggleSection('index')">
+          <li class="nav-item navbar-list__item pr-3" [class.active]="sections.index"
+            (click)="toggleSection('index'); getModules();">
             <i class="material-icons icon--left">list_alt</i>
             <span>Index / Lesson</span>
           </li>
-          <li class="nav-item navbar-list__item pr-3" [class.active]="sections.books" (click)="toggleSection('books')">
+          <li class="nav-item navbar-list__item pr-3" [class.active]="sections.books"
+            (click)="toggleSection('books'); getBooks();">
             <i class="material-icons icon--left">menu_book</i>
             <span>Books</span>
           </li>
-          <li class="nav-item navbar-list__item pr-3" [class.active]="sections.links" (click)="toggleSection('links')">
+          <li class="nav-item navbar-list__item pr-3" [class.active]="sections.links"
+            (click)="toggleSection('links'); getUsefulLinks();">
             <i class="material-icons icon--left">share</i>
             <span>Useful Links</span>
           </li>
-          <li class="nav-item navbar-list__item pr-3" [class.active]="sections.faqs" (click)="toggleSection('faqs')">
+          <li class="nav-item navbar-list__item pr-3" [class.active]="sections.faqs"
+            (click)="toggleSection('faqs'); getFaqs();">
             <i class="material-icons icon--left">dvr</i> <span>FAQs</span>
           </li>
         </ul>
@@ -81,28 +88,33 @@
             <div class="page-separator__text">What you’ll learn</div>
           </div>
           <ul class="list-unstyled mb-0">
-            <li class="d-flex align-items-center">
+            <li class="d-flex align-items-center" *ngFor="let objective of courseDetails.courseObjectives">
               <span class="material-icons text-50 mr-8pt">check</span>
-              <span class="text-70"></span>
+              <span class="text-70">{{ objective.description }}</span>
             </li>
           </ul>
         </div>
       </div>
       <div class="col-md-4">
-        <div class="card">
+        <div class="card" *ngIf="courseDetails.courseInstructors.length > 0">
           <div class="card-body py-16pt text-center">
             <div class="text-70">
-              <!-- <p class="mb-16pt mt-16pt">
-                <img
-                  [src]="instructor.image"
-                  alt="guy-6"
-                  class="rounded-circle"
-                  width="64"
-                />
-              </p> -->
+              <p class="mb-16pt mt-16pt">
+                <span class="avatar avatar-sm mr-8pt2" *ngIf="!courseDetails.courseInstructors[0].imageUrl">
+                  <span class="avatar-title rounded-circle bg-primary">
+                    <i class="material-icons">account_box</i>
+                  </span>
+                </span>
+                <span *ngIf="courseDetails.courseInstructors[0].imageUrl">
+                  <img [src]="instructor.image" alt="guy-6" class="rounded-circle" width="64" />
+                </span>
+              </p>
               <h4 class="mb-16pt">
                 {{ courseDetails.courseInstructors[0].name }}
               </h4>
+              <p>
+                {{ courseDetails.courseInstructors[0].about }}
+              </p>
             </div>
           </div>
         </div>
@@ -126,17 +138,27 @@
         <div class="accordion js-accordion accordion--boxed list-group-flush" id="parent">
           <ng-container *ngFor="let module of modules">
             <div class="row">
-              <div class="col-10">
-                <div class="accordion__item">
-                  <a href="javascript:void(0)" class="accordion__toggle collapsed" data-toggle="collapse"
-                    [attr.data-target]="'#course-toc-' + module.id">
-                    <span class="flex">{{ module.title }}</span>
-                    <span class="accordion__toggle-icon material-icons">keyboard_arrow_down</span>
-                  </a>
-                  <div class="accordion__menu collapse" [class.show]="module.open" [id]="'course-toc-' + module.id"
-                    data-parent="#parent">
+              <div class="col-12">
+                <div class="accordion__item mb-4">
+                  <div class="accordion__toggle collapsed">
+                    <span class="flex">{{ module.title }}
+                      <span class="heading-icon" data-toggle="modal" data-target="#taskModal"
+                        (click)="setTaskFormType('create'); setTaskModuleId(module.id);">
+                        <i class="material-icons">add_circle</i>
+                      </span>
+                    </span>
+                    <div class="buttons">
+                      <span data-toggle="modal" data-target="#moduleModal"
+                        (click)="setModule(module); setModuleFormType('update');">
+                        <i class="material-icons fa-lg mx-1">edit</i></span>
+                      <span data-toggle="modal" data-target="#moduleModal"
+                        (click)="setModule(module); setModuleFormType('delete');">
+                        <i class="material-icons fa-lg">delete</i></span>
+                    </div>
+                  </div>
+                  <div class="accordion__menu collapse show" [id]="'course-toc-' + module.id" data-parent="#parent">
                     <ng-container *ngFor="let item of module.courseTasks">
-                      <div class="accordion__menu-link" [class.active]="item.status == 'open'">
+                      <div class="accordion__menu-link active">
                         <span
                           class="icon-holder icon-holder--small icon-holder--light rounded-circle d-inline-flex icon--left"
                           *ngIf="item.status != 'closed'">
@@ -151,28 +173,18 @@
                           }}</a>
                         <span class="text-muted">{{ item.estimatedTime }}</span>
 
-                        <div class="d-flex align-items-center px-3">
+                        <div class="d-flex align-items-center">
                           <div class="buttons">
-                            <a href="#" data-toggle="modal" data-target="#taskModal"
+                            <a href="javascript:void(0)" data-toggle="modal" data-target="#taskModal"
                               (click)="setTask(item); setTaskFormType('update')">
-                              <i class="material-icons fa-lg mr-3">edit</i></a>
-                            <a href="#" data-toggle="modal" data-target="#taskModal"
+                              <i class="material-icons fa-lg mx-1 ml-2">edit</i></a>
+                            <a href="javascript:void(0)" data-toggle="modal" data-target="#taskModal"
                               (click)="setTask(item); setTaskFormType('delete')"><i
-                                class="material-icons fa-lg mr-3">delete</i></a>
+                                class="material-icons fa-lg">delete</i></a>
                           </div>
                         </div>
                       </div>
                     </ng-container>
-                  </div>
-                </div>
-              </div>
-              <div class="col">
-                <div class="d-flex align-items-center mt-3">
-                  <div class="buttons">
-                    <a href="#" data-toggle="modal" data-target="#editIndex" (click)="setModule(module)"><i
-                        class="material-icons fa-lg mr-3">edit</i></a>
-                    <a href="#" data-toggle="modal" data-target="#deleteIndex" (click)="setModule(module)"><i
-                        class="material-icons fa-lg mr-3">delete</i></a>
                   </div>
                 </div>
               </div>
@@ -185,7 +197,7 @@
 </div>
 
 <div class="page-section border-bottom-2" *ngIf="sections.books">
-  <div class="container page__container" *ngIf="courseDetails && courseDetails.courseBooks">
+  <div class="container page__container">
     <div class="row">
       <div class="col-md-12">
         <div class="what-you-learn">
@@ -406,48 +418,75 @@
       </div>
       <div class="modal-body text-primary">
         <form #formTask="ngForm">
-          <div class="form-group">
-            <label for="taskTitle" class="form-label">Title</label>
-            <input type="text" class="form-control" id="taskTitle" name="taskTitle" [(ngModel)]="task.title" />
-          </div>
-          <div class="form-group">
-            <label for="taskEstimatedTime" class="form-label">Estimated Time</label>
-            <input type="text" class="form-control" id="taskEstimatedTime" name="taskEstimatedTime"
-              [(ngModel)]="task.estimatedTime" />
-          </div>
-          <div class="form-group">
-            <label for="taskDescription" class="form-label">Content Description</label>
-            <input type="text" class="form-control" id="taskDescription" name="taskDescription"
-              [(ngModel)]="task.description" />
-          </div>
-          <div class="form-group">
-            <label for="taskVideoLink" class="form-label">Video Link</label>
-            <input type="text" class="form-control" id="taskVideoLink" name="taskVideoLink"
-              [(ngModel)]="task.contentVideoLink" />
-          </div>
-          <div class="form-group">
-            <label for="taskHandoutLink" class="form-label">Handout Link</label>
-            <input type="text" class="form-control" id="taskHandoutLink" name="taskHandoutLink"
-              [(ngModel)]="task.contentHandoutLink" />
-          </div>
-          <div class="form-group">
-            <label class="form-label" for="taskTypeId">Task Type</label>
-            <select class="form-select form-control" id="taskTypeId" name="taskTypeId"
-              [(ngModel)]="task.courseTaskTypeId">
-              <ng-container *ngFor="let type of taskTypes">
-                <option [value]="type.id">
-                  {{ type.title }}
-                </option>
-              </ng-container>
-            </select>
-          </div>
-          <div class="buttons">
-            <!-- <button type="submit" class="btn btn-primary" (click)="createTask()"
-              *ngIf="taskFormType == 'create'">Create</button> -->
-            <button type="submit" class="btn btn-primary" (click)="updateTask()"
-              *ngIf="taskFormType == 'update'">Update</button>
-            <button type="submit" class="btn btn-danger" (click)="deleteTask()"
-              *ngIf="taskFormType == 'delete'">Delete</button>
+          <div class="row">
+            <div class="col-12">
+              <div class="form-group">
+                <label for="taskModuleId" class="form-label">Module</label>
+                <select class="form-select form-control" id="taskModuleId" name="taskModuleId"
+                  [(ngModel)]="task.moduleId" disabled>
+                  <option></option>
+                  <ng-container *ngFor="let module of modules">
+                    <option [value]="module.id">
+                      {{ module.title }}
+                    </option>
+                  </ng-container>
+                </select>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="form-group">
+                <label for="taskTitle" class="form-label">Title</label>
+                <input type="text" class="form-control" id="taskTitle" name="taskTitle" [(ngModel)]="task.title" />
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="form-group">
+                <label for="taskDescription" class="form-label">Description</label>
+                <textarea class="form-control" id="taskDescription" name="taskDescription"
+                  [(ngModel)]="task.description"></textarea>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="form-group">
+                <label for="taskEstimatedTime" class="form-label">Estimated Time</label>
+                <input type="text" class="form-control" id="taskEstimatedTime" name="taskEstimatedTime"
+                  [(ngModel)]="task.estimatedTime" />
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="form-group">
+                <label class="form-label" for="taskTypeId">Task Type</label>
+                <select class="form-select form-control" id="taskTypeId" name="taskTypeId"
+                  [(ngModel)]="task.taskTypeId">
+                  <ng-container *ngFor="let type of taskTypes">
+                    <option [value]="type.id">
+                      {{ type.title }}
+                    </option>
+                  </ng-container>
+                </select>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="form-group">
+                <label for="taskVideoLink" class="form-label">Video Link</label>
+                <input type="text" class="form-control" id="taskVideoLink" name="taskVideoLink"
+                  [(ngModel)]="task.videoLink" />
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="form-group">
+                <label for="taskHandoutLink" class="form-label">Handout Link</label>
+                <input type="text" class="form-control" id="taskHandoutLink" name="taskHandoutLink"
+                  [(ngModel)]="task.handoutLink" />
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="buttons">
+                <button class="btn btn-primary" (click)="createTask()" *ngIf="taskFormType == 'create'">Create</button>
+                <button class="btn btn-primary" (click)="updateTask()" *ngIf="taskFormType == 'update'">Update</button>
+                <button class="btn btn-danger" (click)="deleteTask()" *ngIf="taskFormType == 'delete'">Delete</button>
+              </div>
+            </div>
           </div>
         </form>
       </div>

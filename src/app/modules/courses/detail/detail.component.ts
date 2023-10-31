@@ -11,6 +11,7 @@ import { ActivatedRoute } from '@angular/router';
 export class DetailComponent {
   courseId: any;
   course: any;
+  courseDetails: any;
   instructor: any;
 
   syllabus: any = {
@@ -26,16 +27,17 @@ export class DetailComponent {
   };
   moduleFormType: string = '';
 
+  taskTypes: any;
   tasks: any;
   task: any = {
     id: '',
     title: '',
     estimatedTime: '',
-    contentDescription: '',
-    contentVideoLink: '',
-    contentHandoutLink: '',
-    courseTaskTypeId: '',
-    courseModuleId: '',
+    description: '',
+    videoLink: '',
+    handoutLink: '',
+    taskTypeId: '',
+    moduleId: '',
   };
   taskFormType: string = '';
 
@@ -69,24 +71,12 @@ export class DetailComponent {
 
   index: any;
   sections: any = {
-    about: false,
-    index: true,
+    about: true,
+    index: false,
     books: false,
     links: false,
     faqs: false,
   };
-  courseSelected: any;
-  courseDetails: any;
-  courseIndexes: any;
-  selectedIndex: any;
-  courseBooks: any;
-  selectedBook: any;
-  useFulLinks: any;
-  selectedLink: any;
-  selectedFaq: any;
-  taskTypes: any;
-  taskDetails: any;
-  selectedTask: any;
 
   @ViewChild('closeModal') closeModal: ElementRef | undefined;
   @ViewChild('closeModuleModal') closeModuleModal: ElementRef | undefined;
@@ -103,11 +93,7 @@ export class DetailComponent {
 
   ngOnInit(): void {
     this.courseId = this.route.snapshot.paramMap.get('id');
-
     this.getCourseDetails();
-    this.getBooks();
-    this.getUsefulLinks();
-    this.getFaqs();
     this.getTaskTypes();
   }
 
@@ -135,11 +121,6 @@ export class DetailComponent {
         id: this.courseDetails.courseSyllabus?.id,
         title: this.courseDetails.courseSyllabus?.title,
       };
-      this.modules = this.courseDetails.courseSyllabus.courseModules;
-      this.books = this.courseDetails.courseBooks;
-      this.usefulLinks = this.courseDetails.courseUsefulLinks;
-      this.faqs = this.courseDetails.courseFaqs;
-      this.getModules();
       console.log(this.courseDetails);
     });
   }
@@ -244,7 +225,7 @@ export class DetailComponent {
         contentDescription: this.task.description,
         contentVideoLink: this.task.videoLink,
         contentHandoutLink: this.task.handoutLink,
-        courseTaskTypeId: this.task.typeId,
+        courseTaskTypeId: this.task.taskTypeId,
         courseModuleId: this.task.moduleId,
       },
     };
@@ -295,17 +276,20 @@ export class DetailComponent {
       this.resetTaskData();
     });
   }
+  setTaskModuleId(moduleId: string) {
+    this.task.moduleId = moduleId;
+    console.log(this.task);
+  }
   setTask(task: any) {
-    console.log(task);
     this.task = {
-      id: '',
-      title: '',
-      estimatedTime: '',
-      contentDescription: '',
-      contentVideoLink: '',
-      contentHandoutLink: '',
-      courseTaskTypeId: '',
-      courseModuleId: '',
+      id: task.id,
+      title: task.title,
+      estimatedTime: task.estimatedTime,
+      description: task.courseTaskContent.description,
+      videoLink: task.courseTaskContent.videoLink,
+      handoutLink: task.courseTaskContent.handoutLink,
+      taskTypeId: task.courseTaskTypeId,
+      moduleId: task.courseModuleId,
     };
   }
   setTaskFormType(name: any) {
@@ -317,11 +301,11 @@ export class DetailComponent {
       id: '',
       title: '',
       estimatedTime: '',
-      contentDescription: '',
-      contentVideoLink: '',
-      contentHandoutLink: '',
-      courseTaskTypeId: '',
-      courseModuleId: '',
+      description: '',
+      videoLink: '',
+      handoutLink: '',
+      taskTypeId: '',
+      moduleId: '',
     };
   }
 
@@ -389,7 +373,6 @@ export class DetailComponent {
       if (this.closeBookModal) {
         this.closeBookModal.nativeElement.click();
       }
-      this.selectedBook = null;
       this.toastr.success('Book deleted successfully!');
       this.getBooks();
       this.resetBookData();
