@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { NgxEditorModule } from 'ngx-editor';
 
 import { AssignmentsComponent } from './detail/assignments/assignments.component';
 import { GdbComponent } from './detail/gdb/gdb.component';
@@ -77,6 +78,11 @@ const routes: Routes = [
     LectureComponent,
     CourseCreateComponent,
   ],
-  imports: [CommonModule, PdfViewerModule, RouterModule.forChild(routes)],
+  imports: [
+    CommonModule,
+    PdfViewerModule,
+    NgxEditorModule,
+    RouterModule.forChild(routes),
+  ],
 })
 export class CoursesModule {}

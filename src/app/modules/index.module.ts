@@ -15,7 +15,6 @@ import { PoliciesComponent } from './agreements/policies/policies.component';
 import { CoursesComponent } from './courses/courses.component';
 import { NotificationsComponent } from './notifications/notifications.component';
 import { EnrollmentsComponent } from './enrollments/enrollments.component';
-import { HomeComponent } from './home/home.component';
 import { ClientsComponent } from './clients/clients.component';
 import { UsersComponent } from './users/users.component';
 import { LearningPathsComponent } from './learning-paths/learning-paths.component';
@@ -36,10 +35,6 @@ const routes: Routes = [
         path: 'courses',
         loadChildren: () =>
           import('./courses/courses.module').then((m) => m.CoursesModule),
-      },
-      {
-        path: 'home',
-        component: HomeComponent,
       },
       {
         path: 'clients',
@@ -98,7 +93,6 @@ const routes: Routes = [
     PoliciesComponent,
     CoursesComponent,
     NotificationsComponent,
-    HomeComponent,
     ClientsComponent,
     UsersComponent,
     LearningPathsComponent,

@@ -45,3 +45,32 @@
 .w-10 {
   width: 10%;
 }
+
+.editor {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+
+  .NgxEditor__MenuBar {
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  }
+
+  .NgxEditor {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border: none;
+    max-height: 400px;
+    overflow-y: scroll;
+  }
+
+  .CodeMirror {
+    border: 1px solid #eee;
+    height: auto;
+    margin-bottom: 0.7rem;
+
+    pre {
+      white-space: pre !important;
+    }
+  }
+}

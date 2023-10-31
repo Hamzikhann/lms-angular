@@ -24,6 +24,7 @@
     "masonry-layout": "^4.2.2",
     "ng2-pdf-viewer": "^9.1.2",
     "ngx-dropzone": "^3.1.0",
+    "ngx-editor": "^16.0.1",
     "ngx-masonry": "^14.0.1",
     "ngx-toastr": "^17.0.2",
     "rxjs": "~7.5.0",
