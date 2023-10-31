@@ -77,3 +77,17 @@
     }
   }
 }
+
+.heading-icon {
+  cursor: pointer;
+  margin: 0 8px;
+  .material-icons {
+    font-size: 18px;
+  }
+}
+
+.card-subtitle-2 {
+  font-size: 16px;
+  font-weight: 500;
+  text-transform: unset;
+}

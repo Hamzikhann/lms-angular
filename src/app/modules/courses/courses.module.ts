@@ -1,18 +1,14 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { PdfViewerModule } from 'ng2-pdf-viewer';
-import { NgxEditorModule } from 'ngx-editor';
-
-import { AssignmentsComponent } from './detail/assignments/assignments.component';
-import { GdbComponent } from './detail/gdb/gdb.component';
-import { QuizesComponent } from './detail/quizes/quizes.component';
-import { AnnouncementsComponent } from './detail/announcements/announcements.component';
-import { CoursesComponent } from './courses.component';
+import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
+import { NgxEditorModule } from 'ngx-editor';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
+
+import { CoursesComponent } from './courses.component';
+import { CourseCreateComponent } from './course-create/course-create.component';
 import { DetailComponent } from './detail/detail.component';
 import { LectureComponent } from './detail/lecture/lecture.component';
-import { FormsModule } from '@angular/forms';
-import { CourseCreateComponent } from './course-create/course-create.component';
 
 const routes: Routes = [
   {
@@ -34,32 +30,6 @@ const routes: Routes = [
             component: DetailComponent,
           },
           {
-            path: 'announcements',
-            loadChildren: () =>
-              import('./detail/announcements/announcements.module').then(
-                (m) => m.AnnouncementsModule
-              ),
-          },
-          {
-            path: 'assignments',
-            loadChildren: () =>
-              import('./detail/assignments/assignments.module').then(
-                (m) => m.AssignmentsModule
-              ),
-          },
-          {
-            path: 'gdb',
-            loadChildren: () =>
-              import('./detail/gdb/gdb.module').then((m) => m.GdbModule),
-          },
-          {
-            path: 'quizes',
-            loadChildren: () =>
-              import('./detail/quizes/quizes.module').then(
-                (m) => m.QuizesModule
-              ),
-          },
-          {
             path: 'lectures/:id',
             component: LectureComponent,
           },
@@ -70,15 +40,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [
-    CourseCreateComponent,
-    AssignmentsComponent,
-    GdbComponent,
-    QuizesComponent,
-    AnnouncementsComponent,
-    DetailComponent,
-    LectureComponent,
-  ],
+  declarations: [CourseCreateComponent, DetailComponent, LectureComponent],
   imports: [
     CommonModule,
     PdfViewerModule,

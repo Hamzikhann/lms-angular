@@ -12,15 +12,52 @@ export class DetailComponent {
   courseId: any;
   course: any;
   instructor: any;
+
+  syllabus: any = {
+    id: '',
+    title: '',
+  };
+
+  modules: any;
+  module: any = {
+    id: '',
+    title: '',
+    description: '',
+  };
+  moduleFormType: string = '';
+
   books: any;
-  files: any;
-  links: any;
+  book: any = {
+    id: '',
+    title: '',
+    edition: '',
+    author: '',
+    publisher: '',
+    bookUrl: '',
+  };
+  bookFormType: string = '';
+
+  usefulLinks: any;
+  usefulLink = {
+    id: '',
+    title: '',
+    description: '',
+    linkUrl: '',
+  };
+  usefulLinkFormType: string = '';
+
   faqs: any;
+  faq: any = {
+    id: '',
+    title: '',
+    description: '',
+  };
+  faqFormType: string = '';
+
   index: any;
   sections: any = {
-    about: true,
-    index: false,
-    files: false,
+    about: false,
+    index: true,
     books: false,
     links: false,
     faqs: false,
@@ -35,27 +72,29 @@ export class DetailComponent {
   selectedLink: any;
   selectedFaq: any;
 
+  @ViewChild('closeModal') closeModal: ElementRef | undefined;
+  @ViewChild('closeModuleModal') closeModuleModal: ElementRef | undefined;
+  @ViewChild('closeBookModal') closeBookModal: ElementRef | undefined;
+  @ViewChild('closeFaqModal') closeFaqModal: ElementRef | undefined;
+  @ViewChild('closeLinkModal') closeLinkModal: ElementRef | undefined;
+
   constructor(
     private toastr: ToastrService,
     private apiServices: ApiService,
     private route: ActivatedRoute
   ) {}
-  @ViewChild('closeModal') closeModal: ElementRef | undefined;
 
   ngOnInit(): void {
     this.courseId = this.route.snapshot.paramMap.get('id');
 
     this.getCourseDetails();
     this.getBooks();
-    this.getUseFulLinks();
-    this.getFaqs();
   }
 
   toggleSection(name: string) {
     this.sections = {
       about: false,
       index: false,
-      files: false,
       books: false,
       links: false,
       faqs: false,
@@ -72,83 +111,111 @@ export class DetailComponent {
     };
     this.apiServices.postRequest(data).subscribe((data) => {
       this.courseDetails = data;
+      this.syllabus = {
+        id: this.courseDetails.courseSyllabus?.id,
+        title: this.courseDetails.courseSyllabus?.title,
+      };
+      this.modules = this.courseDetails.courseSyllabus.courseModules;
+      this.books = this.courseDetails.courseBooks;
+      this.usefulLinks = this.courseDetails.courseUsefulLinks;
+      this.faqs = this.courseDetails.courseFaqs;
       this.getCourseIndexes();
-
       console.log(this.courseDetails);
     });
   }
 
   getCourseIndexes() {
     const data = {
-      path: 'course/module/list',
+      path: 'course/modules/list',
       payload: {
         courseSyllabusId: this.courseDetails?.courseSyllabus?.id,
       },
     };
-    this.apiServices.postRequest(data).subscribe((data) => {
-      this.courseIndexes = data.data;
-      // console.log(this.courseIndexes);
+    this.apiServices.postRequest(data).subscribe((response) => {
+      this.modules = response.data;
     });
   }
 
-  addIndex(index: any) {
+  getModules() {
     const data = {
-      path: 'course/module/create',
+      path: 'course/modules/list',
       payload: {
-        courseSyllabusId: this.courseDetails?.courseSyllabus?.id,
-        title: index.value.title,
-        description: index.value.description,
+        courseSyllabusId: this.syllabus.id,
+      },
+    };
+    this.apiServices.postRequest(data).subscribe((response) => {
+      this.modules = response.data;
+    });
+  }
+  createModule() {
+    const data = {
+      path: 'course/modules/create',
+      payload: {
+        courseSyllabusId: this.syllabus.id,
+        title: this.module.title,
+        description: this.module.description,
       },
     };
     this.apiServices.postRequest(data).subscribe((data) => {
-      if (this.closeModal) {
-        this.closeModal.nativeElement.click();
+      if (this.closeModuleModal) {
+        this.closeModuleModal.nativeElement.click();
       }
-      index.reset();
-      this.toastr.success('Index added successfully!');
+      this.toastr.success('Module added successfully!');
+      this.getModules();
+      this.resetModuleData();
     });
   }
-
-  setIndex(index: any) {
-    this.selectedIndex = index;
-    // console.log(this.selectedIndex);
-  }
-
-  updateIndex(index: any) {
+  updateModule() {
     const data = {
-      path: 'course/module/update',
+      path: 'course/modules/update',
       payload: {
-        moduleId: this.selectedIndex.id,
-        title: index.value.title,
-        description: index.value.description,
+        moduleId: this.module.id,
+        title: this.module.title,
+        description: this.module.description,
       },
     };
     this.apiServices.postRequest(data).subscribe((data) => {
-      if (this.closeModal) {
-        this.closeModal.nativeElement.click();
+      if (this.closeModuleModal) {
+        this.closeModuleModal.nativeElement.click();
       }
-      index.reset();
-      this.selectedIndex = null;
-      this.toastr.success('Index updated successfully!');
-      this.getCourseIndexes();
+      this.toastr.success('Module updated successfully!');
+      this.getModules();
+      this.resetModuleData();
     });
   }
-
-  deleteIndex() {
+  deleteModule() {
     const data = {
-      path: 'course/module/delete ',
+      path: 'course/modules/delete ',
       payload: {
-        moduleId: this.selectedIndex.id,
+        moduleId: this.module.id,
       },
     };
     this.apiServices.postRequest(data).subscribe((data) => {
-      if (this.closeModal) {
-        this.closeModal.nativeElement.click();
+      if (this.closeModuleModal) {
+        this.closeModuleModal.nativeElement.click();
       }
-      this.selectedIndex = null;
-      this.toastr.success('Index deleted successfully!');
-      this.getCourseIndexes();
+      this.toastr.success('Module deleted successfully!');
+      this.getModules();
+      this.resetModuleData();
     });
+  }
+  setModule(module: any) {
+    this.module = {
+      id: module.id,
+      title: module.title,
+      description: module.description,
+    };
+  }
+  setModuleFormType(name: string) {
+    this.moduleFormType = name;
+  }
+  resetModuleData() {
+    this.moduleFormType = 'create';
+    this.module = {
+      id: '',
+      title: '',
+      description: '',
+    };
   }
 
   getBooks() {
@@ -158,155 +225,178 @@ export class DetailComponent {
         courseId: this.courseId,
       },
     };
-    this.apiServices.postRequest(data).subscribe((data) => {
-      this.courseBooks = data.data;
-      this.getCourseDetails();
-
-      // console.log(this.courseBooks);
+    this.apiServices.postRequest(data).subscribe((response) => {
+      this.books = response.data;
     });
   }
-
-  addBook(book: any) {
+  createBook() {
     const data = {
       path: 'course/books/create ',
       payload: {
         courseId: this.courseId,
-        title: book.value.title,
-        edition: book.value.edition,
-        author: book.value.author,
-        publisher: book.value.publisher,
-        bookUrl: book.value.bookUrl,
+        title: this.book.title,
+        edition: this.book.edition,
+        author: this.book.author,
+        publisher: this.book.publisher,
+        bookUrl: this.book.bookUrl,
       },
     };
     this.apiServices.postRequest(data).subscribe((data) => {
-      if (this.closeModal) {
-        this.closeModal.nativeElement.click();
+      if (this.closeBookModal) {
+        this.closeBookModal.nativeElement.click();
       }
-      book.reset();
       this.toastr.success('Book added successfully!');
+      this.getBooks();
+      this.resetBookData();
     });
   }
-
-  setBook(book: any) {
-    this.selectedBook = book;
-    console.log(this.selectedBook);
-  }
-
-  updateBook(book: any) {
+  updateBook() {
     const data = {
       path: 'course/books/update ',
       payload: {
-        bookId: this.selectedBook.id,
-        title: book.value.title,
-        edition: book.value.edition,
-        author: book.value.author,
-        publisher: book.value.publisher,
-        bookUrl: book.value.bookUrl,
+        bookId: this.book.id,
+        title: this.book.title,
+        edition: this.book.edition,
+        author: this.book.author,
+        publisher: this.book.publisher,
+        bookUrl: this.book.bookUrl,
       },
     };
     this.apiServices.postRequest(data).subscribe((data) => {
-      if (this.closeModal) {
-        this.closeModal.nativeElement.click();
+      if (this.closeBookModal) {
+        this.closeBookModal.nativeElement.click();
       }
-      book.reset();
-      this.selectedBook = null;
       this.toastr.success('Book updated successfully!');
       this.getBooks();
+      this.resetBookData();
     });
   }
-
   deleteBook() {
     const data = {
       path: 'course/books/delete',
       payload: {
-        bookId: this.selectedBook.id,
+        bookId: this.book.id,
       },
     };
     this.apiServices.postRequest(data).subscribe((data) => {
-      if (this.closeModal) {
-        this.closeModal.nativeElement.click();
+      if (this.closeBookModal) {
+        this.closeBookModal.nativeElement.click();
       }
       this.selectedBook = null;
       this.toastr.success('Book deleted successfully!');
       this.getBooks();
+      this.resetBookData();
     });
   }
+  setBook(book: any) {
+    this.book = {
+      id: book.id,
+      title: book.title,
+      edition: book.edition,
+      author: book.author,
+      publisher: book.publisher,
+      bookUrl: book.bookUrl,
+    };
+  }
+  setBookFormType(name: any) {
+    this.bookFormType = name;
+  }
+  resetBookData() {
+    this.bookFormType = 'create';
+    this.book = {
+      id: '',
+      title: '',
+      edition: '',
+      author: '',
+      publisher: '',
+      bookUrl: '',
+    };
+  }
 
-  getUseFulLinks() {
+  getUsefulLinks() {
     const data = {
       path: 'course/useful-links/list',
       payload: {
         courseId: this.courseId,
       },
     };
-    this.apiServices.postRequest(data).subscribe((data) => {
-      this.useFulLinks = data.data;
-      this.getCourseDetails();
-
-      // console.log(this.useFulLinks);
+    this.apiServices.postRequest(data).subscribe((response) => {
+      this.usefulLinks = response.data;
     });
   }
-
-  addUsefulLink(link: any) {
+  createUsefulLink() {
     const data = {
       path: 'course/useful-links/create',
       payload: {
         courseId: this.courseId,
-        title: link.value.title,
-        description: link.value.description,
-        linkUrl: link.value.linkUrl,
+        title: this.usefulLink.title,
+        description: this.usefulLink.description,
+        linkUrl: this.usefulLink.linkUrl,
       },
     };
     this.apiServices.postRequest(data).subscribe((data) => {
-      if (this.closeModal) {
-        this.closeModal.nativeElement.click();
+      if (this.closeLinkModal) {
+        this.closeLinkModal.nativeElement.click();
       }
-      link.reset();
       this.toastr.success('Useful Link added successfully!');
+      this.resetUsefulLinkData();
+      this.getUsefulLinks();
     });
   }
-
-  setLink(link: any) {
-    this.selectedLink = link;
-    console.log(this.selectedLink);
-  }
-
-  updateUsefulLink(link: any) {
+  updateUsefulLink() {
     const data = {
       path: 'course/useful-links/update',
       payload: {
-        linkId: this.selectedLink.id,
-        title: link.value.title,
-        description: link.value.description,
-        linkUrl: link.value.linkUrl,
+        linkId: this.usefulLink.id,
+        title: this.usefulLink.title,
+        description: this.usefulLink.description,
+        linkUrl: this.usefulLink.linkUrl,
       },
     };
     this.apiServices.postRequest(data).subscribe((data) => {
-      if (this.closeModal) {
-        this.closeModal.nativeElement.click();
+      if (this.closeLinkModal) {
+        this.closeLinkModal.nativeElement.click();
       }
-      link.reset();
-      this.selectedLink = null;
       this.toastr.success('Useful Link updated successfully!');
-      this.getUseFulLinks();
+      this.resetUsefulLinkData();
+      this.getUsefulLinks();
     });
   }
-
   deleteUsefulLink() {
     const data = {
       path: 'course/useful-links/delete',
       payload: {
-        linkId: this.selectedLink.id,
+        linkId: this.usefulLink.id,
       },
     };
     this.apiServices.postRequest(data).subscribe((data) => {
-      if (this.closeModal) {
-        this.closeModal.nativeElement.click();
+      if (this.closeLinkModal) {
+        this.closeLinkModal.nativeElement.click();
       }
-      this.selectedLink = null;
       this.toastr.success('Useful Link deleted successfully!');
-      this.getUseFulLinks();
+      this.resetUsefulLinkData();
+      this.getUsefulLinks();
     });
+  }
+  setUsefulLink(link: any) {
+    this.usefulLink = {
+      id: link.id,
+      title: link.title,
+      description: link.description,
+      linkUrl: link.linkUrl,
+    };
+  }
+  setUsefulLinkFormType(name: string) {
+    this.usefulLinkFormType = name;
+  }
+  resetUsefulLinkData() {
+    this.usefulLinkFormType = 'create';
+    this.usefulLink = {
+      id: '',
+      title: '',
+      description: '',
+      linkUrl: '',
+    };
   }
 
   getFaqs() {
@@ -316,71 +406,78 @@ export class DetailComponent {
         courseId: this.courseId,
       },
     };
-    this.apiServices.postRequest(data).subscribe((data) => {
-      this.faqs = data.data;
-      this.getCourseDetails();
-
-      console.log(this.faqs);
+    this.apiServices.postRequest(data).subscribe((response) => {
+      this.faqs = response.data;
     });
   }
-
-  addFaq(faq: any) {
+  createFaq() {
     const data = {
       path: 'course/faqs/create',
       payload: {
         courseId: this.courseId,
-        title: faq.value.title,
-        description: faq.value.description,
+        title: this.faq.title,
+        description: this.faq.description,
       },
     };
     this.apiServices.postRequest(data).subscribe((data) => {
-      if (this.closeModal) {
-        this.closeModal.nativeElement.click();
+      if (this.closeFaqModal) {
+        this.closeFaqModal.nativeElement.click();
       }
-      faq.reset();
       this.toastr.success('Faq added successfully!');
-    });
-  }
-
-  setFaq(faq: any) {
-    this.selectedFaq = faq;
-    console.log(this.selectedFaq);
-  }
-
-  updateFaq(faq: any) {
-    const data = {
-      path: 'course/faqs/update ',
-      payload: {
-        faqId: this.selectedFaq.id,
-        title: faq.value.title,
-        description: faq.value.description,
-      },
-    };
-    this.apiServices.postRequest(data).subscribe((data) => {
-      if (this.closeModal) {
-        this.closeModal.nativeElement.click();
-      }
-      faq.reset();
-      this.selectedFaq = null;
-      this.toastr.success('Faq updated successfully!');
+      this.resetFaqData();
       this.getFaqs();
     });
   }
-
+  updateFaq() {
+    const data = {
+      path: 'course/faqs/update ',
+      payload: {
+        faqId: this.faq.id,
+        title: this.faq.title,
+        description: this.faq.description,
+      },
+    };
+    this.apiServices.postRequest(data).subscribe((data) => {
+      if (this.closeFaqModal) {
+        this.closeFaqModal.nativeElement.click();
+      }
+      this.toastr.success('Faq updated successfully!');
+      this.resetFaqData();
+      this.getFaqs();
+    });
+  }
   deleteFaq() {
     const data = {
       path: 'course/faqs/delete',
       payload: {
-        faqId: this.selectedFaq.id,
+        faqId: this.faq.id,
       },
     };
     this.apiServices.postRequest(data).subscribe((data) => {
-      if (this.closeModal) {
-        this.closeModal.nativeElement.click();
+      if (this.closeFaqModal) {
+        this.closeFaqModal.nativeElement.click();
       }
-      this.selectedFaq = null;
       this.toastr.success('Faq deleted successfully!');
+      this.resetFaqData();
       this.getFaqs();
     });
+  }
+  setFaq(faq: any) {
+    this.faq = {
+      id: faq.id,
+      title: faq.title,
+      description: faq.description,
+    };
+  }
+  setFaqFormType(name: string) {
+    this.faqFormType = name;
+  }
+  resetFaqData() {
+    this.faqFormType = 'create';
+    this.faq = {
+      id: '',
+      title: '',
+      description: '',
+    };
   }
 }
