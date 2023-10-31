@@ -11,6 +11,7 @@ import { CoursesComponent } from './courses.component';
 import { RouterModule, Routes } from '@angular/router';
 import { DetailComponent } from './detail/detail.component';
 import { LectureComponent } from './detail/lecture/lecture.component';
+import { FormsModule } from '@angular/forms';
 import { CourseCreateComponent } from './course-create/course-create.component';
 
 const routes: Routes = [
@@ -76,12 +77,12 @@ const routes: Routes = [
     AnnouncementsComponent,
     DetailComponent,
     LectureComponent,
-    CourseCreateComponent,
   ],
   imports: [
     CommonModule,
     PdfViewerModule,
     NgxEditorModule,
+    FormsModule,
     RouterModule.forChild(routes),
   ],
 })

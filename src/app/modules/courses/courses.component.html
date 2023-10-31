@@ -1,142 +1,79 @@
 <div class="pt-32pt">
-    <div class="container page__container d-flex flex-column flex-md-row align-items-center text-center text-sm-left">
-        <div class="flex d-flex flex-column flex-sm-row align-items-center">
-            <div class="mb-24pt mb-sm-0 mr-sm-24pt">
-                <h2 class="mb-0">Courses</h2>
-                <ol class="breadcrumb p-0 m-0">
-                    <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
-                    <li class="breadcrumb-item active">
-                        Courses
-                    </li>
-                </ol>
-            </div>
-        </div>
-        <div class="row" role="tablist">
-            <div class="col-auto">
-                <a [routerLink]="['create']" class="btn btn-outline-primary">Add Course</a>
-            </div>
-        </div>
+  <div
+    class="container page__container d-flex flex-column flex-md-row align-items-center text-center text-sm-left"
+  >
+    <div class="flex d-flex flex-column flex-sm-row align-items-center">
+      <div class="mb-24pt mb-sm-0 mr-sm-24pt">
+        <h2 class="mb-0">Courses</h2>
+        <ol class="breadcrumb p-0 m-0">
+          <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+          <li class="breadcrumb-item active">Courses</li>
+        </ol>
+      </div>
     </div>
+    <div class="row" role="tablist">
+      <div class="col-auto">
+        <a [routerLink]="['create']" class="btn btn-outline-primary"
+          >Add Course</a
+        >
+      </div>
+    </div>
+  </div>
 </div>
 
 <div class="container page__container">
-    <div class="page-section">
-        <div class="page-separator">
-            <div class="page-separator__text">A Level Courses</div>
-        </div>
-        <div class="row card-group-row">
-            <div class="col-lg-4 card-group-row__col" *ngFor="let course of courses">
-                <div class="card w-100" data-toggle="modal" data-target="#viewModal" (click)="setCourse(course)">
-                    <a href="javascript:void(0)">
-                        <img src="/assets/images/bg-course.jpg" height="140" class="w-100" alt="course">
-                        <div class="overlay__content">
-                            <div class="w-100 mx-3">
-                                <h5 class="text-white m-0">{{ course.title }}
-                                    <span class="badge badge-course-notifications badge-accent"
-                                        *ngIf="course.updates > 0">{{ course.updates }}</span>
-                                </h5>
-                                <p class="lead text-white-50 measure-hero-lead">{{ course.code }} - {{ course.category
-                                    }}</p>
-                            </div>
-                        </div>
-                    </a>
-                    <div class="card-body flex">
-                        <div class="media align-items-start my-2">
-                            <span class="media-left mr-16pt">
-                                <img [src]="course.instructor.image" width="52" alt="avatar"
-                                    class="rounded-circle mt-1">
-                            </span>
-                            <div class="media-body">
-                                <p class="card-title m-0 text-ellipsis" href="javascript:void(0)">{{
-                                    course.instructor.name }}</p>
-                                <p class="text-50 lh-1 m-0 text-ellipsis mt-1">{{ course.instructor.degree }} <br>{{
-                                    course.instructor.university }}</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+  <div class="page-section">
+    <div class="page-separator">
+      <div class="page-separator__text">A Level Courses</div>
     </div>
-</div>
-
-<div class="modal" id="viewModal" tabindex="-1" role="dialog" aria-labelledby="viewModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="addModalLabel">{{ courseSelected.title }}</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+    <div class="row card-group-row">
+      <div class="col-lg-4 card-group-row__col" *ngFor="let course of courses">
+        <div class="card w-100" [routerLink]="['/courses', course.id]">
+          <a href="javascript:void(0)">
+            <img
+              src="/assets/images/bg-course.jpg"
+              height="140"
+              class="w-100"
+              alt="course"
+            />
+            <div class="overlay__content">
+              <div class="w-100 mx-3">
+                <h5 class="text-white m-0">
+                  {{ course.title }}
+                  <!-- <span
+                    class="badge badge-course-notifications badge-accent"
+                    *ngIf="course.updates > 0"
+                    >{{ course.updates }}</span
+                  > -->
+                </h5>
+                <p class="lead text-white-50 measure-hero-lead">
+                  {{ course.code }}
+                </p>
+              </div>
             </div>
-            <div class="modal-body">
-                <div class="pb-3">
-                    <div class="page-nav__content">
-                        <div class="media align-items-center mt-2 mb-4" *ngIf="courseSelected.instructor">
-                            <span class="media-left mr-16pt">
-                                <img [src]="courseSelected.instructor.image" width="60" alt="avatar"
-                                    class="rounded-circle">
-                            </span>
-                            <div class="media-body">
-                                <a class="card-title m-0" href="javascript:void(0)">{{ courseSelected.instructor.name
-                                    }}</a>
-                                <p class="text-50 lh-1 mb-0">{{ courseSelected.instructor.degree }} <br>{{
-                                    courseSelected.instructor.university }}</p>
-                            </div>
-                        </div>
-
-                        <p class="my-16pt">The course uses the Dev-C++ Integrated Development Environment (IDE) as the
-                            vehicle for instruction. Starting with basic programming
-                            concepts, the course develops skill in handling decision and looping structures. Moving on
-                            through the concept of pointers and arrays,
-                            the course covers the essentials of the C programming language while staying away from
-                            object-oriented concepts.
-                            The premise is that a good grounding in structured programming will be required when moving
-                            into the object-oriented domain that would be
-                            covered in depth in a later course.<br>
-                            After covering file-handling and unions and structures, the course will finally introduce
-                            the concept of classes
-                            and public and private members with an introduction to function overloading.
-                        </p>
-
-                        <div class="mb-16pt">
-                            <div class="nav page-nav__menu">
-                                <a href="javascript:void(0)" class="nav-link align-items-center px-0 text-100">
-                                    <span class="material-icons icon-16pt mr-8pt">open_in_new</span>Index / Lessons
-                                </a>
-                            </div>
-                            <div class="nav page-nav__menu">
-                                <a href="javascript:void(0)" class="nav-link align-items-center px-0 text-100">
-                                    <span class="material-icons icon-16pt mr-8pt">open_in_new</span>Assignments
-                                    <span
-                                        class="sidebar-menu-badge badge badge-primary badge-notifications ml-2">1</span>
-                                </a>
-                            </div>
-                            <div class="nav page-nav__menu">
-                                <a href="javascript:void(0)" class="nav-link align-items-center px-0 text-100">
-                                    <span class="material-icons icon-16pt mr-8pt">open_in_new</span>GDB
-                                </a>
-                            </div>
-                            <div class="nav page-nav__menu">
-                                <a href="javascript:void(0)" class="nav-link align-items-center px-0 text-100">
-                                    <span class="material-icons icon-16pt mr-8pt">open_in_new</span>Quizes
-                                </a>
-                            </div>
-                            <div class="nav page-nav__menu">
-                                <a href="javascript:void(0)" class="nav-link align-items-center px-0 text-100">
-                                    <span class="material-icons icon-16pt mr-8pt">open_in_new</span>Announcements
-                                    <span
-                                        class="sidebar-menu-badge badge badge-primary badge-notifications ml-2">2</span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+          </a>
+          <div class="card-body flex">
+            <div class="media align-items-start my-2">
+              <!-- <span class="media-left mr-16pt">
+                <img
+                  [src]="course.instructor.image"
+                  width="52"
+                  alt="avatar"
+                  class="rounded-circle mt-1"
+                />
+              </span> -->
+              <div class="media-body">
+                <p
+                  class="card-title m-0 text-ellipsis"
+                  href="javascript:void(0)"
+                >
+                  {{ course.courseInstructors[0].name }}
+                </p>
+              </div>
             </div>
-            <div class="modal-footer py-3" style="border:0">
-                <a href="javascript:void(0)" [routerLink]="['/courses/123']" class="btn btn-outline-primary w-100"
-                    data-dismiss="modal" aria-label="Close">View Course Details</a>
-            </div>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 </div>
