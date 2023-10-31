@@ -21,10 +21,7 @@
   <div class="container page__container">
     <ul class="nav navbar-nav flex align-items-sm-center">
       <li class="nav-item navbar-list__item">
-        <div class="media align-items-center" *ngIf="
-            courseDetails.courseInstructors &&
-            courseDetails.courseInstructors.length > 0
-          ">
+        <div class="media align-items-center" *ngIf="courseDetails.courseInstructors.length > 0">
           <span class="media-left mr-16pt">
             <span *ngIf="courseDetails.courseInstructors[0].imageUrl">
               <img src="courseDetails.courseInstructors[0].imageUrl" width="40" alt="avatar" class="rounded-circle" />
@@ -36,9 +33,9 @@
             </span>
           </span>
           <div class="media-body">
-            <a class="card-title m-0 text-70" href="javascript:void(0)">{{
-              courseDetails.courseInstructors[0]?.name
-              }}</a>
+            <a class="card-title m-0 text-70" href="javascript:void(0)">
+              {{ courseDetails.courseInstructors[0]?.name }}
+            </a>
             <p class="text-50 lh-1 mb-0">Instructor</p>
           </div>
         </div>
@@ -51,7 +48,7 @@
           <li class="nav-item navbar-list__item pr-3" [class.active]="sections.index"
             (click)="toggleSection('index'); getModules();">
             <i class="material-icons icon--left">list_alt</i>
-            <span>Index / Lesson</span>
+            <span>Syllabus</span>
           </li>
           <li class="nav-item navbar-list__item pr-3" [class.active]="sections.books"
             (click)="toggleSection('books'); getBooks();">

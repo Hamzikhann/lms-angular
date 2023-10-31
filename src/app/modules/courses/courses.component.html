@@ -1,7 +1,5 @@
 <div class="pt-32pt">
-  <div
-    class="container page__container d-flex flex-column flex-md-row align-items-center text-center text-sm-left"
-  >
+  <div class="container page__container d-flex flex-column flex-md-row align-items-center text-center text-sm-left">
     <div class="flex d-flex flex-column flex-sm-row align-items-center">
       <div class="mb-24pt mb-sm-0 mr-sm-24pt">
         <h2 class="mb-0">Courses</h2>
@@ -13,9 +11,7 @@
     </div>
     <div class="row" role="tablist">
       <div class="col-auto">
-        <a [routerLink]="['create']" class="btn btn-outline-primary"
-          >Add Course</a
-        >
+        <a [routerLink]="['create']" class="btn btn-outline-primary">Add Course</a>
       </div>
     </div>
   </div>
@@ -23,19 +19,14 @@
 
 <div class="container page__container">
   <div class="page-section">
-    <div class="page-separator">
-      <div class="page-separator__text">A Level Courses</div>
-    </div>
+    <!-- <div class="page-separator">
+      <div class="page-separator__text">Required Courses</div>
+    </div> -->
     <div class="row card-group-row">
       <div class="col-lg-4 card-group-row__col" *ngFor="let course of courses">
         <div class="card w-100" [routerLink]="['/courses', course.id]">
           <a href="javascript:void(0)">
-            <img
-              src="/assets/images/bg-course.jpg"
-              height="140"
-              class="w-100"
-              alt="course"
-            />
+            <img src="/assets/images/bg-course.jpg" height="140" class="w-100" alt="course" />
             <div class="overlay__content">
               <div class="w-100 mx-3">
                 <h5 class="text-white m-0">
@@ -63,10 +54,7 @@
                 />
               </span> -->
               <div class="media-body">
-                <p
-                  class="card-title m-0 text-ellipsis"
-                  href="javascript:void(0)"
-                >
+                <p class="card-title m-0 text-ellipsis" href="javascript:void(0)">
                   {{ course.courseInstructors[0].name }}
                 </p>
               </div>
