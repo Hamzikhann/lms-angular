@@ -4,22 +4,13 @@ import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'app-detail',
-  templateUrl: './detail.component.html',
-  styleUrls: ['./detail.component.css'],
+  selector: 'app-course-about',
+  templateUrl: './course-about.component.html',
+  styleUrls: ['./course-about.component.css'],
 })
-export class DetailComponent {
+export class CourseAboutComponent {
   courseId: any;
   courseDetails: any;
-  instructor: any;
-
-  sections: any = {
-    about: true,
-    index: false,
-    books: false,
-    links: false,
-    faqs: false,
-  };
 
   constructor(
     private toastr: ToastrService,
@@ -42,16 +33,5 @@ export class DetailComponent {
     this.apiServices.postRequest(data).subscribe((data) => {
       this.courseDetails = data;
     });
-  }
-
-  toggleSection(name: string) {
-    this.sections = {
-      about: false,
-      index: false,
-      books: false,
-      links: false,
-      faqs: false,
-    };
-    this.sections[name] = true;
   }
 }

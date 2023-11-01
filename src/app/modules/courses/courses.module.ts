@@ -9,6 +9,11 @@ import { CoursesComponent } from './courses.component';
 import { CourseCreateComponent } from './course-create/course-create.component';
 import { DetailComponent } from './detail/detail.component';
 import { LectureComponent } from './detail/lecture/lecture.component';
+import { CourseBooksComponent } from './course-books/course-books.component';
+import { CourseUsefulLinksComponent } from './course-useful-links/course-useful-links.component';
+import { CourseFaqsComponent } from './course-faqs/course-faqs.component';
+import { CourseTocComponent } from './course-toc/course-toc.component';
+import { CourseAboutComponent } from './course-about/course-about.component';
 
 const routes: Routes = [
   {
@@ -40,7 +45,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [CourseCreateComponent, DetailComponent, LectureComponent],
+  declarations: [CourseCreateComponent, DetailComponent, LectureComponent, CourseBooksComponent, CourseUsefulLinksComponent, CourseFaqsComponent, CourseTocComponent, CourseAboutComponent],
   imports: [
     CommonModule,
     PdfViewerModule,

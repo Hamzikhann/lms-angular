@@ -1,6 +1,3 @@
-.page-separator:before {
-  display: none;
-}
 .navbar-nav li {
   cursor: pointer;
   color: var(--secondary);
@@ -25,10 +22,4 @@
 .icon-holder {
   width: 36px;
   height: 36px;
-}
-.accordion__item .accordion__toggle {
-  background: #f3f3f3 !important;
-}
-.accordion__item .accordion__toggle.collapsed {
-  border-radius: 6px 6px 0 0;
 }
