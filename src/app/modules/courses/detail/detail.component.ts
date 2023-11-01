@@ -2,6 +2,7 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 import { ApiService } from 'src/app/services/users/api.service';
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute } from '@angular/router';
+import { ConfigService } from 'src/app/config/config.service';
 
 @Component({
   selector: 'app-detail',
@@ -9,6 +10,7 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./detail.component.css'],
 })
 export class DetailComponent {
+  ImgBaseURL: string = this.config.ImgBaseURL;
   courseId: any;
   courseDetails: any;
   instructor: any;
@@ -24,6 +26,7 @@ export class DetailComponent {
   constructor(
     private toastr: ToastrService,
     private apiServices: ApiService,
+    private config: ConfigService,
     private route: ActivatedRoute
   ) {}
 
