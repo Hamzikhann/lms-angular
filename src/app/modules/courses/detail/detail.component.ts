@@ -248,7 +248,7 @@ export class DetailComponent {
         contentDescription: this.task.description,
         contentVideoLink: this.task.videoLink,
         contentHandoutLink: this.task.handoutLink,
-        courseTaskTypeId: this.task.typeId,
+        courseTaskTypeId: this.task.taskTypeId,
       },
     };
     this.apiServices.postRequest(data).subscribe((data) => {
