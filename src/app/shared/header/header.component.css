@@ -44,3 +44,17 @@
   padding: 4px 8px 8px 16px;
   text-align: center;
 }
+
+.avatar-sm {
+  width: 2rem;
+  height: 2rem;
+}
+.avatar-name {
+  color: #303956;
+  font-size: 14px;
+  line-height: normal;
+}
+.avatar-role {
+  color: #646a80 !important;
+  font-size: 12px;
+}

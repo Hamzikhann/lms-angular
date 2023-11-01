@@ -24,39 +24,20 @@
     </div> -->
     <div class="row card-group-row">
       <div class="col-lg-4 card-group-row__col" *ngFor="let course of courses">
-        <div class="card w-100" [routerLink]="['/courses', course.id]">
-          <a href="javascript:void(0)">
+        <div class="card w-100">
+          <a [routerLink]="['/courses', course.id]">
             <img src="/assets/images/bg-course.jpg" height="140" class="w-100" alt="course" />
             <div class="overlay__content">
               <div class="w-100 mx-3">
-                <h5 class="text-white m-0">
-                  {{ course.title }}
-                  <!-- <span
-                    class="badge badge-course-notifications badge-accent"
-                    *ngIf="course.updates > 0"
-                    >{{ course.updates }}</span
-                  > -->
-                </h5>
-                <p class="lead text-white-50 measure-hero-lead">
-                  {{ course.code }}
-                </p>
+                <h5 class="text-white m-0">{{ course.title }}</h5>
               </div>
             </div>
           </a>
           <div class="card-body flex">
-            <div class="media align-items-start my-2">
-              <!-- <span class="media-left mr-16pt">
-                <img
-                  [src]="course.instructor.image"
-                  width="52"
-                  alt="avatar"
-                  class="rounded-circle mt-1"
-                />
-              </span> -->
+            <div class="media align-items-start">
               <div class="media-body">
-                <p class="card-title m-0 text-ellipsis" href="javascript:void(0)">
-                  {{ course.courseInstructors[0].name }}
-                </p>
+                <a [routerLink]="['/courses', course.id]" class="card-title">{{ course.courseDepartment.title }}</a>
+                <small class="text-50 font-weight-bold mb-4pt">{{ course.code + ' - ' + course.level }}</small>
               </div>
             </div>
           </div>

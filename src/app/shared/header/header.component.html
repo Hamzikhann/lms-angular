@@ -8,7 +8,8 @@
 
     <!-- Navbar Brand -->
     <a href="javascript:void(0)" class="navbar-brand mr-16pt">
-      <img src="/assets/images/logo/logo.png" class="img-fluid h-42px" alt="logo" />
+      <img [src]="'/assets/images/logo/logo.png'" class="h-32px" *ngIf="!client" />
+      <img [src]="imageBaseUrl + client?.logoURL" class="h-32px" *ngIf="client" />
     </a>
 
     <div class="d-none d-sm-flex flex justify-content-center">
@@ -50,8 +51,8 @@
             </span>
           </span>
           <div class="ml-3">
-            <p class="mb-0">{{ loggedInUser.firstName + ' ' + loggedInUser.lastName }}</p>
-            <p class="text-50 mb-0"><small>{{ loggedInUser.role.title }}</small></p>
+            <p class="avatar-name mb-0">{{ loggedInUser.firstName + ' ' + loggedInUser.lastName }}</p>
+            <p class="avatar-role text-50 mb-0"><small>{{ loggedInUser.role.title }}</small></p>
           </div>
         </a>
         <div class="dropdown-menu dropdown-menu-right">
