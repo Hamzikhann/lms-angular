@@ -1,0 +1,77 @@
+<div class="container page__container">
+  <div class="page-separator d-flex align-items-center justify-content-between mb-32pt">
+    <div class="page-separator__text">Frequently Ask Questions
+      <span class="heading-icon" data-toggle="modal" data-target="#faqModal" (click)="setFaqFormType('create')">
+        <i class="material-icons">add_circle</i>
+      </span>
+    </div>
+    <!-- <div class="search-form search-form--light pr-0 pl-16pt">
+      <input type="text" class="form-control pl-0" placeholder="Search" />
+      <button class="btn" type="submit">
+        <i class="material-icons">search</i>
+      </button>
+    </div> -->
+  </div>
+  <div class="row card-group-row" *ngFor="let faq of faqs">
+    <div class="col-md-12 card-group-row__col">
+      <div class="card card--elevated card-group-row__card">
+        <div class="card-body d-flex">
+          <span class="icon-holder icon-holder--outline-muted rounded-circle d-inline-flex mr-16pt">
+            <i class="material-icons">question_answer</i>
+          </span>
+          <div class="flex">
+            <div class="d-flex justify-content-between">
+              <h5 class="card-subtitle-2 mb-4pt text-100">{{ faq.title }}</h5>
+              <div class="buttons">
+                <a href="javascript:void(0)" data-toggle="modal" data-target="#faqModal"
+                  (click)="setFaqFormType('update'); setFaq(faq)">
+                  <i class="material-icons fa-lg mx-1">edit</i></a>
+                <a href="javascript:void(0)" data-toggle="modal" data-target="#faqModal"
+                  (click)="setFaqFormType('delete'); setFaq(faq)">
+                  <i class="material-icons fa-lg mx-1">delete</i></a>
+              </div>
+            </div>
+            <p class="text-70 mb-0">{{ faq.description }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="faqModal" tabindex="-1" role="dialog" aria-labelledby="faqModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="faqModalLabel" *ngIf="faqFormType == 'create'">Create FAQ</h5>
+        <h5 class="modal-title" id="faqModalLabel" *ngIf="faqFormType == 'update'">Update FAQ</h5>
+        <h5 class="modal-title" id="faqModalLabel" *ngIf="faqFormType == 'delete'">Delete FAQ</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" #closeFaqModal>
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body text-primary">
+        <form #formFaq="ngForm">
+          <div class="form-group">
+            <label for="faqTitle" class="form-label">Title</label>
+            <input type="text" class="form-control" id="faqTitle" name="faqTitle" [(ngModel)]="faq.title"
+              [disabled]="faqFormType == 'delete'" />
+          </div>
+          <div class="form-group">
+            <label for="faqDescription" class="form-label">Description</label>
+            <input type="text" class="form-control" id="faqDescription" name="faqDescription"
+              [(ngModel)]="faq.description" [disabled]="faqFormType == 'delete'" />
+          </div>
+          <div class="buttons mt-2">
+            <button type="submit" class="btn btn-primary" (click)="createFaq()"
+              *ngIf="faqFormType == 'create'">Create</button>
+            <button type="submit" class="btn btn-primary" (click)="updateFaq()"
+              *ngIf="faqFormType == 'update'">Update</button>
+            <button type="submit" class="btn btn-danger" (click)="deleteFaq()"
+              *ngIf="faqFormType == 'delete'">Delete</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,48 @@
+<div class="container page__container" *ngIf="courseDetails">
+  <div class="page-separator d-flex align-items-center justify-content-between mb-32pt">
+    <div class="page-separator__text">About this course</div>
+  </div>
+  <div class="row">
+    <div class="col-md-8">
+      <div class="about-course">
+        <p class="text-70">{{ courseDetails.about }}</p>
+      </div>
+      <div class="what-you-learn mt-5">
+        <div class="page-separator">
+          <div class="page-separator__text">What you’ll learn</div>
+        </div>
+        <ul class="list-unstyled mb-0">
+          <li class="d-flex align-items-center" *ngFor="let objective of courseDetails.courseObjectives">
+            <span class="material-icons text-50 mr-8pt">check</span>
+            <span class="text-70">{{ objective.description }}</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card" *ngIf="courseDetails.courseInstructors.length > 0">
+        <div class="card-body py-16pt text-center">
+          <div class="text-70">
+            <p class="mb-16pt mt-16pt">
+              <span class="avatar avatar-sm mr-8pt2" *ngIf="!courseDetails.courseInstructors[0].imageUrl">
+                <span class="avatar-title rounded-circle bg-primary">
+                  <i class="material-icons">account_box</i>
+                </span>
+              </span>
+              <span *ngIf="courseDetails.courseInstructors[0].imageUrl">
+                <img [src]="courseDetails.courseInstructors[0].imageUrl" alt="guy-6" class="rounded-circle"
+                  width="64" />
+              </span>
+            </p>
+            <h4 class="mb-16pt">
+              {{ courseDetails.courseInstructors[0].name }}
+            </h4>
+            <p>
+              {{ courseDetails.courseInstructors[0].about }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
