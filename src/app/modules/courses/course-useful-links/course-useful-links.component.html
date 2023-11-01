@@ -2,7 +2,7 @@
   <div class="page-separator d-flex align-items-center justify-content-between mb-32pt">
     <div class="page-separator__text">Useful Links
       <span class="heading-icon" data-toggle="modal" data-target="#usefulLinkModal"
-        (click)="setUsefulLinkFormType('create')">
+        (click)="setUsefulLinkFormType('create')" *ngIf="permission.create">
         <i class="material-icons">add_circle</i>
       </span>
     </div>
@@ -29,10 +29,10 @@
               </a>
               <div class="buttons">
                 <a href="javascript:void(0)" data-toggle="modal" data-target="#usefulLinkModal"
-                  (click)="setUsefulLinkFormType('update'); setUsefulLink(link)">
+                  (click)="setUsefulLinkFormType('update'); setUsefulLink(link)" *ngIf="permission.update">
                   <i class="material-icons fa-lg mx-1">edit</i></a>
                 <a href="javascript:void(0)" data-toggle="modal" data-target="#usefulLinkModal"
-                  (click)="setUsefulLinkFormType('delete'); setUsefulLink(link)">
+                  (click)="setUsefulLinkFormType('delete'); setUsefulLink(link)" *ngIf="permission.delete">
                   <i class="material-icons fa-lg mx-1">delete</i></a>
               </div>
             </div>
@@ -45,15 +45,18 @@
 </div>
 
 <div class="modal" id="usefulLinkModal" tabindex="-1" role="dialog" aria-labelledby="usefulLinkModalLabel"
-  aria-hidden="true">
+  aria-hidden="true" *ngIf="permission.create || permission.update || permission.delete">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="usefulLinkModalLabel" *ngIf="usefulLinkFormType == 'create'">Create
+        <h5 class="modal-title" id="usefulLinkModalLabel" *ngIf="usefulLinkFormType == 'create' && permission.create">
+          Create
           Useful Link</h5>
-        <h5 class="modal-title" id="usefulLinkModalLabel" *ngIf="usefulLinkFormType == 'update'">Update
+        <h5 class="modal-title" id="usefulLinkModalLabel" *ngIf="usefulLinkFormType == 'update' && permission.update">
+          Update
           Useful Link</h5>
-        <h5 class="modal-title" id="usefulLinkModalLabel" *ngIf="usefulLinkFormType == 'delete'">Delete
+        <h5 class="modal-title" id="usefulLinkModalLabel" *ngIf="usefulLinkFormType == 'delete' && permission.delete">
+          Delete
           Useful Link</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close" #closeLinkModal>
           <span aria-hidden="true">&times;</span>
@@ -78,11 +81,11 @@
           </div>
           <div class="buttons">
             <button type="submit" class="btn btn-primary" (click)="createUsefulLink()"
-              *ngIf="usefulLinkFormType == 'create'">Create</button>
+              *ngIf="usefulLinkFormType == 'create' && permission.create">Create</button>
             <button type="submit" class="btn btn-primary" (click)="updateUsefulLink()"
-              *ngIf="usefulLinkFormType == 'update'">Update</button>
+              *ngIf="usefulLinkFormType == 'update' && permission.update">Update</button>
             <button type="submit" class="btn btn-danger" (click)="deleteUsefulLink()"
-              *ngIf="usefulLinkFormType == 'delete'">Delete</button>
+              *ngIf="usefulLinkFormType == 'delete' && permission.delete">Delete</button>
           </div>
         </form>
       </div>

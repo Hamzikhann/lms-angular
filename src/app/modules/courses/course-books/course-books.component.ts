@@ -9,6 +9,7 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./course-books.component.css'],
 })
 export class CourseBooksComponent {
+  permission: any = { create: true, update: true, delete: true };
   courseId: any;
   books: any;
   book: any = {

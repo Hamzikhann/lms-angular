@@ -4,7 +4,8 @@
       <div class="what-you-learn">
         <div class="page-separator d-flex align-items-center justify-content-between mb-32pt">
           <div class="page-separator__text">Recommended Books
-            <span class="heading-icon" data-toggle="modal" data-target="#bookModal" (click)="setBookFormType('create')">
+            <span class="heading-icon" data-toggle="modal" data-target="#bookModal" (click)="setBookFormType('create')"
+              *ngIf="permission.create">
               <i class="material-icons">add_circle</i>
             </span>
           </div>
@@ -31,10 +32,10 @@
                     </a>
                     <div class="buttons">
                       <a href="javascript:void(0)" data-toggle="modal" data-target="#bookModal"
-                        (click)="setBookFormType('update'); setBook(book)">
+                        (click)="setBookFormType('update'); setBook(book)" *ngIf="permission.update">
                         <i class="material-icons fa-lg mx-1">edit</i></a>
                       <a href="javascript:void(0)" data-toggle="modal" data-target="#bookModal"
-                        (click)="setBookFormType('delete'); setBook(book)">
+                        (click)="setBookFormType('delete'); setBook(book)" *ngIf="permission.delete">
                         <i class="material-icons fa-lg mx-1">delete</i></a>
                     </div>
                   </div>
@@ -53,13 +54,17 @@
   </div>
 </div>
 
-<div class="modal" id="bookModal" tabindex="-1" role="dialog" aria-labelledby="bookModalLabel" aria-hidden="true">
+<div class="modal" id="bookModal" tabindex="-1" role="dialog" aria-labelledby="bookModalLabel" aria-hidden="true"
+  *ngIf="permission.create || permission.update || permission.delete">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="bookModalLabel" *ngIf="bookFormType == 'create'">Create Book</h5>
-        <h5 class="modal-title" id="bookModalLabel" *ngIf="bookFormType == 'update'">Update Book</h5>
-        <h5 class="modal-title" id="bookModalLabel" *ngIf="bookFormType == 'delete'">Delete Book</h5>
+        <h5 class="modal-title" id="bookModalLabel" *ngIf="bookFormType == 'create' && permission.create">Create Book
+        </h5>
+        <h5 class="modal-title" id="bookModalLabel" *ngIf="bookFormType == 'update' && permission.update">Update Book
+        </h5>
+        <h5 class="modal-title" id="bookModalLabel" *ngIf="bookFormType == 'delete' && permission.delete">Delete Book
+        </h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close" #closeBookModal></button>
       </div>
       <div class="modal-body text-primary">
@@ -97,11 +102,11 @@
           </div>
           <div class="modal-footer">
             <button type="submit" class="btn btn-primary" (click)="createBook()"
-              *ngIf="bookFormType == 'create'">Create</button>
+              *ngIf="bookFormType == 'create' && permission.create">Create</button>
             <button type="submit" class="btn btn-primary" (click)="updateBook()"
-              *ngIf="bookFormType == 'update'">Update</button>
+              *ngIf="bookFormType == 'update' && permission.update">Update</button>
             <button type="submit" class="btn btn-danger" (click)="deleteBook()"
-              *ngIf="bookFormType == 'delete'">Delete</button>
+              *ngIf="bookFormType == 'delete' && permission.delete">Delete</button>
           </div>
         </form>
       </div>

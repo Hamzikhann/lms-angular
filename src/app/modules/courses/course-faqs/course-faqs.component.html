@@ -1,7 +1,8 @@
 <div class="container page__container">
   <div class="page-separator d-flex align-items-center justify-content-between mb-32pt">
     <div class="page-separator__text">Frequently Ask Questions
-      <span class="heading-icon" data-toggle="modal" data-target="#faqModal" (click)="setFaqFormType('create')">
+      <span class="heading-icon" data-toggle="modal" data-target="#faqModal" (click)="setFaqFormType('create')"
+        *ngIf="permission.create">
         <i class="material-icons">add_circle</i>
       </span>
     </div>
@@ -24,10 +25,10 @@
               <h5 class="card-subtitle-2 mb-4pt text-100">{{ faq.title }}</h5>
               <div class="buttons">
                 <a href="javascript:void(0)" data-toggle="modal" data-target="#faqModal"
-                  (click)="setFaqFormType('update'); setFaq(faq)">
+                  (click)="setFaqFormType('update'); setFaq(faq)" *ngIf="permission.update">
                   <i class="material-icons fa-lg mx-1">edit</i></a>
                 <a href="javascript:void(0)" data-toggle="modal" data-target="#faqModal"
-                  (click)="setFaqFormType('delete'); setFaq(faq)">
+                  (click)="setFaqFormType('delete'); setFaq(faq)" *ngIf="permission.delete">
                   <i class="material-icons fa-lg mx-1">delete</i></a>
               </div>
             </div>
@@ -39,13 +40,14 @@
   </div>
 </div>
 
-<div class="modal" id="faqModal" tabindex="-1" role="dialog" aria-labelledby="faqModalLabel" aria-hidden="true">
+<div class="modal" id="faqModal" tabindex="-1" role="dialog" aria-labelledby="faqModalLabel" aria-hidden="true"
+  *ngIf="permission.create || permission.update || permission.delete">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="faqModalLabel" *ngIf="faqFormType == 'create'">Create FAQ</h5>
-        <h5 class="modal-title" id="faqModalLabel" *ngIf="faqFormType == 'update'">Update FAQ</h5>
-        <h5 class="modal-title" id="faqModalLabel" *ngIf="faqFormType == 'delete'">Delete FAQ</h5>
+        <h5 class="modal-title" id="faqModalLabel" *ngIf="faqFormType == 'create' && permission.create">Create FAQ</h5>
+        <h5 class="modal-title" id="faqModalLabel" *ngIf="faqFormType == 'update' && permission.update">Update FAQ</h5>
+        <h5 class="modal-title" id="faqModalLabel" *ngIf="faqFormType == 'delete' && permission.delete">Delete FAQ</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close" #closeFaqModal>
           <span aria-hidden="true">&times;</span>
         </button>
@@ -64,11 +66,11 @@
           </div>
           <div class="buttons mt-2">
             <button type="submit" class="btn btn-primary" (click)="createFaq()"
-              *ngIf="faqFormType == 'create'">Create</button>
+              *ngIf="faqFormType == 'create' && permission.create">Create</button>
             <button type="submit" class="btn btn-primary" (click)="updateFaq()"
-              *ngIf="faqFormType == 'update'">Update</button>
+              *ngIf="faqFormType == 'update' && permission.update">Update</button>
             <button type="submit" class="btn btn-danger" (click)="deleteFaq()"
-              *ngIf="faqFormType == 'delete'">Delete</button>
+              *ngIf="faqFormType == 'delete' && permission.delete">Delete</button>
           </div>
         </form>
       </div>

@@ -1,8 +1,9 @@
 <div class="container page__container">
   <div class="page-separator d-flex align-items-center justify-content-between mb-32pt">
-    <div class="page-separator__text">
+    <div class="page-separator__text" *ngIf="syllabus.id">
       {{ syllabus.title }}
-      <span class="heading-icon" data-toggle="modal" data-target="#moduleModal" (click)="setModuleFormType('create')">
+      <span class="heading-icon" data-toggle="modal" data-target="#moduleModal" (click)="setModuleFormType('create')"
+        *ngIf="permission.module.create">
         <i class="material-icons">add_circle</i>
       </span>
     </div>
@@ -17,16 +18,16 @@
                 <div class="accordion__toggle collapsed">
                   <span class="flex">{{ module.title }}
                     <span class="heading-icon" data-toggle="modal" data-target="#taskModal"
-                      (click)="setTaskFormType('create'); setTaskModuleId(module.id);">
+                      (click)="setTaskFormType('create'); setTaskModuleId(module.id);" *ngIf="permission.task.create">
                       <i class="material-icons">add_circle</i>
                     </span>
                   </span>
                   <div class="buttons">
                     <span data-toggle="modal" data-target="#moduleModal"
-                      (click)="setModule(module); setModuleFormType('update');">
+                      (click)="setModule(module); setModuleFormType('update');" *ngIf="permission.module.update">
                       <i class="material-icons fa-lg mx-1">edit</i></span>
                     <span data-toggle="modal" data-target="#moduleModal"
-                      (click)="setModule(module); setModuleFormType('delete');">
+                      (click)="setModule(module); setModuleFormType('delete');" *ngIf="permission.module.delete">
                       <i class="material-icons fa-lg">delete</i></span>
                   </div>
                 </div>
@@ -50,11 +51,11 @@
                       <div class="d-flex align-items-center">
                         <div class="buttons">
                           <a href="javascript:void(0)" data-toggle="modal" data-target="#taskModal"
-                            (click)="setTask(item); setTaskFormType('update')">
+                            (click)="setTask(item); setTaskFormType('update')" *ngIf="permission.task.update">
                             <i class="material-icons fa-lg mx-1 ml-2">edit</i></a>
                           <a href="javascript:void(0)" data-toggle="modal" data-target="#taskModal"
-                            (click)="setTask(item); setTaskFormType('delete')"><i
-                              class="material-icons fa-lg">delete</i></a>
+                            (click)="setTask(item); setTaskFormType('delete')" *ngIf="permission.task.delete">
+                            <i class="material-icons fa-lg">delete</i></a>
                         </div>
                       </div>
                     </div>
@@ -69,13 +70,17 @@
   </div>
 </div>
 
-<div class="modal" id="moduleModal" tabindex="-1" role="dialog" aria-labelledby="moduleModalLabel" aria-hidden="true">
+<div class="modal" id="moduleModal" tabindex="-1" role="dialog" aria-labelledby="moduleModalLabel" aria-hidden="true"
+  *ngIf="permission.module.create || permission.module.update || permission.module.delete">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="moduleModalLabel" *ngIf="moduleFormType == 'create'">Create Module</h5>
-        <h5 class="modal-title" id="moduleModalLabel" *ngIf="moduleFormType == 'update'">Update Module</h5>
-        <h5 class="modal-title" id="moduleModalLabel" *ngIf="moduleFormType == 'delete'">Delete Module</h5>
+        <h5 class="modal-title" id="moduleModalLabel" *ngIf="moduleFormType == 'create' && permission.module.create">
+          Create Module</h5>
+        <h5 class="modal-title" id="moduleModalLabel" *ngIf="moduleFormType == 'update' && permission.module.update">
+          Update Module</h5>
+        <h5 class="modal-title" id="moduleModalLabel" *ngIf="moduleFormType == 'delete' && permission.module.delete">
+          Delete Module</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close" #closeModuleModal>
           <span aria-hidden="true">&times;</span>
         </button>
@@ -94,11 +99,11 @@
           </div>
           <div class="buttons">
             <button type="submit" class="btn btn-primary" (click)="createModule()"
-              *ngIf="moduleFormType == 'create'">Create</button>
+              *ngIf="moduleFormType == 'create' && permission.module.create">Create</button>
             <button type="submit" class="btn btn-primary" (click)="updateModule()"
-              *ngIf="moduleFormType == 'update'">Update</button>
+              *ngIf="moduleFormType == 'update' && permission.module.update">Update</button>
             <button type="submit" class="btn btn-danger" (click)="deleteModule()"
-              *ngIf="moduleFormType == 'delete'">Delete</button>
+              *ngIf="moduleFormType == 'delete' && permission.module.delete">Delete</button>
           </div>
         </form>
       </div>
@@ -106,13 +111,17 @@
   </div>
 </div>
 
-<div class="modal" id="taskModal" tabindex="-1" role="dialog" aria-labelledby="taskModalLabel" aria-hidden="true">
+<div class="modal" id="taskModal" tabindex="-1" role="dialog" aria-labelledby="taskModalLabel" aria-hidden="true"
+  *ngIf="permission.task.create || permission.task.update || permission.task.delete">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="taskModalLabel" *ngIf="taskFormType == 'create'">Create Task</h5>
-        <h5 class="modal-title" id="taskModalLabel" *ngIf="taskFormType == 'update'">Update Task</h5>
-        <h5 class="modal-title" id="taskModalLabel" *ngIf="taskFormType == 'delete'">Delete Task</h5>
+        <h5 class="modal-title" id="taskModalLabel" *ngIf="taskFormType == 'create' && permission.task.create">Create
+          Task</h5>
+        <h5 class="modal-title" id="taskModalLabel" *ngIf="taskFormType == 'update' && permission.task.update">Update
+          Task</h5>
+        <h5 class="modal-title" id="taskModalLabel" *ngIf="taskFormType == 'delete' && permission.task.delete">Delete
+          Task</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close" #closeTaskModal>
           <span aria-hidden="true">&times;</span>
         </button>
@@ -183,9 +192,12 @@
             </div>
             <div class="col-12">
               <div class="buttons">
-                <button class="btn btn-primary" (click)="createTask()" *ngIf="taskFormType == 'create'">Create</button>
-                <button class="btn btn-primary" (click)="updateTask()" *ngIf="taskFormType == 'update'">Update</button>
-                <button class="btn btn-danger" (click)="deleteTask()" *ngIf="taskFormType == 'delete'">Delete</button>
+                <button class="btn btn-primary" (click)="createTask()"
+                  *ngIf="taskFormType == 'create' && permission.task.create">Create</button>
+                <button class="btn btn-primary" (click)="updateTask()"
+                  *ngIf="taskFormType == 'update' && permission.task.update">Update</button>
+                <button class="btn btn-danger" (click)="deleteTask()"
+                  *ngIf="taskFormType == 'delete' && permission.task.delete">Delete</button>
               </div>
             </div>
           </div>

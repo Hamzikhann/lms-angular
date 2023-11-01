@@ -9,6 +9,7 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./course-useful-links.component.css'],
 })
 export class CourseUsefulLinksComponent {
+  permission: any = { create: true, update: true, delete: true };
   courseId: any;
   usefulLinks: any;
   usefulLink = {

@@ -9,6 +9,11 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./course-toc.component.css'],
 })
 export class CourseTocComponent {
+  permission: any = {
+    module: { create: true, update: true, delete: true },
+    task: { create: true, update: true, delete: true },
+  };
+
   courseId: any;
   courseDetails: any;
 
