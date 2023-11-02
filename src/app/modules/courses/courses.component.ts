@@ -34,4 +34,46 @@ export class CoursesComponent {
       console.log(this.courses);
     });
   }
+
+  updateCourse(course: any) {
+    const data = {
+      path: 'courses/update ',
+      payload: {
+        courseId: this.courseSelected.id,
+        title: this.courseSelected.title,
+        about: this.courseSelected.about,
+        code: this.courseSelected.code,
+        level: this.courseSelected.level,
+        language: this.courseSelected.language,
+        status: this.courseSelected.status,
+        courseDepartmentId: this.courseSelected.courseDepartmentId,
+      },
+    };
+    this.apiServices.postRequest(data).subscribe((data: any) => {
+      if (this.closeModal) {
+        this.closeModal.nativeElement.click();
+      }
+
+      course.reset();
+      this.toastr.success('Course updated successfully!');
+      this.getCourses();
+    });
+  }
+
+  deleteCourse() {
+    const data = {
+      path: 'courses/delete',
+      payload: {
+        courseId: this.courseSelected.id,
+      },
+    };
+    this.apiServices.postRequest(data).subscribe((data: any) => {
+      if (this.closeModal) {
+        this.closeModal.nativeElement.click();
+      }
+
+      this.toastr.success('Course deleted successfully!');
+      this.getCourses();
+    });
+  }
 }

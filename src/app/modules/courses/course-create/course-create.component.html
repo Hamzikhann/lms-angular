@@ -1,20 +1,24 @@
 <div class="pt-32pt">
-  <div class="container page__container d-flex flex-column flex-md-row align-items-center text-center text-sm-left">
+  <div
+    class="container page__container d-flex flex-column flex-md-row align-items-center text-center text-sm-left"
+  >
     <div class="flex d-flex flex-column flex-sm-row align-items-center">
       <div class="mb-24pt mb-sm-0 mr-sm-24pt">
         <h2 class="mb-0">Add New Course</h2>
         <ol class="breadcrumb p-0 m-0">
           <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
-          <li class="breadcrumb-item"><a href="javascript:void(0)">Courses</a></li>
-          <li class="breadcrumb-item active">
-            Create New
+          <li class="breadcrumb-item">
+            <a href="javascript:void(0)">Courses</a>
           </li>
+          <li class="breadcrumb-item active">Create New</li>
         </ol>
       </div>
     </div>
     <div class="row" role="tablist">
       <div class="col-auto">
-        <a [routerLink]="['create']" class="btn btn-outline-primary">Save Changes</a>
+        <button type="submit" class="btn btn-primary" (click)="createCourse()">
+          Save Changes
+        </button>
       </div>
     </div>
   </div>
@@ -28,14 +32,19 @@
           <div class="card-body">
             <div class="form-group">
               <label>Title</label>
-              <input type="text" class="form-control" name="title">
+              <input
+                type="text"
+                class="form-control"
+                name="title"
+                [(ngModel)]="course.title"
+              />
             </div>
             <div class="form-group mb-2">
               <label>About</label>
               <div class="editor">
                 <ngx-editor-menu [editor]="editor" [toolbar]="toolbar">
                 </ngx-editor-menu>
-                <ngx-editor [editor]="editor">
+                <ngx-editor [editor]="editor" [(ngModel)]="course.about">
                 </ngx-editor>
               </div>
             </div>
@@ -48,14 +57,26 @@
               <table class="table table-bordered table-hover mb-0">
                 <tbody>
                   <tr *ngFor="let objective of objectives; let i = index">
-                    <td class="text-center">{{ i+1 }}</td>
+                    <td class="text-center">{{ i + 1 }}</td>
                     <td>{{ objective }}</td>
-                    <td class="w-10">
+                    <td>
                       <div class="buttons text-center">
-                        <span class="badge badge-primary p-1 mr-2">
+                        <span
+                          class="badge badge-primary p-1 mr-2"
+                          (click)="
+                            setCourseObjective(objective, i);
+                            setCourseObjectiveFormType('update')
+                          "
+                        >
                           <i class="material-icons mr-0">edit</i>
                         </span>
-                        <span class="badge badge-primary p-1 mr-2">
+                        <span
+                          class="badge badge-primary p-1 mr-2"
+                          (click)="
+                            setCourseObjective(objective, i);
+                            setCourseObjectiveFormType('delete')
+                          "
+                        >
                           <i class="material-icons mr-0">delete</i>
                         </span>
                       </div>
@@ -64,15 +85,66 @@
                   <tr>
                     <td></td>
                     <td>
-                      <input type="text" name="objective" class="form-control"
-                        placeholder="Enter course objective or what you'll learn">
+                      <input
+                        type="text"
+                        name="objective"
+                        class="form-control"
+                        placeholder="Enter course objective or what you'll learn"
+                        [(ngModel)]="objective.description"
+                        [disabled]="objectiveFormType == 'delete'"
+                      />
                     </td>
-                    <td>
-                      <button type="button" class="btn btn-outline-primary">Add</button>
+                    <td class="w-10">
+                      <button
+                        type="submit"
+                        class="btn btn-outline-primary"
+                        (click)="addCourseObjective()"
+                        *ngIf="objectiveFormType == 'create'"
+                      >
+                        Add
+                      </button>
+                      <button
+                        type="submit"
+                        class="btn btn-outline-primary"
+                        (click)="updateCourseObjective()"
+                        *ngIf="objectiveFormType == 'update'"
+                      >
+                        Update
+                      </button>
+                      <button
+                        type="submit"
+                        class="btn btn-outline-danger"
+                        (click)="deleteCourseObjective()"
+                        *ngIf="objectiveFormType == 'delete'"
+                      >
+                        Delete
+                      </button>
                     </td>
                   </tr>
                 </tbody>
               </table>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-body">
+            <div class="form-group">
+              <label>Instructor Name </label>
+              <input
+                type="text"
+                class="form-control"
+                name="name"
+                [(ngModel)]="course.instructorName"
+              />
+            </div>
+            <div class="form-group">
+              <label> About</label>
+              <input
+                type="text"
+                class="form-control"
+                name="about"
+                [(ngModel)]="course.instructorAbout"
+              />
             </div>
           </div>
         </div>
@@ -84,12 +156,30 @@
               <label>Status</label>
               <div class="form-control">
                 <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="radio" name="status" id="statusDraft" value="Draft">
-                  <label class="form-check-label" for="statusDraft">Draft</label>
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    name="status"
+                    id="statusDraft"
+                    value="Draft"
+                    [(ngModel)]="course.status"
+                  />
+                  <label class="form-check-label" for="statusDraft"
+                    >Draft</label
+                  >
                 </div>
                 <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="radio" name="status" id="statusPublish" value="Publish">
-                  <label class="form-check-label" for="statusPublish">Publish</label>
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    name="status"
+                    id="statusPublish"
+                    value="Publish"
+                    [(ngModel)]="course.status"
+                  />
+                  <label class="form-check-label" for="statusPublish"
+                    >Publish</label
+                  >
                 </div>
               </div>
             </div>
@@ -99,24 +189,32 @@
           <div class="card-body">
             <div class="form-group">
               <label>Class</label>
-              <select class="form-control" name="class">
-                <option></option>
-                <option>Project Management</option>
-                <option>Quality Control and Six Sigma</option>
-                <option>Remote Work and Virtual Collaboration</option>
-                <option>Sales and Customer Service</option>
-                <option>Soft Skills</option>
-                <option>Team Building and Collaboration</option>
-                <option>Technical and IT</option>
-                <option>Time Management and Productivity</option>
+              <select
+                class="form-control"
+                name="classId"
+                [(ngModel)]="course.classId"
+              >
+                <option>...</option>
+                <ng-container *ngFor="let learningPath of learningPaths">
+                  <ng-container *ngFor="let class of learningPath.classes">
+                    <option [value]="class.id">{{ class.title }}</option>
+                  </ng-container>
+                </ng-container>
               </select>
             </div>
             <div class="form-group mb-2">
               <label>Department</label>
-              <select class="form-control" name="class">
-                <option></option>
-                <option>Sales and Marketing</option>
-                <option>Information Technology</option>
+              <select
+                class="form-control"
+                name="courseDepartmentId"
+                [(ngModel)]="course.courseDepartmentId"
+              >
+                <option>...</option>
+                <ng-container *ngFor="let department of courseDepartments">
+                  <option [value]="department.id">
+                    {{ department.title }}
+                  </option>
+                </ng-container>
               </select>
             </div>
           </div>
@@ -125,15 +223,30 @@
           <div class="card-body">
             <div class="form-group">
               <label>Course Code</label>
-              <input type="text" class="form-control" name="title">
+              <input
+                type="text"
+                class="form-control"
+                name="title"
+                [(ngModel)]="course.code"
+              />
             </div>
             <div class="form-group">
               <label>Level of Difficulty</label>
-              <input type="text" class="form-control" name="title">
+              <input
+                type="text"
+                class="form-control"
+                name="title"
+                [(ngModel)]="course.level"
+              />
             </div>
             <div class="form-group mb-2">
               <label>Language</label>
-              <input type="text" class="form-control" name="title">
+              <input
+                type="text"
+                class="form-control"
+                name="title"
+                [(ngModel)]="course.language"
+              />
             </div>
           </div>
         </div>

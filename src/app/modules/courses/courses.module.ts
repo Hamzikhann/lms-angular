@@ -14,6 +14,7 @@ import { CourseUsefulLinksComponent } from './course-useful-links/course-useful-
 import { CourseFaqsComponent } from './course-faqs/course-faqs.component';
 import { CourseTocComponent } from './course-toc/course-toc.component';
 import { CourseAboutComponent } from './course-about/course-about.component';
+import { CourseUpdateComponent } from './course-update/course-update.component';
 
 const routes: Routes = [
   {
@@ -27,6 +28,11 @@ const routes: Routes = [
         path: 'create',
         component: CourseCreateComponent,
       },
+      {
+        path: 'update/:id',
+        component: CourseUpdateComponent,
+      },
+
       {
         path: ':id',
         children: [
@@ -45,7 +51,17 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [CourseCreateComponent, DetailComponent, LectureComponent, CourseBooksComponent, CourseUsefulLinksComponent, CourseFaqsComponent, CourseTocComponent, CourseAboutComponent],
+  declarations: [
+    CourseCreateComponent,
+    DetailComponent,
+    LectureComponent,
+    CourseBooksComponent,
+    CourseUsefulLinksComponent,
+    CourseFaqsComponent,
+    CourseTocComponent,
+    CourseAboutComponent,
+    CourseUpdateComponent,
+  ],
   imports: [
     CommonModule,
     PdfViewerModule,
