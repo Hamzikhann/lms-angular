@@ -11,17 +11,20 @@
       class="hero py-48pt text-center text-sm-left"
       [style.background]="'rgba(48, 57, 85, 0.71)'"
     >
-      <div class="container page__container">
+      <div
+        class="container page__container"
+        *ngIf="courseDetails && courseDetails.courseDepartment"
+      >
         <h2
           class="d-flex align-items-center justify-content-between text-white m-0"
         >
-          Analysis of Variance & Experimental Design
+          {{ courseDetails.title }}
           <span class="badge badge-secondary ml-3 mt-1"
             ><small>Lecture</small></span
           >
         </h2>
         <p class="lead text-white-50 measure-hero-lead">
-          STA301 - Statistics and Probability
+          {{ courseDetails.code }} - {{ courseDetails.courseDepartment.title }}
         </p>
       </div>
     </div>
@@ -30,14 +33,21 @@
 
 <div
   class="navbar navbar-expand-sm navbar-light bg-white border-bottom-2 navbar-list p-0 m-0 align-items-center"
+  *ngIf="courseDetails"
 >
   <div class="container page__container">
     <ul class="nav navbar-nav flex align-items-sm-center">
       <li class="nav-item navbar-list__item">
-        <div class="media align-items-center">
-          <span class="media-left mr-16pt">
+        <div
+          class="media align-items-center"
+          *ngIf="courseDetails.courseInstructors.length > 0"
+        >
+          <span
+            class="media-left mr-16pt"
+            *ngIf="courseDetails.courseInstructors[0].imageUrl"
+          >
             <img
-              [src]="instructor.image"
+              [src]="ImgBaseURL + courseDetails.courseInstructors[0].imageUrl"
               width="40"
               alt="avatar"
               class="rounded-circle"
@@ -45,7 +55,7 @@
           </span>
           <div class="media-body">
             <a class="card-title m-0 text-70" href="javascript:void(0)">{{
-              instructor.name
+              courseDetails.courseInstructors[0].name
             }}</a>
             <p class="text-50 lh-1 mb-0">Instructor</p>
           </div>
@@ -90,27 +100,34 @@
   *ngIf="taskDetails && taskDetails.courseTaskContent"
 >
   <div class="container page__container">
-    <div
-      *ngIf="sections.videos"
-      class="js-player embed-responsive embed-responsive-16by9 mb-48pt"
-    >
-      <div class="player embed-responsive-item">
-        <div class="player__content">
-          <iframe
-            src="https://www.youtube.com/embed/JGwtVbOz528?si=59O5ILV1DBmR76lO&amp;controls=0"
-            frameborder="0"
-            allow="accelerometer; autoplay; encrypted-media; gyroscope;"
-            allowfullscreen
-          ></iframe>
-          <!-- <video #videoPlayer controls class="custom-video"> -->
-          <!-- <source src="https://www.youtube.com/watch?v=JGwtVbOz528" /> -->
-          <!-- </video> -->
+    <div class="row">
+      <div class="col-5">
+        <app-course-toc></app-course-toc>
+      </div>
+      <div class="col-7">
+        <div
+          *ngIf="sections.videos"
+          class="js-player embed-responsive embed-responsive-16by9 mb-48pt"
+        >
+          <div class="player embed-responsive-item">
+            <div class="player__content">
+              <iframe
+                src="https://www.youtube.com/embed/JGwtVbOz528?si=59O5ILV1DBmR76lO&amp;controls=0"
+                frameborder="0"
+                allow="accelerometer; autoplay; encrypted-media; gyroscope;"
+                allowfullscreen
+              ></iframe>
+              <!-- <video #videoPlayer controls class="custom-video"> -->
+              <!-- <source src="https://www.youtube.com/watch?v=JGwtVbOz528" /> -->
+              <!-- </video> -->
+            </div>
+            <!-- <div class="player__embed d-none">
+                      <iframe class="embed-responsive-item"
+                          src="https://player.vimeo.com/video/97243285?title=0&amp;byline=0&amp;portrait=0"
+                          allowfullscreen=""></iframe>
+                  </div> -->
+          </div>
         </div>
-        <!-- <div class="player__embed d-none">
-                    <iframe class="embed-responsive-item"
-                        src="https://player.vimeo.com/video/97243285?title=0&amp;byline=0&amp;portrait=0"
-                        allowfullscreen=""></iframe>
-                </div> -->
       </div>
     </div>
 

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { ApiService } from 'src/app/services/users/api.service';
+import { ConfigService } from 'src/app/config/config.service';
 
 @Component({
   selector: 'app-lecture',
@@ -19,11 +20,15 @@ export class LectureComponent implements OnInit {
     presentations: false,
   };
   taskDetails: any;
+  courseDetails: any;
+
+  ImgBaseURL: string = this.config.ImgBaseURL;
 
   constructor(
     private toastr: ToastrService,
     private apiServices: ApiService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private config: ConfigService
   ) {}
 
   ngOnInit(): void {
@@ -31,6 +36,7 @@ export class LectureComponent implements OnInit {
     this.taskId = this.route.snapshot.paramMap.get('taskId');
 
     console.log(this.taskId);
+    this.getCourseDetails();
 
     this.getTaskDetails();
 
@@ -52,6 +58,21 @@ export class LectureComponent implements OnInit {
       presentations: false,
     };
     this.sections[name] = true;
+  }
+
+  getCourseDetails() {
+    const data = {
+      path: 'courses/detail',
+      payload: {
+        courseId: this.courseId,
+      },
+    };
+
+    this.apiServices.postRequest(data).subscribe((response) => {
+      this.courseDetails = response;
+
+      console.log(this.courseDetails);
+    });
   }
 
   getTaskDetails() {
