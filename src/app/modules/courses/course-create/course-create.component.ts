@@ -1,5 +1,5 @@
 import { Editor, Toolbar } from 'ngx-editor';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { ApiService } from 'src/app/services/users/api.service';
 import { Component, ElementRef, ViewChild } from '@angular/core';
@@ -38,7 +38,8 @@ export class CourseCreateComponent {
   constructor(
     private toastr: ToastrService,
     private apiServices: ApiService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    public router: Router
   ) {}
 
   @ViewChild('closeModal') closeModal: ElementRef | undefined;
@@ -77,6 +78,7 @@ export class CourseCreateComponent {
     };
     this.apiServices.postRequest(data).subscribe((data) => {
       this.toastr.success('Course added successfully!');
+      this.router.navigate(['/courses']);
     });
   }
 

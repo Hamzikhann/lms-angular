@@ -8,6 +8,7 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./courses.component.css'],
 })
 export class CoursesComponent {
+  permission: any = { create: true, update: true, delete: true };
   courses: any;
   courseSelected: any;
   courseDetails: any;
@@ -20,10 +21,6 @@ export class CoursesComponent {
     this.getCourses();
   }
 
-  setCourse(course: any) {
-    this.courseSelected = course;
-  }
-
   getCourses() {
     const data = {
       path: 'courses/list',
@@ -31,32 +28,6 @@ export class CoursesComponent {
     };
     this.apiServices.postRequest(data).subscribe((data) => {
       this.courses = data;
-      console.log(this.courses);
-    });
-  }
-
-  updateCourse(course: any) {
-    const data = {
-      path: 'courses/update ',
-      payload: {
-        courseId: this.courseSelected.id,
-        title: this.courseSelected.title,
-        about: this.courseSelected.about,
-        code: this.courseSelected.code,
-        level: this.courseSelected.level,
-        language: this.courseSelected.language,
-        status: this.courseSelected.status,
-        courseDepartmentId: this.courseSelected.courseDepartmentId,
-      },
-    };
-    this.apiServices.postRequest(data).subscribe((data: any) => {
-      if (this.closeModal) {
-        this.closeModal.nativeElement.click();
-      }
-
-      course.reset();
-      this.toastr.success('Course updated successfully!');
-      this.getCourses();
     });
   }
 
@@ -71,9 +42,12 @@ export class CoursesComponent {
       if (this.closeModal) {
         this.closeModal.nativeElement.click();
       }
-
       this.toastr.success('Course deleted successfully!');
       this.getCourses();
     });
+  }
+
+  setCourse(course: any) {
+    this.courseSelected = course;
   }
 }

@@ -19,7 +19,7 @@ export class EnrollmentsComponent {
 
   getEnrollments() {
     const data = {
-      path: 'enrollments/list',
+      path: 'course/enrollments/list',
       payload: {},
     };
     this.apiServices.postRequest(data).subscribe((response) => {
