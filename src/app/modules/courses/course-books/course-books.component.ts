@@ -23,6 +23,7 @@ export class CourseBooksComponent {
   bookFormType: string = '';
 
   @ViewChild('closeBookModal') closeBookModal: ElementRef | undefined;
+  filteredBooks: any;
 
   constructor(
     private toastr: ToastrService,
@@ -44,6 +45,7 @@ export class CourseBooksComponent {
     };
     this.apiServices.postRequest(data).subscribe((response) => {
       this.books = response.data;
+      this.filteredBooks = this.books;
     });
   }
 
@@ -133,5 +135,12 @@ export class CourseBooksComponent {
       publisher: '',
       bookUrl: '',
     };
+  }
+
+  searchBooks(event: any) {
+    const searchQuery = (event.target as HTMLInputElement).value.toLowerCase();
+    this.filteredBooks = this.books.filter((book: any) =>
+      book.title.toLowerCase().includes(searchQuery)
+    );
   }
 }

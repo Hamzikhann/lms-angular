@@ -19,6 +19,8 @@ export class CourseFaqsComponent {
   };
   faqFormType: string = '';
 
+  filteredFaqs: any;
+
   @ViewChild('closeFaqModal') closeFaqModal: ElementRef | undefined;
 
   constructor(
@@ -41,6 +43,7 @@ export class CourseFaqsComponent {
     };
     this.apiServices.postRequest(data).subscribe((response) => {
       this.faqs = response.data;
+      this.filteredFaqs = this.faqs;
     });
   }
 
@@ -118,5 +121,12 @@ export class CourseFaqsComponent {
       title: '',
       description: '',
     };
+  }
+
+  searchFaqs(event: any) {
+    const searchQuery = (event.target as HTMLInputElement).value.toLowerCase();
+    this.filteredFaqs = this.faqs.filter((faq: any) =>
+      faq.title.toLowerCase().includes(searchQuery)
+    );
   }
 }

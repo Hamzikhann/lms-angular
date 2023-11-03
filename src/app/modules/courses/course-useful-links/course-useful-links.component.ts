@@ -21,6 +21,7 @@ export class CourseUsefulLinksComponent {
   usefulLinkFormType: string = '';
 
   @ViewChild('closeLinkModal') closeLinkModal: ElementRef | undefined;
+  filteredUsefulLinks: any;
 
   constructor(
     private toastr: ToastrService,
@@ -42,6 +43,7 @@ export class CourseUsefulLinksComponent {
     };
     this.apiServices.postRequest(data).subscribe((response) => {
       this.usefulLinks = response.data;
+      this.filteredUsefulLinks = this.usefulLinks;
     });
   }
 
@@ -123,5 +125,12 @@ export class CourseUsefulLinksComponent {
       description: '',
       linkUrl: '',
     };
+  }
+
+  searchUsefulLinks(event: any) {
+    const searchQuery = (event.target as HTMLInputElement).value.toLowerCase();
+    this.filteredUsefulLinks = this.usefulLinks.filter((link: any) =>
+      link.title.toLowerCase().includes(searchQuery)
+    );
   }
 }

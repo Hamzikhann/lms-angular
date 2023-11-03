@@ -1,39 +1,68 @@
 <div class="container page__container">
-  <div class="page-separator d-flex align-items-center justify-content-between mb-32pt">
-    <div class="page-separator__text">Useful Links
-      <span class="heading-icon" data-toggle="modal" data-target="#usefulLinkModal"
-        (click)="setUsefulLinkFormType('create')" *ngIf="permission.create">
+  <div
+    class="page-separator d-flex align-items-center justify-content-between mb-32pt"
+  >
+    <div class="page-separator__text">
+      Useful Links
+      <span
+        class="heading-icon"
+        data-toggle="modal"
+        data-target="#usefulLinkModal"
+        (click)="setUsefulLinkFormType('create')"
+        *ngIf="permission.create"
+      >
         <i class="material-icons">add_circle</i>
       </span>
     </div>
-    <!-- <div class="search-form search-form--light pr-0 pl-16pt">
-      <input type="text" class="form-control pl-0" placeholder="Search" />
+    <div class="search-form search-form--light pr-0 pl-16pt">
+      <input
+        class="form-control form-input"
+        type="text"
+        placeholder="Search Useful Links"
+        (input)="searchUsefulLinks($event)"
+      />
       <button class="btn" type="submit">
         <i class="material-icons">search</i>
       </button>
-    </div> -->
+    </div>
   </div>
-  <div class="row" *ngFor="let link of usefulLinks">
+  <div class="row" *ngFor="let link of filteredUsefulLinks">
     <div class="col-md-12">
       <div class="card card--elevated card-group-row__card">
         <div class="card-body d-flex">
           <a [href]="link.linkUrl" target="_blank">
-            <span class="icon-holder icon-holder--outline-muted rounded-circle d-inline-flex mr-16pt">
+            <span
+              class="icon-holder icon-holder--outline-muted rounded-circle d-inline-flex mr-16pt"
+            >
               <i class="material-icons">link</i>
             </span>
           </a>
           <div class="flex">
             <div class="d-flex justify-content-between">
               <a [href]="link.linkUrl" target="_blank">
-                <h5 class="card-subtitle-2 mb-4pt text-100">{{ link.title }}</h5>
+                <h5 class="card-subtitle-2 mb-4pt text-100">
+                  {{ link.title }}
+                </h5>
               </a>
               <div class="buttons">
-                <a href="javascript:void(0)" data-toggle="modal" data-target="#usefulLinkModal"
-                  (click)="setUsefulLinkFormType('update'); setUsefulLink(link)" *ngIf="permission.update">
-                  <i class="material-icons fa-lg mx-1">edit</i></a>
-                <a href="javascript:void(0)" data-toggle="modal" data-target="#usefulLinkModal"
-                  (click)="setUsefulLinkFormType('delete'); setUsefulLink(link)" *ngIf="permission.delete">
-                  <i class="material-icons fa-lg mx-1">delete</i></a>
+                <a
+                  href="javascript:void(0)"
+                  data-toggle="modal"
+                  data-target="#usefulLinkModal"
+                  (click)="setUsefulLinkFormType('update'); setUsefulLink(link)"
+                  *ngIf="permission.update"
+                >
+                  <i class="material-icons fa-lg mx-1">edit</i></a
+                >
+                <a
+                  href="javascript:void(0)"
+                  data-toggle="modal"
+                  data-target="#usefulLinkModal"
+                  (click)="setUsefulLinkFormType('delete'); setUsefulLink(link)"
+                  *ngIf="permission.delete"
+                >
+                  <i class="material-icons fa-lg mx-1">delete</i></a
+                >
               </div>
             </div>
             <p class="text-70 mb-0">{{ link.description }}</p>
@@ -44,21 +73,46 @@
   </div>
 </div>
 
-<div class="modal" id="usefulLinkModal" tabindex="-1" role="dialog" aria-labelledby="usefulLinkModalLabel"
-  aria-hidden="true" *ngIf="permission.create || permission.update || permission.delete">
+<div
+  class="modal"
+  id="usefulLinkModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="usefulLinkModalLabel"
+  aria-hidden="true"
+  *ngIf="permission.create || permission.update || permission.delete"
+>
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="usefulLinkModalLabel" *ngIf="usefulLinkFormType == 'create' && permission.create">
-          Create
-          Useful Link</h5>
-        <h5 class="modal-title" id="usefulLinkModalLabel" *ngIf="usefulLinkFormType == 'update' && permission.update">
-          Update
-          Useful Link</h5>
-        <h5 class="modal-title" id="usefulLinkModalLabel" *ngIf="usefulLinkFormType == 'delete' && permission.delete">
-          Delete
-          Useful Link</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close" #closeLinkModal>
+        <h5
+          class="modal-title"
+          id="usefulLinkModalLabel"
+          *ngIf="usefulLinkFormType == 'create' && permission.create"
+        >
+          Create Useful Link
+        </h5>
+        <h5
+          class="modal-title"
+          id="usefulLinkModalLabel"
+          *ngIf="usefulLinkFormType == 'update' && permission.update"
+        >
+          Update Useful Link
+        </h5>
+        <h5
+          class="modal-title"
+          id="usefulLinkModalLabel"
+          *ngIf="usefulLinkFormType == 'delete' && permission.delete"
+        >
+          Delete Useful Link
+        </h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+          #closeLinkModal
+        >
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -66,26 +120,64 @@
         <form #formUsefulLink="ngForm">
           <div class="form-group">
             <label for="usefulLinkTitle" class="form-label">Title</label>
-            <input type="text" class="form-control" id="usefulLinkTitle" name="usefulLinkTitle"
-              [(ngModel)]="usefulLink.title" [disabled]="usefulLinkFormType == 'delete'" />
+            <input
+              type="text"
+              class="form-control"
+              id="usefulLinkTitle"
+              name="usefulLinkTitle"
+              [(ngModel)]="usefulLink.title"
+              [disabled]="usefulLinkFormType == 'delete'"
+            />
           </div>
           <div class="form-group">
-            <label for="usefulLinkDescription" class="form-label">Description</label>
-            <input type="text" class="form-control" id="usefulLinkDescription" name="usefulLinkDescription"
-              [(ngModel)]="usefulLink.description" [disabled]="usefulLinkFormType == 'delete'" />
+            <label for="usefulLinkDescription" class="form-label"
+              >Description</label
+            >
+            <input
+              type="text"
+              class="form-control"
+              id="usefulLinkDescription"
+              name="usefulLinkDescription"
+              [(ngModel)]="usefulLink.description"
+              [disabled]="usefulLinkFormType == 'delete'"
+            />
           </div>
           <div class="form-group">
             <label for="usefulLinkUrl" class="form-label">Link URL</label>
-            <input type="url" class="form-control" id="usefulLinkUrl" name="usefulLinkUrl"
-              [(ngModel)]="usefulLink.linkUrl" [disabled]="usefulLinkFormType == 'delete'" />
+            <input
+              type="url"
+              class="form-control"
+              id="usefulLinkUrl"
+              name="usefulLinkUrl"
+              [(ngModel)]="usefulLink.linkUrl"
+              [disabled]="usefulLinkFormType == 'delete'"
+            />
           </div>
           <div class="buttons">
-            <button type="submit" class="btn btn-primary" (click)="createUsefulLink()"
-              *ngIf="usefulLinkFormType == 'create' && permission.create">Create</button>
-            <button type="submit" class="btn btn-primary" (click)="updateUsefulLink()"
-              *ngIf="usefulLinkFormType == 'update' && permission.update">Update</button>
-            <button type="submit" class="btn btn-danger" (click)="deleteUsefulLink()"
-              *ngIf="usefulLinkFormType == 'delete' && permission.delete">Delete</button>
+            <button
+              type="submit"
+              class="btn btn-primary"
+              (click)="createUsefulLink()"
+              *ngIf="usefulLinkFormType == 'create' && permission.create"
+            >
+              Create
+            </button>
+            <button
+              type="submit"
+              class="btn btn-primary"
+              (click)="updateUsefulLink()"
+              *ngIf="usefulLinkFormType == 'update' && permission.update"
+            >
+              Update
+            </button>
+            <button
+              type="submit"
+              class="btn btn-danger"
+              (click)="deleteUsefulLink()"
+              *ngIf="usefulLinkFormType == 'delete' && permission.delete"
+            >
+              Delete
+            </button>
           </div>
         </form>
       </div>
