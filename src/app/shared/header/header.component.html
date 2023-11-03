@@ -1,4 +1,4 @@
-<div class="navbar navbar-expand navbar-light border-bottom-2" id="default-navbar" data-primary>
+<div class="navbar navbar-expand navbar-light border-bottom-2 px-0" id="default-navbar" data-primary>
   <div class="container page__container">
 
     <!-- Navbar toggler -->
@@ -8,8 +8,8 @@
 
     <!-- Navbar Brand -->
     <a href="javascript:void(0)" class="navbar-brand mr-16pt">
-      <img [src]="'/assets/images/logo/logo.png'" class="h-32px" *ngIf="!client" />
-      <img [src]="imageBaseUrl + client?.logoURL" class="h-32px" *ngIf="client" />
+      <img [src]="'/assets/images/logo/logo.png'" class="h-28px" *ngIf="!client" />
+      <img [src]="imageBaseUrl + client?.logoURL" class="h-28px" *ngIf="client" />
     </a>
 
     <div class="d-none d-sm-flex flex justify-content-center">
@@ -38,25 +38,25 @@
       </ul>
     </div>
 
-    <div class="nav navbar-nav flex-nowrap d-flex ml-16pt">
+    <div class="nav navbar-nav flex-nowrap d-flex ml-16pt mr-0">
       <!-- <div class="nav-item ml-16pt dropdown-notifications" [routerLink]="['/notifications']">
         <button class="nav-link btn-flush">
           <i class="material-icons">notifications_none</i>
           <span class="badge badge-notifications badge-accent">2</span>
         </button>
       </div> -->
-      <div class="nav-item dropdown">
+      <div class="nav-item dropdown mr-0">
         <a href="#" class="nav-link d-flex align-items-center dropdown-toggle" data-toggle="dropdown"
           data-caret="false">
-          <span class="avatar avatar-sm mr-8pt2">
+          <div class="mr-3 text-right">
+            <p class="avatar-name mb-0">{{ loggedInUser.firstName + ' ' + loggedInUser.lastName }}</p>
+            <p class="avatar-role text-50 mb-0"><small>{{ loggedInUser.role.title }}</small></p>
+          </div>
+          <span class="avatar avatar-sm mr-0">
             <span class="avatar-title rounded-circle bg-primary">
               <i class="material-icons">account_box</i>
             </span>
           </span>
-          <div class="ml-3">
-            <p class="avatar-name mb-0">{{ loggedInUser.firstName + ' ' + loggedInUser.lastName }}</p>
-            <p class="avatar-role text-50 mb-0"><small>{{ loggedInUser.role.title }}</small></p>
-          </div>
         </a>
         <div class="dropdown-menu dropdown-menu-right">
           <a class="dropdown-item" href="javascript:void(0)" [routerLink]="['/account']">Profile & Settings</a>
