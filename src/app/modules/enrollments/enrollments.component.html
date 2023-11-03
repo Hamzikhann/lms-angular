@@ -1,34 +1,110 @@
-<div class="pt-32pt">
-    <div class="container page__container d-flex flex-column flex-md-row align-items-center text-center text-sm-left">
-        <div class="flex d-flex flex-column flex-sm-row align-items-center">
-            <div class="mb-24pt mb-sm-0 mr-sm-24pt">
-                <h2 class="mb-0">Enrollments</h2>
-                <ol class="breadcrumb p-0 m-0">
-                    <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
-                    <li class="breadcrumb-item active">
-                        Enrollments
-                    </li>
-                </ol>
-            </div>
+<div class="container page__container d-flex flex-column flex-md-row align-items-center text-center text-sm-left">
+    <div class="flex d-flex flex-column flex-sm-row align-items-center">
+        <div class="my-24pt mr-sm-24pt">
+            <h2 class="mb-0">Enrollments</h2>
+            <ol class="breadcrumb p-0 m-0">
+                <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                <li class="breadcrumb-item active">
+                    Enrollments
+                </li>
+            </ol>
         </div>
     </div>
 </div>
 
-<div class="container page__container">
-    <div class="page-section">
-        <div class="posts-cards">
-            <div class="card posts-card p-2" *ngFor="let enrollment of enrollments">
-                <div class="posts-card__content d-flex align-items-center flex-wrap">
-                    <div class="posts-card__title flex d-flex flex-column">
-                        <a href="javscript:void(0)" class="card-title mr-3">{{ enrollment.title }}</a>
-                        <small class="text-50">{{ enrollment.content }}</small>
-                    </div>
-                    <div class="d-flex align-items-center flex-column flex-sm-row posts-card__meta">
-                    </div>
-                    <div class="d-flex align-items-center justify-space-between flex-column flex-sm-row posts-card__meta"
-                        *ngFor="let course of enrollment.courses">
-                        <a href="javascript:void(0)" class="chip chip-outline-secondary py-1 px-2 mr-2">{{ course }}</a>
-                    </div>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-4 col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    <h6 class="mb-0" *ngIf="enrollmentFormType == 'create'">Create New</h6>
+                    <h6 class="mb-0" *ngIf="enrollmentFormType == 'delete'">Delete Information</h6>
+                </div>
+                <div class="card-body">
+                    <form #formData="ngForm">
+                        <div class="form-group">
+                            <label for="assignmentId" class="form-label">Course</label>
+                            <select id="assignmentId" class="form-control" name="assignmentId"
+                                [(ngModel)]="enrollment.assignmentId" [disabled]="enrollmentFormType=='delete'">
+                                <option></option>
+                                <ng-container *ngFor="let assignment of courses">
+                                    <option [value]="assignment.id">{{ assignment.course.title }}</option>
+                                </ng-container>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="typeId" class="form-label">Access Level</label>
+                            <select id="typeId" class="form-control" name="typeId" [(ngModel)]="enrollment.typeId"
+                                [disabled]="enrollmentFormType=='delete'">
+                                <option></option>
+                                <ng-container *ngFor="let type of enrollmentTypes">
+                                    <option [value]="type.id">{{ type.title }}</option>
+                                </ng-container>
+                            </select>
+                        </div>
+                        <div class="form-group" *ngIf="enrollmentFormType != 'delete'">
+                            <label class="form-label">Enrollment Type</label>
+                            <div class="form-control">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="required" id="requiredYes"
+                                        value="Y" [(ngModel)]="enrollment.required" />
+                                    <label class="form-check-label" for="requiredYes">Compulsory</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="status" id="requiredNo" value="N"
+                                        [(ngModel)]="enrollment.required" />
+                                    <label class="form-check-label" for="requiredNo">Optional</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-buttons">
+                            <button type="submit" class="btn btn-primary" (click)="createEnrollment()"
+                                *ngIf="enrollmentFormType == 'create'"
+                                [disabled]="!enrollment.assignmentId || !enrollment.typeId">Create</button>
+                            <button type="submit" class="btn btn-danger" (click)="deleteEnrollment()"
+                                *ngIf="enrollmentFormType == 'delete'" [disabled]="!enrollment.id">Delete</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-8 col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    <h6 class="mb-0">List of Course Enrollments</h6>
+                </div>
+                <div class="card-body">
+                    <table class="table table-sm table-hover table-bordered mb-0">
+                        <thead class="bg-light">
+                            <tr>
+                                <th scope="col">Course</th>
+                                <th scope="col" class="w-25">Type</th>
+                                <th scope="col" class="w-25">Access Level</th>
+                                <th scope="col" class="w-10">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <ng-container *ngFor="let enrollment of enrollments; let i = index">
+                                <tr>
+                                    <td>{{ enrollment.courseAssignment.course.title }}</td>
+                                    <td>
+                                        <div class="badge" [class.badge-primary]="enrollment.required == 'Y'"
+                                            [class.badge-info]="enrollment.required == 'N'">
+                                            <ng-container *ngIf="enrollment.required == 'Y'">Compulsory</ng-container>
+                                            <ng-container *ngIf="enrollment.required == 'N'">Optional</ng-container>
+                                        </div>
+                                    </td>
+                                    <td>{{ enrollment.courseEnrollmentType.title }}</td>
+                                    <td class="text-center">
+                                        <span class="badge badge-primary p-1 mr-2"
+                                            (click)="setEnrollment(enrollment); setEnrollmentFormType('delete')">
+                                            <i class="material-icons mr-0">delete</i>
+                                        </span>
+                                    </td>
+                                </tr>
+                            </ng-container>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>

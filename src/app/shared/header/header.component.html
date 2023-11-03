@@ -29,7 +29,10 @@
         <li class="nav-item">
           <a href="javascript:void(0)" class="nav-link" [routerLink]="['/courses']">Courses</a>
         </li>
-        <li class="nav-item" *ngIf="loggedInUser.role.title == 'Administrator' || loggedInUser.role.title == 'Client'">
+        <li class="nav-item" *ngIf="loggedInUser.role.title == 'Administrator'">
+          <a href="javascript:void(0)" class="nav-link" [routerLink]="['/assignments']">Assignments</a>
+        </li>
+        <li class="nav-item" *ngIf="loggedInUser.role.title == 'Client'">
           <a href="javascript:void(0)" class="nav-link" [routerLink]="['/enrollments']">Enrollments</a>
         </li>
       </ul>

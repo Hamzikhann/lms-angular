@@ -69,16 +69,17 @@ export class CourseCreateComponent {
         level: this.course.level,
         language: this.course.language,
         status: this.course.status,
-        objectives: JSON.stringify(this.objectives),
+        objectives: this.objectives,
         classId: this.course.classId,
         courseDepartmentId: this.course.courseDepartmentId,
         instructorName: this.course.instructorName,
         instructorAbout: this.course.instructorAbout,
       },
     };
-    this.apiServices.postRequest(data).subscribe((data) => {
+    this.apiServices.postRequest(data).subscribe((response) => {
       this.toastr.success('Course added successfully!');
-      this.router.navigate(['/courses']);
+      console.log(response);
+      this.router.navigate(['/courses', response.data.id]);
     });
   }
 
