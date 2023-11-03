@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
+
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { ApiService } from 'src/app/services/users/api.service';
@@ -9,7 +10,7 @@ import { ConfigService } from 'src/app/config/config.service';
   templateUrl: './lecture.component.html',
   styleUrls: ['./lecture.component.css'],
 })
-export class LectureComponent implements OnInit {
+export class LectureComponent {
   courseId: any;
   taskId: any;
 
@@ -24,12 +25,41 @@ export class LectureComponent implements OnInit {
 
   ImgBaseURL: string = this.config.ImgBaseURL;
 
+  permission: any = {
+    module: { create: true, update: true, delete: true },
+    question: { create: true, update: true, delete: true },
+    assessment: { create: true, update: true, delete: true },
+  };
+
+  assessmentType: string = '';
+  assessments: any;
+
+  assessment: any = {
+    id: '',
+    title: '',
+    description: '',
+    estimatedTime: '',
+    startTime: '',
+  };
+
+  question: any = {
+    id: '',
+    title: '',
+    options: '',
+    answer: '',
+    type: '',
+  };
+  questionFormType: string = '';
+  assessmentQuestionType: string = '';
+
   constructor(
     private toastr: ToastrService,
     private apiServices: ApiService,
     private route: ActivatedRoute,
     private config: ConfigService
   ) {}
+
+  @ViewChild('closeModal') closeModal: ElementRef | undefined;
 
   ngOnInit(): void {
     this.courseId = this.route.snapshot.paramMap.get('id');
@@ -39,6 +69,8 @@ export class LectureComponent implements OnInit {
     this.getCourseDetails();
 
     this.getTaskDetails();
+
+    this.getAssessments();
 
     this.instructor = {
       name: 'Dr. Saleha Naghmi',
@@ -88,5 +120,177 @@ export class LectureComponent implements OnInit {
 
       console.log(this.taskDetails);
     });
+  }
+
+  getAssessments() {
+    const data = {
+      path: 'course/task/assessments/list ',
+      payload: {
+        courseTaskId: this.taskId,
+      },
+    };
+    this.apiServices.postRequest(data).subscribe((response) => {
+      this.assessments = response.data;
+      console.log(this.assessments);
+    });
+  }
+
+  createAssessment() {
+    const data = {
+      path: 'course/task/assessments/create ',
+      payload: {
+        courseTaskId: this.taskId,
+        title: this.assessment.title,
+        description: this.assessment.description,
+        estimatedTime: this.assessment.estimatedTime,
+        startTime: this.assessment.startTime,
+        questions: [],
+      },
+    };
+    this.apiServices.postRequest(data).subscribe((data) => {
+      if (this.closeModal) {
+        this.closeModal.nativeElement.click();
+      }
+      this.toastr.success('Assessment added successfully!');
+      this.getAssessments();
+    });
+  }
+  updateAssessment() {
+    const data = {
+      path: 'course/task/assessments/update',
+      payload: {
+        courseTaskAssessmentId: this.assessment.id,
+        title: this.assessment.title,
+        description: this.assessment.description,
+        estimatedTime: this.assessment.estimatedTime,
+        startTime: this.assessment.startTime,
+      },
+    };
+    this.apiServices.postRequest(data).subscribe((data) => {
+      if (this.closeModal) {
+        this.closeModal.nativeElement.click();
+      }
+      this.toastr.success('Assessment updated successfully!');
+      this.getAssessments();
+    });
+  }
+  deleteAssessment() {
+    const data = {
+      path: 'course/task/assessments/delete',
+      payload: {
+        courseTaskAssessmentId: this.assessment.id,
+      },
+    };
+    this.apiServices.postRequest(data).subscribe((data) => {
+      if (this.closeModal) {
+        this.closeModal.nativeElement.click();
+      }
+      this.toastr.success('Assessment deleted successfully!');
+      this.getAssessments();
+    });
+  }
+
+  setAssessment(assessment: any) {
+    this.assessment = {
+      id: assessment.id,
+      title: assessment.title,
+      estimatedTime: assessment.estimatedTime,
+      description: assessment.description,
+      startTime: assessment.startTime,
+    };
+  }
+
+  setAssessmentType(name: any) {
+    this.assessmentType = name;
+  }
+
+  resetAssessmentData() {
+    this.assessmentType = 'create';
+    this.assessment = {
+      id: '',
+      title: '',
+      description: '',
+      estimatedTime: '',
+      startTime: '',
+    };
+  }
+
+  createAssessmentQuestion() {
+    const data = {
+      path: 'course/task/assessments/question/create ',
+      payload: {
+        courseTaskAssessmentId: this.assessment.id,
+        title: this.question.title,
+        options: this.question.options,
+        answer: this.question.answer,
+        type: this.question.type,
+      },
+    };
+    this.apiServices.postRequest(data).subscribe((data) => {
+      if (this.closeModal) {
+        this.closeModal.nativeElement.click();
+      }
+      this.toastr.success('Question added successfully!');
+      this.getAssessments();
+    });
+  }
+  updateAssessmentQuestion() {
+    const data = {
+      path: 'course/task/assessments/question/update',
+      payload: {
+        courseTaskAssessmentQuestionId: this.question.id,
+        title: this.question.title,
+        options: this.question.options,
+        answer: this.question.answer,
+        type: this.question.type,
+      },
+    };
+    this.apiServices.postRequest(data).subscribe((data) => {
+      if (this.closeModal) {
+        this.closeModal.nativeElement.click();
+      }
+      this.toastr.success('Question updated successfully!');
+      this.getAssessments();
+    });
+  }
+  deleteAssessmentQuestion() {
+    const data = {
+      path: 'course/task/assessments/question/delete',
+      payload: {
+        courseTaskAssessmentQuestionId: this.question.id,
+      },
+    };
+    this.apiServices.postRequest(data).subscribe((data) => {
+      if (this.closeModal) {
+        this.closeModal.nativeElement.click();
+      }
+      this.toastr.success('Question deleted successfully!');
+      this.getAssessments();
+    });
+  }
+
+  setAssessmentQuestion(question: any) {
+    this.question = {
+      id: question.id,
+      title: question.title,
+      options: question.options,
+      answer: question.answer,
+      type: question.type,
+    };
+  }
+
+  setAssessmentQuestionType(name: any) {
+    this.assessmentQuestionType = name;
+  }
+
+  resetAssessmentQuestionData() {
+    this.assessmentQuestionType = 'create';
+    this.question = {
+      id: '',
+      title: '',
+      options: '',
+      answer: '',
+      type: '',
+    };
   }
 }

@@ -130,6 +130,101 @@
         </div>
       </div>
     </div>
+    <div class="row">
+      <h5>Assessments</h5>
+      <span
+        class="heading-icon"
+        data-toggle="modal"
+        data-target="#assessmentModal"
+        (click)="setAssessmentType('create')"
+        *ngIf="permission.module.create"
+      >
+        <i class="material-icons">add_circle</i>
+      </span>
+    </div>
+    <div class="row">
+      <div class="col">
+        <div class="card" *ngFor="let assessment of assessments">
+          <div class="card-body">
+            <div class="d-flex justify-content-between">
+              <div class="assessments">
+                <h6>{{ assessment.title }}</h6>
+                <p>{{ assessment.description }}</p>
+              </div>
+
+              <div class="buttons ml-3">
+                <span
+                  data-toggle="modal"
+                  data-target="#assessmentModal"
+                  (click)="
+                    setAssessment(assessment); setAssessmentType('update')
+                  "
+                  *ngIf="permission.assessment.update"
+                >
+                  <i class="material-icons fa-lg mx-1">edit</i></span
+                >
+                <span
+                  data-toggle="modal"
+                  data-target="#assessmentModal"
+                  (click)="
+                    setAssessment(assessment); setAssessmentType('delete')
+                  "
+                  *ngIf="permission.assessment.delete"
+                >
+                  <i class="material-icons fa-lg mr-2">delete</i></span
+                >
+                <button
+                  type="submit"
+                  class="btn btn-outline-primary btn-sm"
+                  data-toggle="modal"
+                  data-target="#assessmentQuestionModal"
+                  (click)="
+                    setAssessmentQuestionType('create');
+                    setAssessment(assessment)
+                  "
+                  *ngIf="permission.question.create"
+                >
+                  Add Question
+                </button>
+              </div>
+            </div>
+            <div
+              class="questions"
+              *ngFor="let question of assessment.courseTaskAssessmentQuestions"
+            >
+              <h5>{{ question.title }}</h5>
+              <p>{{ question.options }}</p>
+              <p>{{ question.answer }}</p>
+
+              <div class="buttons ml-3">
+                <span
+                  data-toggle="modal"
+                  data-target="#assessmentQuestionModal"
+                  (click)="
+                    setAssessmentQuestion(question);
+                    setAssessmentQuestionType('update')
+                  "
+                  *ngIf="permission.question.update"
+                >
+                  <i class="material-icons fa-lg mx-1">edit</i></span
+                >
+                <span
+                  data-toggle="modal"
+                  data-target="#assessmentQuestionModal"
+                  (click)="
+                    setAssessmentQuestion(question);
+                    setAssessmentQuestionType('delete')
+                  "
+                  *ngIf="permission.question.delete"
+                >
+                  <i class="material-icons fa-lg mr-2">delete</i></span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <div *ngIf="sections.handouts" class="mb-48pt">
       <div class="pdf-container">
@@ -156,6 +251,302 @@
 
     <div *ngIf="sections.presentations" class="mb-48pt">
       <a href="javascript:void(0)" class="btn btn-outline-primary">Download</a>
+    </div>
+  </div>
+</div>
+
+<div
+  class="modal"
+  id="assessmentModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="assessmentModalLabel"
+  aria-hidden="true"
+  *ngIf="
+    permission.assessment.create ||
+    permission.assessment.update ||
+    permission.assessment.delete
+  "
+>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5
+          class="modal-title"
+          id="assessmentModalLabel"
+          *ngIf="assessmentType == 'create' && permission.assessment.create"
+        >
+          Create Assessment
+        </h5>
+        <h5
+          class="modal-title"
+          id="assessmentModalLabel"
+          *ngIf="assessmentType == 'update' && permission.assessment.update"
+        >
+          Update Assessment
+        </h5>
+        <h5
+          class="modal-title"
+          id="assessmentModalLabel"
+          *ngIf="assessmentType == 'delete' && permission.assessment.delete"
+        >
+          Delete Assessment
+        </h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+          #closeModal
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body text-primary">
+        <form #formTask="ngForm">
+          <div class="row">
+            <div class="col-12">
+              <div class="form-group">
+                <label for="assessmentTitle" class="form-label">Title</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="assessmentTitle"
+                  name="assessmentTitle"
+                  [(ngModel)]="assessment.title"
+                />
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="form-group">
+                <label for="assessmentDescription" class="form-label"
+                  >Description</label
+                >
+                <textarea
+                  class="form-control"
+                  id="assessmentDescription"
+                  name="assessmentDescription"
+                  [(ngModel)]="assessment.description"
+                ></textarea>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="form-group">
+                <label for="assessmentEstimatedTime" class="form-label"
+                  >Estimated Time</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="assessmentEstimatedTime"
+                  name="assessmentEstimatedTime"
+                  [(ngModel)]="assessment.estimatedTime"
+                />
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="form-group">
+                <label for="assessmentEstimatedTime" class="form-label"
+                  >Start Time</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="assessmentEstimatedTime"
+                  name="assessmentEstimatedTime"
+                  [(ngModel)]="assessment.startTime"
+                />
+              </div>
+            </div>
+
+            <div class="col-12">
+              <div class="buttons">
+                <button
+                  class="btn btn-primary"
+                  (click)="createAssessment()"
+                  *ngIf="
+                    assessmentType == 'create' && permission.assessment.create
+                  "
+                >
+                  Create
+                </button>
+                <button
+                  class="btn btn-primary"
+                  (click)="updateAssessment()"
+                  *ngIf="
+                    assessmentType == 'update' && permission.assessment.update
+                  "
+                >
+                  Update
+                </button>
+                <button
+                  class="btn btn-danger"
+                  (click)="deleteAssessment()"
+                  *ngIf="
+                    assessmentType == 'delete' && permission.assessment.delete
+                  "
+                >
+                  Delete
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="modal"
+  id="assessmentQuestionModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="assessmentQuestionModalLabel"
+  aria-hidden="true"
+  *ngIf="
+    permission.question.create ||
+    permission.question.update ||
+    permission.question.delete
+  "
+>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5
+          class="modal-title"
+          id="assessmentQuestionModalLabel"
+          *ngIf="
+            assessmentQuestionType == 'create' && permission.question.create
+          "
+        >
+          Create Assessment Question
+        </h5>
+        <h5
+          class="modal-title"
+          id="assessmentQuestionModalLabel"
+          *ngIf="
+            assessmentQuestionType == 'update' && permission.question.update
+          "
+        >
+          Update Assessment Question
+        </h5>
+        <h5
+          class="modal-title"
+          id="assessmentQuestionModalLabel"
+          *ngIf="
+            assessmentQuestionType == 'delete' && permission.question.delete
+          "
+        >
+          Delete Assessment Question
+        </h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+          #closeModal
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body text-primary">
+        <form #formTask="ngForm">
+          <div class="row">
+            <div class="col-12">
+              <div class="form-group">
+                <label for="assessmentQuestionTitle" class="form-label"
+                  >Title</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="assessmentQuestionTitle"
+                  name="assessmentQuestionTitle"
+                  [(ngModel)]="question.title"
+                />
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="form-group">
+                <label for="assessmentQuestionOptions" class="form-label"
+                  >Options</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="assessmentQuestionOptions"
+                  name="assessmentQuestionOptions"
+                  [(ngModel)]="question.options"
+                />
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="form-group">
+                <label for="assessmentQuestionAnswer" class="form-label"
+                  >Answer</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="assessmentQuestionAnswer"
+                  name="assessmentQuestionAnswer"
+                  [(ngModel)]="question.answer"
+                />
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="form-group">
+                <label for="assessmentQuestionType" class="form-label"
+                  >Type</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="assessmentQuestionType"
+                  name="assessmentQuestionType"
+                  [(ngModel)]="question.type"
+                />
+              </div>
+            </div>
+
+            <div class="col-12">
+              <div class="buttons">
+                <button
+                  class="btn btn-primary"
+                  (click)="createAssessmentQuestion()"
+                  *ngIf="
+                    assessmentQuestionType == 'create' &&
+                    permission.question.create
+                  "
+                >
+                  Create
+                </button>
+                <button
+                  class="btn btn-primary"
+                  (click)="updateAssessmentQuestion()"
+                  *ngIf="
+                    assessmentQuestionType == 'update' &&
+                    permission.question.update
+                  "
+                >
+                  Update
+                </button>
+                <button
+                  class="btn btn-danger"
+                  (click)="deleteAssessmentQuestion()"
+                  *ngIf="
+                    assessmentQuestionType == 'delete' &&
+                    permission.question.delete
+                  "
+                >
+                  Delete
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
 </div>

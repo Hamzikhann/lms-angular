@@ -24,7 +24,7 @@ export class EnrollmentsComponent {
     };
     this.apiServices.postRequest(data).subscribe((response) => {
       this.enrollments = response;
-      console.log(this.enrollments);
+      // console.log(this.enrollments);
     });
   }
 }
