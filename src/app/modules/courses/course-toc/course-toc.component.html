@@ -207,9 +207,14 @@
             </div>
             <div class="col-12">
               <div class="form-group">
-                <label for="taskHandoutLink" class="form-label">Handout Link</label>
-                <input type="text" class="form-control" id="taskHandoutLink" name="taskHandoutLink"
-                  [(ngModel)]="task.handoutLink" />
+                <label for="taskHandout" class="form-label">Handout i.e pdf</label>
+                <div class="custom-file">
+                  <input type="file" class="custom-file-input" id="handout" (change)="onHandoutSelected($event)"
+                    #handoutInput />
+                  <label class="custom-file-label" for="handout">
+                    <span>{{ task.handout?.name || "Choose File" }}</span>
+                  </label>
+                </div>
               </div>
             </div>
             <div class="col-12">

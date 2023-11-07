@@ -40,7 +40,7 @@ export class CourseTocComponent {
     estimatedTime: '',
     description: '',
     videoLink: '',
-    handoutLink: '',
+    handout: '',
     taskTypeId: '',
     moduleId: '',
   };
@@ -183,17 +183,20 @@ export class CourseTocComponent {
     });
   }
   createTask() {
+    const payload = new FormData();
+    payload.append('title', this.task.title);
+    payload.append('estimatedTime', this.task.estimatedTime);
+    payload.append('contentDescription', this.task.description);
+    payload.append('contentVideoLink', this.task.videoLink);
+    payload.append('courseTaskTypeId', this.task.taskTypeId);
+    payload.append('courseModuleId', this.task.moduleId);
+    if (this.task.handout) {
+      payload.append('handout', this.task.handout);
+    }
+
     const data = {
       path: 'course/tasks/create',
-      payload: {
-        title: this.task.title,
-        estimatedTime: this.task.estimatedTime,
-        contentDescription: this.task.description,
-        contentVideoLink: this.task.videoLink,
-        contentHandoutLink: this.task.handoutLink,
-        courseTaskTypeId: this.task.taskTypeId,
-        courseModuleId: this.task.moduleId,
-      },
+      payload: payload,
     };
     this.apiServices.postRequest(data).subscribe((data) => {
       if (this.closeTaskModal) {
@@ -205,17 +208,20 @@ export class CourseTocComponent {
     });
   }
   updateTask() {
+    const payload = new FormData();
+    payload.append('courseTaskId', this.task.id);
+    payload.append('title', this.task.title);
+    payload.append('estimatedTime', this.task.estimatedTime);
+    payload.append('contentDescription', this.task.description);
+    payload.append('contentVideoLink', this.task.videoLink);
+    payload.append('courseTaskTypeId', this.task.taskTypeId);
+    if (this.task.handout) {
+      payload.append('handout', this.task.handout);
+    }
+
     const data = {
       path: 'course/tasks/update ',
-      payload: {
-        courseTaskId: this.task.id,
-        title: this.task.title,
-        estimatedTime: this.task.estimatedTime,
-        contentDescription: this.task.description,
-        contentVideoLink: this.task.videoLink,
-        contentHandoutLink: this.task.handoutLink,
-        courseTaskTypeId: this.task.taskTypeId,
-      },
+      payload: payload,
     };
     this.apiServices.postRequest(data).subscribe((data) => {
       if (this.closeTaskModal) {
@@ -252,7 +258,7 @@ export class CourseTocComponent {
       estimatedTime: task.estimatedTime,
       description: task.courseTaskContent.description,
       videoLink: task.courseTaskContent.videoLink,
-      handoutLink: task.courseTaskContent.handoutLink,
+      handout: task.courseTaskContent.handout,
       taskTypeId: task.courseTaskTypeId,
       moduleId: task.courseModuleId,
     };
@@ -268,9 +274,13 @@ export class CourseTocComponent {
       estimatedTime: '',
       description: '',
       videoLink: '',
-      handoutLink: '',
+      handout: '',
       taskTypeId: '',
       moduleId: '',
     };
+  }
+
+  onHandoutSelected(event: any) {
+    this.task.handout = event.target.files[0];
   }
 }

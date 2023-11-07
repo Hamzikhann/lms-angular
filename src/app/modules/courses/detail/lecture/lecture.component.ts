@@ -14,6 +14,7 @@ declare var YT: any;
   styleUrls: ['./lecture.component.css'],
 })
 export class LectureComponent {
+  ImgBaseURL: string = this.config.ImgBaseURL;
   loggedInUser: any;
   permission: any = {
     assessment: { create: false, update: false, delete: false, submit: true },
@@ -132,6 +133,7 @@ export class LectureComponent {
     };
     this.apiServices.postRequest(data).subscribe((response) => {
       this.taskDetails = response.data;
+      console.log(this.taskDetails);
     });
   }
 
@@ -144,7 +146,6 @@ export class LectureComponent {
     };
     this.apiServices.postRequest(data).subscribe((response) => {
       this.assessments = response.data;
-      console.log(this.assessments);
       this.assessments.forEach((assignment: any) => {
         assignment.courseTaskAssessmentQuestions.forEach((question: any) => {
           question.options = question.options.split(',');
