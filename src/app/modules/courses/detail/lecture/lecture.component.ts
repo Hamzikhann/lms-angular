@@ -139,7 +139,9 @@ export class LectureComponent {
 
     this.apiServices.postRequest(data).subscribe((response) => {
       this.taskDetails = response.data;
-
+      // if (this.taskDetails.courseTaskType.title == 'Video') {
+      // this.loadVideo();
+      // }
       console.log(this.taskDetails);
     });
   }
@@ -350,8 +352,7 @@ export class LectureComponent {
   // }
 
   loadVideo() {
-    const videoId =
-      '"https://www.youtube.com/embed/JGwtVbOz528?si=59O5ILV1DBmR76lO&amp;controls=0"';
+    const videoId = this.courseDetails?.courseTaskContent?.videoLink;
 
     this.player = new YT.Player('youtube-player', {
       videoId: videoId,
