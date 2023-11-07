@@ -17,17 +17,18 @@
               <div class="accordion__item mb-4">
                 <div class="accordion__toggle collapsed">
                   <span class="flex">{{ module.title }}
-                    <span class="heading-icon" data-toggle="modal" data-target="#taskModal"
-                      (click)="setTaskFormType('create'); setTaskModuleId(module.id);" *ngIf="permission.task.create">
+                    <span class="heading-icon" data-toggle="modal" data-target="#taskModal" (click)="
+                        setTaskFormType('create'); setTaskModuleId(module.id)
+                      " *ngIf="permission.task.create">
                       <i class="material-icons">add_circle</i>
                     </span>
                   </span>
                   <div class="buttons">
                     <span data-toggle="modal" data-target="#moduleModal"
-                      (click)="setModule(module); setModuleFormType('update');" *ngIf="permission.module.update">
+                      (click)="setModule(module); setModuleFormType('update')" *ngIf="permission.module.update">
                       <i class="material-icons fa-lg mx-1">edit</i></span>
                     <span data-toggle="modal" data-target="#moduleModal"
-                      (click)="setModule(module); setModuleFormType('delete');" *ngIf="permission.module.delete">
+                      (click)="setModule(module); setModuleFormType('delete')" *ngIf="permission.module.delete">
                       <i class="material-icons fa-lg">delete</i></span>
                   </div>
                 </div>
@@ -74,16 +75,23 @@
 </div>
 
 <div class="modal" id="moduleModal" tabindex="-1" role="dialog" aria-labelledby="moduleModalLabel" aria-hidden="true"
-  *ngIf="permission.module.create || permission.module.update || permission.module.delete">
+  *ngIf="
+    permission.module.create ||
+    permission.module.update ||
+    permission.module.delete
+  ">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="moduleModalLabel" *ngIf="moduleFormType == 'create' && permission.module.create">
-          Create Module</h5>
+          Create Module
+        </h5>
         <h5 class="modal-title" id="moduleModalLabel" *ngIf="moduleFormType == 'update' && permission.module.update">
-          Update Module</h5>
+          Update Module
+        </h5>
         <h5 class="modal-title" id="moduleModalLabel" *ngIf="moduleFormType == 'delete' && permission.module.delete">
-          Delete Module</h5>
+          Delete Module
+        </h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close" #closeModuleModal>
           <span aria-hidden="true">&times;</span>
         </button>
@@ -102,11 +110,17 @@
           </div>
           <div class="buttons">
             <button type="submit" class="btn btn-primary" (click)="createModule()"
-              *ngIf="moduleFormType == 'create' && permission.module.create">Create</button>
+              *ngIf="moduleFormType == 'create' && permission.module.create">
+              Create
+            </button>
             <button type="submit" class="btn btn-primary" (click)="updateModule()"
-              *ngIf="moduleFormType == 'update' && permission.module.update">Update</button>
+              *ngIf="moduleFormType == 'update' && permission.module.update">
+              Update
+            </button>
             <button type="submit" class="btn btn-danger" (click)="deleteModule()"
-              *ngIf="moduleFormType == 'delete' && permission.module.delete">Delete</button>
+              *ngIf="moduleFormType == 'delete' && permission.module.delete">
+              Delete
+            </button>
           </div>
         </form>
       </div>
@@ -114,17 +128,21 @@
   </div>
 </div>
 
-<div class="modal" id="taskModal" tabindex="-1" role="dialog" aria-labelledby="taskModalLabel" aria-hidden="true"
-  *ngIf="permission.task.create || permission.task.update || permission.task.delete">
+<div class="modal" id="taskModal" tabindex="-1" role="dialog" aria-labelledby="taskModalLabel" aria-hidden="true" *ngIf="
+    permission.task.create || permission.task.update || permission.task.delete
+  ">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="taskModalLabel" *ngIf="taskFormType == 'create' && permission.task.create">Create
-          Task</h5>
-        <h5 class="modal-title" id="taskModalLabel" *ngIf="taskFormType == 'update' && permission.task.update">Update
-          Task</h5>
-        <h5 class="modal-title" id="taskModalLabel" *ngIf="taskFormType == 'delete' && permission.task.delete">Delete
-          Task</h5>
+        <h5 class="modal-title" id="taskModalLabel" *ngIf="taskFormType == 'create' && permission.task.create">
+          Create Task
+        </h5>
+        <h5 class="modal-title" id="taskModalLabel" *ngIf="taskFormType == 'update' && permission.task.update">
+          Update Task
+        </h5>
+        <h5 class="modal-title" id="taskModalLabel" *ngIf="taskFormType == 'delete' && permission.task.delete">
+          Delete Task
+        </h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close" #closeTaskModal>
           <span aria-hidden="true">&times;</span>
         </button>
@@ -161,13 +179,6 @@
             </div>
             <div class="col-6">
               <div class="form-group">
-                <label for="taskEstimatedTime" class="form-label">Estimated Time</label>
-                <input type="text" class="form-control" id="taskEstimatedTime" name="taskEstimatedTime"
-                  [(ngModel)]="task.estimatedTime" />
-              </div>
-            </div>
-            <div class="col-6">
-              <div class="form-group">
                 <label class="form-label" for="taskTypeId">Task Type</label>
                 <select class="form-select form-control" id="taskTypeId" name="taskTypeId"
                   [(ngModel)]="task.taskTypeId">
@@ -179,6 +190,14 @@
                 </select>
               </div>
             </div>
+            <div class="col-6">
+              <div class="form-group">
+                <label for="taskEstimatedTime" class="form-label">Estimated Time</label>
+                <input type="text" class="form-control" id="taskEstimatedTime" name="taskEstimatedTime"
+                  [(ngModel)]="task.estimatedTime" />
+              </div>
+            </div>
+
             <div class="col-12">
               <div class="form-group">
                 <label for="taskVideoLink" class="form-label">Video Link</label>
@@ -196,11 +215,17 @@
             <div class="col-12">
               <div class="buttons">
                 <button class="btn btn-primary" (click)="createTask()"
-                  *ngIf="taskFormType == 'create' && permission.task.create">Create</button>
+                  *ngIf="taskFormType == 'create' && permission.task.create">
+                  Create
+                </button>
                 <button class="btn btn-primary" (click)="updateTask()"
-                  *ngIf="taskFormType == 'update' && permission.task.update">Update</button>
+                  *ngIf="taskFormType == 'update' && permission.task.update">
+                  Update
+                </button>
                 <button class="btn btn-danger" (click)="deleteTask()"
-                  *ngIf="taskFormType == 'delete' && permission.task.delete">Delete</button>
+                  *ngIf="taskFormType == 'delete' && permission.task.delete">
+                  Delete
+                </button>
               </div>
             </div>
           </div>

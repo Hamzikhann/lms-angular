@@ -148,6 +148,9 @@ export class LectureComponent {
     };
     this.apiServices.postRequest(data).subscribe((response) => {
       this.taskDetails = response.data;
+      // if (this.taskDetails.courseTaskType.title == 'Video') {
+      // this.loadVideo();
+      // }
       console.log(this.taskDetails);
     });
   }
@@ -357,7 +360,7 @@ export class LectureComponent {
   // }
 
   loadVideo() {
-    const videoId = 'sQD7kaZ5h0s';
+    const videoId = this.courseDetails?.courseTaskContent?.videoLink;
 
     this.player = new YT.Player('youtube-player', {
       videoId: videoId,
@@ -370,7 +373,7 @@ export class LectureComponent {
       events: {
         onReady: (event: any) => {
           this.player = event.target;
-          this.initModalInterval();
+          // this.initModalInterval();
         },
       },
     });
