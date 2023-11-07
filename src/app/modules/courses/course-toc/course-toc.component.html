@@ -9,7 +9,7 @@
     </div>
   </div>
   <div class="row mb-0">
-    <div class="col-lg-9">
+    <div class="col-lg-12">
       <div class="accordion js-accordion accordion--boxed list-group-flush" id="parent">
         <ng-container *ngFor="let module of modules">
           <div class="row">
@@ -34,18 +34,20 @@
                 <div class="accordion__menu collapse show" [id]="'course-toc-' + module.id" data-parent="#parent">
                   <ng-container *ngFor="let item of module.courseTasks">
                     <div class="accordion__menu-link active">
-                      <span
-                        class="icon-holder icon-holder--small icon-holder--light rounded-circle d-inline-flex icon--left"
-                        *ngIf="item.status != 'closed'">
+                      <span *ngIf="item.courseTaskType.title == 'Video'"
+                        class="icon-holder icon-holder--small icon-holder--light rounded-circle d-inline-flex icon--left">
                         <i class="material-icons icon-16pt">play_circle_outline</i>
                       </span>
-                      <span
-                        class="icon-holder icon-holder--small icon-holder--light rounded-circle d-inline-flex icon--left"
-                        *ngIf="item.status == 'closed'">
-                        <i class="material-icons icon-16pt">lock</i>
+                      <span *ngIf="item.courseTaskType.title == 'Reading'"
+                        class="icon-holder icon-holder--small icon-holder--light rounded-circle d-inline-flex icon--left">
+                        <i class="material-icons icon-16pt">library_books</i>
+                      </span>
+                      <span *ngIf="item.courseTaskType.title == 'Assessment'"
+                        class="icon-holder icon-holder--small icon-holder--light rounded-circle d-inline-flex icon--left">
+                        <i class="material-icons icon-16pt">playlist_add_check</i>
                       </span>
                       <a class="flex" href="javascript:void(0)"
-                        [routerLink]="['/courses', courseId ,'lectures', item.id]">{{ item.title
+                        [routerLink]="['/courses', courseId ,'task', item.id]">{{ item.title
                         }}</a>
                       <span class="text-muted">{{ item.estimatedTime }}</span>
 

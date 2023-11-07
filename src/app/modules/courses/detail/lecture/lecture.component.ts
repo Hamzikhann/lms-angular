@@ -28,6 +28,12 @@ export class LectureComponent {
   taskDetails: any;
   courseDetails: any;
 
+  syllabus: any = {
+    id: '',
+    title: '',
+  };
+  modules: any;
+
   ImgBaseURL: string = this.config.ImgBaseURL;
 
   permission: any = {
@@ -82,27 +88,28 @@ export class LectureComponent {
     | undefined;
 
   ngOnInit(): void {
-    this.courseId = this.route.snapshot.paramMap.get('id');
-    this.taskId = this.route.snapshot.paramMap.get('taskId');
+    this.route.parent?.params.subscribe((params: any) => {
+      this.courseId = params.id;
+      this.getCourseDetails();
+    });
 
-    console.log(this.taskId);
-    this.getCourseDetails();
+    this.route.paramMap.subscribe((data: any) => {
+      this.taskId = data.params.taskId;
+      this.getTaskDetails();
+      this.getAssessments();
+    });
+  }
 
-    this.getTaskDetails();
-
-    this.getAssessments();
-
-    this.loadVideo();
-
-    this.instructor = {
-      name: 'Dr. Saleha Naghmi',
-      qualification: 'PhD.',
-      institute:
-        'National College of Business Administration and Economics (NCBA&E)',
-      image: '/assets/images/people/50/woman-6.jpg',
-      email: 'farwa.amin@vu.edu.pk ',
-      bio: 'I give personalized attention to all my students and success is a guarantee as per their dedication, .. My method of tutoring is based on jolly Phonics for kindergarten which involves having interactive sessions with them.',
+  getModules() {
+    const data = {
+      path: 'course/modules/list',
+      payload: {
+        courseSyllabusId: this.syllabus.id,
+      },
     };
+    this.apiServices.postRequest(data).subscribe((response) => {
+      this.modules = response.data;
+    });
   }
 
   toggleSection(name: string) {
@@ -124,8 +131,11 @@ export class LectureComponent {
 
     this.apiServices.postRequest(data).subscribe((response) => {
       this.courseDetails = response;
-
-      console.log(this.courseDetails);
+      this.syllabus = {
+        id: this.courseDetails.courseSyllabus?.id,
+        title: this.courseDetails.courseSyllabus?.title,
+      };
+      this.getModules();
     });
   }
 
@@ -136,10 +146,8 @@ export class LectureComponent {
         courseTaskId: this.taskId,
       },
     };
-
     this.apiServices.postRequest(data).subscribe((response) => {
       this.taskDetails = response.data;
-
       console.log(this.taskDetails);
     });
   }
@@ -153,7 +161,6 @@ export class LectureComponent {
     };
     this.apiServices.postRequest(data).subscribe((response) => {
       this.assessments = response.data;
-      console.log(this.assessments);
     });
   }
 

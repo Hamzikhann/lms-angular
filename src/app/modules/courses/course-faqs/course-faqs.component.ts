@@ -2,6 +2,7 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 import { ApiService } from 'src/app/services/users/api.service';
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute } from '@angular/router';
+import { AuthService } from 'src/app/services/auth/auth.service';
 
 @Component({
   selector: 'app-course-faqs',
@@ -9,7 +10,9 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./course-faqs.component.css'],
 })
 export class CourseFaqsComponent {
+  loggedInUser: any;
   permission: any = { create: true, update: true, delete: true };
+
   courseId: any;
   faqs: any;
   faq: any = {
@@ -26,12 +29,20 @@ export class CourseFaqsComponent {
   constructor(
     private toastr: ToastrService,
     private apiServices: ApiService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
-    this.courseId = this.route.snapshot.paramMap.get('id');
-    this.getFaqs();
+    this.loggedInUser = JSON.parse(this.authService.getUser());
+    if (this.loggedInUser.role.title == 'Administrator') {
+      this.permission = { create: true, update: true, delete: true };
+    }
+
+    this.route.parent?.params.subscribe((params: any) => {
+      this.courseId = params.id;
+      this.getFaqs();
+    });
   }
 
   getFaqs() {

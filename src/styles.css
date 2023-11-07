@@ -116,3 +116,13 @@
 .accordion__item .accordion__toggle.collapsed {
   border-radius: 6px 6px 0 0;
 }
+
+.app-content .page-section {
+  min-height: calc(100vh - 312px);
+}
+
+@media (min-width: 992px) {
+  .mdk-drawer-layout .container {
+    max-width: 1260px;
+  }
+}

@@ -2,6 +2,7 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 import { ApiService } from 'src/app/services/users/api.service';
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute } from '@angular/router';
+import { AuthService } from 'src/app/services/auth/auth.service';
 
 @Component({
   selector: 'app-course-toc',
@@ -9,9 +10,10 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./course-toc.component.css'],
 })
 export class CourseTocComponent {
+  loggedInUser: any;
   permission: any = {
-    module: { create: true, update: true, delete: true },
-    task: { create: true, update: true, delete: true },
+    module: { create: false, update: false, delete: false },
+    task: { create: false, update: false, delete: false },
   };
 
   courseId: any;
@@ -50,13 +52,24 @@ export class CourseTocComponent {
   constructor(
     private toastr: ToastrService,
     private apiServices: ApiService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
-    this.courseId = this.route.snapshot.paramMap.get('id');
-    this.getCourseDetails();
-    this.getTaskTypes();
+    this.loggedInUser = JSON.parse(this.authService.getUser());
+    if (this.loggedInUser.role.title == 'Administrator') {
+      this.permission = {
+        module: { create: true, update: true, delete: true },
+        task: { create: true, update: true, delete: true },
+      };
+    }
+
+    this.route.parent?.params.subscribe((params: any) => {
+      this.courseId = params.id;
+      this.getCourseDetails();
+      this.getTaskTypes();
+    });
   }
 
   getCourseDetails() {
@@ -85,6 +98,7 @@ export class CourseTocComponent {
     };
     this.apiServices.postRequest(data).subscribe((response) => {
       this.modules = response.data;
+      console.log(this.modules);
     });
   }
   createModule() {

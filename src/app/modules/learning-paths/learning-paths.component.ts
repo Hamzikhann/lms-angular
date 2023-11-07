@@ -1,6 +1,8 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
-import { ApiService } from 'src/app/services/users/api.service';
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { ApiService } from 'src/app/services/users/api.service';
+import { AuthService } from 'src/app/services/auth/auth.service';
 
 @Component({
   selector: 'app-learning-paths',
@@ -21,11 +23,22 @@ export class LearningPathsComponent {
     title: '',
   };
   learningPathFormType: string = 'create';
+  loggedInUser: any;
 
-  constructor(private toastr: ToastrService, private apiServices: ApiService) {}
+  constructor(
+    private router: Router,
+    private toastr: ToastrService,
+    private apiServices: ApiService,
+    private authService: AuthService
+  ) {}
 
   ngOnInit(): void {
-    this.getLearningPaths();
+    this.loggedInUser = JSON.parse(this.authService.getUser());
+    if (this.loggedInUser.role.title != 'Administrator') {
+      this.router.navigate(['/']);
+    } else {
+      this.getLearningPaths();
+    }
   }
 
   getLearningPaths() {

@@ -43,22 +43,27 @@
       </li>
       <li class="nav-item ml-sm-auto text-sm-center flex-column navbar-list__item">
         <ul class="nav navbar-nav flex align-items-sm-center">
-          <li class="nav-item navbar-list__item pr-3" [class.active]="sections.about" (click)="toggleSection('about')">
+          <li class="nav-item navbar-list__item pl-3" [class.active]="sections.about" (click)="toggleSection('about')"
+            [routerLink]="['/courses', courseDetails.id]">
             <i class="material-icons icon--left">info</i> <span>About</span>
           </li>
-          <li class="nav-item navbar-list__item pr-3" [class.active]="sections.index" (click)="toggleSection('index');">
+          <li class="nav-item navbar-list__item pl-3" [class.active]="sections.index" (click)="toggleSection('index')"
+            [routerLink]="['tasks']">
             <i class="material-icons icon--left">list_alt</i>
             <span>Syllabus / Table of Content</span>
           </li>
-          <li class="nav-item navbar-list__item pr-3" [class.active]="sections.books" (click)="toggleSection('books');">
+          <li class="nav-item navbar-list__item pl-3" [class.active]="sections.books" (click)="toggleSection('books')"
+            [routerLink]="['books']">
             <i class="material-icons icon--left">menu_book</i>
             <span>Books</span>
           </li>
-          <li class="nav-item navbar-list__item pr-3" [class.active]="sections.links" (click)="toggleSection('links');">
+          <li class="nav-item navbar-list__item pl-3" [class.active]="sections.links" (click)="toggleSection('links')"
+            [routerLink]="['useful-links']">
             <i class="material-icons icon--left">share</i>
             <span>Useful Links</span>
           </li>
-          <li class="nav-item navbar-list__item pr-3" [class.active]="sections.faqs" (click)="toggleSection('faqs');">
+          <li class="nav-item navbar-list__item pl-3" [class.active]="sections.faqs" (click)="toggleSection('faqs')"
+            [routerLink]="['faqs']">
             <i class="material-icons icon--left">dvr</i> <span>FAQs</span>
           </li>
         </ul>
@@ -67,22 +72,6 @@
   </div>
 </div>
 
-<div class="page-section border-bottom-2" *ngIf="sections.about">
-  <app-course-about></app-course-about>
-</div>
-
-<div class="page-section border-bottom-2" *ngIf="sections.index">
-  <app-course-toc></app-course-toc>
-</div>
-
-<div class="page-section border-bottom-2" *ngIf="sections.books">
-  <app-course-books></app-course-books>
-</div>
-
-<div class="page-section border-bottom-2" *ngIf="sections.links">
-  <app-course-useful-links></app-course-useful-links>
-</div>
-
-<div class="page-section border-bottom-2" *ngIf="sections.faqs">
-  <app-course-faqs></app-course-faqs>
+<div class="page-section border-bottom-2">
+  <router-outlet></router-outlet>
 </div>

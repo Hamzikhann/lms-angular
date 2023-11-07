@@ -1,8 +1,8 @@
 <div class="container page__container" *ngIf="courseDetails">
   <div class="page-separator d-flex align-items-center justify-content-between mb-32pt">
     <div class="page-separator__text">About this course
-      <a class="ml-2" [routerLink]="['/courses/update', courseDetails.id]"><i
-          class="material-icons fa-lg m-0">edit</i></a>
+      <a class="ml-2" [routerLink]="['/courses/update', courseDetails.id]" *ngIf="permission.update">
+        <i class="material-icons fa-lg m-0">edit</i></a>
     </div>
   </div>
   <div class="row">
@@ -10,7 +10,30 @@
       <div class="about-course">
         <p class="text-70" [innerHTML]="courseDetails.about"></p>
       </div>
-      <div class="what-you-learn mt-5">
+      <div class="about-course mt-4">
+        <div class="row">
+          <div class="col-4">
+            <div class="page-separator">
+              <div class="page-separator__text">Status</div>
+            </div>
+            <div class="badge badge-primary" *ngIf="courseDetails.status == 'P'">Published</div>
+            <div class="badge badge-warning" *ngIf="courseDetails.status == 'D'">Draft</div>
+          </div>
+          <div class="col-4">
+            <div class="page-separator">
+              <div class="page-separator__text">Language</div>
+            </div>
+            <p class="text-70">{{ courseDetails.language }}</p>
+          </div>
+          <div class="col-4">
+            <div class="page-separator">
+              <div class="page-separator__text">Difficulty Level</div>
+            </div>
+            <p class="text-70">{{ courseDetails.level }}</p>
+          </div>
+        </div>
+      </div>
+      <div class="what-you-learn mt-3">
         <div class="page-separator">
           <div class="page-separator__text">
             What you’ll learn

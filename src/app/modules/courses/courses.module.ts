@@ -32,16 +32,32 @@ const routes: Routes = [
         path: 'update/:id',
         component: CourseUpdateComponent,
       },
-
       {
         path: ':id',
+        component: DetailComponent,
         children: [
           {
             path: '',
-            component: DetailComponent,
+            component: CourseAboutComponent,
           },
           {
-            path: 'lectures/:taskId',
+            path: 'tasks',
+            component: CourseTocComponent,
+          },
+          {
+            path: 'books',
+            component: CourseBooksComponent,
+          },
+          {
+            path: 'useful-links',
+            component: CourseUsefulLinksComponent,
+          },
+          {
+            path: 'faqs',
+            component: CourseFaqsComponent,
+          },
+          {
+            path: 'task/:taskId',
             component: LectureComponent,
           },
         ],
