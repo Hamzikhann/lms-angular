@@ -105,31 +105,28 @@
         <app-course-toc></app-course-toc>
       </div>
       <div class="col-7">
-        <div
+        <div id="youtube-player"></div>
+
+        <!-- <div
           *ngIf="sections.videos"
           class="js-player embed-responsive embed-responsive-16by9 mb-48pt"
         >
           <div class="player embed-responsive-item">
-            <div class="player__content">
-              <iframe
+            <div class="player__content"> -->
+        <!-- <iframe
+                
                 src="https://www.youtube.com/embed/JGwtVbOz528?si=59O5ILV1DBmR76lO&amp;controls=0"
                 frameborder="0"
                 allow="accelerometer; autoplay; encrypted-media; gyroscope;"
                 allowfullscreen
-              ></iframe>
-              <!-- <video #videoPlayer controls class="custom-video"> -->
-              <!-- <source src="https://www.youtube.com/watch?v=JGwtVbOz528" /> -->
-              <!-- </video> -->
-            </div>
-            <!-- <div class="player__embed d-none">
-                      <iframe class="embed-responsive-item"
-                          src="https://player.vimeo.com/video/97243285?title=0&amp;byline=0&amp;portrait=0"
-                          allowfullscreen=""></iframe>
-                  </div> -->
+              ></iframe> -->
+
+        <!-- </div>
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
+
     <div class="row">
       <h5>Assessments</h5>
       <span
@@ -546,6 +543,57 @@
             </div>
           </div>
         </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button
+  #questionModalBtn
+  data-toggle="modal"
+  data-target="#questionModal"
+  style="display: none"
+>
+  ds
+</button>
+
+<div class="modal fade" id="questionModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button
+          class="d-none"
+          data-dismiss="modal"
+          aria-label="Close"
+          #questionModalBtnClose
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="quiz-container">
+          <p>What is 2 + 2?</p>
+          <label *ngFor="let option of options">
+            <input
+              type="radio"
+              name="quizOption"
+              [value]="option.value"
+              [(ngModel)]="selectedOption"
+            />
+            {{ option.label }}
+          </label>
+        </div>
+        <div class="retry-container" *ngIf="showError">
+          <p class="text-danger">Incorrect answer!</p>
+          <p>Please retry the quiz.</p>
+          <button (click)="retryQuiz()">Retry</button>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="checkAnswer()">
+          Submit
+        </button>
       </div>
     </div>
   </div>

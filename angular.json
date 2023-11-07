@@ -48,7 +48,8 @@
               "src/assets/js/dom-factory.js",
               "src/assets/js/material-design-kit.js",
               "src/assets/js/app.js",
-              "src/assets/js/preloader.js"
+              "src/assets/js/preloader.js",
+              "src/assets/js/yt_iframe_api.js"
             ]
           },
           "configurations": {
