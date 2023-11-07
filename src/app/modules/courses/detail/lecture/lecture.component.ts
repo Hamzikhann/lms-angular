@@ -350,7 +350,8 @@ export class LectureComponent {
   // }
 
   loadVideo() {
-    const videoId = 'sQD7kaZ5h0s';
+    const videoId =
+      '"https://www.youtube.com/embed/JGwtVbOz528?si=59O5ILV1DBmR76lO&amp;controls=0"';
 
     this.player = new YT.Player('youtube-player', {
       videoId: videoId,
@@ -363,7 +364,7 @@ export class LectureComponent {
       events: {
         onReady: (event: any) => {
           this.player = event.target;
-          this.initModalInterval();
+          // this.initModalInterval();
         },
       },
     });

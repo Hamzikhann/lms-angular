@@ -85,6 +85,7 @@ export class CourseTocComponent {
     };
     this.apiServices.postRequest(data).subscribe((response) => {
       this.modules = response.data;
+      console.log(this.modules);
     });
   }
   createModule() {
@@ -165,6 +166,7 @@ export class CourseTocComponent {
     };
     this.apiServices.postRequest(data).subscribe((data) => {
       this.taskTypes = data.data;
+      console.log(this.taskTypes);
     });
   }
   createTask() {
