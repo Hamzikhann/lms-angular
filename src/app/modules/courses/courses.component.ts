@@ -1,6 +1,8 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { ApiService } from 'src/app/services/users/api.service';
 import { ToastrService } from 'ngx-toastr';
+import { AuthService } from 'src/app/services/auth/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-courses',
@@ -8,16 +10,26 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./courses.component.css'],
 })
 export class CoursesComponent {
-  permission: any = { create: true, update: true, delete: true };
+  permission: any = { create: false, update: false, delete: false };
   courses: any;
   courseSelected: any;
   courseDetails: any;
   courseInstructors: any;
+  loggedInUser: any;
 
-  constructor(private toastr: ToastrService, private apiServices: ApiService) {}
+  constructor(
+    private router: Router,
+    private toastr: ToastrService,
+    private apiServices: ApiService,
+    private authService: AuthService
+  ) {}
   @ViewChild('closeModal') closeModal: ElementRef | undefined;
 
   ngOnInit(): void {
+    this.loggedInUser = JSON.parse(this.authService.getUser());
+    if (this.loggedInUser.role.title == 'Administrator') {
+      this.permission = { create: true, update: true, delete: true };
+    }
     this.getCourses();
   }
 

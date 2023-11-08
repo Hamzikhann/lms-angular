@@ -2,6 +2,7 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 import { ApiService } from 'src/app/services/users/api.service';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/services/auth/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-users',
@@ -34,6 +35,7 @@ export class UsersComponent {
   userId: any;
 
   constructor(
+    private router: Router,
     private toastr: ToastrService,
     private apiServices: ApiService,
     private authService: AuthService
@@ -46,11 +48,14 @@ export class UsersComponent {
     if (this.loggedInUser.role.title == 'Administrator') {
       this.getRoles();
       this.getClients();
+      this.getUsers();
     } else if (this.loggedInUser.role.title == 'Client') {
       this.getDepartments();
       this.getDesignations();
+      this.getUsers();
+    } else {
+      this.router.navigate(['/']);
     }
-    this.getUsers();
   }
 
   getRoles() {

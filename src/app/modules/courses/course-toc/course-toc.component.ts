@@ -2,6 +2,7 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 import { ApiService } from 'src/app/services/users/api.service';
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute } from '@angular/router';
+import { AuthService } from 'src/app/services/auth/auth.service';
 
 @Component({
   selector: 'app-course-toc',
@@ -9,9 +10,10 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./course-toc.component.css'],
 })
 export class CourseTocComponent {
+  loggedInUser: any;
   permission: any = {
-    module: { create: true, update: true, delete: true },
-    task: { create: true, update: true, delete: true },
+    module: { create: false, update: false, delete: false },
+    task: { create: false, update: false, delete: false },
   };
 
   courseId: any;
@@ -38,7 +40,7 @@ export class CourseTocComponent {
     estimatedTime: '',
     description: '',
     videoLink: '',
-    handoutLink: '',
+    handout: '',
     taskTypeId: '',
     moduleId: '',
   };
@@ -50,13 +52,24 @@ export class CourseTocComponent {
   constructor(
     private toastr: ToastrService,
     private apiServices: ApiService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
-    this.courseId = this.route.snapshot.paramMap.get('id');
-    this.getCourseDetails();
-    this.getTaskTypes();
+    this.loggedInUser = JSON.parse(this.authService.getUser());
+    if (this.loggedInUser.role.title == 'Administrator') {
+      this.permission = {
+        module: { create: true, update: true, delete: true },
+        task: { create: true, update: true, delete: true },
+      };
+    }
+
+    this.route.parent?.params.subscribe((params: any) => {
+      this.courseId = params.id;
+      this.getCourseDetails();
+      this.getTaskTypes();
+    });
   }
 
   getCourseDetails() {
@@ -170,17 +183,20 @@ export class CourseTocComponent {
     });
   }
   createTask() {
+    const payload = new FormData();
+    payload.append('title', this.task.title);
+    payload.append('estimatedTime', this.task.estimatedTime);
+    payload.append('contentDescription', this.task.description);
+    payload.append('contentVideoLink', this.task.videoLink);
+    payload.append('courseTaskTypeId', this.task.taskTypeId);
+    payload.append('courseModuleId', this.task.moduleId);
+    if (this.task.handout) {
+      payload.append('handout', this.task.handout);
+    }
+
     const data = {
       path: 'course/tasks/create',
-      payload: {
-        title: this.task.title,
-        estimatedTime: this.task.estimatedTime,
-        contentDescription: this.task.description,
-        contentVideoLink: this.task.videoLink,
-        contentHandoutLink: this.task.handoutLink,
-        courseTaskTypeId: this.task.taskTypeId,
-        courseModuleId: this.task.moduleId,
-      },
+      payload: payload,
     };
     this.apiServices.postRequest(data).subscribe((data) => {
       if (this.closeTaskModal) {
@@ -192,17 +208,20 @@ export class CourseTocComponent {
     });
   }
   updateTask() {
+    const payload = new FormData();
+    payload.append('courseTaskId', this.task.id);
+    payload.append('title', this.task.title);
+    payload.append('estimatedTime', this.task.estimatedTime);
+    payload.append('contentDescription', this.task.description);
+    payload.append('contentVideoLink', this.task.videoLink);
+    payload.append('courseTaskTypeId', this.task.taskTypeId);
+    if (this.task.handout) {
+      payload.append('handout', this.task.handout);
+    }
+
     const data = {
       path: 'course/tasks/update ',
-      payload: {
-        courseTaskId: this.task.id,
-        title: this.task.title,
-        estimatedTime: this.task.estimatedTime,
-        contentDescription: this.task.description,
-        contentVideoLink: this.task.videoLink,
-        contentHandoutLink: this.task.handoutLink,
-        courseTaskTypeId: this.task.taskTypeId,
-      },
+      payload: payload,
     };
     this.apiServices.postRequest(data).subscribe((data) => {
       if (this.closeTaskModal) {
@@ -239,7 +258,7 @@ export class CourseTocComponent {
       estimatedTime: task.estimatedTime,
       description: task.courseTaskContent.description,
       videoLink: task.courseTaskContent.videoLink,
-      handoutLink: task.courseTaskContent.handoutLink,
+      handout: task.courseTaskContent.handout,
       taskTypeId: task.courseTaskTypeId,
       moduleId: task.courseModuleId,
     };
@@ -255,9 +274,13 @@ export class CourseTocComponent {
       estimatedTime: '',
       description: '',
       videoLink: '',
-      handoutLink: '',
+      handout: '',
       taskTypeId: '',
       moduleId: '',
     };
+  }
+
+  onHandoutSelected(event: any) {
+    this.task.handout = event.target.files[0];
   }
 }

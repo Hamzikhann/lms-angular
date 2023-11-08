@@ -1,7 +1,7 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { ApiService } from 'src/app/services/users/api.service';
 import { ToastrService } from 'ngx-toastr';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ConfigService } from 'src/app/config/config.service';
 
 @Component({
@@ -16,7 +16,7 @@ export class DetailComponent {
   instructor: any;
 
   sections: any = {
-    about: true,
+    about: false,
     index: false,
     books: false,
     links: false,
@@ -27,12 +27,25 @@ export class DetailComponent {
     private toastr: ToastrService,
     private apiServices: ApiService,
     private config: ConfigService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
     this.courseId = this.route.snapshot.paramMap.get('id');
     this.getCourseDetails();
+
+    if (this.router.url.includes('task')) {
+      this.sections.index = true;
+    } else if (this.router.url.includes('books')) {
+      this.sections.books = true;
+    } else if (this.router.url.includes('links')) {
+      this.sections.links = true;
+    } else if (this.router.url.includes('faqs')) {
+      this.sections.faqs = true;
+    } else {
+      this.sections.about = true;
+    }
   }
 
   getCourseDetails() {

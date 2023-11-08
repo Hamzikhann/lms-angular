@@ -1,6 +1,8 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { ApiService } from 'src/app/services/users/api.service';
 import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth/auth.service';
 
 @Component({
   selector: 'app-assignments',
@@ -8,6 +10,7 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./assignments.component.css'],
 })
 export class AssignmentsComponent {
+  loggedInUser: any;
   clients: any = [];
   courses: any = [];
 
@@ -19,12 +22,22 @@ export class AssignmentsComponent {
   };
   assignmentFormType: string = 'create';
 
-  constructor(private toastr: ToastrService, private apiServices: ApiService) {}
+  constructor(
+    private router: Router,
+    private toastr: ToastrService,
+    private apiServices: ApiService,
+    private authService: AuthService
+  ) {}
 
   ngOnInit(): void {
-    this.getClients();
-    this.getCourses();
-    this.getCourseAssignments();
+    this.loggedInUser = JSON.parse(this.authService.getUser());
+    if (this.loggedInUser.role.title == 'Administrator') {
+      this.getClients();
+      this.getCourses();
+      this.getCourseAssignments();
+    } else {
+      this.router.navigate(['/']);
+    }
   }
 
   getCourses() {

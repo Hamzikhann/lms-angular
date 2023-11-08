@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { ApiService } from 'src/app/services/users/api.service';
 import { Component, ElementRef, ViewChild } from '@angular/core';
+import { AuthService } from 'src/app/services/auth/auth.service';
 
 @Component({
   selector: 'app-course-create',
@@ -10,6 +11,8 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
   styleUrls: ['./course-create.component.css'],
 })
 export class CourseCreateComponent {
+  loggedInUser: any;
+
   courses: any;
   course: any = {
     title: '',
@@ -39,14 +42,20 @@ export class CourseCreateComponent {
     private toastr: ToastrService,
     private apiServices: ApiService,
     private route: ActivatedRoute,
-    public router: Router
+    public router: Router,
+    private authService: AuthService
   ) {}
 
   @ViewChild('closeModal') closeModal: ElementRef | undefined;
 
   ngOnInit(): void {
-    this.getCourseDepartments();
-    this.getLearningPaths();
+    this.loggedInUser = JSON.parse(this.authService.getUser());
+    if (this.loggedInUser.role.title == 'Administrator') {
+      this.getCourseDepartments();
+      this.getLearningPaths();
+    } else {
+      this.router.navigate(['/']);
+    }
   }
 
   editor: Editor = new Editor();
@@ -78,7 +87,6 @@ export class CourseCreateComponent {
     };
     this.apiServices.postRequest(data).subscribe((response) => {
       this.toastr.success('Course added successfully!');
-      console.log(response);
       this.router.navigate(['/courses', response.data.id]);
     });
   }

@@ -1,8 +1,9 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { ApiService } from 'src/app/services/users/api.service';
 import { ToastrService } from 'ngx-toastr';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ConfigService } from 'src/app/config/config.service';
+import { AuthService } from 'src/app/services/auth/auth.service';
 
 @Component({
   selector: 'app-course-about',
@@ -10,7 +11,8 @@ import { ConfigService } from 'src/app/config/config.service';
   styleUrls: ['./course-about.component.css'],
 })
 export class CourseAboutComponent {
-  permission: any = { create: true, update: true, delete: true };
+  loggedInUser: any;
+  permission: any = { create: false, update: false, delete: false };
 
   courseId: any;
   courseDetails: any;
@@ -39,10 +41,16 @@ export class CourseAboutComponent {
     private toastr: ToastrService,
     private apiServices: ApiService,
     private config: ConfigService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
+    this.loggedInUser = JSON.parse(this.authService.getUser());
+    if (this.loggedInUser.role.title == 'Administrator') {
+      this.permission = { create: true, update: true, delete: true };
+    }
+
     this.courseId = this.route.snapshot.paramMap.get('id');
     this.getCourseDetails();
   }
@@ -56,6 +64,7 @@ export class CourseAboutComponent {
     };
     this.apiServices.postRequest(data).subscribe((data) => {
       this.courseDetails = data;
+      console.log(this.courseDetails);
     });
   }
 

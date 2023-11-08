@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { ApiService } from 'src/app/services/users/api.service';
 import { ConfigService } from 'src/app/config/config.service';
+import { AuthService } from 'src/app/services/auth/auth.service';
 
 declare var YT: any;
 
@@ -13,32 +14,30 @@ declare var YT: any;
   styleUrls: ['./lecture.component.css'],
 })
 export class LectureComponent {
-  private player: any;
-  private interval: any;
+  ImgBaseURL: string = this.config.ImgBaseURL;
+  loggedInUser: any;
+  permission: any = {
+    assessment: { create: false, update: false, delete: false, submit: true },
+    question: {
+      create: false,
+      update: false,
+      delete: false,
+      view: { answer: false },
+    },
+  };
 
   courseId: any;
-  taskId: any;
-
-  instructor: any;
-  sections: any = {
-    videos: true,
-    handouts: false,
-    presentations: false,
-  };
-  taskDetails: any;
   courseDetails: any;
-
-  ImgBaseURL: string = this.config.ImgBaseURL;
-
-  permission: any = {
-    module: { create: true, update: true, delete: true },
-    question: { create: true, update: true, delete: true },
-    assessment: { create: true, update: true, delete: true },
+  taskId: any;
+  taskDetails: any;
+  syllabus: any = {
+    id: '',
+    title: '',
   };
+  modules: any;
 
-  assessmentType: string = '';
-  assessments: any;
-
+  assessmentFormType: string = '';
+  assessments: any = [];
   assessment: any = {
     id: '',
     title: '',
@@ -55,63 +54,44 @@ export class LectureComponent {
     type: '',
   };
   questionFormType: string = '';
-  assessmentQuestionType: string = '';
-
-  passQuiz: boolean = false;
-  showError = false;
-
-  selectedOption: string = '';
-
-  options = [
-    { label: '3', value: '3' },
-    { label: '4', value: '4' },
-    { label: '5', value: '5' },
-  ];
 
   constructor(
     private toastr: ToastrService,
+    private authService: AuthService,
     private apiServices: ApiService,
     private route: ActivatedRoute,
     private config: ConfigService
   ) {}
 
   @ViewChild('closeModal') closeModal: ElementRef | undefined;
-  @ViewChild('questionModalBtn') questionModalBtn: ElementRef | undefined;
   @ViewChild('questionModalBtnClose') questionModalBtnClose:
     | ElementRef
     | undefined;
 
   ngOnInit(): void {
-    this.courseId = this.route.snapshot.paramMap.get('id');
-    this.taskId = this.route.snapshot.paramMap.get('taskId');
+    this.loggedInUser = JSON.parse(this.authService.getUser());
+    if (this.loggedInUser.role.title == 'Administrator') {
+      this.permission = {
+        assessment: { create: true, update: true, delete: true, submit: false },
+        question: {
+          create: true,
+          update: true,
+          delete: true,
+          view: { answer: true },
+        },
+      };
+    }
 
-    console.log(this.taskId);
-    this.getCourseDetails();
+    this.route.parent?.params.subscribe((params: any) => {
+      this.courseId = params.id;
+      this.getCourseDetails();
+    });
 
-    this.getTaskDetails();
-
-    this.getAssessments();
-
-    this.loadVideo();
-
-    this.instructor = {
-      name: 'Dr. Saleha Naghmi',
-      qualification: 'PhD.',
-      institute:
-        'National College of Business Administration and Economics (NCBA&E)',
-      image: '/assets/images/people/50/woman-6.jpg',
-      email: 'farwa.amin@vu.edu.pk ',
-      bio: 'I give personalized attention to all my students and success is a guarantee as per their dedication, .. My method of tutoring is based on jolly Phonics for kindergarten which involves having interactive sessions with them.',
-    };
-  }
-
-  toggleSection(name: string) {
-    this.sections = {
-      videos: false,
-      handouts: false,
-      presentations: false,
-    };
-    this.sections[name] = true;
+    this.route.paramMap.subscribe((data: any) => {
+      this.taskId = data.params.taskId;
+      this.getTaskDetails();
+      this.getAssessments();
+    });
   }
 
   getCourseDetails() {
@@ -124,8 +104,23 @@ export class LectureComponent {
 
     this.apiServices.postRequest(data).subscribe((response) => {
       this.courseDetails = response;
+      this.syllabus = {
+        id: this.courseDetails.courseSyllabus?.id,
+        title: this.courseDetails.courseSyllabus?.title,
+      };
+      this.getModules();
+    });
+  }
 
-      console.log(this.courseDetails);
+  getModules() {
+    const data = {
+      path: 'course/modules/list',
+      payload: {
+        courseSyllabusId: this.syllabus.id,
+      },
+    };
+    this.apiServices.postRequest(data).subscribe((response) => {
+      this.modules = response.data;
     });
   }
 
@@ -136,12 +131,8 @@ export class LectureComponent {
         courseTaskId: this.taskId,
       },
     };
-
     this.apiServices.postRequest(data).subscribe((response) => {
       this.taskDetails = response.data;
-      // if (this.taskDetails.courseTaskType.title == 'Video') {
-      // this.loadVideo();
-      // }
       console.log(this.taskDetails);
     });
   }
@@ -155,7 +146,11 @@ export class LectureComponent {
     };
     this.apiServices.postRequest(data).subscribe((response) => {
       this.assessments = response.data;
-      console.log(this.assessments);
+      this.assessments.forEach((assignment: any) => {
+        assignment.courseTaskAssessmentQuestions.forEach((question: any) => {
+          question.options = question.options.split(',');
+        });
+      });
     });
   }
 
@@ -213,7 +208,6 @@ export class LectureComponent {
       this.getAssessments();
     });
   }
-
   setAssessment(assessment: any) {
     this.assessment = {
       id: assessment.id,
@@ -223,13 +217,11 @@ export class LectureComponent {
       startTime: assessment.startTime,
     };
   }
-
-  setAssessmentType(name: any) {
-    this.assessmentType = name;
+  setAssessmentFormType(name: any) {
+    this.assessmentFormType = name;
   }
-
   resetAssessmentData() {
-    this.assessmentType = 'create';
+    this.assessmentFormType = 'create';
     this.assessment = {
       id: '',
       title: '',
@@ -247,14 +239,15 @@ export class LectureComponent {
         title: this.question.title,
         options: this.question.options,
         answer: this.question.answer,
-        type: this.question.type,
+        type: 'MCQ',
       },
     };
     this.apiServices.postRequest(data).subscribe((data) => {
-      if (this.closeModal) {
-        this.closeModal.nativeElement.click();
+      if (this.questionModalBtnClose) {
+        this.questionModalBtnClose.nativeElement.click();
       }
       this.toastr.success('Question added successfully!');
+      this.resetAssessmentQuestionData();
       this.getAssessments();
     });
   }
@@ -270,10 +263,11 @@ export class LectureComponent {
       },
     };
     this.apiServices.postRequest(data).subscribe((data) => {
-      if (this.closeModal) {
-        this.closeModal.nativeElement.click();
+      if (this.questionModalBtnClose) {
+        this.questionModalBtnClose.nativeElement.click();
       }
       this.toastr.success('Question updated successfully!');
+      this.resetAssessmentQuestionData();
       this.getAssessments();
     });
   }
@@ -285,14 +279,14 @@ export class LectureComponent {
       },
     };
     this.apiServices.postRequest(data).subscribe((data) => {
-      if (this.closeModal) {
-        this.closeModal.nativeElement.click();
+      if (this.questionModalBtnClose) {
+        this.questionModalBtnClose.nativeElement.click();
       }
       this.toastr.success('Question deleted successfully!');
+      this.resetAssessmentQuestionData();
       this.getAssessments();
     });
   }
-
   setAssessmentQuestion(question: any) {
     this.question = {
       id: question.id,
@@ -302,13 +296,11 @@ export class LectureComponent {
       type: question.type,
     };
   }
-
-  setAssessmentQuestionType(name: any) {
-    this.assessmentQuestionType = name;
+  setAssessmentQuestionFormType(name: any) {
+    this.questionFormType = name;
   }
-
   resetAssessmentQuestionData() {
-    this.assessmentQuestionType = 'create';
+    this.questionFormType = 'create';
     this.question = {
       id: '',
       title: '',
@@ -351,67 +343,67 @@ export class LectureComponent {
   //   this.selectedOption = '';
   // }
 
-  loadVideo() {
-    const videoId = this.courseDetails?.courseTaskContent?.videoLink;
+  // loadVideo() {
+  //   const videoId = this.courseDetails?.courseTaskContent?.videoLink;
 
-    this.player = new YT.Player('youtube-player', {
-      videoId: videoId,
-      playerVars: {
-        controls: 1,
-        autoplay: 0,
-        enablejsapi: 1,
-        iv_load_policy: 3,
-      },
-      events: {
-        onReady: (event: any) => {
-          this.player = event.target;
-          // this.initModalInterval();
-        },
-      },
-    });
-  }
+  //   this.player = new YT.Player('youtube-player', {
+  //     videoId: videoId,
+  //     playerVars: {
+  //       controls: 1,
+  //       autoplay: 0,
+  //       enablejsapi: 1,
+  //       iv_load_policy: 3,
+  //     },
+  //     events: {
+  //       onReady: (event: any) => {
+  //         this.player = event.target;
+  //         // this.initModalInterval();
+  //       },
+  //     },
+  //   });
+  // }
 
-  initModalInterval() {
-    this.interval = setInterval(() => {
-      const currentTime = this.player.getCurrentTime();
-      console.log(currentTime);
+  // initModalInterval() {
+  //   this.interval = setInterval(() => {
+  //     const currentTime = this.player.getCurrentTime();
+  //     console.log(currentTime);
 
-      if (currentTime >= 3) {
-        this.pauseVideoAndShowModal();
-        clearInterval(this.interval);
-      }
-    }, 1000);
-  }
+  //     if (currentTime >= 3) {
+  //       this.pauseVideoAndShowModal();
+  //       clearInterval(this.interval);
+  //     }
+  //   }, 1000);
+  // }
 
-  pauseVideoAndShowModal() {
-    this.player.pauseVideo();
-    console.log('asdas');
+  // pauseVideoAndShowModal() {
+  //   this.player.pauseVideo();
+  //   console.log('asdas');
 
-    if (this.questionModalBtn) this.questionModalBtn.nativeElement.click();
-  }
+  //   if (this.questionModalBtn) this.questionModalBtn.nativeElement.click();
+  // }
 
-  checkAnswer() {
-    if (this.selectedOption === '4') {
-      if (this.questionModalBtnClose)
-        this.questionModalBtnClose?.nativeElement.click();
-      this.player.playVideo();
+  // checkAnswer() {
+  //   if (this.selectedOption === '4') {
+  //     if (this.questionModalBtnClose)
+  //       this.questionModalBtnClose?.nativeElement.click();
+  //     this.player.playVideo();
 
-      // this.videoPlayer.nativeElement.play();
-      // this.showQuiz = false;
-      // this.passQuiz = true;
-      // this.showError = false;
-    } else {
-      // this.videoPlayer.nativeElement.currentTime;
-      // // this.videoPlayer.nativeElement.play();
-      // this.showQuiz = false;
-      // this.passQuiz = false;
-      // this.showError = true;
-    }
-    this.selectedOption = '';
-  }
+  //     // this.videoPlayer.nativeElement.play();
+  //     // this.showQuiz = false;
+  //     // this.passQuiz = true;
+  //     // this.showError = false;
+  //   } else {
+  //     // this.videoPlayer.nativeElement.currentTime;
+  //     // // this.videoPlayer.nativeElement.play();
+  //     // this.showQuiz = false;
+  //     // this.passQuiz = false;
+  //     // this.showError = true;
+  //   }
+  //   this.selectedOption = '';
+  // }
 
-  retryQuiz() {
-    this.showError = false;
-    this.passQuiz = true;
-  }
+  // retryQuiz() {
+  //   this.showError = false;
+  //   this.passQuiz = true;
+  // }
 }

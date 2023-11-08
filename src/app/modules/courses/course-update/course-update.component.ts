@@ -4,6 +4,7 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { Editor, Toolbar } from 'ngx-editor';
+import { AuthService } from 'src/app/services/auth/auth.service';
 
 @Component({
   selector: 'app-course-update',
@@ -11,6 +12,7 @@ import { Editor, Toolbar } from 'ngx-editor';
   styleUrls: ['./course-update.component.css'],
 })
 export class CourseUpdateComponent {
+  loggedInUser: any;
   courseId: any;
   courseDetails: any;
   courseDepartments: any;
@@ -18,6 +20,7 @@ export class CourseUpdateComponent {
   constructor(
     private toastr: ToastrService,
     private apiServices: ApiService,
+    private authService: AuthService,
     private route: ActivatedRoute,
     public router: Router
   ) {}
@@ -25,9 +28,14 @@ export class CourseUpdateComponent {
   @ViewChild('closeModal') closeModal: ElementRef | undefined;
 
   ngOnInit(): void {
-    this.courseId = this.route.snapshot.paramMap.get('id');
-    this.getCourseDetails();
-    this.getCourseDepartments();
+    this.loggedInUser = JSON.parse(this.authService.getUser());
+    if (this.loggedInUser.role.title == 'Administrator') {
+      this.courseId = this.route.snapshot.paramMap.get('id');
+      this.getCourseDetails();
+      this.getCourseDepartments();
+    } else {
+      this.router.navigate(['/']);
+    }
   }
 
   editor: Editor = new Editor();

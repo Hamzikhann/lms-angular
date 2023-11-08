@@ -1,7 +1,8 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { ApiService } from 'src/app/services/users/api.service';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-enrollments',
@@ -9,9 +10,9 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./enrollments.component.css'],
 })
 export class EnrollmentsComponent {
+  loggedInUser: any;
   courses: any = [];
   enrollmentTypes: any = [];
-
   enrollments: any = [];
   enrollment: any = {
     id: '',
@@ -21,12 +22,22 @@ export class EnrollmentsComponent {
   };
   enrollmentFormType: string = 'create';
 
-  constructor(private toastr: ToastrService, private apiServices: ApiService) {}
+  constructor(
+    private router: Router,
+    private toastr: ToastrService,
+    private apiServices: ApiService,
+    private authService: AuthService
+  ) {}
 
   ngOnInit(): void {
-    this.getAssignedCourses();
-    this.getEnrollmentTypes();
-    this.getEnrollments();
+    this.loggedInUser = JSON.parse(this.authService.getUser());
+    if (this.loggedInUser.role.title == 'Client') {
+      this.getAssignedCourses();
+      this.getEnrollmentTypes();
+      this.getEnrollments();
+    } else {
+      this.router.navigate(['/']);
+    }
   }
 
   getAssignedCourses() {

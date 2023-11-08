@@ -2,6 +2,8 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { ApiService } from 'src/app/services/users/api.service';
 import { ConfigService } from 'src/app/config/config.service';
+import { AuthService } from 'src/app/services/auth/auth.service';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-clients',
   templateUrl: './clients.component.html',
@@ -9,6 +11,7 @@ import { ConfigService } from 'src/app/config/config.service';
 })
 export class ClientsComponent {
   ImgBaseURL: string = this.config.ImgBaseURL;
+  loggedInUser: any;
 
   formType: string = 'create';
   clients: any;
@@ -23,7 +26,9 @@ export class ClientsComponent {
   logoError: any;
 
   constructor(
+    private router: Router,
     private toastr: ToastrService,
+    private authService: AuthService,
     private apiServices: ApiService,
     private config: ConfigService
   ) {}
@@ -31,7 +36,12 @@ export class ClientsComponent {
   @ViewChild('closeModal') closeModal: ElementRef | undefined;
 
   ngOnInit(): void {
-    this.getClients();
+    this.loggedInUser = JSON.parse(this.authService.getUser());
+    if (this.loggedInUser.role.title != 'Administrator') {
+      this.router.navigate(['/']);
+    } else {
+      this.getClients();
+    }
   }
 
   getClients() {
