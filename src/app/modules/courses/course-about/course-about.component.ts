@@ -64,7 +64,6 @@ export class CourseAboutComponent {
     };
     this.apiServices.postRequest(data).subscribe((data) => {
       this.courseDetails = data;
-      console.log(this.courseDetails);
     });
   }
 

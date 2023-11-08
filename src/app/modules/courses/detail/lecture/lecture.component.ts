@@ -36,6 +36,7 @@ export class LectureComponent {
   courseDetails: any;
   taskId: any;
   taskDetails: any;
+  enrollmentId: string = '';
   syllabus: any = {
     id: '',
     title: '',
@@ -102,6 +103,12 @@ export class LectureComponent {
     this.route.parent?.params.subscribe((params: any) => {
       this.courseId = params.id;
       this.getCourseDetails();
+      if (this.loggedInUser.role.title == 'User') {
+        this.getEnrollmentDetails();
+        setTimeout(() => {
+          this.updateTaskProgress();
+        }, 10000);
+      }
     });
 
     this.route.paramMap.subscribe((data: any) => {
@@ -141,6 +148,18 @@ export class LectureComponent {
     });
   }
 
+  getEnrollmentDetails() {
+    const data = {
+      path: 'course/tasks/enrollment',
+      payload: {
+        courseId: this.courseId,
+      },
+    };
+    this.apiServices.postRequest(data).subscribe((response) => {
+      this.enrollmentId = response.data.id;
+    });
+  }
+
   getTaskDetails() {
     const data = {
       path: 'course/tasks/detail',
@@ -150,7 +169,6 @@ export class LectureComponent {
     };
     this.apiServices.postRequest(data).subscribe((response) => {
       this.taskDetails = response.data;
-      console.log(this.taskDetails);
     });
   }
 
@@ -168,7 +186,25 @@ export class LectureComponent {
           question.options = question.options.split(',');
         });
       });
-      console.log(this.assessments);
+    });
+  }
+
+  updateTaskProgress() {
+    const data = {
+      path: 'course/tasks/progress',
+      payload: {
+        currentTime: '',
+        percentage: '100',
+        courseId: this.courseId,
+        courseTaskId: this.taskId,
+        courseEnrollmentId: this.enrollmentId,
+      },
+    };
+    this.apiServices.postRequest(data).subscribe((data) => {
+      if (this.closeModal) {
+        this.closeModal.nativeElement.click();
+      }
+      this.getModules();
     });
   }
 
@@ -345,7 +381,6 @@ export class LectureComponent {
         answer: value.trim(),
       });
     }
-    console.log(this.submission);
   }
 
   validateAssessmentAnswer() {
@@ -434,7 +469,6 @@ export class LectureComponent {
   // initModalInterval() {
   //   this.interval = setInterval(() => {
   //     const currentTime = this.player.getCurrentTime();
-  //     console.log(currentTime);
 
   //     if (currentTime >= 3) {
   //       this.pauseVideoAndShowModal();
@@ -445,7 +479,6 @@ export class LectureComponent {
 
   // pauseVideoAndShowModal() {
   //   this.player.pauseVideo();
-  //   console.log('asdas');
 
   //   if (this.questionModalBtn) this.questionModalBtn.nativeElement.click();
   // }

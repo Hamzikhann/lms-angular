@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { NgxEditorModule } from 'ngx-editor';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { YouTubePlayerModule } from '@angular/youtube-player';
 
 import { CoursesComponent } from './courses.component';
 import { CourseCreateComponent } from './course-create/course-create.component';
@@ -83,6 +84,7 @@ const routes: Routes = [
     PdfViewerModule,
     NgxEditorModule,
     FormsModule,
+    YouTubePlayerModule,
     RouterModule.forChild(routes),
   ],
 })

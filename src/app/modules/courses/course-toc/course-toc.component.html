@@ -35,23 +35,20 @@
                 <div class="accordion__menu collapse show" [id]="'course-toc-' + module.id" data-parent="#parent">
                   <ng-container *ngFor="let item of module.courseTasks">
                     <div class="accordion__menu-link active">
-                      <span *ngIf="item.courseTaskType.title == 'Video'"
-                        class="icon-holder icon-holder--small icon-holder--light rounded-circle d-inline-flex icon--left">
-                        <i class="material-icons icon-16pt">play_circle_outline</i>
-                      </span>
-                      <span *ngIf="item.courseTaskType.title == 'Reading'"
-                        class="icon-holder icon-holder--small icon-holder--light rounded-circle d-inline-flex icon--left">
-                        <i class="material-icons icon-16pt">library_books</i>
-                      </span>
-                      <span *ngIf="item.courseTaskType.title == 'Assessment'"
-                        class="icon-holder icon-holder--small icon-holder--light rounded-circle d-inline-flex icon--left">
-                        <i class="material-icons icon-16pt">playlist_add_check</i>
+                      <span class="icon-holder icon-holder--small rounded-circle d-inline-flex icon--left"
+                        [class.icon-holder--light]="item.courseTaskProgresses.length == 0"
+                        [class.icon-holder--primary]="item.courseTaskProgresses.length > 0 && item.courseTaskProgresses[0].percentage == '100'">
+                        <i class="material-icons icon-16pt"
+                          *ngIf="item.courseTaskType.title == 'Video'">play_circle_filled</i>
+                        <i class="material-icons icon-16pt"
+                          *ngIf="item.courseTaskType.title == 'Reading'">insert_drive_file</i>
+                        <i class="material-icons icon-16pt"
+                          *ngIf="item.courseTaskType.title == 'Assessment'">assignment</i>
                       </span>
                       <a class="flex" href="javascript:void(0)"
                         [routerLink]="['/courses', courseId ,'task', item.id]">{{ item.title
                         }}</a>
                       <span class="text-muted">{{ item.estimatedTime }}</span>
-
                       <div class="d-flex align-items-center">
                         <div class="buttons">
                           <a href="javascript:void(0)" data-toggle="modal" data-target="#taskModal"
@@ -200,7 +197,7 @@
 
             <div class="col-12">
               <div class="form-group">
-                <label for="taskVideoLink" class="form-label">Video Link</label>
+                <label for="taskVideoLink" class="form-label">Video ID</label>
                 <input type="text" class="form-control" id="taskVideoLink" name="taskVideoLink"
                   [(ngModel)]="task.videoLink" />
               </div>

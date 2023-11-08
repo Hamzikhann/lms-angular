@@ -58,7 +58,6 @@ export class EnrollmentsComponent {
     };
     this.apiServices.postRequest(data).subscribe((response) => {
       this.courses = response.data;
-      console.log(this.courses);
     });
   }
 
@@ -79,7 +78,6 @@ export class EnrollmentsComponent {
     };
     this.apiServices.postRequest(data).subscribe((response) => {
       this.userDepartments = response.data;
-      console.log(this.userDepartments);
     });
   }
 
@@ -90,7 +88,6 @@ export class EnrollmentsComponent {
     };
     this.apiServices.postRequest(data).subscribe((response) => {
       this.users = response.data;
-      console.log(this.users);
     });
   }
 
@@ -101,7 +98,6 @@ export class EnrollmentsComponent {
     };
     this.apiServices.postRequest(data).subscribe((response) => {
       this.teams = response.data;
-      console.log(this.teams);
     });
   }
 
@@ -122,7 +118,6 @@ export class EnrollmentsComponent {
       this.enrollments.forEach((enrollment: any) => {
         enrollment.date = moment(enrollment.date).format('DD/MM/YYYY');
       });
-      console.log(this.enrollments);
     });
   }
 

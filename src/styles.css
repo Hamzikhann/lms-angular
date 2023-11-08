@@ -148,3 +148,7 @@
   height: 140px;
   border-radius: 8px 8px 0 0;
 }
+
+#youtube-player iframe {
+  width: 100%;
+}

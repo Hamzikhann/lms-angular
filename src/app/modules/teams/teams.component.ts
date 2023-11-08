@@ -43,7 +43,6 @@ export class TeamsComponent {
     };
     this.apiServices.postRequest(data).subscribe((data) => {
       this.teams = data.data;
-      console.log(this.teams);
     });
   }
 
@@ -116,7 +115,6 @@ export class TeamsComponent {
     };
     this.apiServices.postRequest(data).subscribe((data) => {
       this.users = data.data;
-      console.log(this.users);
     });
   }
 

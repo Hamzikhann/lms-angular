@@ -49,7 +49,6 @@ export class LearningPathsComponent {
     };
     this.apiServices.postRequest(data).subscribe((data) => {
       this.learningPaths = data.data;
-      console.log(this.learningPaths);
     });
   }
 
@@ -63,7 +62,6 @@ export class LearningPathsComponent {
     };
     this.apiServices.postRequest(data).subscribe((res) => {
       this.classes = res.data;
-      console.log(this.classes);
     });
   }
 

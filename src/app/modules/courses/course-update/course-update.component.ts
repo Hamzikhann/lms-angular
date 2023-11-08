@@ -69,7 +69,6 @@ export class CourseUpdateComponent {
     };
     this.apiServices.postRequest(data).subscribe((response) => {
       this.courseDepartments = response.data;
-      console.log(this.courseDepartments);
     });
   }
 

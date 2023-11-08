@@ -75,7 +75,6 @@ export class UsersComponent {
     };
     this.apiServices.postRequest(data).subscribe((data) => {
       this.users = data.data;
-      console.log(this.users);
     });
   }
 
@@ -179,7 +178,6 @@ export class UsersComponent {
       clientId: obj.clientId,
       roleId: obj.roleId,
     };
-    console.log(obj, this.user);
   }
 
   setFormType(name: string) {

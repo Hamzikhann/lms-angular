@@ -23,7 +23,6 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {
     this.loggedInUser = JSON.parse(this.authService.getUser());
     this.client = this.loggedInUser.client;
-    // console.log(this.client);
   }
 
   logout() {

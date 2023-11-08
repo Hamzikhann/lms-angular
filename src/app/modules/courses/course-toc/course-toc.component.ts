@@ -179,7 +179,6 @@ export class CourseTocComponent {
     };
     this.apiServices.postRequest(data).subscribe((data) => {
       this.taskTypes = data.data;
-      console.log(this.taskTypes);
     });
   }
   createTask() {

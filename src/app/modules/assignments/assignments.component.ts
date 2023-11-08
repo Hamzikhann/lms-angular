@@ -112,6 +112,7 @@ export class AssignmentsComponent {
   }
 
   resetAssignmentData() {
+    this.assignmentFormType = 'create';
     this.assignment = {
       id: '',
       clientId: '',

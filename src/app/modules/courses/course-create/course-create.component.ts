@@ -98,7 +98,6 @@ export class CourseCreateComponent {
     };
     this.apiServices.postRequest(data).subscribe((response) => {
       this.courseDepartments = response.data;
-      console.log(this.courseDepartments);
     });
   }
 
@@ -109,7 +108,6 @@ export class CourseCreateComponent {
     };
     this.apiServices.postRequest(data).subscribe((response) => {
       this.learningPaths = response.data;
-      console.log(this.learningPaths);
     });
   }
 
