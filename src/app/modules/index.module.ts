@@ -21,6 +21,7 @@ import { LearningPathsComponent } from './learning-paths/learning-paths.componen
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { ChangePasswordComponent } from './settings/change-password/change-password.component';
 import { AssignmentsComponent } from './assignments/assignments.component';
+import { TeamsComponent } from './teams/teams.component';
 
 const routes: Routes = [
   {
@@ -48,6 +49,10 @@ const routes: Routes = [
       {
         path: 'learningPaths',
         component: LearningPathsComponent,
+      },
+      {
+        path: 'teams',
+        component: TeamsComponent,
       },
       {
         path: 'enrollments',
@@ -103,6 +108,7 @@ const routes: Routes = [
     LearningPathsComponent,
     AssignmentsComponent,
     EnrollmentsComponent,
+    TeamsComponent,
   ],
   imports: [
     CommonModule,
