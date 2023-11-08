@@ -185,7 +185,10 @@ export class LectureComponent {
     this.apiServices.postRequest(data).subscribe((response) => {
       this.taskDetails = response.data;
 
-      if (this.taskDetails.courseTaskType.title != 'Assessment') {
+      if (
+        this.loggedInUser.role.title == 'User' &&
+        this.taskDetails.courseTaskType.title != 'Assessment'
+      ) {
         setTimeout(() => {
           this.updateTaskProgress();
           this.goToNextTask();
