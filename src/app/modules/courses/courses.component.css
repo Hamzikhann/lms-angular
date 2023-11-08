@@ -1,38 +1,35 @@
 .modal {
-    background: rgba(0, 0, 0, 0.63);
+  background: rgba(0, 0, 0, 0.63);
 }
-.modal-header, .modal-body {
-    padding: 1.5rem;
+.modal-header,
+.modal-body {
+  padding: 1.5rem;
 }
 .modal-dialog {
-    display: inline-block;
-    margin: 0;
-    position: absolute;
-    right: 0;
-    width: 100%;
+  display: inline-block;
+  margin: 0;
+  position: absolute;
+  right: 0;
+  width: 100%;
 }
 .modal-content {
-    border: unset;
-    border-radius: unset;
-    height: 100vh;
-}
-.overlay__content {
-    background: rgba(48, 57, 85, 0.71);
-    height: 140px;
+  border: unset;
+  border-radius: unset;
+  height: 100vh;
 }
 .badge-course-notifications {
-    border-radius: 2rem;
-    font-size: 11px;
-    line-height: 10px;
-    position: absolute;
-    top: 12px;
-    right: 12px;
-    padding: 8px 10px;
+  border-radius: 2rem;
+  font-size: 11px;
+  line-height: 10px;
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  padding: 8px 10px;
 }
 .text-ellipsis {
-    display: inherit;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    width: 246px;
+  display: inherit;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 246px;
 }

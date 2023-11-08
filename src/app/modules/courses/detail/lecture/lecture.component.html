@@ -24,19 +24,19 @@
                             class="icon-holder icon-holder--small rounded-circle d-inline-flex icon--left"
                             [class.icon-holder--primary]="item.id == taskId"
                             [class.icon-holder--light]="item.id != taskId">
-                            <i class="material-icons icon-16pt">play_circle_outline</i>
+                            <i class="material-icons icon-16pt">play_circle_filled</i>
                           </span>
                           <span *ngIf="item.courseTaskType.title == 'Reading'"
                             class="icon-holder icon-holder--small rounded-circle d-inline-flex icon--left"
                             [class.icon-holder--primary]="item.id == taskId"
                             [class.icon-holder--light]="item.id != taskId">
-                            <i class="material-icons icon-16pt">library_books</i>
+                            <i class="material-icons icon-16pt">insert_drive_file</i>
                           </span>
                           <span *ngIf="item.courseTaskType.title == 'Assessment'"
                             class="icon-holder icon-holder--small rounded-circle d-inline-flex icon--left"
                             [class.icon-holder--primary]="item.id == taskId"
                             [class.icon-holder--light]="item.id != taskId">
-                            <i class="material-icons icon-16pt">playlist_add_check</i>
+                            <i class="material-icons icon-16pt">assignment</i>
                           </span>
                           <a class="flex" href="javascript:void(0)"
                             [routerLink]="['/courses', courseId ,'task', item.id]">{{ item.title

@@ -134,3 +134,17 @@
 .fw-400 {
   font-weight: 400;
 }
+
+.py-52pt {
+  padding-top: 52px;
+  padding-bottom: 52px;
+}
+
+.card-course img {
+  border-radius: 8px 8px 0 0;
+}
+.card-course .overlay__content {
+  background: rgba(48, 57, 85, 0.71);
+  height: 140px;
+  border-radius: 8px 8px 0 0;
+}
