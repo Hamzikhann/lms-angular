@@ -1,6 +1,6 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { ApiService } from 'src/app/services/users/api.service';
 import { ConfigService } from 'src/app/config/config.service';
@@ -17,7 +17,13 @@ export class LectureComponent {
   ImgBaseURL: string = this.config.ImgBaseURL;
   loggedInUser: any;
   permission: any = {
-    assessment: { create: false, update: false, delete: false, submit: true },
+    assessment: {
+      create: false,
+      update: false,
+      delete: false,
+      submit: true,
+      retry: true,
+    },
     question: {
       create: false,
       update: false,
@@ -55,12 +61,17 @@ export class LectureComponent {
   };
   questionFormType: string = '';
 
+  submission: any = [];
+  submitted: boolean = false;
+  error: boolean = false;
+
   constructor(
     private toastr: ToastrService,
     private authService: AuthService,
     private apiServices: ApiService,
     private route: ActivatedRoute,
-    private config: ConfigService
+    private config: ConfigService,
+    private router: Router
   ) {}
 
   @ViewChild('closeModal') closeModal: ElementRef | undefined;
@@ -72,7 +83,13 @@ export class LectureComponent {
     this.loggedInUser = JSON.parse(this.authService.getUser());
     if (this.loggedInUser.role.title == 'Administrator') {
       this.permission = {
-        assessment: { create: true, update: true, delete: true, submit: false },
+        assessment: {
+          create: true,
+          update: true,
+          delete: true,
+          submit: false,
+          retry: false,
+        },
         question: {
           create: true,
           update: true,
@@ -151,6 +168,7 @@ export class LectureComponent {
           question.options = question.options.split(',');
         });
       });
+      console.log(this.assessments);
     });
   }
 
@@ -308,6 +326,56 @@ export class LectureComponent {
       answer: '',
       type: '',
     };
+  }
+
+  getSubmissions(event: any, questionId: string) {
+    var updated = false;
+    var value = event.target.value;
+
+    this.submission.forEach((question: any) => {
+      if (question.id == questionId) {
+        question.answer = value.trim();
+        updated = true;
+      }
+    });
+
+    if (!updated) {
+      this.submission.push({
+        id: questionId,
+        answer: value.trim(),
+      });
+    }
+    console.log(this.submission);
+  }
+
+  validateAssessmentAnswer() {
+    this.submission.forEach((questionSubmission: any) => {
+      this.assessments[0].courseTaskAssessmentQuestions.forEach(
+        (question: any) => {
+          if (questionSubmission.id == question.id) {
+            if (questionSubmission.answer.trim() == question.answer.trim()) {
+              questionSubmission.message = 'Correct';
+            } else {
+              questionSubmission.message = 'Incorrect';
+              this.error = true;
+            }
+          }
+        }
+      );
+    });
+    this.submitted = true;
+
+    if (!this.error) {
+      this.toastr.success('Assessment submitted successfully!');
+    } else {
+      this.toastr.error('Incorrect answers, kindly retry!');
+    }
+  }
+
+  retryAssessment() {
+    this.submitted = false;
+    this.error = false;
+    this.getAssessments();
   }
 
   // checkQuizTime() {
