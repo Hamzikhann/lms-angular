@@ -18,7 +18,9 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.loggedInUser = JSON.parse(this.authService.getUser());
-    if (this.loggedInUser.role.title == 'Client') {
+    if (this.loggedInUser.role.title == 'Administrator') {
+      this.getCourses();
+    } else if (this.loggedInUser.role.title == 'Client') {
       this.getAssignedCourses();
     } else if (this.loggedInUser.role.title == 'User') {
       this.getCourses();

@@ -35,6 +35,8 @@ export class LectureComponent {
   courseId: any;
   courseDetails: any;
   taskId: any;
+  taskIdPrevious: any;
+  taskIdNext: any;
   taskDetails: any;
   enrollmentId: string = '';
   syllabus: any = {
@@ -105,14 +107,12 @@ export class LectureComponent {
       this.getCourseDetails();
       if (this.loggedInUser.role.title == 'User') {
         this.getEnrollmentDetails();
-        setTimeout(() => {
-          this.updateTaskProgress();
-        }, 10000);
       }
     });
 
     this.route.paramMap.subscribe((data: any) => {
       this.taskId = data.params.taskId;
+      this.getCourseDetails();
       this.getTaskDetails();
       this.getAssessments();
     });
@@ -145,6 +145,21 @@ export class LectureComponent {
     };
     this.apiServices.postRequest(data).subscribe((response) => {
       this.modules = response.data;
+      const tasks: any = [];
+      this.modules.forEach((module: any) => {
+        module.courseTasks.forEach((task: any) => {
+          tasks.push(task);
+        });
+      });
+
+      tasks.forEach((task: any, key: any) => {
+        if (task.id == this.taskId) {
+          const keyPrevious = key - 1;
+          const keyNext = key + 1;
+          this.taskIdPrevious = tasks[keyPrevious] ? tasks[keyPrevious].id : 0;
+          this.taskIdNext = tasks[keyNext] ? tasks[keyNext].id : 0;
+        }
+      });
     });
   }
 
@@ -169,6 +184,13 @@ export class LectureComponent {
     };
     this.apiServices.postRequest(data).subscribe((response) => {
       this.taskDetails = response.data;
+
+      if (this.taskDetails.courseTaskType.title != 'Assessment') {
+        setTimeout(() => {
+          this.updateTaskProgress();
+          this.goToNextTask();
+        }, 20000);
+      }
     });
   }
 
@@ -206,6 +228,17 @@ export class LectureComponent {
       }
       this.getModules();
     });
+  }
+
+  goToNextTask() {
+    if (this.taskIdNext) {
+      this.router.navigate([
+        '/courses',
+        this.courseId,
+        'task',
+        this.taskIdNext,
+      ]);
+    }
   }
 
   createAssessment() {
@@ -402,6 +435,8 @@ export class LectureComponent {
 
     if (!this.error) {
       this.toastr.success('Assessment submitted successfully!');
+      this.updateTaskProgress();
+      this.goToNextTask();
     } else {
       this.toastr.error('Incorrect answers, kindly retry!');
     }
