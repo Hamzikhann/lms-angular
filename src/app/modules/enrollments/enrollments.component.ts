@@ -3,6 +3,7 @@ import { ApiService } from 'src/app/services/users/api.service';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-enrollments',
@@ -12,6 +13,9 @@ import { Router } from '@angular/router';
 export class EnrollmentsComponent {
   loggedInUser: any;
   courses: any = [];
+  userDepartments: any = [];
+  users: any = [];
+  teams: any = [];
   enrollmentTypes: any = [];
   enrollments: any = [];
   enrollment: any = {
@@ -19,6 +23,10 @@ export class EnrollmentsComponent {
     required: '',
     assignmentId: '',
     typeId: '',
+    type: '',
+    departmentId: '',
+    userId: '',
+    teamId: '',
   };
   enrollmentFormType: string = 'create';
 
@@ -34,6 +42,9 @@ export class EnrollmentsComponent {
     if (this.loggedInUser.role.title == 'Client') {
       this.getAssignedCourses();
       this.getEnrollmentTypes();
+      this.getUserDepartments();
+      this.getUsers();
+      this.getTeams();
       this.getEnrollments();
     } else {
       this.router.navigate(['/']);
@@ -61,6 +72,46 @@ export class EnrollmentsComponent {
     });
   }
 
+  getUserDepartments() {
+    const data = {
+      path: 'users/list/departments',
+      payload: {},
+    };
+    this.apiServices.postRequest(data).subscribe((response) => {
+      this.userDepartments = response.data;
+      console.log(this.userDepartments);
+    });
+  }
+
+  getUsers() {
+    const data = {
+      path: 'users/list',
+      payload: {},
+    };
+    this.apiServices.postRequest(data).subscribe((response) => {
+      this.users = response.data;
+      console.log(this.users);
+    });
+  }
+
+  getTeams() {
+    const data = {
+      path: 'teams/list',
+      payload: {},
+    };
+    this.apiServices.postRequest(data).subscribe((response) => {
+      this.teams = response.data;
+      console.log(this.teams);
+    });
+  }
+
+  setAccessLevel() {
+    const typeId = this.enrollment.typeId;
+    this.enrollmentTypes.forEach((type: any) => {
+      if (typeId == type.id) this.enrollment.type = type.title;
+    });
+  }
+
   getEnrollments() {
     const data = {
       path: 'course/enrollments/list',
@@ -68,6 +119,9 @@ export class EnrollmentsComponent {
     };
     this.apiServices.postRequest(data).subscribe((response) => {
       this.enrollments = response.data;
+      this.enrollments.forEach((enrollment: any) => {
+        enrollment.date = moment(enrollment.date).format('DD/MM/YYYY');
+      });
       console.log(this.enrollments);
     });
   }
@@ -79,6 +133,9 @@ export class EnrollmentsComponent {
         required: this.enrollment.required,
         assignmentId: this.enrollment.assignmentId,
         courseEnrollmentTypeId: this.enrollment.typeId,
+        userDepartmentId: this.enrollment.departmentId,
+        userId: this.enrollment.userId,
+        teamId: this.enrollment.teamId,
       },
     };
     this.apiServices.postRequest(data).subscribe((response) => {
@@ -116,11 +173,16 @@ export class EnrollmentsComponent {
   }
 
   resetEnrollmentData() {
+    this.enrollmentFormType = 'create';
     this.enrollment = {
       id: '',
       required: '',
       assignmentId: '',
       courseEnrollmentTypeId: '',
+      type: '',
+      departmentId: '',
+      userId: '',
+      teamId: '',
     };
   }
 }
