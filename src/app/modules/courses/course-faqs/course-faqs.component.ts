@@ -24,6 +24,8 @@ export class CourseFaqsComponent {
 
   filteredFaqs: any;
 
+  loading: boolean = false;
+
   @ViewChild('closeFaqModal') closeFaqModal: ElementRef | undefined;
 
   constructor(
@@ -46,6 +48,8 @@ export class CourseFaqsComponent {
   }
 
   getFaqs() {
+    this.loading = true;
+
     const data = {
       path: 'course/faqs/list',
       payload: {
@@ -55,6 +59,7 @@ export class CourseFaqsComponent {
     this.apiServices.postRequest(data).subscribe((response) => {
       this.faqs = response.data;
       this.filteredFaqs = this.faqs;
+      this.loading = false;
     });
   }
 

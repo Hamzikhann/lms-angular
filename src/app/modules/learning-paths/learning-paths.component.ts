@@ -25,6 +25,8 @@ export class LearningPathsComponent {
   learningPathFormType: string = 'create';
   loggedInUser: any;
 
+  loading: boolean = false;
+
   constructor(
     private router: Router,
     private toastr: ToastrService,
@@ -42,6 +44,8 @@ export class LearningPathsComponent {
   }
 
   getLearningPaths() {
+    this.loading = true;
+
     this.learningPaths = [];
     const data = {
       path: 'learning-paths/list',
@@ -49,6 +53,7 @@ export class LearningPathsComponent {
     };
     this.apiServices.postRequest(data).subscribe((data) => {
       this.learningPaths = data.data;
+      this.loading = false;
     });
   }
 

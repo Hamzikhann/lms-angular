@@ -23,8 +23,11 @@ export class CourseUsefulLinksComponent {
   };
   usefulLinkFormType: string = '';
 
-  @ViewChild('closeLinkModal') closeLinkModal: ElementRef | undefined;
   filteredUsefulLinks: any;
+
+  loading: boolean = false;
+
+  @ViewChild('closeLinkModal') closeLinkModal: ElementRef | undefined;
 
   constructor(
     private toastr: ToastrService,
@@ -46,6 +49,8 @@ export class CourseUsefulLinksComponent {
   }
 
   getUsefulLinks() {
+    this.loading = true;
+
     const data = {
       path: 'course/useful-links/list',
       payload: {
@@ -55,6 +60,7 @@ export class CourseUsefulLinksComponent {
     this.apiServices.postRequest(data).subscribe((response) => {
       this.usefulLinks = response.data;
       this.filteredUsefulLinks = this.usefulLinks;
+      this.loading = false;
     });
   }
 

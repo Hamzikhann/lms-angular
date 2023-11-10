@@ -25,6 +25,8 @@ export class ClientsComponent {
   logo: any;
   logoError: any;
 
+  loading: boolean = false;
+
   constructor(
     private router: Router,
     private toastr: ToastrService,
@@ -45,6 +47,8 @@ export class ClientsComponent {
   }
 
   getClients() {
+    this.loading = true;
+
     this.clients = [];
     const data = {
       path: 'clients/list',
@@ -52,6 +56,7 @@ export class ClientsComponent {
     };
     this.apiServices.postRequest(data).subscribe((data) => {
       this.clients = data.data;
+      this.loading = false;
     });
   }
 

@@ -25,6 +25,8 @@ export class CourseBooksComponent {
   };
   bookFormType: string = '';
 
+  loading: boolean = false;
+
   @ViewChild('closeBookModal') closeBookModal: ElementRef | undefined;
   filteredBooks: any;
 
@@ -48,6 +50,8 @@ export class CourseBooksComponent {
   }
 
   getBooks() {
+    this.loading = true;
+
     const data = {
       path: 'course/books/list ',
       payload: {
@@ -57,6 +61,7 @@ export class CourseBooksComponent {
     this.apiServices.postRequest(data).subscribe((response) => {
       this.books = response.data;
       this.filteredBooks = this.books;
+      this.loading = false;
     });
   }
 

@@ -46,6 +46,8 @@ export class CourseTocComponent {
   };
   taskFormType: string = '';
 
+  loading: boolean = false;
+
   @ViewChild('closeModuleModal') closeModuleModal: ElementRef | undefined;
   @ViewChild('closeTaskModal') closeTaskModal: ElementRef | undefined;
 
@@ -73,6 +75,8 @@ export class CourseTocComponent {
   }
 
   getCourseDetails() {
+    this.loading = true;
+
     const data = {
       path: 'courses/detail',
       payload: {
@@ -86,10 +90,13 @@ export class CourseTocComponent {
         title: this.courseDetails.courseSyllabus?.title,
       };
       this.getModules();
+      this.loading = false;
     });
   }
 
   getModules() {
+    this.loading = true;
+
     const data = {
       path: 'course/modules/list',
       payload: {
@@ -98,6 +105,8 @@ export class CourseTocComponent {
     };
     this.apiServices.postRequest(data).subscribe((response) => {
       this.modules = response.data;
+      this.loading = false;
+
       console.log(this.modules);
     });
   }

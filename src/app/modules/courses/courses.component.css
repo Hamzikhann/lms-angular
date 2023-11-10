@@ -33,3 +33,7 @@
   text-overflow: ellipsis;
   width: 246px;
 }
+
+.loading-icon {
+  margin-top: 7%;
+}

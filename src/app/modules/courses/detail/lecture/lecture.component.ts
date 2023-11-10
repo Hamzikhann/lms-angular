@@ -66,6 +66,8 @@ export class LectureComponent {
   submitted: boolean = false;
   error: boolean = false;
 
+  loading: boolean = false;
+
   constructor(
     private toastr: ToastrService,
     private authService: AuthService,
@@ -161,6 +163,8 @@ export class LectureComponent {
   }
 
   getTaskDetails() {
+    this.loading = true;
+
     const data = {
       path: 'course/tasks/detail',
       payload: {
@@ -169,6 +173,7 @@ export class LectureComponent {
     };
     this.apiServices.postRequest(data).subscribe((response) => {
       this.taskDetails = response.data;
+      this.loading = false;
     });
   }
 

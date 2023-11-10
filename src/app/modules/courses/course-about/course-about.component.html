@@ -1,136 +1,242 @@
-<div class="container page__container" *ngIf="courseDetails">
-  <div class="page-separator d-flex align-items-center justify-content-between mb-32pt">
-    <div class="page-separator__text">About this course
-      <a class="ml-2" [routerLink]="['/courses/update', courseDetails.id]" *ngIf="permission.update">
-        <i class="material-icons fa-lg m-0">edit</i></a>
-    </div>
+<ng-container *ngIf="loading">
+  <div class="text-center loading-icon">
+    <img src="/assets/images/loading.svg" />
   </div>
-  <div class="row">
-    <div class="col-md-8">
-      <div class="about-course">
-        <p class="text-70" [innerHTML]="courseDetails.about"></p>
-      </div>
-      <div class="about-course mt-4">
-        <div class="row">
-          <div class="col-4">
-            <div class="page-separator">
-              <div class="page-separator__text">Status</div>
-            </div>
-            <div class="badge badge-primary" *ngIf="courseDetails.status == 'P'">Published</div>
-            <div class="badge badge-warning" *ngIf="courseDetails.status == 'D'">Draft</div>
-          </div>
-          <div class="col-4">
-            <div class="page-separator">
-              <div class="page-separator__text">Language</div>
-            </div>
-            <p class="text-70">{{ courseDetails.language }}</p>
-          </div>
-          <div class="col-4">
-            <div class="page-separator">
-              <div class="page-separator__text">Difficulty Level</div>
-            </div>
-            <p class="text-70">{{ courseDetails.level }}</p>
-          </div>
-        </div>
-      </div>
-      <div class="what-you-learn mt-3">
-        <div class="page-separator">
-          <div class="page-separator__text">
-            What you’ll learn
-            <span class="heading-icon" data-toggle="modal" data-target="#objectiveModal"
-              (click)="setObjectiveFormType('create')" *ngIf="permission.create">
-              <i class="material-icons">add_circle</i>
-            </span>
-          </div>
-        </div>
-        <ul class="list-unstyled mb-0">
-          <li class="d-flex justify-content-between" *ngFor="let objective of courseDetails.courseObjectives">
-            <div class="list-item">
-              <span class="material-icons text-50 mr-8pt">chevron_right</span>
-              <span class="text-70">{{ objective.description }}</span>
-            </div>
-            <div class="buttons">
-              <a href="javascript:void(0)" data-toggle="modal" data-target="#objectiveModal" (click)="
-                  setObjectiveFormType('update'); setObjective(objective)
-                " *ngIf="permission.update">
-                <i class="material-icons fa-lg mx-1">edit</i></a>
-              <a href="javascript:void(0)" data-toggle="modal" data-target="#objectiveModal" (click)="
-                  setObjectiveFormType('delete'); setObjective(objective)
-                " *ngIf="permission.delete">
-                <i class="material-icons fa-lg mx-1">delete</i></a>
-            </div>
-          </li>
-        </ul>
+</ng-container>
+<ng-container *ngIf="!loading">
+  <div class="container page__container" *ngIf="courseDetails">
+    <div
+      class="page-separator d-flex align-items-center justify-content-between mb-32pt"
+    >
+      <div class="page-separator__text">
+        About this course
+        <a
+          class="ml-2"
+          [routerLink]="['/courses/update', courseDetails.id]"
+          *ngIf="permission.update"
+        >
+          <i class="material-icons fa-lg m-0">edit</i></a
+        >
       </div>
     </div>
-    <div class="col-md-4">
-      <div class="card" *ngIf="courseDetails.courseInstructors.length > 0">
-        <div class="card-body py-16pt text-center">
-          <div class="text-70">
-            <p class="mb-16pt mt-16pt">
-              <span class="avatar avatar-sm mr-8pt2" *ngIf="!courseDetails.courseInstructors[0].imageUrl">
-                <span class="avatar-title rounded-circle bg-primary">
-                  <i class="material-icons">account_box</i>
+    <div class="row">
+      <div class="col-md-8">
+        <div class="about-course">
+          <p class="text-70" [innerHTML]="courseDetails.about"></p>
+        </div>
+        <div class="about-course mt-4">
+          <div class="row">
+            <div class="col-4">
+              <div class="page-separator">
+                <div class="page-separator__text">Status</div>
+              </div>
+              <div
+                class="badge badge-primary"
+                *ngIf="courseDetails.status == 'P'"
+              >
+                Published
+              </div>
+              <div
+                class="badge badge-warning"
+                *ngIf="courseDetails.status == 'D'"
+              >
+                Draft
+              </div>
+            </div>
+            <div class="col-4">
+              <div class="page-separator">
+                <div class="page-separator__text">Language</div>
+              </div>
+              <p class="text-70">{{ courseDetails.language }}</p>
+            </div>
+            <div class="col-4">
+              <div class="page-separator">
+                <div class="page-separator__text">Difficulty Level</div>
+              </div>
+              <p class="text-70">{{ courseDetails.level }}</p>
+            </div>
+          </div>
+        </div>
+        <div class="what-you-learn mt-3">
+          <div class="page-separator">
+            <div class="page-separator__text">
+              What you’ll learn
+              <span
+                class="heading-icon"
+                data-toggle="modal"
+                data-target="#objectiveModal"
+                (click)="setObjectiveFormType('create')"
+                *ngIf="permission.create"
+              >
+                <i class="material-icons">add_circle</i>
+              </span>
+            </div>
+          </div>
+          <ul class="list-unstyled mb-0">
+            <li
+              class="d-flex justify-content-between"
+              *ngFor="let objective of courseDetails.courseObjectives"
+            >
+              <div class="list-item">
+                <span class="material-icons text-50 mr-8pt">chevron_right</span>
+                <span class="text-70">{{ objective.description }}</span>
+              </div>
+              <div class="buttons">
+                <a
+                  href="javascript:void(0)"
+                  data-toggle="modal"
+                  data-target="#objectiveModal"
+                  (click)="
+                    setObjectiveFormType('update'); setObjective(objective)
+                  "
+                  *ngIf="permission.update"
+                >
+                  <i class="material-icons fa-lg mx-1">edit</i></a
+                >
+                <a
+                  href="javascript:void(0)"
+                  data-toggle="modal"
+                  data-target="#objectiveModal"
+                  (click)="
+                    setObjectiveFormType('delete'); setObjective(objective)
+                  "
+                  *ngIf="permission.delete"
+                >
+                  <i class="material-icons fa-lg mx-1">delete</i></a
+                >
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card" *ngIf="courseDetails.courseInstructors.length > 0">
+          <div class="card-body py-16pt text-center">
+            <div class="text-70">
+              <p class="mb-16pt mt-16pt">
+                <span
+                  class="avatar avatar-sm mr-8pt2"
+                  *ngIf="!courseDetails.courseInstructors[0].imageUrl"
+                >
+                  <span class="avatar-title rounded-circle bg-primary">
+                    <i class="material-icons">account_box</i>
+                  </span>
                 </span>
-              </span>
-              <span *ngIf="courseDetails.courseInstructors[0].imageUrl">
-                <img [src]="
-                    ImgBaseURL + courseDetails.courseInstructors[0].imageUrl
-                  " class="rounded-circle" width="64" />
-              </span>
-            </p>
-            <h4 class="mb-16pt">
-              {{ courseDetails.courseInstructors[0].name }}
-              <a href="javascript:void(0)" data-toggle="modal" data-target="#instructorModal" (click)="
-                  setInstructorFormType('update');
-                  setInstructor(courseDetails.courseInstructors[0])
-                " *ngIf="permission.update">
-                <i class="material-icons fa-lg mx-1" style="font-size: 20px">edit</i></a>
-            </h4>
-            <p>
-              {{ courseDetails.courseInstructors[0].about }}
-            </p>
+                <span *ngIf="courseDetails.courseInstructors[0].imageUrl">
+                  <img
+                    [src]="
+                      ImgBaseURL + courseDetails.courseInstructors[0].imageUrl
+                    "
+                    class="rounded-circle"
+                    width="64"
+                  />
+                </span>
+              </p>
+              <h4 class="mb-16pt">
+                {{ courseDetails.courseInstructors[0].name }}
+                <a
+                  href="javascript:void(0)"
+                  data-toggle="modal"
+                  data-target="#instructorModal"
+                  (click)="
+                    setInstructorFormType('update');
+                    setInstructor(courseDetails.courseInstructors[0])
+                  "
+                  *ngIf="permission.update"
+                >
+                  <i class="material-icons fa-lg mx-1" style="font-size: 20px"
+                    >edit</i
+                  ></a
+                >
+              </h4>
+              <p>
+                {{ courseDetails.courseInstructors[0].about }}
+              </p>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
+</ng-container>
 
-<div class="modal" id="objectiveModal" tabindex="-1" role="dialog" aria-labelledby="objectiveModal" aria-hidden="true"
-  *ngIf="permission.create || permission.update || permission.delete">
+<div
+  class="modal"
+  id="objectiveModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="objectiveModal"
+  aria-hidden="true"
+  *ngIf="permission.create || permission.update || permission.delete"
+>
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="objectiveModalLabel" *ngIf="objectiveFormType == 'create' && permission.create">
+        <h5
+          class="modal-title"
+          id="objectiveModalLabel"
+          *ngIf="objectiveFormType == 'create' && permission.create"
+        >
           Create Objective
         </h5>
-        <h5 class="modal-title" id="objectiveModalLabel" *ngIf="objectiveFormType == 'update' && permission.update">
+        <h5
+          class="modal-title"
+          id="objectiveModalLabel"
+          *ngIf="objectiveFormType == 'update' && permission.update"
+        >
           Update Objective
         </h5>
-        <h5 class="modal-title" id="objectiveModalLabel" *ngIf="objectiveFormType == 'delete' && permission.delete">
+        <h5
+          class="modal-title"
+          id="objectiveModalLabel"
+          *ngIf="objectiveFormType == 'delete' && permission.delete"
+        >
           Delete Objective
         </h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close" #closeObjectiveModal></button>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+          #closeObjectiveModal
+        ></button>
       </div>
       <div class="modal-body text-primary">
         <form #formObjective="ngForm">
           <div class="form-group">
             <label for="title" class="form-label">Description</label>
-            <input type="text" class="form-control" id="title" name="objectiveDescription"
-              [(ngModel)]="objective.description" [disabled]="objectiveFormType == 'delete'" />
+            <input
+              type="text"
+              class="form-control"
+              id="title"
+              name="objectiveDescription"
+              [(ngModel)]="objective.description"
+              [disabled]="objectiveFormType == 'delete'"
+            />
           </div>
           <div class="buttons">
-            <button type="submit" class="btn btn-primary" (click)="createObjective()"
-              *ngIf="objectiveFormType == 'create' && permission.create">
+            <button
+              type="submit"
+              class="btn btn-primary"
+              (click)="createObjective()"
+              *ngIf="objectiveFormType == 'create' && permission.create"
+            >
               Create
             </button>
-            <button type="submit" class="btn btn-primary" (click)="updateObjective()"
-              *ngIf="objectiveFormType == 'update' && permission.update">
+            <button
+              type="submit"
+              class="btn btn-primary"
+              (click)="updateObjective()"
+              *ngIf="objectiveFormType == 'update' && permission.update"
+            >
               Update
             </button>
-            <button type="submit" class="btn btn-danger" (click)="deleteObjective()"
-              *ngIf="objectiveFormType == 'delete' && permission.delete">
+            <button
+              type="submit"
+              class="btn btn-danger"
+              (click)="deleteObjective()"
+              *ngIf="objectiveFormType == 'delete' && permission.delete"
+            >
               Delete
             </button>
           </div>
@@ -139,38 +245,70 @@
     </div>
   </div>
 </div>
-<div class="modal" id="instructorModal" tabindex="-1" role="dialog" aria-labelledby="instructorModal" aria-hidden="true"
-  *ngIf="permission.update">
+<div
+  class="modal"
+  id="instructorModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="instructorModal"
+  aria-hidden="true"
+  *ngIf="permission.update"
+>
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="instructorModalLabel">Update Instructor</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close" #closeInstructorModal></button>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+          #closeInstructorModal
+        ></button>
       </div>
       <div class="modal-body text-primary">
         <form #formObjective="ngForm">
           <div class="form-group">
             <label for="instructorName" class="form-label">Name</label>
-            <input type="text" class="form-control" id="instructorName" name="instructorName"
-              [(ngModel)]="instructor.name" />
+            <input
+              type="text"
+              class="form-control"
+              id="instructorName"
+              name="instructorName"
+              [(ngModel)]="instructor.name"
+            />
           </div>
           <div class="form-group">
             <label for="instructorAbout" class="form-label">About</label>
-            <input type="text" class="form-control" id="instructorAbout" name="instructorAbout"
-              [(ngModel)]="instructor.about" />
+            <input
+              type="text"
+              class="form-control"
+              id="instructorAbout"
+              name="instructorAbout"
+              [(ngModel)]="instructor.about"
+            />
           </div>
           <div class="form-group">
             <label>Image</label>
             <div class="custom-file">
-              <input type="file" class="custom-file-input" id="instructorImage" (change)="onImageSelected($event)"
-                #imageInput />
+              <input
+                type="file"
+                class="custom-file-input"
+                id="instructorImage"
+                (change)="onImageSelected($event)"
+                #imageInput
+              />
               <label class="custom-file-label" for="instructorImage">
                 <span>{{ instructor.image?.name || "Choose File" }}</span>
               </label>
             </div>
           </div>
           <div class="buttons">
-            <button type="submit" class="btn btn-primary" (click)="updateInstructor()">
+            <button
+              type="submit"
+              class="btn btn-primary"
+              (click)="updateInstructor()"
+            >
               Update
             </button>
           </div>

@@ -1,12 +1,12 @@
-<div class="container page__container d-flex flex-column flex-md-row align-items-center text-center text-sm-left">
+<div
+  class="container page__container d-flex flex-column flex-md-row align-items-center text-center text-sm-left"
+>
   <div class="flex d-flex flex-column flex-sm-row align-items-center">
     <div class="my-24pt mr-sm-24pt">
       <h2 class="mb-0">Course Assignments</h2>
       <ol class="breadcrumb p-0 m-0">
         <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
-        <li class="breadcrumb-item active">
-          Assignments
-        </li>
+        <li class="breadcrumb-item active">Assignments</li>
       </ol>
     </div>
   </div>
@@ -17,15 +17,23 @@
     <div class="col-lg-4 col-sm-12">
       <div class="card">
         <div class="card-header">
-          <h6 class="mb-0" *ngIf="assignmentFormType == 'create'">Create New</h6>
-          <h6 class="mb-0" *ngIf="assignmentFormType == 'delete'">Delete Information</h6>
+          <h6 class="mb-0" *ngIf="assignmentFormType == 'create'">
+            Create New
+          </h6>
+          <h6 class="mb-0" *ngIf="assignmentFormType == 'delete'">
+            Delete Information
+          </h6>
         </div>
         <div class="card-body">
           <form #formData="ngForm">
             <div class="form-group">
               <label for="title" class="form-label">Client</label>
-              <select class="form-control" name="clientId" [(ngModel)]="assignment.clientId"
-                [disabled]="assignmentFormType=='delete'">
+              <select
+                class="form-control"
+                name="clientId"
+                [(ngModel)]="assignment.clientId"
+                [disabled]="assignmentFormType == 'delete'"
+              >
                 <option></option>
                 <ng-container *ngFor="let client of clients">
                   <option [value]="client.id">{{ client.name }}</option>
@@ -34,8 +42,12 @@
             </div>
             <div class="form-group">
               <label for="title" class="form-label">Course</label>
-              <select class="form-control" name="courseId" [(ngModel)]="assignment.courseId"
-                [disabled]="assignmentFormType=='delete'">
+              <select
+                class="form-control"
+                name="courseId"
+                [(ngModel)]="assignment.courseId"
+                [disabled]="assignmentFormType == 'delete'"
+              >
                 <option></option>
                 <ng-container *ngFor="let course of courses">
                   <option [value]="course.id">{{ course.title }}</option>
@@ -43,11 +55,24 @@
               </select>
             </div>
             <div class="form-buttons">
-              <button type="submit" class="btn btn-primary" (click)="createAssignment()"
+              <button
+                type="submit"
+                class="btn btn-primary"
+                (click)="createAssignment()"
                 *ngIf="assignmentFormType == 'create'"
-                [disabled]="!assignment.courseId || !assignment.courseId">Create</button>
-              <button type="submit" class="btn btn-danger" (click)="deleteAssignment()"
-                *ngIf="assignmentFormType == 'delete'" [disabled]="!assignment.id">Delete</button>
+                [disabled]="!assignment.courseId || !assignment.courseId"
+              >
+                Create
+              </button>
+              <button
+                type="submit"
+                class="btn btn-danger"
+                (click)="deleteAssignment()"
+                *ngIf="assignmentFormType == 'delete'"
+                [disabled]="!assignment.id"
+              >
+                Delete
+              </button>
             </div>
           </form>
         </div>
@@ -59,7 +84,13 @@
           <h6 class="mb-0">List of Courses assigned to Clients</h6>
         </div>
         <div class="card-body">
-          <table class="table table-sm table-hover table-bordered mb-0">
+          <ng-container *ngIf="loading">
+            <img src="/assets/images/loading.svg" width="20" class="mb-3" />
+          </ng-container>
+          <table
+            class="table table-sm table-hover table-bordered mb-0"
+            *ngIf="!loading"
+          >
             <thead class="bg-light">
               <tr>
                 <th scope="col" class="w-25">Client</th>
@@ -71,14 +102,28 @@
                 <tr>
                   <td>{{ client.name }}</td>
                   <td>
-                    <div class="badge badge-info mr-1" *ngIf="client.courseAssignments.length == 0">
-                      <span class="material-icons ml-1">info</span> No course assigned
+                    <div
+                      class="badge badge-info mr-1"
+                      *ngIf="client.courseAssignments.length == 0"
+                    >
+                      <span class="material-icons ml-1">info</span> No course
+                      assigned
                     </div>
-                    <ng-container *ngFor="let assignment of client.courseAssignments">
+                    <ng-container
+                      *ngFor="let assignment of client.courseAssignments"
+                    >
                       <div class="badge badge-light mr-1">
                         {{ assignment.course.title }}
-                        <span class="material-icons ml-2" data-toggle="modal" data-target="#classModal"
-                          (click)="setAssignment(assignment); setAssignmentFormType('delete')">delete</span>
+                        <span
+                          class="material-icons ml-2"
+                          data-toggle="modal"
+                          data-target="#classModal"
+                          (click)="
+                            setAssignment(assignment);
+                            setAssignmentFormType('delete')
+                          "
+                          >delete</span
+                        >
                       </div>
                     </ng-container>
                   </td>

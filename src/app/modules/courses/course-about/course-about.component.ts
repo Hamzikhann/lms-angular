@@ -32,6 +32,8 @@ export class CourseAboutComponent {
   instructorFormType: string = '';
   ImgBaseURL: string = this.config.ImgBaseURL;
 
+  loading: boolean = false;
+
   @ViewChild('closeObjectiveModal') closeObjectiveModal: ElementRef | undefined;
   @ViewChild('closeInstructorModal') closeInstructorModal:
     | ElementRef
@@ -56,6 +58,8 @@ export class CourseAboutComponent {
   }
 
   getCourseDetails() {
+    this.loading = true;
+
     const data = {
       path: 'courses/detail',
       payload: {
@@ -64,6 +68,7 @@ export class CourseAboutComponent {
     };
     this.apiServices.postRequest(data).subscribe((data) => {
       this.courseDetails = data;
+      this.loading = false;
     });
   }
 

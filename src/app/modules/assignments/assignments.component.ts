@@ -22,6 +22,8 @@ export class AssignmentsComponent {
   };
   assignmentFormType: string = 'create';
 
+  loading: boolean = false;
+
   constructor(
     private router: Router,
     private toastr: ToastrService,
@@ -41,12 +43,15 @@ export class AssignmentsComponent {
   }
 
   getCourses() {
+    this.loading = true;
+
     const data = {
       path: 'courses/list',
       payload: {},
     };
     this.apiServices.postRequest(data).subscribe((response) => {
       this.courses = response;
+      this.loading = false;
     });
   }
 

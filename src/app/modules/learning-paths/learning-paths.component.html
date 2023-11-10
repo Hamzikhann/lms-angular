@@ -1,12 +1,12 @@
-<div class="container page__container d-flex flex-column flex-md-row align-items-center text-center text-sm-left">
+<div
+  class="container page__container d-flex flex-column flex-md-row align-items-center text-center text-sm-left"
+>
   <div class="flex d-flex flex-column flex-sm-row align-items-center">
     <div class="my-24pt mr-sm-24pt">
       <h2 class="mb-0">Learning Paths</h2>
       <ol class="breadcrumb p-0 m-0">
         <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
-        <li class="breadcrumb-item active">
-          Learning Paths
-        </li>
+        <li class="breadcrumb-item active">Learning Paths</li>
       </ol>
     </div>
   </div>
@@ -17,26 +17,57 @@
     <div class="col-lg-4 col-sm-12">
       <div class="card">
         <div class="card-header">
-          <h6 class="mb-0" *ngIf="learningPathFormType == 'create'">Create New</h6>
-          <h6 class="mb-0" *ngIf="learningPathFormType == 'update'">Update Information</h6>
-          <h6 class="mb-0" *ngIf="learningPathFormType == 'delete'">Delete Information</h6>
+          <h6 class="mb-0" *ngIf="learningPathFormType == 'create'">
+            Create New
+          </h6>
+          <h6 class="mb-0" *ngIf="learningPathFormType == 'update'">
+            Update Information
+          </h6>
+          <h6 class="mb-0" *ngIf="learningPathFormType == 'delete'">
+            Delete Information
+          </h6>
         </div>
         <div class="card-body">
           <form #formData="ngForm">
             <div class="form-group">
               <label for="title" class="form-label">Title</label>
-              <input type="text" class="form-control" id="title" name="title" [(ngModel)]="learningPath.title"
-                [disabled]="learningPathFormType=='delete'" />
+              <input
+                type="text"
+                class="form-control"
+                id="title"
+                name="title"
+                [(ngModel)]="learningPath.title"
+                [disabled]="learningPathFormType == 'delete'"
+              />
             </div>
             <div class="form-buttons">
-              <button type="submit" class="btn btn-primary" (click)="addLearningPath()"
-                *ngIf="learningPathFormType == 'create'" [disabled]="!learningPath.title">Create</button>
-              <button type="submit" class="btn btn-primary" (click)="updateLearningPath()"
+              <button
+                type="submit"
+                class="btn btn-primary"
+                (click)="addLearningPath()"
+                *ngIf="learningPathFormType == 'create'"
+                [disabled]="!learningPath.title"
+              >
+                Create
+              </button>
+              <button
+                type="submit"
+                class="btn btn-primary"
+                (click)="updateLearningPath()"
                 *ngIf="learningPathFormType == 'update'"
-                [disabled]="!learningPath.id || !learningPath.title">Update</button>
-              <button type="submit" class="btn btn-danger" (click)="deleteLearningPath()"
+                [disabled]="!learningPath.id || !learningPath.title"
+              >
+                Update
+              </button>
+              <button
+                type="submit"
+                class="btn btn-danger"
+                (click)="deleteLearningPath()"
                 *ngIf="learningPathFormType == 'delete'"
-                [disabled]="!learningPath.id || !learningPath.title">Delete</button>
+                [disabled]="!learningPath.id || !learningPath.title"
+              >
+                Delete
+              </button>
             </div>
           </form>
         </div>
@@ -48,7 +79,14 @@
           <h6 class="mb-0">List of Learning Paths</h6>
         </div>
         <div class="card-body">
-          <table class="table table-sm table-hover table-bordered mb-0">
+          <ng-container *ngIf="loading">
+            <img src="/assets/images/loading.svg" width="20" class="mb-3" />
+          </ng-container>
+
+          <table
+            class="table table-sm table-hover table-bordered mb-0"
+            *ngIf="!loading"
+          >
             <thead class="bg-light">
               <tr>
                 <th scope="col">Title</th>
@@ -61,28 +99,54 @@
                 <tr>
                   <td>{{ path.title }}</td>
                   <td>
-                    <div class="badge badge-primary mr-1" data-toggle="modal" data-target="#classModal"
-                      (click)="setLearningPath(path); setClassFormType('create')">
+                    <div
+                      class="badge badge-primary mr-1"
+                      data-toggle="modal"
+                      data-target="#classModal"
+                      (click)="
+                        setLearningPath(path); setClassFormType('create')
+                      "
+                    >
                       Add <span class="material-icons ml-1">add</span>
                     </div>
                     <ng-container *ngFor="let class of path.classes">
                       <div class="badge badge-light mr-1">
                         {{ class.title }}
-                        <span class="material-icons mx-1" data-toggle="modal" data-target="#classModal"
-                          (click)="setClass(class); setClassFormType('update')">edit</span>
-                        <span class="material-icons" data-toggle="modal" data-target="#classModal"
-                          (click)="setClass(class); setClassFormType('delete')">delete</span>
+                        <span
+                          class="material-icons mx-1"
+                          data-toggle="modal"
+                          data-target="#classModal"
+                          (click)="setClass(class); setClassFormType('update')"
+                          >edit</span
+                        >
+                        <span
+                          class="material-icons"
+                          data-toggle="modal"
+                          data-target="#classModal"
+                          (click)="setClass(class); setClassFormType('delete')"
+                          >delete</span
+                        >
                       </div>
                     </ng-container>
                   </td>
                   <td class="text-center">
                     <div class="buttons">
-                      <span class="badge badge-primary p-1 mr-2"
-                        (click)="setLearningPath(path); setlearningPathFormType('update')">
+                      <span
+                        class="badge badge-primary p-1 mr-2"
+                        (click)="
+                          setLearningPath(path);
+                          setlearningPathFormType('update')
+                        "
+                      >
                         <i class="material-icons mr-0">edit</i>
                       </span>
-                      <span class="badge badge-primary p-1 mr-2"
-                        (click)="setLearningPath(path); setlearningPathFormType('delete')">
+                      <span
+                        class="badge badge-primary p-1 mr-2"
+                        (click)="
+                          setLearningPath(path);
+                          setlearningPathFormType('delete')
+                        "
+                      >
                         <i class="material-icons mr-0">delete</i>
                       </span>
                     </div>
@@ -97,16 +161,34 @@
   </div>
 </div>
 
-<div class="modal" id="classModal" tabindex="-1" role="dialog" aria-labelledby="viewModalLabel" aria-hidden="true">
+<div
+  class="modal"
+  id="classModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="viewModalLabel"
+  aria-hidden="true"
+>
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="classModalLabel">
-          <ng-container *ngIf="classFormType == 'create'">Create Class</ng-container>
-          <ng-container *ngIf="classFormType == 'update'">Update Class</ng-container>
-          <ng-container *ngIf="classFormType == 'delete'">Delete Class</ng-container>
+          <ng-container *ngIf="classFormType == 'create'"
+            >Create Class</ng-container
+          >
+          <ng-container *ngIf="classFormType == 'update'"
+            >Update Class</ng-container
+          >
+          <ng-container *ngIf="classFormType == 'delete'"
+            >Delete Class</ng-container
+          >
         </h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -116,18 +198,51 @@
             <div class="row mb-3">
               <div class="col">
                 <label for="title" class="form-label">Title</label>
-                <input type="text" class="form-control" id="title" name="title" [(ngModel)]="class.title"
-                  [disabled]="classFormType == 'delete'" />
+                <input
+                  type="text"
+                  class="form-control"
+                  id="title"
+                  name="title"
+                  [(ngModel)]="class.title"
+                  [disabled]="classFormType == 'delete'"
+                />
               </div>
             </div>
           </div>
           <div class="modal-footer">
-            <button type="submit" class="btn btn-primary" (click)="addClass()" *ngIf="classFormType == 'create'"
-              [disabled]="!class.title" data-dismiss="modal" aria-label="Close">Create</button>
-            <button type="submit" class="btn btn-primary" (click)="updateClass()" *ngIf="classFormType == 'update'"
-              [disabled]="!class.id || !class.title" data-dismiss="modal" aria-label="Close">Update</button>
-            <button type="submit" class="btn btn-danger" (click)="deleteClass()" *ngIf="classFormType == 'delete'"
-              [disabled]="!class.id" data-dismiss="modal" aria-label="Close">Delete</button>
+            <button
+              type="submit"
+              class="btn btn-primary"
+              (click)="addClass()"
+              *ngIf="classFormType == 'create'"
+              [disabled]="!class.title"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              Create
+            </button>
+            <button
+              type="submit"
+              class="btn btn-primary"
+              (click)="updateClass()"
+              *ngIf="classFormType == 'update'"
+              [disabled]="!class.id || !class.title"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              Update
+            </button>
+            <button
+              type="submit"
+              class="btn btn-danger"
+              (click)="deleteClass()"
+              *ngIf="classFormType == 'delete'"
+              [disabled]="!class.id"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              Delete
+            </button>
           </div>
         </form>
       </div>

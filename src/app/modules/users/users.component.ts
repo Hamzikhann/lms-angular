@@ -34,6 +34,8 @@ export class UsersComponent {
   userDetails: any;
   userId: any;
 
+  loading: boolean = false;
+
   constructor(
     private router: Router,
     private toastr: ToastrService,
@@ -69,12 +71,15 @@ export class UsersComponent {
   }
 
   getUsers() {
+    this.loading = true;
+
     const data = {
       path: 'users/list',
       payload: {},
     };
     this.apiServices.postRequest(data).subscribe((data) => {
       this.users = data.data;
+      this.loading = false;
     });
   }
 

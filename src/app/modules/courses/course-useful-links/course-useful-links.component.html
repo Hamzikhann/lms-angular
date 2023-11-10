@@ -1,6 +1,12 @@
 <div class="container page__container">
+  <ng-container *ngIf="loading">
+    <div class="text-center loading-icon">
+      <img src="/assets/images/loading.svg" />
+    </div>
+  </ng-container>
   <div
     class="page-separator d-flex align-items-center justify-content-between mb-32pt"
+    *ngIf="!loading"
   >
     <div class="page-separator__text">
       Useful Links

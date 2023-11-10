@@ -17,6 +17,8 @@ export class CoursesComponent {
   courseInstructors: any;
   loggedInUser: any;
 
+  loading: boolean = false;
+
   constructor(
     private router: Router,
     private toastr: ToastrService,
@@ -34,12 +36,15 @@ export class CoursesComponent {
   }
 
   getCourses() {
+    this.loading = true;
+
     const data = {
       path: 'courses/list',
       payload: {},
     };
     this.apiServices.postRequest(data).subscribe((data) => {
       this.courses = data;
+      this.loading = false;
     });
   }
 
