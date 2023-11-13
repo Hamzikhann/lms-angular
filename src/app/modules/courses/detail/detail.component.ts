@@ -3,6 +3,7 @@ import { ApiService } from 'src/app/services/users/api.service';
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ConfigService } from 'src/app/config/config.service';
+import { AuthService } from 'src/app/services/auth/auth.service';
 
 @Component({
   selector: 'app-detail',
@@ -11,8 +12,10 @@ import { ConfigService } from 'src/app/config/config.service';
 })
 export class DetailComponent {
   ImgBaseURL: string = this.config.ImgBaseURL;
+  loggedInUser: any;
   courseId: any;
   courseDetails: any;
+  courseEnrollmentDetails: any = null;
   instructor: any;
 
   sections: any = {
@@ -22,11 +25,10 @@ export class DetailComponent {
     links: false,
     faqs: false,
   };
-  courseEnrollmentDetails: any;
-  courseEnrollmentId: any;
 
   constructor(
     private toastr: ToastrService,
+    private authService: AuthService,
     private apiServices: ApiService,
     private config: ConfigService,
     private route: ActivatedRoute,
@@ -34,11 +36,9 @@ export class DetailComponent {
   ) {}
 
   ngOnInit(): void {
+    this.loggedInUser = JSON.parse(this.authService.getUser());
     this.courseId = this.route.snapshot.paramMap.get('id');
-    this.courseEnrollmentId = this.route.snapshot.paramMap.get('id');
-
     this.getCourseDetails();
-    this.getCourseEnrollmentDetails();
 
     if (this.router.url.includes('task')) {
       this.sections.index = true;
@@ -63,19 +63,6 @@ export class DetailComponent {
     this.apiServices.postRequest(data).subscribe((data) => {
       this.courseDetails = data;
       // console.log(this.courseDetails);
-    });
-  }
-
-  getCourseEnrollmentDetails() {
-    const data = {
-      path: 'course/enrollments/detail',
-      payload: {
-        courseEnrollmentId: this.courseEnrollmentId,
-      },
-    };
-    this.apiServices.postRequest(data).subscribe((data) => {
-      this.courseEnrollmentDetails = data;
-      console.log(this.courseEnrollmentDetails);
     });
   }
 

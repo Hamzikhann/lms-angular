@@ -16,6 +16,7 @@ export class CourseAboutComponent {
 
   courseId: any;
   courseDetails: any;
+  courseEnrollmentDetails: any;
 
   objective: any = {
     id: '',
@@ -68,6 +69,16 @@ export class CourseAboutComponent {
     };
     this.apiServices.postRequest(data).subscribe((data) => {
       this.courseDetails = data;
+
+      if (this.loggedInUser.role.title == 'User') {
+        if (
+          this.courseDetails.courseAssignments.length > 0 &&
+          this.courseDetails.courseAssignments[0].courseEnrollments.length > 0
+        ) {
+          this.courseEnrollmentDetails =
+            this.courseDetails.courseAssignments[0].courseEnrollments[0];
+        }
+      }
       this.loading = false;
     });
   }
