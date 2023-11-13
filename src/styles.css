@@ -152,3 +152,40 @@
 #youtube-player iframe {
   width: 100%;
 }
+
+.icon-holder--success {
+  background-color: rgb(31, 131, 84) !important;
+  border: rgb(31, 131, 84) !important;
+}
+.icon-holder--success:hover {
+  background-color: rgb(31, 131, 84) !important;
+  border: rgb(31, 131, 84) !important;
+}
+
+.icon-12pt {
+  font-size: 0.65rem !important;
+}
+.icon-14pt {
+  font-size: 0.75rem !important;
+}
+
+.icon-holder {
+  border: 1px solid rgba(39, 44, 51, 0.7) !important;
+  margin-right: 12px !important;
+}
+
+.icon-holder--mini {
+  width: 18px;
+  height: 18px;
+}
+
+.accordion__menu-link a {
+  color: rgb(51, 51, 51) !important;
+}
+.accordion__menu-link {
+  padding: 0.65rem 1.5rem !important;
+}
+
+.accordion__menu-link {
+  align-items: start;
+}

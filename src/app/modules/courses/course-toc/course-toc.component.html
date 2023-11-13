@@ -40,26 +40,23 @@
                 </div>
                 <div class="accordion__menu collapse show" [id]="'course-toc-' + module.id" data-parent="#parent">
                   <ng-container *ngFor="let item of module.courseTasks">
-                    <div class="accordion__menu-link active">
-                      <span class="icon-holder icon-holder--small rounded-circle d-inline-flex icon--left"
-                        [class.icon-holder--light]="
-                          item.courseTaskProgresses.length == 0
-                        " [class.icon-holder--primary]="
+                    <div class="accordion__menu-link">
+                      <span class="icon-holder icon-holder--mini rounded-circle d-inline-flex icon--left"
+                        [class.icon-holder--light]="item.courseTaskProgresses.length == 0" [class.icon-holder--success]="
                           item.courseTaskProgresses.length > 0 &&
                           item.courseTaskProgresses[0].percentage == '100'
                         ">
                         <ng-container *ngIf="item.courseTaskProgresses.length > 0 &&
                           item.courseTaskProgresses[0].percentage == '100'">
-                          <i class="material-icons icon-16pt">check</i>
+                          <i class="material-icons icon-12pt">check</i>
                         </ng-container>
                         <ng-container *ngIf="!(item.courseTaskProgresses.length > 0 &&
                           item.courseTaskProgresses[0].percentage == '100')">
-                          <i class="material-icons icon-16pt"
-                            *ngIf="item.courseTaskType.title == 'Video'">play_circle_filled</i>
-                          <i class="material-icons icon-16pt"
-                            *ngIf="item.courseTaskType.title == 'Reading'">insert_drive_file</i>
-                          <i class="material-icons icon-16pt"
-                            *ngIf="item.courseTaskType.title == 'Assessment'">assignment</i>
+                          <i class="material-icons icon-14pt">
+                            <ng-container *ngIf="item.courseTaskType.title == 'Assessment'">storage</ng-container>
+                            <ng-container *ngIf="item.courseTaskType.title == 'Reading'">inbox</ng-container>
+                            <ng-container *ngIf="item.courseTaskType.title == 'Video'">play_arrow</ng-container>
+                          </i>
                         </ng-container>
                       </span>
                       <a class="flex" href="javascript:void(0)"

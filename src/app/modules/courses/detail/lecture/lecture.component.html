@@ -22,30 +22,30 @@
                   </div>
                   <div class="accordion__menu collapse show" [id]="'course-toc-' + module.id" data-parent="#parent">
                     <ng-container *ngFor="let item of module.courseTasks">
-                      <div class="accordion__menu-link active">
-                        <span class="icon-holder icon-holder--small rounded-circle d-inline-flex icon--left"
-                          [class.icon-holder--light]="
-                          item.courseTaskProgresses.length == 0
-                        " [class.icon-holder--primary]="
+                      <div class="accordion__menu-link" [class.active]="taskId == item.id">
+                        <span class="icon-holder icon-holder--mini rounded-circle d-inline-flex icon--left"
+                          [class.icon-holder--light]="item.courseTaskProgresses.length == 0"
+                          [class.icon-holder--success]="
                           item.courseTaskProgresses.length > 0 &&
                           item.courseTaskProgresses[0].percentage == '100'
                         ">
                           <ng-container *ngIf="item.courseTaskProgresses.length > 0 &&
                           item.courseTaskProgresses[0].percentage == '100'">
-                            <i class="material-icons icon-16pt">check</i>
+                            <i class="material-icons icon-12pt">check</i>
                           </ng-container>
                           <ng-container *ngIf="!(item.courseTaskProgresses.length > 0 &&
                           item.courseTaskProgresses[0].percentage == '100')">
-                            <i class="material-icons icon-16pt"
-                              *ngIf="item.courseTaskType.title == 'Video'">play_circle_filled</i>
-                            <i class="material-icons icon-16pt"
-                              *ngIf="item.courseTaskType.title == 'Reading'">insert_drive_file</i>
-                            <i class="material-icons icon-16pt"
-                              *ngIf="item.courseTaskType.title == 'Assessment'">assignment</i>
+                            <i class="material-icons icon-14pt">
+                              <ng-container *ngIf="item.courseTaskType.title == 'Assessment'">storage</ng-container>
+                              <ng-container *ngIf="item.courseTaskType.title == 'Reading'">inbox</ng-container>
+                              <ng-container *ngIf="item.courseTaskType.title == 'Video'">play_arrow</ng-container>
+                            </i>
                           </ng-container>
                         </span>
-                        <a class="flex" [routerLink]="['/courses', courseId, 'task', item.id]">{{ item.title }}</a>
-                        <span class="text-muted">{{ item.estimatedTime }}</span>
+                        <a class="flex" [routerLink]="['/courses', courseId, 'task', item.id]">
+                          <strong>{{ item.courseTaskType.title }}:</strong> {{ item.title }}
+                          <br><span class="text-muted">{{ item.estimatedTime }}</span>
+                        </a>
                       </div>
                     </ng-container>
                   </div>
@@ -61,29 +61,18 @@
             {{ taskDetails.title }}
           </div>
           <div class="estimatedTime d-flex align-items-center">
-            <span class="icon-holder icon-holder--small rounded-circle d-inline-flex icon--left m-0">
-              <i class="material-icons icon-16pt text-dark">access_time</i>
+            <span class="icon-holder icon-holder--mini rounded-circle d-inline-flex icon--left">
+              <i class="material-icons icon-14pt text-dark">access_time</i>
             </span>
             <span class="text-dark mr-4"><strong>{{ taskDetails.estimatedTime }}</strong></span>
 
-            <span class="icon-holder icon-holder--small rounded-circle d-inline-flex icon--left m-0">
-              <i class="material-icons icon-16pt text-dark">folder_open</i>
+            <span class="icon-holder icon-holder--mini rounded-circle d-inline-flex icon--left">
+              <i class="material-icons icon-14pt text-dark">folder_open</i>
             </span>
             <span class="text-dark"><strong>{{ taskDetails.courseTaskType.title }}</strong></span>
           </div>
         </div>
         <div class="page-task">
-          <ng-container *ngIf="loggedInUser.role.title == 'User' && taskDetails.courseTaskType.title != 'Assessment'">
-            <div class="card">
-              <div class="card-body">
-                <div class="d-flex align-items-center justify-content-between">
-                  <h6 class="mb-0">Have you completed this task?</h6>
-                  <button type="button" class="btn btn-outline-dark btn-sm" (click)="updateTaskProgress()">Mark as
-                    Complete</button>
-                </div>
-              </div>
-            </div>
-          </ng-container>
           <ng-container *ngIf="taskDetails.courseTaskType.title == 'Video'">
             <div class="card">
               <div class="card-body">
@@ -213,6 +202,17 @@
                       Retry
                     </button>
                   </ng-container>
+                </div>
+              </div>
+            </div>
+          </ng-container>
+          <ng-container *ngIf="loggedInUser.role.title == 'User' && taskDetails.courseTaskType.title != 'Assessment'">
+            <div class="card">
+              <div class="card-body">
+                <div class="d-flex align-items-center justify-content-between">
+                  <h6 class="mb-0">Have you completed this task?</h6>
+                  <button type="button" class="btn btn-outline-dark btn-sm" (click)="updateTaskProgress()">Mark as
+                    Completed</button>
                 </div>
               </div>
             </div>
