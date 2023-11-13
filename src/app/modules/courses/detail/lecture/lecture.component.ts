@@ -189,16 +189,6 @@ export class LectureComponent {
     this.apiServices.postRequest(data).subscribe((response) => {
       this.taskDetails = response.data;
       this.loading = false;
-
-      if (
-        this.loggedInUser.role.title == 'User' &&
-        this.taskDetails.courseTaskType.title != 'Assessment'
-      ) {
-        setTimeout(() => {
-          this.updateTaskProgress();
-          this.goToNextTask();
-        }, 20000);
-      }
     });
   }
 
@@ -235,6 +225,7 @@ export class LectureComponent {
         this.closeModal.nativeElement.click();
       }
       this.getModules();
+      this.goToNextTask();
     });
   }
 
@@ -445,6 +436,7 @@ export class LectureComponent {
       this.toastr.success('Assessment submitted successfully!');
       this.updateTaskProgress();
       this.goToNextTask();
+      this.submitted = false;
     } else {
       this.toastr.error('Incorrect answers, kindly retry!');
     }
