@@ -77,11 +77,23 @@
       <div class="col-md-4">
         <div class="card" *ngIf="courseEnrollmentDetails">
           <div class="card-body">
-            <label>Progress</label>
-            <div class="progress" style="height: 8px" *ngIf="courseEnrollmentDetails">
-              <div class="progress-bar progress-bar-striped bg-success" role="progressbar"
-                [attr.aria-valuenow]="courseEnrollmentDetails.courseProgress" aria-valuemin="0" aria-valuemax="100"
-                [style.width.%]="courseEnrollmentDetails.courseProgress"></div>
+            <div class="row">
+              <div class="col-4">
+                <div class="progress-circle blue">
+                  <span class="progress-left">
+                    <span class="progress-bar"></span>
+                  </span>
+                  <span class="progress-right">
+                    <span class="progress-bar"></span>
+                  </span>
+                  <div class="progress-value">{{ courseEnrollmentDetails.courseProgress }}%</div>
+                </div>
+              </div>
+              <div class="col-8">
+                <h4>Progress</h4>
+                <p class="mb-0">Your current course progress stands at {{courseEnrollmentDetails.courseProgress}}
+                  percent.</p>
+              </div>
             </div>
           </div>
         </div>
