@@ -75,7 +75,7 @@
         </div>
       </div>
       <div class="col-md-4">
-        <div class="card">
+        <div class="card" *ngIf="courseEnrollmentDetails">
           <div class="card-body">
             <label>Progress</label>
             <div class="progress" style="height: 8px" *ngIf="courseEnrollmentDetails">

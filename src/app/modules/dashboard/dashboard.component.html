@@ -79,8 +79,10 @@
               </div>
             </div>
           </div>
-          <div class="progress bg-light" *ngIf="course.courseAssignments.length > 0" style="height: 4px;">
-            <div class="progress-bar bg-success" role="progressbar" [attr.aria-valuenow]="
+          <div class="progress bg-light" *ngIf="loggedInUser.role.title == 'User' && course.courseAssignments"
+            style="height: 4px;">
+            <div class="progress-bar bg-success" *ngIf="course.courseAssignments[0].courseEnrollments"
+              role="progressbar" [attr.aria-valuenow]="
               course.courseAssignments[0].courseEnrollments[0].courseProgress
               " aria-valuemin="0" aria-valuemax="100" [style.width.%]="
               course.courseAssignments[0].courseEnrollments[0].courseProgress
