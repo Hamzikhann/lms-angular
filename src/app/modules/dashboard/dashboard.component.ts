@@ -34,6 +34,7 @@ export class DashboardComponent implements OnInit {
     };
     this.apiServices.postRequest(data).subscribe((data) => {
       this.courses = data;
+      console.log(this.courses);
     });
   }
 

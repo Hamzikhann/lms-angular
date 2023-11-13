@@ -45,6 +45,7 @@ export class CoursesComponent {
     this.apiServices.postRequest(data).subscribe((data) => {
       this.courses = data;
       this.loading = false;
+      console.log(this.courses);
     });
   }
 

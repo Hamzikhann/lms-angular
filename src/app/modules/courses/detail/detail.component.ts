@@ -22,6 +22,8 @@ export class DetailComponent {
     links: false,
     faqs: false,
   };
+  courseEnrollmentDetails: any;
+  courseEnrollmentId: any;
 
   constructor(
     private toastr: ToastrService,
@@ -33,7 +35,10 @@ export class DetailComponent {
 
   ngOnInit(): void {
     this.courseId = this.route.snapshot.paramMap.get('id');
+    this.courseEnrollmentId = this.route.snapshot.paramMap.get('id');
+
     this.getCourseDetails();
+    this.getCourseEnrollmentDetails();
 
     if (this.router.url.includes('task')) {
       this.sections.index = true;
@@ -57,6 +62,20 @@ export class DetailComponent {
     };
     this.apiServices.postRequest(data).subscribe((data) => {
       this.courseDetails = data;
+      // console.log(this.courseDetails);
+    });
+  }
+
+  getCourseEnrollmentDetails() {
+    const data = {
+      path: 'course/enrollments/detail',
+      payload: {
+        courseEnrollmentId: this.courseEnrollmentId,
+      },
+    };
+    this.apiServices.postRequest(data).subscribe((data) => {
+      this.courseEnrollmentDetails = data;
+      console.log(this.courseEnrollmentDetails);
     });
   }
 

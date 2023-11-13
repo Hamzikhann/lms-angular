@@ -18,6 +18,16 @@
           {{ courseDetails.code }} -
           {{ courseDetails.courseDepartment?.title }}
         </p>
+        <div class="progress mt-2">
+          <div
+            class="progress-bar progress-bar-striped bg-success"
+            role="progressbar"
+            [attr.aria-valuenow]="courseEnrollmentDetails.courseProgress"
+            aria-valuemin="0"
+            aria-valuemax="100"
+            [style.width.%]="courseEnrollmentDetails.courseProgress"
+          ></div>
+        </div>
       </div>
     </div>
   </div>
