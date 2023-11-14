@@ -122,7 +122,7 @@
                                     <td>{{ enrollment.date }}</td>
                                     <td>{{ enrollment.user.firstName + ' ' + enrollment.user.lastName }}</td>
                                     <td>
-                                        <div class="badge" [class.badge-primary]="enrollment.required == 'Y'"
+                                        <div class="badge" [class.badge-info]="enrollment.required == 'Y'"
                                             [class.badge-warning]="enrollment.required == 'N'">
                                             <ng-container *ngIf="enrollment.required == 'Y'">Compulsory</ng-container>
                                             <ng-container *ngIf="enrollment.required == 'N'">Optional</ng-container>
