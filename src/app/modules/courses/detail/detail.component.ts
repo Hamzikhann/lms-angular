@@ -24,6 +24,7 @@ export class DetailComponent {
     books: false,
     links: false,
     faqs: false,
+    achievements: false,
   };
 
   constructor(
@@ -48,6 +49,8 @@ export class DetailComponent {
       this.sections.links = true;
     } else if (this.router.url.includes('faqs')) {
       this.sections.faqs = true;
+    } else if (this.router.url.includes('achievements')) {
+      this.sections.achievements = true;
     } else {
       this.sections.about = true;
     }
@@ -73,6 +76,7 @@ export class DetailComponent {
       books: false,
       links: false,
       faqs: false,
+      achievements: false,
     };
     this.sections[name] = true;
   }
