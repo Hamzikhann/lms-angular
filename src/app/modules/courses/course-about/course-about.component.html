@@ -113,33 +113,19 @@
         <div class="card" *ngIf="courseEnrollmentDetails">
           <div class="card-body">
             <div class="row">
-              <div class="col-12">
-                <div class="progress mb-3">
-                  <div
-                    class="progress-bar progress-bar-striped progress-bar-animated bg-primary"
-                    role="progressbar"
-                    [attr.aria-valuenow]="
-                      courseEnrollmentDetails.courseProgress
-                    "
-                    aria-valuemin="0"
-                    aria-valuemax="100"
-                    [style.width.%]="courseEnrollmentDetails.courseProgress"
-                  >
-                    {{ courseEnrollmentDetails.courseProgress }}%
-                  </div>
-                </div>
-
-                <!-- <div class="progress-circle blue">
-                  <span class="progress-left">
-                    <span class="progress-bar"></span>
-                  </span>
-                  <span class="progress-right">
-                    <span class="progress-bar"></span>
-                  </span>
-                  <div class="progress-value">{{ courseEnrollmentDetails.courseProgress }}%</div>
-                </div> -->
+              <div class="col-4">
+                <circle-progress
+                  [percent]="courseEnrollmentDetails.courseProgress"
+                  [radius]="45"
+                  [outerStrokeWidth]="10"
+                  [innerStrokeWidth]="8"
+                  [outerStrokeColor]="'#78C000'"
+                  [innerStrokeColor]="'#C7E596'"
+                  [animation]="true"
+                  [animationDuration]="300"
+                ></circle-progress>
               </div>
-              <div class="col-12">
+              <div class="col-8">
                 <h4>Progress</h4>
                 <p class="mb-0">
                   Your current course progress stands at

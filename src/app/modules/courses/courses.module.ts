@@ -16,6 +16,7 @@ import { CourseFaqsComponent } from './course-faqs/course-faqs.component';
 import { CourseTocComponent } from './course-toc/course-toc.component';
 import { CourseAboutComponent } from './course-about/course-about.component';
 import { CourseUpdateComponent } from './course-update/course-update.component';
+import { NgCircleProgressModule } from 'ng-circle-progress';
 
 const routes: Routes = [
   {
@@ -85,6 +86,14 @@ const routes: Routes = [
     NgxEditorModule,
     FormsModule,
     YouTubePlayerModule,
+    NgCircleProgressModule.forRoot({
+      radius: 100,
+      outerStrokeWidth: 16,
+      innerStrokeWidth: 8,
+      outerStrokeColor: '#78C000',
+      innerStrokeColor: '#C7E596',
+      animationDuration: 300,
+    }),
     RouterModule.forChild(routes),
   ],
 })
