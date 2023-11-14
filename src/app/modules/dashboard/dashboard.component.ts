@@ -18,13 +18,7 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.loggedInUser = JSON.parse(this.authService.getUser());
-    if (this.loggedInUser.role.title == 'Administrator') {
-      this.getCourses();
-    } else if (this.loggedInUser.role.title == 'Client') {
-      this.getAssignedCourses();
-    } else if (this.loggedInUser.role.title == 'User') {
-      this.getCourses();
-    }
+    this.getCourses();
   }
 
   getCourses() {
@@ -32,19 +26,8 @@ export class DashboardComponent implements OnInit {
       path: 'courses/list',
       payload: {},
     };
-    this.apiServices.postRequest(data).subscribe((data) => {
-      this.courses = data;
-      console.log(this.courses);
-    });
-  }
-
-  getAssignedCourses() {
-    const data = {
-      path: 'courses/list',
-      payload: {},
-    };
-    this.apiServices.postRequest(data).subscribe((data) => {
-      this.courses = data;
+    this.apiServices.postRequest(data).subscribe((response) => {
+      this.courses = response;
     });
   }
 }

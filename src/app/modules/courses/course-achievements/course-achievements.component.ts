@@ -13,7 +13,6 @@ import * as moment from 'moment';
 })
 export class CourseAchievementsComponent {
   courseId: any;
-
   courseAchievements: any;
 
   loading: boolean = false;
@@ -28,13 +27,14 @@ export class CourseAchievementsComponent {
   ) {}
 
   ngOnInit(): void {
-    this.courseId = this.route.snapshot.paramMap.get('id');
-    this.getCourseAchievements();
+    this.route.parent?.params.subscribe((params: any) => {
+      this.courseId = params.id;
+      this.getAchievements();
+    });
   }
 
-  getCourseAchievements() {
+  getAchievements() {
     this.loading = true;
-
     const data = {
       path: 'course/achievements/list ',
       payload: {
@@ -43,15 +43,12 @@ export class CourseAchievementsComponent {
     };
     this.apiServices.postRequest(data).subscribe((response) => {
       this.courseAchievements = response.data;
-
-      this.loading = false;
-
       this.courseAchievements.forEach((achievement: any) => {
-        achievement.date = moment(achievement.createdAt).format('MMM DD, YYYY');
-        achievement.time = moment(achievement.createdAt).format('hh:mm A');
+        achievement.datetime = moment(achievement.createdAt).format(
+          'MMM DD, YYYY hh:mm A'
+        );
       });
-
-      console.log(this.courseAchievements);
+      this.loading = false;
     });
   }
 }

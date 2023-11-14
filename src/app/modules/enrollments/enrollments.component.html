@@ -110,9 +110,9 @@
                         <thead class="bg-light">
                             <tr>
                                 <th scope="col">Timestamp</th>
-                                <th scope="col">Course</th>
+                                <th scope="col">User</th>
                                 <th scope="col">Type</th>
-                                <th scope="col">Access Level</th>
+                                <th scope="col">Course</th>
                                 <th scope="col" class="w-10">Actions</th>
                             </tr>
                         </thead>
@@ -120,7 +120,7 @@
                             <ng-container *ngFor="let enrollment of enrollments; let i = index">
                                 <tr>
                                     <td>{{ enrollment.date }}</td>
-                                    <td>{{ enrollment.courseAssignment.course.title }}</td>
+                                    <td>{{ enrollment.user.firstName + ' ' + enrollment.user.lastName }}</td>
                                     <td>
                                         <div class="badge" [class.badge-primary]="enrollment.required == 'Y'"
                                             [class.badge-warning]="enrollment.required == 'N'">
@@ -128,20 +128,7 @@
                                             <ng-container *ngIf="enrollment.required == 'N'">Optional</ng-container>
                                         </div>
                                     </td>
-                                    <td>{{ enrollment.courseEnrollmentType.title }}<br>
-                                        <div class="badge badge-info"
-                                            *ngIf="enrollment.courseEnrollmentType.title == 'Department'">
-                                            {{ enrollment.userDepartment.title }}
-                                        </div>
-                                        <div class="badge badge-info"
-                                            *ngIf="enrollment.courseEnrollmentType.title == 'Individual'">
-                                            {{ enrollment.user.firstName + ' ' + enrollment.user.lastName }}
-                                        </div>
-                                        <div class="badge badge-info"
-                                            *ngIf="enrollment.courseEnrollmentType.title == 'Team'">
-                                            {{ enrollment.team.title }}
-                                        </div>
-                                    </td>
+                                    <td>{{ enrollment.courseAssignment.course.title }}</td>
                                     <td class="text-center">
                                         <span class="badge badge-primary p-1 mr-2"
                                             (click)="setEnrollment(enrollment); setEnrollmentFormType('delete')">

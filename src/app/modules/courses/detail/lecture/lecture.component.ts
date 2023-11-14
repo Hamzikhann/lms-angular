@@ -237,6 +237,8 @@ export class LectureComponent {
         'task',
         this.taskIdNext,
       ]);
+    } else {
+      this.router.navigate(['/courses', this.courseId, 'achievements']);
     }
   }
 

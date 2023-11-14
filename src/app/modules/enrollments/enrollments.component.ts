@@ -116,7 +116,7 @@ export class EnrollmentsComponent {
     this.apiServices.postRequest(data).subscribe((response) => {
       this.enrollments = response.data;
       this.enrollments.forEach((enrollment: any) => {
-        enrollment.date = moment(enrollment.date).format('DD/MM/YYYY');
+        enrollment.date = moment(enrollment.createdAt).format('DD/MM/YYYY');
       });
     });
   }
