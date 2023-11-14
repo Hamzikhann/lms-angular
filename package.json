@@ -21,7 +21,6 @@
     "@angular/youtube-player": "^16.2.11",
     "@ng-bootstrap/ng-bootstrap": "^12.0.0",
     "@popperjs/core": "^2.11.8",
-    "angular-svg-round-progressbar": "^11.0.0",
     "jquery": "^3.6.0",
     "masonry-layout": "^4.2.2",
     "moment": "^2.29.4",

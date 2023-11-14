@@ -87,12 +87,7 @@ const routes: Routes = [
     FormsModule,
     YouTubePlayerModule,
     NgCircleProgressModule.forRoot({
-      radius: 100,
-      outerStrokeWidth: 16,
-      innerStrokeWidth: 8,
-      outerStrokeColor: '#78C000',
-      innerStrokeColor: '#C7E596',
-      animationDuration: 300,
+      backgroundColor: '#C7E596',
     }),
     RouterModule.forChild(routes),
   ],

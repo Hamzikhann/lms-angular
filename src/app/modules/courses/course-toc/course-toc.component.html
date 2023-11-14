@@ -59,8 +59,8 @@
                           </i>
                         </ng-container>
                       </span>
-                      <a class="flex" href="javascript:void(0)"
-                        [routerLink]="['/courses', courseId, 'task', item.id]">{{ item.title }}</a>
+                      <a class="flex" href="javascript:void(0)" [routerLink]="['/courses', courseId, 'task', item.id]">
+                        <strong>{{ item.courseTaskType.title }}: </strong>{{ item.title }}</a>
                       <span class="text-muted">{{ item.estimatedTime }}</span>
                       <div class="d-flex align-items-center">
                         <div class="buttons">
