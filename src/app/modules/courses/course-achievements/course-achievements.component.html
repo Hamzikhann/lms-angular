@@ -1,0 +1,53 @@
+<div class="container page__container">
+  <ng-container *ngIf="loading">
+    <div class="text-center loading-icon">
+      <img src="/assets/images/loading.svg" />
+    </div>
+  </ng-container>
+  <div
+    class="page-separator d-flex align-items-center justify-content-between mb-32pt"
+    *ngIf="!loading"
+  >
+    <div class="page-separator__text">Achievements</div>
+    <!-- <div class="search-form search-form--light pr-0 pl-16pt">
+      <input
+        class="form-control form-input"
+        type="text"
+        placeholder="Search Achievement"
+        (input)="searchCourseAchievements($event)"
+      />
+      <button class="btn" type="submit">
+        <i class="material-icons">search</i>
+      </button>
+    </div> -->
+  </div>
+  <div
+    class="row"
+    *ngFor="let achievement of courseAchievements; let i = index"
+  >
+    <div class="col-md-12">
+      <div class="card card--elevated card-group-row__card">
+        <div class="card-body d-flex">
+          <span
+            class="icon-holder icon-holder--outline-muted rounded-circle d-inline-flex mr-16pt"
+          >
+            <i class="material-icons">emoji_events</i>
+          </span>
+          <div class="flex">
+            <div class="d-flex justify-content-between">
+              <strong class="card-subtitle-2 mb-4pt text-100">
+                Achievement # {{ i + 1 }}
+              </strong>
+            </div>
+            <p class="text-70 mb-2">
+              <strong>Completion Date: </strong> {{ achievement.date }}
+            </p>
+            <p class="text-70 mb-0">
+              <strong>Completion Time: </strong> {{ achievement.time }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

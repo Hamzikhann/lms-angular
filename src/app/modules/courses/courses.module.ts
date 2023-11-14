@@ -17,7 +17,7 @@ import { CourseTocComponent } from './course-toc/course-toc.component';
 import { CourseAboutComponent } from './course-about/course-about.component';
 import { CourseUpdateComponent } from './course-update/course-update.component';
 import { NgCircleProgressModule } from 'ng-circle-progress';
-
+import { CourseAchievementsComponent } from './course-achievements/course-achievements.component';
 const routes: Routes = [
   {
     path: '',
@@ -59,6 +59,10 @@ const routes: Routes = [
             component: CourseFaqsComponent,
           },
           {
+            path: 'achievements',
+            component: CourseAchievementsComponent,
+          },
+          {
             path: 'task/:taskId',
             component: LectureComponent,
           },
@@ -79,6 +83,7 @@ const routes: Routes = [
     CourseTocComponent,
     CourseAboutComponent,
     CourseUpdateComponent,
+    CourseAchievementsComponent,
   ],
   imports: [
     CommonModule,
