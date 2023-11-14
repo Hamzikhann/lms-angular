@@ -77,6 +77,7 @@ export class CourseAboutComponent {
         ) {
           this.courseEnrollmentDetails =
             this.courseDetails.courseAssignments[0].courseEnrollments[0];
+          console.log(this.courseEnrollmentDetails);
         }
       }
       this.loading = false;

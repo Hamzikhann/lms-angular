@@ -1,3 +1,13 @@
 .loading-icon {
   margin-top: 9%;
 }
+
+.bg-success {
+  color: darkgreen;
+}
+
+.progress {
+  height: 30px;
+  border-radius: 20px;
+  font-size: 14px;
+}
