@@ -10,6 +10,7 @@ import { ApiService } from 'src/app/services/users/api.service';
 export class DashboardComponent implements OnInit {
   courses: any;
   loggedInUser: any;
+  loggedInUserRole: string = '';
   courseStats: any;
 
   constructor(
@@ -19,8 +20,9 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.loggedInUser = JSON.parse(this.authService.getUser());
+    this.loggedInUserRole = this.loggedInUser.role.title;
+    if (this.loggedInUserRole == 'User') this.getCourseStatistics();
     this.getCourses();
-    this.getCourseStatistics();
   }
 
   getCourses() {
