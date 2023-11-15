@@ -58,7 +58,10 @@
               <small>{{ loggedInUser.role.title }}</small>
             </p>
           </div>
-          <span class="avatar avatar-sm mr-0">
+          <span *ngIf="loggedInUser.userProfile?.imageUrl">
+            <img [src]="imageBaseUrl + loggedInUser.userProfile.imageUrl" width="40" class="rounded-circle" />
+          </span>
+          <span class="avatar avatar-sm mr-8pt2" *ngIf="!loggedInUser.userProfile?.imageUrl">
             <span class="avatar-title rounded-circle bg-primary">
               <i class="material-icons">account_box</i>
             </span>
