@@ -11,7 +11,7 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 })
 export class CourseFaqsComponent {
   loggedInUser: any;
-  permission: any = { create: true, update: true, delete: true };
+  permission: any = { create: false, update: false, delete: false };
 
   courseId: any;
   faqs: any;
