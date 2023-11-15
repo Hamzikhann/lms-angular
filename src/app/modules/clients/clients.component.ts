@@ -27,6 +27,23 @@ export class ClientsComponent {
 
   loading: boolean = false;
 
+  dtOptions: any = {
+    aaSorting: [],
+    columnDefs: [
+      {
+        // targets: [0],
+        // render: function (data: any, type: any, full: any, meta: any) {
+        //   if (type === 'sort') {
+        //     return moment(data, 'DD/MM/YYYY hh:mm A').format('YYYYMMDD hhmmss');
+        //   } else {
+        //     return data;
+        //   }
+        // },
+      },
+    ],
+    order: [[0, 'desc']],
+  };
+
   constructor(
     private router: Router,
     private toastr: ToastrService,
@@ -48,7 +65,6 @@ export class ClientsComponent {
 
   getClients() {
     this.loading = true;
-
     this.clients = [];
     const data = {
       path: 'clients/list',

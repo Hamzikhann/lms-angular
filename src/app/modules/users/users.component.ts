@@ -36,6 +36,12 @@ export class UsersComponent {
 
   loading: boolean = false;
 
+  dtOptions: any = {
+    aaSorting: [],
+    columnDefs: [{}],
+    order: [[0, 'desc']],
+  };
+
   constructor(
     private router: Router,
     private toastr: ToastrService,
@@ -72,6 +78,7 @@ export class UsersComponent {
 
   getUsers() {
     this.loading = true;
+    this.users = [];
 
     const data = {
       path: 'users/list',

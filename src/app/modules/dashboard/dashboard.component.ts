@@ -10,6 +10,7 @@ import { ApiService } from 'src/app/services/users/api.service';
 export class DashboardComponent implements OnInit {
   courses: any;
   loggedInUser: any;
+  courseStats: any;
 
   constructor(
     private authService: AuthService,
@@ -19,6 +20,7 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     this.loggedInUser = JSON.parse(this.authService.getUser());
     this.getCourses();
+    this.getCourseStatistics();
   }
 
   getCourses() {
@@ -28,6 +30,17 @@ export class DashboardComponent implements OnInit {
     };
     this.apiServices.postRequest(data).subscribe((response) => {
       this.courses = response;
+    });
+  }
+
+  getCourseStatistics() {
+    const data = {
+      path: 'dashboard',
+      payload: {},
+    };
+    this.apiServices.postRequest(data).subscribe((response) => {
+      this.courseStats = response.data;
+      console.log(this.courseStats);
     });
   }
 }

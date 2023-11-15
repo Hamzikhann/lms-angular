@@ -27,6 +27,12 @@ export class LearningPathsComponent {
 
   loading: boolean = false;
 
+  dtOptions: any = {
+    aaSorting: [],
+    columnDefs: [{}],
+    order: [[0, 'desc']],
+  };
+
   constructor(
     private router: Router,
     private toastr: ToastrService,

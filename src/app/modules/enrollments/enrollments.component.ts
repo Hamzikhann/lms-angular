@@ -30,6 +30,14 @@ export class EnrollmentsComponent {
   };
   enrollmentFormType: string = 'create';
 
+  loading: boolean = false;
+
+  dtOptions: any = {
+    aaSorting: [],
+    columnDefs: [{}],
+    order: [[0, 'desc']],
+  };
+
   constructor(
     private router: Router,
     private toastr: ToastrService,
@@ -109,6 +117,8 @@ export class EnrollmentsComponent {
   }
 
   getEnrollments() {
+    this.loading = true;
+    this.enrollments = [];
     const data = {
       path: 'course/enrollments/list',
       payload: {},
@@ -118,6 +128,7 @@ export class EnrollmentsComponent {
       this.enrollments.forEach((enrollment: any) => {
         enrollment.date = moment(enrollment.createdAt).format('DD/MM/YYYY');
       });
+      this.loading = false;
     });
   }
 

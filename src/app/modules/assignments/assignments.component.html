@@ -89,7 +89,9 @@
           </ng-container>
           <table
             class="table table-sm table-hover table-bordered mb-0"
-            *ngIf="!loading"
+            *ngIf="!loading && assignments.length > 0"
+            datatable
+            [dtOptions]="dtOptions"
           >
             <thead class="bg-light">
               <tr>

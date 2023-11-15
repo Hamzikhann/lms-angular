@@ -22,6 +22,7 @@ import { NgxDropzoneModule } from 'ngx-dropzone';
 import { ChangePasswordComponent } from './settings/change-password/change-password.component';
 import { AssignmentsComponent } from './assignments/assignments.component';
 import { TeamsComponent } from './teams/teams.component';
+import { DataTablesModule } from 'angular-datatables';
 
 const routes: Routes = [
   {
@@ -118,6 +119,7 @@ const routes: Routes = [
     NgxMasonryModule,
     NgxDropzoneModule,
     RouterModule.forChild(routes),
+    DataTablesModule,
   ],
 })
 export class IndexModule {}

@@ -24,6 +24,14 @@ export class TeamsComponent {
   };
   clientId: any;
 
+  loading: boolean = false;
+
+  dtOptions: any = {
+    aaSorting: [],
+    columnDefs: [{}],
+    order: [[0, 'desc']],
+  };
+
   constructor(
     private toastr: ToastrService,
     private apiServices: ApiService,
@@ -36,6 +44,8 @@ export class TeamsComponent {
   }
 
   getTeams() {
+    this.loading = true;
+
     this.teams = [];
     const data = {
       path: 'teams/list',
@@ -43,6 +53,7 @@ export class TeamsComponent {
     };
     this.apiServices.postRequest(data).subscribe((data) => {
       this.teams = data.data;
+      this.loading = false;
     });
   }
 

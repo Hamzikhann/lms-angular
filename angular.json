@@ -40,7 +40,8 @@
               "src/assets/css/preloader.css",
               "src/assets/css/app.css",
               "node_modules/ngx-toastr/toastr.css",
-              "src/styles.css"
+              "src/styles.css",
+              "node_modules/datatables.net-dt/css/jquery.dataTables.css"
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",
@@ -51,7 +52,9 @@
               "src/assets/js/material-design-kit.js",
               "src/assets/js/app.js",
               "src/assets/js/preloader.js",
-              "src/assets/js/yt_iframe_api.js"
+              "src/assets/js/yt_iframe_api.js",
+              "node_modules/jquery/dist/jquery.js",
+              "node_modules/datatables.net/js/jquery.dataTables.js"
             ]
           },
           "configurations": {
