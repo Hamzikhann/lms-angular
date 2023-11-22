@@ -18,6 +18,9 @@ import { CourseAboutComponent } from './course-about/course-about.component';
 import { CourseUpdateComponent } from './course-update/course-update.component';
 import { NgCircleProgressModule } from 'ng-circle-progress';
 import { CourseAchievementsComponent } from './course-achievements/course-achievements.component';
+import { CourseAssignmnetReportComponent } from './course-assignmnet-report/course-assignmnet-report.component';
+import { DataTablesModule } from 'angular-datatables';
+
 const routes: Routes = [
   {
     path: '',
@@ -25,6 +28,10 @@ const routes: Routes = [
       {
         path: '',
         component: CoursesComponent,
+      },
+      {
+        path: 'courseAssignmentReport/:id',
+        component: CourseAssignmnetReportComponent,
       },
       {
         path: 'create',
@@ -84,6 +91,7 @@ const routes: Routes = [
     CourseAboutComponent,
     CourseUpdateComponent,
     CourseAchievementsComponent,
+    CourseAssignmnetReportComponent,
   ],
   imports: [
     CommonModule,
@@ -95,6 +103,7 @@ const routes: Routes = [
       backgroundColor: '#C7E596',
     }),
     RouterModule.forChild(routes),
+    DataTablesModule,
   ],
 })
 export class CoursesModule {}

@@ -78,6 +78,7 @@ export class AssignmentsComponent {
     };
     this.apiServices.postRequest(data).subscribe((response) => {
       this.assignments = response.data;
+      console.log(this.assignments);
       this.loading = false;
     });
   }

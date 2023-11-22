@@ -72,6 +72,7 @@ export class ClientsComponent {
     };
     this.apiServices.postRequest(data).subscribe((data) => {
       this.clients = data.data;
+      console.log(this.clients);
       this.loading = false;
     });
   }
