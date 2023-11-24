@@ -85,6 +85,7 @@ export class CourseTocComponent {
     };
     this.apiServices.postRequest(data).subscribe((data) => {
       this.courseDetails = data;
+      console.log(this.courseDetails);
       this.syllabus = {
         id: this.courseDetails.courseSyllabus?.id,
         title: this.courseDetails.courseSyllabus?.title,
@@ -110,6 +111,7 @@ export class CourseTocComponent {
       console.log(this.modules);
     });
   }
+
   createModule() {
     const data = {
       path: 'course/modules/create',

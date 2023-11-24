@@ -1,0 +1,88 @@
+<div
+  class="container page__container d-flex flex-column flex-md-row align-items-center text-center text-sm-left"
+>
+  <div class="flex d-flex flex-column flex-sm-row align-items-center">
+    <div class="my-24pt mr-sm-24pt">
+      <h2 class="mb-0">Course Assignment Report</h2>
+      <ol class="breadcrumb p-0 m-0">
+        <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+        <li class="breadcrumb-item">Courses</li>
+        <li class="breadcrumb-item active">View Report</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-12 col-sm-12">
+      <div class="card">
+        <div class="card-header">
+          <h6 class="mb-0">List of course assignments</h6>
+        </div>
+        <div class="card-body">
+          <ng-container *ngIf="loading">
+            <img src="/assets/images/loading.svg" width="20" class="mb-3" />
+          </ng-container>
+          <table
+            class="table table-sm table-hover table-bordered mb-0"
+            *ngIf="!loading && courseAssignmentReport.length > 0"
+            datatable
+            [dtOptions]="dtOptions"
+          >
+            <thead class="bg-light">
+              <tr>
+                <th scope="col">User Name</th>
+                <th scope="col">Email</th>
+                <th scope="col">Department</th>
+                <th scope="col">Designation</th>
+                <th scope="col">Manager</th>
+                <th scope="col">Course Progress</th>
+              </tr>
+            </thead>
+            <tbody>
+              <ng-container
+                *ngFor="let assignmentReport of courseAssignmentReport"
+              >
+                <tr>
+                  <td>
+                    {{
+                      assignmentReport.user.firstName +
+                        " " +
+                        assignmentReport.user.lastName
+                    }}
+                  </td>
+                  <td>{{ assignmentReport.user.email }}</td>
+                  <td>{{ assignmentReport.user.userDepartment.title }}</td>
+                  <td>{{ assignmentReport.user.userDesignation.title }}</td>
+
+                  <td>
+                    {{
+                      assignmentReport.user.manager.firstName +
+                        " " +
+                        assignmentReport.user.manager.lastName
+                    }}
+                  </td>
+                  <td>
+                    <div class="progress">
+                      <div
+                        class="progress-bar progress-bar-striped bg-success progress-bar-animated"
+                        role="progressbar"
+                        [attr.aria-valuenow]="assignmentReport.courseProgress"
+                        aria-valuemin="0"
+                        aria-valuemax="100"
+                        [style.width.%]="assignmentReport.courseProgress"
+                      >
+                        {{ assignmentReport.courseProgress }}%
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              </ng-container>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

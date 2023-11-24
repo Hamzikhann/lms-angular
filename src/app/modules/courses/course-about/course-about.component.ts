@@ -39,6 +39,7 @@ export class CourseAboutComponent {
   @ViewChild('closeInstructorModal') closeInstructorModal:
     | ElementRef
     | undefined;
+  @ViewChild('closeResetModal') closeResetModal: ElementRef | undefined;
 
   constructor(
     private toastr: ToastrService,
@@ -81,6 +82,22 @@ export class CourseAboutComponent {
         }
       }
       this.loading = false;
+    });
+  }
+
+  resetCourseProgress() {
+    const data = {
+      path: 'course/enrollments/progress/reset ',
+      payload: {
+        courseEnrollmentId: this.courseEnrollmentDetails.id,
+      },
+    };
+    this.apiServices.postRequest(data).subscribe((response) => {
+      if (this.closeResetModal) {
+        this.closeResetModal.nativeElement.click();
+      }
+      this.toastr.success('Course progress reset successfully!');
+      this.getCourseDetails();
     });
   }
 
