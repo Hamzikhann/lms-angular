@@ -4,11 +4,18 @@
   </div>
 </ng-container>
 <div class="container page__container" *ngIf="!loading">
-  <div class="page-separator d-flex align-items-center justify-content-between mb-32pt">
+  <div
+    class="page-separator d-flex align-items-center justify-content-between mb-32pt"
+  >
     <div class="page-separator__text" *ngIf="syllabus.id">
       {{ syllabus.title }}
-      <span class="heading-icon" data-toggle="modal" data-target="#moduleModal" (click)="setModuleFormType('create')"
-        *ngIf="permission.module.create">
+      <span
+        class="heading-icon"
+        data-toggle="modal"
+        data-target="#moduleModal"
+        (click)="setModuleFormType('create')"
+        *ngIf="permission.module.create"
+      >
         <i class="material-icons">add_circle</i>
       </span>
     </div>
@@ -16,60 +23,128 @@
 
   <div class="row mb-0">
     <div class="col-lg-12">
-      <div class="accordion js-accordion accordion--boxed list-group-flush" id="parent">
+      <div
+        class="accordion js-accordion accordion--boxed list-group-flush"
+        id="parent"
+      >
         <ng-container *ngFor="let module of modules">
           <div class="row">
             <div class="col-12">
               <div class="accordion__item mb-4">
                 <div class="accordion__toggle collapsed">
-                  <span class="flex">{{ module.title }}
-                    <span class="heading-icon" data-toggle="modal" data-target="#taskModal" (click)="
+                  <span class="flex"
+                    >{{ module.title }}
+                    <span
+                      class="heading-icon"
+                      data-toggle="modal"
+                      data-target="#taskModal"
+                      (click)="
                         setTaskFormType('create'); setTaskModuleId(module.id)
-                      " *ngIf="permission.task.create">
+                      "
+                      *ngIf="permission.task.create"
+                    >
                       <i class="material-icons">add_circle</i>
                     </span>
                   </span>
                   <div class="buttons">
-                    <span data-toggle="modal" data-target="#moduleModal"
-                      (click)="setModule(module); setModuleFormType('update')" *ngIf="permission.module.update">
-                      <i class="material-icons fa-lg mx-1">edit</i></span>
-                    <span data-toggle="modal" data-target="#moduleModal"
-                      (click)="setModule(module); setModuleFormType('delete')" *ngIf="permission.module.delete">
-                      <i class="material-icons fa-lg">delete</i></span>
+                    <span
+                      data-toggle="modal"
+                      data-target="#moduleModal"
+                      (click)="setModule(module); setModuleFormType('update')"
+                      *ngIf="permission.module.update"
+                    >
+                      <i class="material-icons fa-lg mx-1">edit</i></span
+                    >
+                    <span
+                      data-toggle="modal"
+                      data-target="#moduleModal"
+                      (click)="setModule(module); setModuleFormType('delete')"
+                      *ngIf="permission.module.delete"
+                    >
+                      <i class="material-icons fa-lg">delete</i></span
+                    >
                   </div>
                 </div>
-                <div class="accordion__menu collapse show" [id]="'course-toc-' + module.id" data-parent="#parent">
+                <div
+                  class="accordion__menu collapse show"
+                  [id]="'course-toc-' + module.id"
+                  data-parent="#parent"
+                >
                   <ng-container *ngFor="let item of module.courseTasks">
                     <div class="accordion__menu-link">
-                      <span class="icon-holder icon-holder--mini rounded-circle d-inline-flex icon--left"
-                        [class.icon-holder--light]="item.courseTaskProgresses.length == 0" [class.icon-holder--success]="
+                      <span
+                        class="icon-holder icon-holder--mini rounded-circle d-inline-flex icon--left"
+                        [class.icon-holder--light]="
+                          item.courseTaskProgresses.length == 0
+                        "
+                        [class.icon-holder--success]="
                           item.courseTaskProgresses.length > 0 &&
                           item.courseTaskProgresses[0].percentage == '100'
-                        ">
-                        <ng-container *ngIf="item.courseTaskProgresses.length > 0 &&
-                          item.courseTaskProgresses[0].percentage == '100'">
+                        "
+                      >
+                        <ng-container
+                          *ngIf="
+                            item.courseTaskProgresses.length > 0 &&
+                            item.courseTaskProgresses[0].percentage == '100'
+                          "
+                        >
                           <i class="material-icons icon-12pt">check</i>
                         </ng-container>
-                        <ng-container *ngIf="!(item.courseTaskProgresses.length > 0 &&
-                          item.courseTaskProgresses[0].percentage == '100')">
+                        <ng-container
+                          *ngIf="
+                            !(
+                              item.courseTaskProgresses.length > 0 &&
+                              item.courseTaskProgresses[0].percentage == '100'
+                            )
+                          "
+                        >
                           <i class="material-icons icon-14pt">
-                            <ng-container *ngIf="item.courseTaskType.title == 'Assessment'">storage</ng-container>
-                            <ng-container *ngIf="item.courseTaskType.title == 'Reading'">inbox</ng-container>
-                            <ng-container *ngIf="item.courseTaskType.title == 'Video'">play_arrow</ng-container>
+                            <ng-container
+                              *ngIf="item.courseTaskType.title == 'Assessment'"
+                              >storage</ng-container
+                            >
+                            <ng-container
+                              *ngIf="item.courseTaskType.title == 'Reading'"
+                              >inbox</ng-container
+                            >
+                            <ng-container
+                              *ngIf="item.courseTaskType.title == 'Video'"
+                              >play_arrow</ng-container
+                            >
                           </i>
                         </ng-container>
                       </span>
-                      <a class="flex" href="javascript:void(0)" [routerLink]="['/courses', courseId, 'task', item.id]">
-                        <strong>{{ item.courseTaskType.title }}: </strong>{{ item.title }}</a>
+                      <a
+                        class="flex"
+                        href="javascript:void(0)"
+                        [routerLink]="['/courses', courseId, 'task', item.id]"
+                      >
+                        <strong>{{ item.courseTaskType.title }}: </strong
+                        >{{ item.title }}</a
+                      >
                       <span class="text-muted">{{ item.estimatedTime }}</span>
                       <div class="d-flex align-items-center">
                         <div class="buttons">
-                          <a href="javascript:void(0)" data-toggle="modal" data-target="#taskModal"
-                            (click)="setTask(item); setTaskFormType('update')" *ngIf="permission.task.update">
-                            <i class="material-icons fa-lg mx-1 ml-2">edit</i></a>
-                          <a href="javascript:void(0)" data-toggle="modal" data-target="#taskModal"
-                            (click)="setTask(item); setTaskFormType('delete')" *ngIf="permission.task.delete">
-                            <i class="material-icons fa-lg">delete</i></a>
+                          <a
+                            href="javascript:void(0)"
+                            data-toggle="modal"
+                            data-target="#taskModal"
+                            (click)="setTask(item); setTaskFormType('update')"
+                            *ngIf="permission.task.update"
+                          >
+                            <i class="material-icons fa-lg mx-1 ml-2"
+                              >edit</i
+                            ></a
+                          >
+                          <a
+                            href="javascript:void(0)"
+                            data-toggle="modal"
+                            data-target="#taskModal"
+                            (click)="setTask(item); setTaskFormType('delete')"
+                            *ngIf="permission.task.delete"
+                          >
+                            <i class="material-icons fa-lg">delete</i></a
+                          >
                         </div>
                       </div>
                     </div>
@@ -84,25 +159,50 @@
   </div>
 </div>
 
-<div class="modal" id="moduleModal" tabindex="-1" role="dialog" aria-labelledby="moduleModalLabel" aria-hidden="true"
+<div
+  class="modal"
+  id="moduleModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="moduleModalLabel"
+  aria-hidden="true"
   *ngIf="
     permission.module.create ||
     permission.module.update ||
     permission.module.delete
-  ">
+  "
+>
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="moduleModalLabel" *ngIf="moduleFormType == 'create' && permission.module.create">
+        <h5
+          class="modal-title"
+          id="moduleModalLabel"
+          *ngIf="moduleFormType == 'create' && permission.module.create"
+        >
           Create Module
         </h5>
-        <h5 class="modal-title" id="moduleModalLabel" *ngIf="moduleFormType == 'update' && permission.module.update">
+        <h5
+          class="modal-title"
+          id="moduleModalLabel"
+          *ngIf="moduleFormType == 'update' && permission.module.update"
+        >
           Update Module
         </h5>
-        <h5 class="modal-title" id="moduleModalLabel" *ngIf="moduleFormType == 'delete' && permission.module.delete">
+        <h5
+          class="modal-title"
+          id="moduleModalLabel"
+          *ngIf="moduleFormType == 'delete' && permission.module.delete"
+        >
           Delete Module
         </h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close" #closeModuleModal>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+          #closeModuleModal
+        >
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -110,25 +210,49 @@
         <form #editIndex="ngForm">
           <div class="form-group">
             <label for="title" class="form-label">Title</label>
-            <input type="text" class="form-control" id="title" name="title" [(ngModel)]="module.title"
-              [disabled]="moduleFormType == 'delete'" />
+            <input
+              type="text"
+              class="form-control"
+              id="title"
+              name="title"
+              [(ngModel)]="module.title"
+              [disabled]="moduleFormType == 'delete'"
+            />
           </div>
           <div class="form-group">
             <label for="description" class="form-label">Description</label>
-            <input type="text" class="form-control" id="description" name="description" [(ngModel)]="module.description"
-              [disabled]="moduleFormType == 'delete'" />
+            <input
+              type="text"
+              class="form-control"
+              id="description"
+              name="description"
+              [(ngModel)]="module.description"
+              [disabled]="moduleFormType == 'delete'"
+            />
           </div>
           <div class="buttons">
-            <button type="submit" class="btn btn-primary" (click)="createModule()"
-              *ngIf="moduleFormType == 'create' && permission.module.create">
+            <button
+              type="submit"
+              class="btn btn-primary"
+              (click)="createModule()"
+              *ngIf="moduleFormType == 'create' && permission.module.create"
+            >
               Create
             </button>
-            <button type="submit" class="btn btn-primary" (click)="updateModule()"
-              *ngIf="moduleFormType == 'update' && permission.module.update">
+            <button
+              type="submit"
+              class="btn btn-primary"
+              (click)="updateModule()"
+              *ngIf="moduleFormType == 'update' && permission.module.update"
+            >
               Update
             </button>
-            <button type="submit" class="btn btn-danger" (click)="deleteModule()"
-              *ngIf="moduleFormType == 'delete' && permission.module.delete">
+            <button
+              type="submit"
+              class="btn btn-danger"
+              (click)="deleteModule()"
+              *ngIf="moduleFormType == 'delete' && permission.module.delete"
+            >
               Delete
             </button>
           </div>
@@ -138,22 +262,48 @@
   </div>
 </div>
 
-<div class="modal" id="taskModal" tabindex="-1" role="dialog" aria-labelledby="taskModalLabel" aria-hidden="true" *ngIf="
+<div
+  class="modal"
+  id="taskModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="taskModalLabel"
+  aria-hidden="true"
+  *ngIf="
     permission.task.create || permission.task.update || permission.task.delete
-  ">
+  "
+>
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="taskModalLabel" *ngIf="taskFormType == 'create' && permission.task.create">
+        <h5
+          class="modal-title"
+          id="taskModalLabel"
+          *ngIf="taskFormType == 'create' && permission.task.create"
+        >
           Create Task
         </h5>
-        <h5 class="modal-title" id="taskModalLabel" *ngIf="taskFormType == 'update' && permission.task.update">
+        <h5
+          class="modal-title"
+          id="taskModalLabel"
+          *ngIf="taskFormType == 'update' && permission.task.update"
+        >
           Update Task
         </h5>
-        <h5 class="modal-title" id="taskModalLabel" *ngIf="taskFormType == 'delete' && permission.task.delete">
+        <h5
+          class="modal-title"
+          id="taskModalLabel"
+          *ngIf="taskFormType == 'delete' && permission.task.delete"
+        >
           Delete Task
         </h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close" #closeTaskModal>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+          #closeTaskModal
+        >
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -163,8 +313,13 @@
             <div class="col-12">
               <div class="form-group">
                 <label for="taskModuleId" class="form-label">Module</label>
-                <select class="form-select form-control" id="taskModuleId" name="taskModuleId"
-                  [(ngModel)]="task.moduleId" disabled>
+                <select
+                  class="form-select form-control"
+                  id="taskModuleId"
+                  name="taskModuleId"
+                  [(ngModel)]="task.moduleId"
+                  disabled
+                >
                   <option></option>
                   <ng-container *ngFor="let module of modules">
                     <option [value]="module.id">
@@ -177,21 +332,37 @@
             <div class="col-12">
               <div class="form-group">
                 <label for="taskTitle" class="form-label">Title</label>
-                <input type="text" class="form-control" id="taskTitle" name="taskTitle" [(ngModel)]="task.title" />
+                <input
+                  type="text"
+                  class="form-control"
+                  id="taskTitle"
+                  name="taskTitle"
+                  [(ngModel)]="task.title"
+                />
               </div>
             </div>
             <div class="col-12">
               <div class="form-group">
-                <label for="taskDescription" class="form-label">Description</label>
-                <textarea class="form-control" id="taskDescription" name="taskDescription"
-                  [(ngModel)]="task.description"></textarea>
+                <label for="taskDescription" class="form-label"
+                  >Description</label
+                >
+                <textarea
+                  class="form-control"
+                  id="taskDescription"
+                  name="taskDescription"
+                  [(ngModel)]="task.description"
+                ></textarea>
               </div>
             </div>
             <div class="col-6">
               <div class="form-group">
                 <label class="form-label" for="taskTypeId">Task Type</label>
-                <select class="form-select form-control" id="taskTypeId" name="taskTypeId"
-                  [(ngModel)]="task.taskTypeId">
+                <select
+                  class="form-select form-control"
+                  id="taskTypeId"
+                  name="taskTypeId"
+                  [(ngModel)]="task.taskTypeId"
+                >
                   <ng-container *ngFor="let type of taskTypes">
                     <option [value]="type.id">
                       {{ type.title }}
@@ -202,25 +373,44 @@
             </div>
             <div class="col-6">
               <div class="form-group">
-                <label for="taskEstimatedTime" class="form-label">Estimated Time</label>
-                <input type="text" class="form-control" id="taskEstimatedTime" name="taskEstimatedTime"
-                  [(ngModel)]="task.estimatedTime" />
+                <label for="taskEstimatedTime" class="form-label"
+                  >Estimated Time</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="taskEstimatedTime"
+                  name="taskEstimatedTime"
+                  [(ngModel)]="task.estimatedTime"
+                />
               </div>
             </div>
 
             <div class="col-12">
               <div class="form-group">
                 <label for="taskVideoLink" class="form-label">Video ID</label>
-                <input type="text" class="form-control" id="taskVideoLink" name="taskVideoLink"
-                  [(ngModel)]="task.videoLink" />
+                <input
+                  type="text"
+                  class="form-control"
+                  id="taskVideoLink"
+                  name="taskVideoLink"
+                  [(ngModel)]="task.videoLink"
+                />
               </div>
             </div>
             <div class="col-12">
               <div class="form-group">
-                <label for="taskHandout" class="form-label">Handout i.e pdf</label>
+                <label for="taskHandout" class="form-label"
+                  >Handout i.e pdf</label
+                >
                 <div class="custom-file">
-                  <input type="file" class="custom-file-input" id="handout" (change)="onHandoutSelected($event)"
-                    #handoutInput />
+                  <input
+                    type="file"
+                    class="custom-file-input"
+                    id="handout"
+                    (change)="onHandoutSelected($event)"
+                    #handoutInput
+                  />
                   <label class="custom-file-label" for="handout">
                     <span>{{ task.handout?.name || "Choose File" }}</span>
                   </label>
@@ -229,16 +419,25 @@
             </div>
             <div class="col-12">
               <div class="buttons">
-                <button class="btn btn-primary" (click)="createTask()"
-                  *ngIf="taskFormType == 'create' && permission.task.create">
+                <button
+                  class="btn btn-primary"
+                  (click)="createTask()"
+                  *ngIf="taskFormType == 'create' && permission.task.create"
+                >
                   Create
                 </button>
-                <button class="btn btn-primary" (click)="updateTask()"
-                  *ngIf="taskFormType == 'update' && permission.task.update">
+                <button
+                  class="btn btn-primary"
+                  (click)="updateTask()"
+                  *ngIf="taskFormType == 'update' && permission.task.update"
+                >
                   Update
                 </button>
-                <button class="btn btn-danger" (click)="deleteTask()"
-                  *ngIf="taskFormType == 'delete' && permission.task.delete">
+                <button
+                  class="btn btn-danger"
+                  (click)="deleteTask()"
+                  *ngIf="taskFormType == 'delete' && permission.task.delete"
+                >
                   Delete
                 </button>
               </div>

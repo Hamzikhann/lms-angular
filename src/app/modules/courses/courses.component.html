@@ -64,6 +64,7 @@
 
               <div class="buttons">
                 <a
+                  *ngIf="loggedInUser.role.title == 'Client'"
                   [routerLink]="[
                     'courseAssignmentReport',
                     course.courseAssignments[0].id

@@ -147,19 +147,53 @@ export class LectureComponent {
     };
     this.apiServices.postRequest(data).subscribe((response) => {
       this.modules = response.data;
-      const tasks: any = [];
-      this.modules.forEach((module: any) => {
-        module.courseTasks.forEach((task: any) => {
-          tasks.push(task);
+      const taskIds: any = [];
+      console.log(this.modules);
+      this.modules.forEach((module: any, moduleKey: any) => {
+        var disabled = false;
+
+        module.courseTasks.forEach((task: any, taskKey: any) => {
+          taskIds.push({ id: task.id });
+
+          if (task.id == this.taskId) {
+            if (
+              task.courseTaskProgresses.length > 0 &&
+              task.courseTaskProgresses[0].percentage != '100'
+            ) {
+              disabled = true;
+            } else {
+              disabled = false;
+            }
+          }
+
+          if (disabled) {
+            task.disabled = disabled;
+
+            for (
+              let index = moduleKey + 1;
+              index < this.modules.length;
+              index++
+            ) {
+              const module = this.modules[index];
+              module.courseTasks.forEach((task: any) => {
+                task.disabled = true;
+              });
+            }
+          }
         });
       });
+      // console.log(this.modules);
+      // console.log(tasks);
 
-      tasks.forEach((task: any, key: any) => {
+      taskIds.forEach((task: any, key: any) => {
         if (task.id == this.taskId) {
           const keyPrevious = key - 1;
           const keyNext = key + 1;
-          this.taskIdPrevious = tasks[keyPrevious] ? tasks[keyPrevious].id : 0;
-          this.taskIdNext = tasks[keyNext] ? tasks[keyNext].id : 0;
+          this.taskIdPrevious = taskIds[keyPrevious]
+            ? taskIds[keyPrevious].id
+            : 0;
+          this.taskIdNext = taskIds[keyNext] ? taskIds[keyNext].id : 0;
+          console.log(this.taskIdPrevious, this.taskIdNext);
         }
       });
     });
@@ -188,6 +222,7 @@ export class LectureComponent {
     };
     this.apiServices.postRequest(data).subscribe((response) => {
       this.taskDetails = response.data;
+      // console.log(this.taskDetails);
       this.loading = false;
     });
   }
