@@ -1,447 +1,268 @@
-<ng-container *ngIf="loading">
-  <div class="text-center loading-icon">
-    <img src="/assets/images/loading.svg" />
-  </div>
-</ng-container>
-<ng-container *ngIf="!loading">
-  <div
-    class="container page__container"
-    *ngIf="taskDetails && taskDetails.courseTaskContent"
-  >
-    <div class="row">
-      <div class="col-4">
-        <div class="page-separator mb-32pt">
-          <div class="page-separator__text" *ngIf="syllabus.id">
-            {{ syllabus.title }}
-          </div>
-        </div>
-        <div
-          class="accordion js-accordion accordion--boxed list-group-flush"
-          id="parent"
-        >
-          <ng-container *ngFor="let module of modules">
-            <div class="row">
-              <div class="col-12">
-                <div class="accordion__item mb-4">
-                  <div class="accordion__toggle collapsed">
-                    <span class="flex">{{ module.title }}</span>
-                  </div>
-                  <div
-                    class="accordion__menu collapse show"
-                    [id]="'course-toc-' + module.id"
-                    data-parent="#parent"
-                  >
-                    <ng-container *ngFor="let item of module.courseTasks">
-                      <div
-                        class="accordion__menu-link"
-                        [class.active]="taskId == item.id"
-                      >
-                        <span
-                          class="icon-holder icon-holder--mini rounded-circle d-inline-flex icon--left"
-                          [class.icon-holder--light]="
-                            item.courseTaskProgresses.length == 0
-                          "
-                          [class.icon-holder--success]="
-                            item.courseTaskProgresses.length > 0 &&
-                            item.courseTaskProgresses[0].percentage == '100'
-                          "
-                        >
-                          <ng-container
-                            *ngIf="
-                              item.courseTaskProgresses.length > 0 &&
-                              item.courseTaskProgresses[0].percentage == '100'
-                            "
-                          >
-                            <i class="material-icons icon-12pt">check</i>
-                          </ng-container>
-                          <ng-container
-                            *ngIf="
-                              !(
-                                item.courseTaskProgresses.length > 0 &&
-                                item.courseTaskProgresses[0].percentage == '100'
-                              )
-                            "
-                          >
-                            <i class="material-icons icon-14pt">
-                              <ng-container
-                                *ngIf="
-                                  item.courseTaskType.title == 'Assessment'
-                                "
-                                >storage</ng-container
-                              >
-                              <ng-container
-                                *ngIf="item.courseTaskType.title == 'Reading'"
-                                >inbox</ng-container
-                              >
-                              <ng-container
-                                *ngIf="item.courseTaskType.title == 'Video'"
-                                >play_arrow</ng-container
-                              >
-                            </i>
-                          </ng-container>
-                        </span>
-                        <a
-                          class="flex"
-                          [class.disabled]="item.id != taskId && item.disabled"
-                          [routerLink]="['/courses', courseId, 'task', item.id]"
-                        >
-                          <strong>{{ item.courseTaskType.title }}:</strong>
-                          {{ item.title }} <br /><span class="text-muted">{{
-                            item.estimatedTime
-                          }}</span>
-                        </a>
-                      </div>
-                    </ng-container>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </ng-container>
+<div class="container page__container" *ngIf="taskDetails && taskDetails.courseTaskContent">
+  <div class="row">
+    <div class="col-4">
+      <div class="page-separator mb-32pt">
+        <div class="page-separator__text" *ngIf="syllabus.id">
+          {{ syllabus.title }}
         </div>
       </div>
-      <div class="col-8">
-        <div class="page-separator mb-24pt d-flex justify-content-between">
-          <div class="page-separator__text">
-            {{ taskDetails.title }}
-          </div>
-          <div class="estimatedTime d-flex align-items-center">
-            <span
-              class="icon-holder icon-holder--mini rounded-circle d-inline-flex icon--left"
-            >
-              <i class="material-icons icon-14pt text-dark">access_time</i>
-            </span>
-            <span class="text-dark mr-4"
-              ><strong>{{ taskDetails.estimatedTime }}</strong></span
-            >
-
-            <span
-              class="icon-holder icon-holder--mini rounded-circle d-inline-flex icon--left"
-            >
-              <i class="material-icons icon-14pt text-dark">folder_open</i>
-            </span>
-            <span class="text-dark"
-              ><strong>{{ taskDetails.courseTaskType.title }}</strong></span
-            >
-          </div>
-        </div>
-        <div class="page-task">
-          <ng-container *ngIf="taskDetails.courseTaskType.title == 'Video'">
-            <div class="card">
-              <div class="card-body">
-                <div id="youtube-player">
-                  <youtube-player
-                    #youtubePlayer
-                    [height]="500"
-                    [videoId]="taskDetails.courseTaskContent.videoLink"
-                  ></youtube-player>
+      <div class="accordion js-accordion accordion--boxed list-group-flush" id="parent">
+        <ng-container *ngFor="let module of modules">
+          <div class="row">
+            <div class="col-12">
+              <div class="accordion__item mb-4">
+                <div class="accordion__toggle collapsed">
+                  <span class="flex">{{ module.title }}</span>
                 </div>
-              </div>
-            </div>
-          </ng-container>
-          <ng-container *ngIf="taskDetails.courseTaskType.title == 'Reading'">
-            <div class="card">
-              <div class="card-body">
-                <div class="pdf-container">
-                  <pdf-viewer
-                    [src]="
-                      ImgBaseURL + taskDetails.courseTaskContent.handoutLink
-                    "
-                    [original-size]="false"
-                    [show-all]="true"
-                    [fit-to-page]="false"
-                    [zoom]="1"
-                    [zoom-scale]="'page-width'"
-                    [stick-to-page]="false"
-                    [render-text]="true"
-                    [external-link-target]="'blank'"
-                    [autoresize]="true"
-                    style="
-                      width: 100%;
-                      height: 600px;
-                      border: 1px solid #edf0f2;
-                      box-shadow: inset 0 1px 1px rgba(39, 44, 51, 0.075);
-                    "
-                  ></pdf-viewer>
-                </div>
-              </div>
-            </div>
-          </ng-container>
-          <ng-container
-            *ngIf="taskDetails.courseTaskType.title == 'Assessment'"
-          >
-            <div class="assessment-container">
-              <h5 *ngIf="assessments.length == 0">
-                Assessment
-                <span
-                  class="heading-icon"
-                  data-toggle="modal"
-                  data-target="#assessmentModal"
-                  (click)="setAssessmentFormType('create')"
-                  *ngIf="permission.assessment.create"
-                >
-                  <i class="material-icons">add_circle</i>
-                </span>
-              </h5>
-              <div class="card" *ngFor="let assessment of assessments">
-                <div class="card-body">
-                  <div class="d-flex justify-content-between">
-                    <div class="assessment">
-                      <div class="d-flex justify-content-between">
-                        <h5>{{ assessment.title }}</h5>
-                        <div class="buttons">
-                          <span
-                            data-toggle="modal"
-                            data-target="#assessmentModal"
-                            *ngIf="permission.assessment.update"
-                            (click)="
-                              setAssessment(assessment);
-                              setAssessmentFormType('update')
-                            "
-                          >
-                            <i class="material-icons fa-lg fs-14pt mx-1"
-                              >edit</i
-                            ></span
-                          >
-                          <span
-                            data-toggle="modal"
-                            data-target="#assessmentModal"
-                            *ngIf="permission.assessment.delete"
-                            (click)="
-                              setAssessment(assessment);
-                              setAssessmentFormType('delete')
-                            "
-                          >
-                            <i class="material-icons fa-lg fs-14pt"
-                              >delete</i
-                            ></span
-                          >
-                        </div>
-                      </div>
-                      <p>{{ assessment.description }}</p>
-                      <hr class="mb-4" />
+                <div class="accordion__menu collapse show" [id]="'course-toc-' + module.id" data-parent="#parent">
+                  <ng-container *ngFor="let item of module.courseTasks">
+                    <div class="accordion__menu-link" [class.active]="!item.disabled"
+                      [class.current]="item.id == taskId">
+                      <span class="icon-holder icon-holder--mini rounded-circle d-inline-flex icon--left"
+                        [class.text-muted]="item.disabled" [class.icon-holder--light]="item.progress == 0"
+                        [class.icon-holder--success]="item.progress == '100'
+                        ">
+                        <ng-container *ngIf="item.progress == '100'">
+                          <i class="material-icons icon-12pt">check</i>
+                        </ng-container>
+                        <ng-container *ngIf="item.progress != '100'">
+                          <i class="material-icons icon-14pt">
+                            <ng-container *ngIf="item.disabled && item.id != taskId">lock</ng-container>
+                            <ng-container *ngIf="!item.disabled">
+                              <ng-container *ngIf="item.courseTaskType.title == 'Assessment'">storage</ng-container>
+                              <ng-container *ngIf="item.courseTaskType.title == 'Reading'">inbox</ng-container>
+                              <ng-container *ngIf="item.courseTaskType.title == 'Video'">play_arrow</ng-container>
+                            </ng-container>
+                          </i>
+                        </ng-container>
+                      </span>
+                      <a class="flex" [class.disabled]="item.id != taskId && item.disabled"
+                        [class.text-muted]="item.id != taskId && item.disabled"
+                        [routerLink]="!item.disabled ? ['/courses', courseId, 'task', item.id] : []">
+                        <strong>{{ item.courseTaskType.title }}:</strong>
+                        {{ item.title }} <br /><span class="text-muted">{{
+                          item.estimatedTime
+                          }}</span>
+                      </a>
                     </div>
-                  </div>
-                  <ng-container>
-                    <div
-                      class="assessment-questions"
-                      *ngFor="
-                        let question of assessment.courseTaskAssessmentQuestions;
-                        let i = index
-                      "
-                    >
-                      <div class="d-flex justify-content-between">
-                        <p>
-                          <strong>{{ i + 1 }}. {{ question.title }}</strong>
-                        </p>
-                        <div
-                          class="buttons"
-                          *ngIf="loggedInUser.role.title == 'Administrator'"
-                        >
-                          <span
-                            data-toggle="modal"
-                            data-target="#assessmentQuestionModal"
-                            *ngIf="permission.question.update"
-                            (click)="
-                              setAssessmentQuestion(question);
-                              setAssessmentQuestionFormType('update')
-                            "
-                          >
-                            <i class="material-icons fa-lg fs-14pt mx-1"
-                              >edit</i
-                            ></span
-                          >
-                          <span
-                            data-toggle="modal"
-                            data-target="#assessmentQuestionModal"
-                            *ngIf="permission.question.delete"
-                            (click)="
-                              setAssessmentQuestion(question);
-                              setAssessmentQuestionFormType('delete')
-                            "
-                          >
-                            <i class="material-icons fa-lg fs-14pt"
-                              >delete</i
-                            ></span
-                          >
-                        </div>
-                      </div>
-                      <ul class="pl-2" style="list-style: none">
-                        <li
-                          *ngFor="let option of question.options; let y = index"
-                        >
-                          <div class="form-check">
-                            <input
-                              class="form-check-input"
-                              type="radio"
-                              [name]="question.id"
-                              [id]="'option-' + i + y"
-                              [value]="option"
-                              [disabled]="submitted"
-                              (change)="getSubmissions($event, question.id)"
-                            />
-                            <label
-                              class="form-check-label fw-400"
-                              [for]="'option-' + i + y"
-                              style="color: #303840"
-                            >
-                              {{ option }}</label
-                            >
-                            <span
-                              *ngIf="
-                                permission.question.view.answer &&
-                                option.trim() == question.answer.trim()
-                              "
-                              class="badge badge-info ml-2"
-                              >correct</span
-                            >
-                          </div>
-                        </li>
-                      </ul>
-                      <ng-container *ngFor="let data of submission">
-                        <div
-                          *ngIf="
-                            submitted &&
-                            !(
-                              data.id == question.id &&
-                              data.answer.trim() == question.answer.trim()
-                            )
-                          "
-                        >
-                          <div
-                            class="badge badge-danger mb-4 ml-2"
-                            *ngIf="data.id == question.id"
-                          >
-                            Incorrect Answer
-                          </div>
-                        </div>
-                      </ng-container>
-                    </div>
-                    <button
-                      type="submit"
-                      class="btn btn-outline-primary btn-sm"
-                      data-toggle="modal"
-                      data-target="#assessmentQuestionModal"
-                      *ngIf="permission.question.create"
-                      (click)="
-                        setAssessmentQuestionFormType('create');
-                        setAssessment(assessment)
-                      "
-                    >
-                      Add Question
-                    </button>
-                    <button
-                      type="submit"
-                      class="btn btn-primary mt-2 mr-2"
-                      *ngIf="permission.assessment.submit && !submitted"
-                      (click)="validateAssessmentAnswer()"
-                    >
-                      Submit
-                    </button>
-                    <button
-                      type="submit"
-                      class="btn btn-outline-primary mt-2"
-                      *ngIf="submitted && error"
-                      (click)="retryAssessment()"
-                    >
-                      Retry
-                    </button>
                   </ng-container>
                 </div>
               </div>
             </div>
-          </ng-container>
-          <ng-container
-            *ngIf="
-              loggedInUser.role.title == 'User' &&
-              taskDetails.courseTaskType.title != 'Assessment'
-            "
-          >
-            <div
-              class="card"
-              *ngIf="
-                taskDetails.courseTaskProgresses.length == 0 ||
-                taskDetails.courseTaskProgresses[0].percentage != '100'
-              "
-            >
-              <div class="card-body">
-                <div class="d-flex align-items-center justify-content-between">
-                  <h6 class="mb-0">Have you completed this task?</h6>
-                  <button
-                    type="button"
-                    class="btn btn-outline-dark btn-sm"
-                    (click)="updateTaskProgress()"
-                  >
-                    Mark as Completed
-                  </button>
-                </div>
-              </div>
-            </div>
-          </ng-container>
-          <ng-container *ngIf="taskDetails.courseTaskContent.description">
-            <div class="page-separator__text my-2">Description</div>
-            <p>{{ taskDetails.courseTaskContent.description }}</p>
-          </ng-container>
-        </div>
-        <div class="page-navigation">
-          <div
-            class="btn btn-outline-dark"
-            *ngIf="taskIdPrevious"
-            [routerLink]="['/courses', courseId, 'task', taskIdPrevious]"
-          >
-            Previous Task
           </div>
-          <div
-            class="btn btn-outline-dark"
-            *ngIf="taskIdNext"
-            [routerLink]="['/courses', courseId, 'task', taskIdNext]"
-          >
-            Next Task
-          </div>
-        </div>
+        </ng-container>
       </div>
     </div>
-  </div>
-</ng-container>
+    <div class="col-8">
+      <div class="page-separator mb-24pt d-flex justify-content-between">
+        <div class="page-separator__text">
+          {{ taskDetails.title }}
+        </div>
+        <div class="estimatedTime d-flex align-items-center">
+          <span class="icon-holder icon-holder--mini rounded-circle d-inline-flex icon--left">
+            <i class="material-icons icon-14pt text-dark">access_time</i>
+          </span>
+          <span class="text-dark mr-4"><strong>{{ taskDetails.estimatedTime }}</strong></span>
 
-<div
-  class="modal"
-  id="assessmentModal"
-  tabindex="-1"
-  role="dialog"
-  *ngIf="
+          <span class="icon-holder icon-holder--mini rounded-circle d-inline-flex icon--left">
+            <i class="material-icons icon-14pt text-dark">folder_open</i>
+          </span>
+          <span class="text-dark"><strong>{{ taskDetails.courseTaskType.title }}</strong></span>
+        </div>
+      </div>
+      <div class="page-task">
+        <div class="card">
+          <div class="card-body">
+            <ng-container *ngIf="loading">
+              <div class="text-center loading-icon">
+                <img src="/assets/images/loading.svg" />
+              </div>
+            </ng-container>
+            <ng-container *ngIf="!loading">
+              <ng-container *ngIf="taskDetails.courseTaskType.title == 'Video'">
+                <div id="youtube-player">
+                  <youtube-player #youtubePlayer [height]="500"
+                    [videoId]="taskDetails.courseTaskContent.videoLink"></youtube-player>
+                </div>
+              </ng-container>
+              <ng-container *ngIf="taskDetails.courseTaskType.title == 'Reading'">
+                <div class="pdf-container">
+                  <pdf-viewer [src]="
+                          ImgBaseURL + taskDetails.courseTaskContent.handoutLink
+                        " [original-size]="false" [show-all]="true" [fit-to-page]="false" [zoom]="1"
+                    [zoom-scale]="'page-width'" [stick-to-page]="false" [render-text]="true"
+                    [external-link-target]="'blank'" [autoresize]="true" style="
+                          width: 100%;
+                          height: 600px;
+                          border: 1px solid #edf0f2;
+                          box-shadow: inset 0 1px 1px rgba(39, 44, 51, 0.075);
+                        "></pdf-viewer>
+                </div>
+              </ng-container>
+              <ng-container *ngIf="taskDetails.courseTaskType.title == 'Assessment'">
+                <div class="assessment-container">
+                  <h5 *ngIf="assessments.length == 0">
+                    Assessment
+                    <span class="heading-icon" data-toggle="modal" data-target="#assessmentModal"
+                      (click)="setAssessmentFormType('create')" *ngIf="permission.assessment.create">
+                      <i class="material-icons">add_circle</i>
+                    </span>
+                  </h5>
+                  <div class="card mb-0" *ngFor="let assessment of assessments">
+                    <div class="card-body">
+                      <div class="d-flex justify-content-between">
+                        <div class="assessment">
+                          <div class="d-flex justify-content-between">
+                            <h5>{{ assessment.title }}</h5>
+                            <div class="buttons">
+                              <span data-toggle="modal" data-target="#assessmentModal"
+                                *ngIf="permission.assessment.update" (click)="
+                                  setAssessment(assessment);
+                                  setAssessmentFormType('update')
+                                ">
+                                <i class="material-icons fa-lg fs-14pt mx-1">edit</i></span>
+                              <span data-toggle="modal" data-target="#assessmentModal"
+                                *ngIf="permission.assessment.delete" (click)="
+                                  setAssessment(assessment);
+                                  setAssessmentFormType('delete')
+                                ">
+                                <i class="material-icons fa-lg fs-14pt">delete</i></span>
+                            </div>
+                          </div>
+                          <p>{{ assessment.description }}</p>
+                          <hr class="mb-4" />
+                        </div>
+                      </div>
+                      <ng-container>
+                        <div class="assessment-questions" *ngFor="
+                            let question of assessment.courseTaskAssessmentQuestions;
+                            let i = index
+                          ">
+                          <div class="d-flex justify-content-between">
+                            <p>
+                              <strong>{{ i + 1 }}. {{ question.title }}</strong>
+                            </p>
+                            <div class="buttons" *ngIf="loggedInUser.role.title == 'Administrator'">
+                              <span data-toggle="modal" data-target="#assessmentQuestionModal"
+                                *ngIf="permission.question.update" (click)="
+                                  setAssessmentQuestion(question);
+                                  setAssessmentQuestionFormType('update')
+                                ">
+                                <i class="material-icons fa-lg fs-14pt mx-1">edit</i></span>
+                              <span data-toggle="modal" data-target="#assessmentQuestionModal"
+                                *ngIf="permission.question.delete" (click)="
+                                  setAssessmentQuestion(question);
+                                  setAssessmentQuestionFormType('delete')
+                                ">
+                                <i class="material-icons fa-lg fs-14pt">delete</i></span>
+                            </div>
+                          </div>
+                          <ul class="pl-2" style="list-style: none">
+                            <li *ngFor="let option of question.options; let y = index">
+                              <div class="form-check">
+                                <input class="form-check-input" type="radio" [name]="question.id"
+                                  [id]="'option-' + i + y" [value]="option" [disabled]="submitted"
+                                  (change)="getSubmissions($event, question.id)" />
+                                <label class="form-check-label fw-400" [for]="'option-' + i + y" style="color: #303840">
+                                  {{ option }}</label>
+                                <span *ngIf="
+                                    permission.question.view.answer &&
+                                    option.trim() == question.answer.trim()
+                                  " class="badge badge-info ml-2">correct</span>
+                              </div>
+                            </li>
+                          </ul>
+                          <ng-container *ngFor="let data of submission">
+                            <div *ngIf="
+                                submitted &&
+                                !(
+                                  data.id == question.id &&
+                                  data.answer.trim() == question.answer.trim()
+                                )
+                              ">
+                              <div class="badge badge-danger mb-4 ml-2" *ngIf="data.id == question.id">
+                                Incorrect Answer
+                              </div>
+                            </div>
+                          </ng-container>
+                        </div>
+                        <button type="submit" class="btn btn-outline-primary btn-sm" data-toggle="modal"
+                          data-target="#assessmentQuestionModal" *ngIf="permission.question.create" (click)="
+                            setAssessmentQuestionFormType('create');
+                            setAssessment(assessment)
+                          ">
+                          Add Question
+                        </button>
+                        <button type="submit" class="btn btn-primary mt-2 mr-2"
+                          *ngIf="permission.assessment.submit && !submitted" (click)="validateAssessmentAnswer()">
+                          Submit
+                        </button>
+                        <button type="submit" class="btn btn-outline-primary mt-2" *ngIf="submitted && error"
+                          (click)="retryAssessment()">
+                          Retry
+                        </button>
+                      </ng-container>
+                    </div>
+                  </div>
+                </div>
+              </ng-container>
+            </ng-container>
+          </div>
+        </div>
+        <ng-container *ngIf="
+                  loggedInUser.role.title == 'User' &&
+                  taskDetails.courseTaskType.title != 'Assessment'
+                ">
+          <div class="card mt-4" *ngIf="
+                    taskDetails.progress != '100'
+                  ">
+            <div class="card-body">
+              <div class="d-flex align-items-center justify-content-between">
+                <h6 class="mb-0">Have you completed this task?</h6>
+                <button type="button" class="btn btn-outline-dark btn-sm" (click)="updateTaskProgress()">
+                  Mark as Completed
+                </button>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+        <ng-container *ngIf="taskDetails.courseTaskContent.description">
+          <div class="page-separator__text my-2">Description</div>
+          <p>{{ taskDetails.courseTaskContent.description }}</p>
+        </ng-container>
+      </div>
+      <!-- <div class="page-navigation">
+        <div class="btn btn-outline-dark" *ngIf="taskIdPrevious"
+          [routerLink]="['/courses', courseId, 'task', taskIdPrevious]">
+          Previous Task
+        </div>
+        <div class="btn btn-outline-dark" *ngIf="taskIdNext && taskDetails.progress == '100'"
+          [routerLink]="['/courses', courseId, 'task', taskIdNext]">
+          Next Task
+        </div>
+      </div> -->
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="assessmentModal" tabindex="-1" role="dialog" *ngIf="
     permission.assessment.create ||
     permission.assessment.update ||
     permission.assessment.delete
-  "
->
+  ">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5
-          class="modal-title"
-          *ngIf="assessmentFormType == 'create' && permission.assessment.create"
-        >
+        <h5 class="modal-title" *ngIf="assessmentFormType == 'create' && permission.assessment.create">
           Create Assessment
         </h5>
-        <h5
-          class="modal-title"
-          *ngIf="assessmentFormType == 'update' && permission.assessment.update"
-        >
+        <h5 class="modal-title" *ngIf="assessmentFormType == 'update' && permission.assessment.update">
           Update Assessment
         </h5>
-        <h5
-          class="modal-title"
-          *ngIf="assessmentFormType == 'delete' && permission.assessment.delete"
-        >
+        <h5 class="modal-title" *ngIf="assessmentFormType == 'delete' && permission.assessment.delete">
           Delete Assessment
         </h5>
-        <button
-          type="button"
-          class="close"
-          data-dismiss="modal"
-          aria-label="Close"
-          #closeModal
-        >
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" #closeModal>
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -451,87 +272,50 @@
             <div class="col-12">
               <div class="form-group">
                 <label for="assessmentTitle" class="form-label">Title</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="assessmentTitle"
-                  name="assessmentTitle"
-                  [(ngModel)]="assessment.title"
-                />
+                <input type="text" class="form-control" id="assessmentTitle" name="assessmentTitle"
+                  [(ngModel)]="assessment.title" />
               </div>
             </div>
             <div class="col-12">
               <div class="form-group">
-                <label for="assessmentDescription" class="form-label"
-                  >Description</label
-                >
-                <textarea
-                  class="form-control"
-                  id="assessmentDescription"
-                  name="assessmentDescription"
-                  [(ngModel)]="assessment.description"
-                ></textarea>
+                <label for="assessmentDescription" class="form-label">Description</label>
+                <textarea class="form-control" id="assessmentDescription" name="assessmentDescription"
+                  [(ngModel)]="assessment.description"></textarea>
               </div>
             </div>
             <div class="col-6">
               <div class="form-group">
-                <label for="assessmentEstimatedTime" class="form-label"
-                  >Estimated Time</label
-                >
-                <input
-                  type="text"
-                  class="form-control"
-                  id="assessmentEstimatedTime"
-                  name="assessmentEstimatedTime"
-                  [(ngModel)]="assessment.estimatedTime"
-                />
+                <label for="assessmentEstimatedTime" class="form-label">Estimated Time</label>
+                <input type="text" class="form-control" id="assessmentEstimatedTime" name="assessmentEstimatedTime"
+                  [(ngModel)]="assessment.estimatedTime" />
               </div>
             </div>
             <div class="col-6">
               <div class="form-group">
-                <label for="assessmentStartTime" class="form-label"
-                  >Start Time</label
-                >
-                <input
-                  type="text"
-                  class="form-control"
-                  id="assessmentStartTime"
-                  name="assessmentStartTime"
-                  [(ngModel)]="assessment.startTime"
-                />
+                <label for="assessmentStartTime" class="form-label">Start Time</label>
+                <input type="text" class="form-control" id="assessmentStartTime" name="assessmentStartTime"
+                  [(ngModel)]="assessment.startTime" />
               </div>
             </div>
 
             <div class="col-12">
               <div class="buttons">
-                <button
-                  class="btn btn-primary"
-                  (click)="createAssessment()"
-                  *ngIf="
+                <button class="btn btn-primary" (click)="createAssessment()" *ngIf="
                     assessmentFormType == 'create' &&
                     permission.assessment.create
-                  "
-                >
+                  ">
                   Create
                 </button>
-                <button
-                  class="btn btn-primary"
-                  (click)="updateAssessment()"
-                  *ngIf="
+                <button class="btn btn-primary" (click)="updateAssessment()" *ngIf="
                     assessmentFormType == 'update' &&
                     permission.assessment.update
-                  "
-                >
+                  ">
                   Update
                 </button>
-                <button
-                  class="btn btn-danger"
-                  (click)="deleteAssessment()"
-                  *ngIf="
+                <button class="btn btn-danger" (click)="deleteAssessment()" *ngIf="
                     assessmentFormType == 'delete' &&
                     permission.assessment.delete
-                  "
-                >
+                  ">
                   Delete
                 </button>
               </div>
@@ -543,46 +327,24 @@
   </div>
 </div>
 
-<div
-  class="modal"
-  id="assessmentQuestionModal"
-  tabindex="-1"
-  role="dialog"
-  aria-hidden="true"
-  *ngIf="
+<div class="modal" id="assessmentQuestionModal" tabindex="-1" role="dialog" aria-hidden="true" *ngIf="
     permission.question.create ||
     permission.question.update ||
     permission.question.delete
-  "
->
+  ">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5
-          class="modal-title"
-          *ngIf="questionFormType == 'create' && permission.question.create"
-        >
+        <h5 class="modal-title" *ngIf="questionFormType == 'create' && permission.question.create">
           Create Assessment Question
         </h5>
-        <h5
-          class="modal-title"
-          *ngIf="questionFormType == 'update' && permission.question.update"
-        >
+        <h5 class="modal-title" *ngIf="questionFormType == 'update' && permission.question.update">
           Update Assessment Question
         </h5>
-        <h5
-          class="modal-title"
-          *ngIf="questionFormType == 'delete' && permission.question.delete"
-        >
+        <h5 class="modal-title" *ngIf="questionFormType == 'delete' && permission.question.delete">
           Delete Assessment Question
         </h5>
-        <button
-          type="button"
-          class="close"
-          data-dismiss="modal"
-          aria-label="Close"
-          #questionModalBtnClose
-        >
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" #questionModalBtnClose>
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -591,73 +353,40 @@
           <div class="row">
             <div class="col-12">
               <div class="form-group">
-                <label for="assessmentQuestionTitle" class="form-label"
-                  >Title</label
-                >
-                <input
-                  type="text"
-                  class="form-control"
-                  id="assessmentQuestionTitle"
-                  name="assessmentQuestionTitle"
-                  [(ngModel)]="question.title"
-                />
+                <label for="assessmentQuestionTitle" class="form-label">Title</label>
+                <input type="text" class="form-control" id="assessmentQuestionTitle" name="assessmentQuestionTitle"
+                  [(ngModel)]="question.title" />
               </div>
             </div>
             <div class="col-12">
               <div class="form-group">
-                <label for="assessmentQuestionOptions" class="form-label"
-                  >Options</label
-                >
-                <textarea
-                  class="form-control"
-                  id="assessmentQuestionOptions"
-                  name="assessmentQuestionOptions"
-                  [(ngModel)]="question.options"
-                  >{{ question.options }}</textarea
-                >
+                <label for="assessmentQuestionOptions" class="form-label">Options</label>
+                <textarea class="form-control" id="assessmentQuestionOptions" name="assessmentQuestionOptions"
+                  [(ngModel)]="question.options">{{ question.options }}</textarea>
               </div>
             </div>
             <div class="col-12">
               <div class="form-group">
-                <label for="assessmentQuestionAnswer" class="form-label"
-                  >Answer</label
-                >
-                <input
-                  type="text"
-                  class="form-control"
-                  id="assessmentQuestionAnswer"
-                  name="assessmentQuestionAnswer"
-                  [(ngModel)]="question.answer"
-                />
+                <label for="assessmentQuestionAnswer" class="form-label">Answer</label>
+                <input type="text" class="form-control" id="assessmentQuestionAnswer" name="assessmentQuestionAnswer"
+                  [(ngModel)]="question.answer" />
               </div>
             </div>
             <div class="col-12">
               <div class="buttons">
-                <button
-                  class="btn btn-primary"
-                  (click)="createAssessmentQuestion()"
-                  *ngIf="
+                <button class="btn btn-primary" (click)="createAssessmentQuestion()" *ngIf="
                     questionFormType == 'create' && permission.question.create
-                  "
-                >
+                  ">
                   Create
                 </button>
-                <button
-                  class="btn btn-primary"
-                  (click)="updateAssessmentQuestion()"
-                  *ngIf="
+                <button class="btn btn-primary" (click)="updateAssessmentQuestion()" *ngIf="
                     questionFormType == 'update' && permission.question.update
-                  "
-                >
+                  ">
                   Update
                 </button>
-                <button
-                  class="btn btn-danger"
-                  (click)="deleteAssessmentQuestion()"
-                  *ngIf="
+                <button class="btn btn-danger" (click)="deleteAssessmentQuestion()" *ngIf="
                     questionFormType == 'delete' && permission.question.delete
-                  "
-                >
+                  ">
                   Delete
                 </button>
               </div>
@@ -669,9 +398,4 @@
   </div>
 </div>
 
-<button
-  #questionModalBtn
-  data-toggle="modal"
-  data-target="#questionModal"
-  style="display: none"
-></button>
+<button #questionModalBtn data-toggle="modal" data-target="#questionModal" style="display: none"></button>

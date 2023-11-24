@@ -16,6 +16,7 @@ export class CourseTocComponent {
     task: { create: false, update: false, delete: false },
   };
 
+  enrollmentId: any;
   courseId: any;
   courseDetails: any;
 
@@ -85,13 +86,30 @@ export class CourseTocComponent {
     };
     this.apiServices.postRequest(data).subscribe((data) => {
       this.courseDetails = data;
-      console.log(this.courseDetails);
       this.syllabus = {
         id: this.courseDetails.courseSyllabus?.id,
         title: this.courseDetails.courseSyllabus?.title,
       };
-      this.getModules();
       this.loading = false;
+
+      if (this.loggedInUser.role.title == 'User') {
+        this.getEnrollmentDetails();
+      } else {
+        this.getModules();
+      }
+    });
+  }
+
+  getEnrollmentDetails() {
+    const data = {
+      path: 'course/tasks/enrollment',
+      payload: {
+        courseId: this.courseId,
+      },
+    };
+    this.apiServices.postRequest(data).subscribe((response) => {
+      this.enrollmentId = response.data.id;
+      this.getModulesForUser();
     });
   }
 
@@ -109,6 +127,18 @@ export class CourseTocComponent {
       this.loading = false;
 
       console.log(this.modules);
+    });
+  }
+  getModulesForUser() {
+    var data: any = {
+      path: 'course/modules/list',
+      payload: {
+        courseSyllabusId: this.syllabus.id,
+        courseEnrollmentId: this.enrollmentId,
+      },
+    };
+    this.apiServices.postRequest(data).subscribe((response) => {
+      this.modules = response.data;
     });
   }
 

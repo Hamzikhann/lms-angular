@@ -107,14 +107,10 @@ export class LectureComponent {
     this.route.parent?.params.subscribe((params: any) => {
       this.courseId = params.id;
       this.getCourseDetails();
-      if (this.loggedInUser.role.title == 'User') {
-        this.getEnrollmentDetails();
-      }
     });
 
     this.route.paramMap.subscribe((data: any) => {
       this.taskId = data.params.taskId;
-      this.getCourseDetails();
       this.getTaskDetails();
       this.getAssessments();
     });
@@ -134,68 +130,8 @@ export class LectureComponent {
         id: this.courseDetails.courseSyllabus?.id,
         title: this.courseDetails.courseSyllabus?.title,
       };
-      this.getModules();
-    });
-  }
 
-  getModules() {
-    const data = {
-      path: 'course/modules/list',
-      payload: {
-        courseSyllabusId: this.syllabus.id,
-      },
-    };
-    this.apiServices.postRequest(data).subscribe((response) => {
-      this.modules = response.data;
-      const taskIds: any = [];
-      console.log(this.modules);
-      this.modules.forEach((module: any, moduleKey: any) => {
-        var disabled = false;
-
-        module.courseTasks.forEach((task: any, taskKey: any) => {
-          taskIds.push({ id: task.id });
-
-          if (task.id == this.taskId) {
-            if (
-              task.courseTaskProgresses.length > 0 &&
-              task.courseTaskProgresses[0].percentage != '100'
-            ) {
-              disabled = true;
-            } else {
-              disabled = false;
-            }
-          }
-
-          if (disabled) {
-            task.disabled = disabled;
-
-            for (
-              let index = moduleKey + 1;
-              index < this.modules.length;
-              index++
-            ) {
-              const module = this.modules[index];
-              module.courseTasks.forEach((task: any) => {
-                task.disabled = true;
-              });
-            }
-          }
-        });
-      });
-      // console.log(this.modules);
-      // console.log(tasks);
-
-      taskIds.forEach((task: any, key: any) => {
-        if (task.id == this.taskId) {
-          const keyPrevious = key - 1;
-          const keyNext = key + 1;
-          this.taskIdPrevious = taskIds[keyPrevious]
-            ? taskIds[keyPrevious].id
-            : 0;
-          this.taskIdNext = taskIds[keyNext] ? taskIds[keyNext].id : 0;
-          console.log(this.taskIdPrevious, this.taskIdNext);
-        }
-      });
+      this.getEnrollmentDetails();
     });
   }
 
@@ -207,7 +143,55 @@ export class LectureComponent {
       },
     };
     this.apiServices.postRequest(data).subscribe((response) => {
-      this.enrollmentId = response.data.id;
+      this.enrollmentId = response.data?.id;
+      this.getModules();
+    });
+  }
+
+  getModules() {
+    var data: any = {
+      path: 'course/modules/list',
+      payload: {
+        courseSyllabusId: this.syllabus.id,
+      },
+    };
+    if (this.loggedInUser.role.title == 'User') {
+      data.payload.courseEnrollmentId = this.enrollmentId;
+    }
+    this.apiServices.postRequest(data).subscribe((response) => {
+      this.modules = response.data;
+
+      const tasks: any = [];
+      this.modules.forEach((module: any) => {
+        module.courseTasks.forEach((task: any, key: any) => {
+          task.progress =
+            task.courseTaskProgresses?.length > 0
+              ? task.courseTaskProgresses[0].percentage
+              : '0';
+          tasks.push(task);
+        });
+      });
+
+      var taskTodo: any = tasks.length ? tasks[0] : null;
+
+      tasks.forEach((task: any, key: any) => {
+        task.index = key;
+
+        if (task.id == this.taskId) {
+          this.taskIdPrevious = tasks[key - 1] ? tasks[key - 1].id : 0;
+          this.taskIdNext = tasks[key + 1] ? tasks[key + 1].id : 0;
+        }
+
+        if (task.progress == '100') {
+          taskTodo = tasks[key + 1] ? tasks[key + 1] : null;
+        }
+      });
+
+      if (this.loggedInUser.role.title == 'User') {
+        for (let index = taskTodo.index + 1; index < tasks.length; index++) {
+          tasks[index].disabled = true;
+        }
+      }
     });
   }
 
@@ -222,7 +206,12 @@ export class LectureComponent {
     };
     this.apiServices.postRequest(data).subscribe((response) => {
       this.taskDetails = response.data;
-      // console.log(this.taskDetails);
+      if (this.taskDetails?.courseTaskProgresses.length > 0) {
+        this.taskDetails.progress =
+          this.taskDetails?.courseTaskProgresses[0].percentage;
+      } else {
+        this.taskDetails.progress = '0';
+      }
       this.loading = false;
     });
   }
