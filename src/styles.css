@@ -196,3 +196,9 @@
 .icon-holder--outline-success:hover {
   background: #1f8354 !important;
 }
+
+.table-bordered,
+.table-bordered td,
+.table-bordered th {
+  border: 0.5px solid #e9edf2;
+}
