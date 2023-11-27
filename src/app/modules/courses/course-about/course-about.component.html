@@ -277,20 +277,23 @@
           data-dismiss="modal"
           aria-label="Close"
           #closeObjectiveModal
-        ></button>
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
       </div>
       <div class="modal-body text-primary">
         <form #formObjective="ngForm">
           <div class="form-group">
             <label for="title" class="form-label">Description</label>
-            <input
-              type="text"
+
+            <textarea
               class="form-control"
               id="title"
               name="objectiveDescription"
               [(ngModel)]="objective.description"
               [disabled]="objectiveFormType == 'delete'"
-            />
+              rows="3"
+            ></textarea>
           </div>
           <div class="buttons">
             <button
@@ -342,7 +345,9 @@
           data-dismiss="modal"
           aria-label="Close"
           #closeInstructorModal
-        ></button>
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
       </div>
       <div class="modal-body text-primary">
         <form #formObjective="ngForm">
@@ -358,13 +363,13 @@
           </div>
           <div class="form-group">
             <label for="instructorAbout" class="form-label">About</label>
-            <input
-              type="text"
+            <textarea
               class="form-control"
               id="instructorAbout"
               name="instructorAbout"
               [(ngModel)]="instructor.about"
-            />
+              rows="3"
+            ></textarea>
           </div>
           <div class="form-group">
             <label>Image</label>

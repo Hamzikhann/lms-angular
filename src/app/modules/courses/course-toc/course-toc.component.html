@@ -20,6 +20,7 @@
       </span>
       <button
         class="btn btn-primary btn-sm ml-5"
+        *ngIf="loggedInUser.role.title == 'User'"
         [routerLink]="['/courses', courseId, 'task', taskTodo.id]"
       >
         Resume Course
@@ -240,14 +241,14 @@
           </div>
           <div class="form-group">
             <label for="description" class="form-label">Description</label>
-            <input
-              type="text"
+            <textarea
               class="form-control"
               id="description"
               name="description"
               [(ngModel)]="module.description"
               [disabled]="moduleFormType == 'delete'"
-            />
+              rows="3"
+            ></textarea>
           </div>
           <div class="buttons">
             <button
@@ -370,6 +371,7 @@
                   id="taskDescription"
                   name="taskDescription"
                   [(ngModel)]="task.description"
+                  rows="3"
                 ></textarea>
               </div>
             </div>

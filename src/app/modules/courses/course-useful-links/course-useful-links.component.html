@@ -139,14 +139,14 @@
             <label for="usefulLinkDescription" class="form-label"
               >Description</label
             >
-            <input
-              type="text"
+            <textarea
               class="form-control"
               id="usefulLinkDescription"
               name="usefulLinkDescription"
               [(ngModel)]="usefulLink.description"
               [disabled]="usefulLinkFormType == 'delete'"
-            />
+              rows="3"
+            ></textarea>
           </div>
           <div class="form-group">
             <label for="usefulLinkUrl" class="form-label">Link URL</label>
