@@ -47,6 +47,8 @@ export class CourseTocComponent {
   };
   taskFormType: string = '';
 
+  taskTodo: any;
+
   loading: boolean = false;
 
   @ViewChild('closeModuleModal') closeModuleModal: ElementRef | undefined;
@@ -138,24 +140,28 @@ export class CourseTocComponent {
         });
       });
 
-      var taskTodo: any = tasks.length ? tasks[0] : null;
+      this.taskTodo = tasks.length ? tasks[0] : null;
 
       tasks.forEach((task: any, key: any) => {
         task.index = key;
 
         if (task.progress == '100') {
-          taskTodo = tasks[key + 1] ? tasks[key + 1] : null;
+          this.taskTodo = tasks[key + 1] ? tasks[key + 1] : null;
         }
       });
 
       if (this.loggedInUser.role.title == 'User') {
-        for (let index = taskTodo.index + 1; index < tasks.length; index++) {
+        for (
+          let index = this.taskTodo.index + 1;
+          index < tasks.length;
+          index++
+        ) {
           tasks[index].disabled = true;
         }
       }
       this.loading = false;
 
-      console.log(this.modules, tasks, taskTodo);
+      console.log(this.modules, tasks, this.taskTodo);
     });
   }
 
