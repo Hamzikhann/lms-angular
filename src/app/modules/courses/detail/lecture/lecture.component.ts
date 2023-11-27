@@ -197,6 +197,7 @@ export class LectureComponent {
       },
     };
     if (this.loggedInUser.role.title == 'User') {
+      data.payload.courseId = this.courseId;
       data.payload.courseEnrollmentId = this.enrollmentId;
     }
     this.apiServices.postRequest(data).subscribe((response) => {
