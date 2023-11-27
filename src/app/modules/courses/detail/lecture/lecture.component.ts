@@ -198,12 +198,15 @@ export class LectureComponent {
   getTaskDetails() {
     this.loading = true;
 
-    const data = {
+    var data: any = {
       path: 'course/tasks/detail',
       payload: {
         courseTaskId: this.taskId,
       },
     };
+    if (this.loggedInUser.role.title == 'User') {
+      data.payload.courseEnrollmentId = this.enrollmentId;
+    }
     this.apiServices.postRequest(data).subscribe((response) => {
       this.taskDetails = response.data;
       if (this.taskDetails?.courseTaskProgresses.length > 0) {
