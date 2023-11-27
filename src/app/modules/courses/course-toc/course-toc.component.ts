@@ -108,37 +108,54 @@ export class CourseTocComponent {
       },
     };
     this.apiServices.postRequest(data).subscribe((response) => {
-      this.enrollmentId = response.data.id;
-      this.getModulesForUser();
+      this.enrollmentId = response.data?.id;
+      this.getModules();
     });
   }
 
   getModules() {
     this.loading = true;
 
-    const data = {
-      path: 'course/modules/list',
-      payload: {
-        courseSyllabusId: this.syllabus.id,
-      },
-    };
-    this.apiServices.postRequest(data).subscribe((response) => {
-      this.modules = response.data;
-      this.loading = false;
-
-      console.log(this.modules);
-    });
-  }
-  getModulesForUser() {
     var data: any = {
       path: 'course/modules/list',
       payload: {
         courseSyllabusId: this.syllabus.id,
-        courseEnrollmentId: this.enrollmentId,
       },
     };
+    if (this.loggedInUser.role.title == 'User') {
+      data.payload.courseEnrollmentId = this.enrollmentId;
+    }
     this.apiServices.postRequest(data).subscribe((response) => {
       this.modules = response.data;
+      const tasks: any = [];
+      this.modules.forEach((module: any) => {
+        module.courseTasks.forEach((task: any, key: any) => {
+          task.progress =
+            task.courseTaskProgresses?.length > 0
+              ? task.courseTaskProgresses[0].percentage
+              : '0';
+          tasks.push(task);
+        });
+      });
+
+      var taskTodo: any = tasks.length ? tasks[0] : null;
+
+      tasks.forEach((task: any, key: any) => {
+        task.index = key;
+
+        if (task.progress == '100') {
+          taskTodo = tasks[key + 1] ? tasks[key + 1] : null;
+        }
+      });
+
+      if (this.loggedInUser.role.title == 'User') {
+        for (let index = taskTodo.index + 1; index < tasks.length; index++) {
+          tasks[index].disabled = true;
+        }
+      }
+      this.loading = false;
+
+      console.log(this.modules, tasks, taskTodo);
     });
   }
 
