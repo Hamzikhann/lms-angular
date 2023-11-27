@@ -22,7 +22,6 @@ export class LectureComponent {
       update: false,
       delete: false,
       submit: true,
-      retry: true,
     },
     question: {
       create: false,
@@ -88,13 +87,7 @@ export class LectureComponent {
     this.loggedInUser = JSON.parse(this.authService.getUser());
     if (this.loggedInUser.role.title == 'Administrator') {
       this.permission = {
-        assessment: {
-          create: true,
-          update: true,
-          delete: true,
-          submit: false,
-          retry: false,
-        },
+        assessment: { create: true, update: true, delete: true, submit: false },
         question: {
           create: true,
           update: true,
@@ -107,12 +100,6 @@ export class LectureComponent {
     this.route.parent?.params.subscribe((params: any) => {
       this.courseId = params.id;
       this.getCourseDetails();
-    });
-
-    this.route.paramMap.subscribe((data: any) => {
-      this.taskId = data.params.taskId;
-      this.getTaskDetails();
-      this.getAssessments();
     });
   }
 
@@ -130,7 +117,6 @@ export class LectureComponent {
         id: this.courseDetails.courseSyllabus?.id,
         title: this.courseDetails.courseSyllabus?.title,
       };
-
       this.getEnrollmentDetails();
     });
   }
@@ -145,6 +131,12 @@ export class LectureComponent {
     this.apiServices.postRequest(data).subscribe((response) => {
       this.enrollmentId = response.data?.id;
       this.getModules();
+
+      this.route.paramMap.subscribe((data: any) => {
+        this.taskId = data.params.taskId;
+        this.getTaskDetails();
+        this.getAssessments();
+      });
     });
   }
 

@@ -59,15 +59,24 @@
           {{ taskDetails.title }}
         </div>
         <div class="estimatedTime d-flex align-items-center">
-          <span class="icon-holder icon-holder--mini rounded-circle d-inline-flex icon--left">
-            <i class="material-icons icon-14pt text-dark">access_time</i>
-          </span>
-          <span class="text-dark mr-4"><strong>{{ taskDetails.estimatedTime }}</strong></span>
-
-          <span class="icon-holder icon-holder--mini rounded-circle d-inline-flex icon--left">
-            <i class="material-icons icon-14pt text-dark">folder_open</i>
-          </span>
-          <span class="text-dark"><strong>{{ taskDetails.courseTaskType.title }}</strong></span>
+          <div class="task-attribute" *ngIf="taskDetails.progress == '100'">
+            <span class="icon-holder icon-holder--mini rounded-circle d-inline-flex icon--left">
+              <i class="material-icons icon-14pt text-dark">info_outline</i>
+            </span>
+            <span class="text-dark mr-4"><strong>Completed</strong></span>
+          </div>
+          <div class="task-attribute">
+            <span class="icon-holder icon-holder--mini rounded-circle d-inline-flex icon--left">
+              <i class="material-icons icon-14pt text-dark">access_time</i>
+            </span>
+            <span class="text-dark mr-4"><strong>{{ taskDetails.estimatedTime }}</strong></span>
+          </div>
+          <div class="task-attribute">
+            <span class="icon-holder icon-holder--mini rounded-circle d-inline-flex icon--left">
+              <i class="material-icons icon-14pt text-dark">folder_open</i>
+            </span>
+            <span class="text-dark"><strong>{{ taskDetails.courseTaskType.title }}</strong></span>
+          </div>
         </div>
       </div>
       <div class="page-task">
