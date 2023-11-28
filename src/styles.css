@@ -249,3 +249,7 @@
     max-width: 530px;
   }
 }
+
+.card-brt-0 {
+  border-radius: 0 0 0.5rem 0.5rem !important;
+}

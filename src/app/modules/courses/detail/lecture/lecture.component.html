@@ -1,6 +1,6 @@
 <div class="container page__container" *ngIf="taskDetails && taskDetails.courseTaskContent">
   <div class="row">
-    <div class="col-4">
+    <div class="col-lg-4 col-sm-12">
       <div class="page-separator mb-32pt">
         <div class="page-separator__text" *ngIf="syllabus.id">
           {{ syllabus.title }}
@@ -57,30 +57,10 @@
         </ng-container>
       </div>
     </div>
-    <div class="col-8">
-      <div class="page-separator mb-32pt d-flex justify-content-between">
+    <div class="col-lg-8 col-sm-12">
+      <div class="page-separator mb-32pt">
         <div class="page-separator__text">
           {{ taskDetails.title }}
-        </div>
-        <div class="estimatedTime d-flex align-items-center">
-          <div class="task-attribute" *ngIf="taskDetails.progress == '100'">
-            <span class="icon-holder icon-holder--mini rounded-circle d-inline-flex icon--left">
-              <i class="material-icons icon-14pt text-dark">info_outline</i>
-            </span>
-            <span class="text-dark mr-4"><strong>Completed</strong></span>
-          </div>
-          <div class="task-attribute">
-            <span class="icon-holder icon-holder--mini rounded-circle d-inline-flex icon--left">
-              <i class="material-icons icon-14pt text-dark">access_time</i>
-            </span>
-            <span class="text-dark mr-4"><strong>{{ taskDetails.estimatedTime }}</strong></span>
-          </div>
-          <div class="task-attribute">
-            <span class="icon-holder icon-holder--mini rounded-circle d-inline-flex icon--left">
-              <i class="material-icons icon-14pt text-dark">folder_open</i>
-            </span>
-            <span class="text-dark"><strong>{{ taskDetails.courseTaskType.title }}</strong></span>
-          </div>
         </div>
       </div>
       <div class="page-task">
@@ -90,11 +70,37 @@
           </div>
         </ng-container>
         <ng-container *ngIf="!loading">
+          <div class="card mb-0">
+            <div class="card-header">
+              <div class="page-attributes">
+                <div class="estimatedTime d-flex align-items-center">
+                  <div class="task-attribute mr-4">
+                    <span class="icon-holder icon-holder--mini rounded-circle d-inline-flex icon--left">
+                      <i class="material-icons icon-14pt text-dark">folder_open</i>
+                    </span>
+                    <span class="text-dark"><strong>{{ taskDetails.courseTaskType.title }}</strong></span>
+                  </div>
+                  <div class="task-attribute mr-4">
+                    <span class="icon-holder icon-holder--mini rounded-circle d-inline-flex icon--left">
+                      <i class="material-icons icon-14pt text-dark">access_time</i>
+                    </span>
+                    <span class="text-dark"><strong>{{ taskDetails.estimatedTime }}</strong></span>
+                  </div>
+                  <div class="task-attribute mr-4" *ngIf="taskDetails.progress == '100'">
+                    <span class="icon-holder icon-holder--mini rounded-circle d-inline-flex icon--left">
+                      <i class="material-icons icon-14pt text-dark">info_outline</i>
+                    </span>
+                    <span class="text-dark"><strong>Completed</strong></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
           <ng-container *ngIf="taskDetails.courseTaskType.title == 'Video'">
-            <div class="card">
+            <div class="card card-brt-0">
               <div class="card-body">
                 <div class="video">
-                  <video #videoElement controls width="765" height="430">
+                  <video #videoElement controls style="width: 100%;">
                     <source [src]="
                             VideoBaseURL + taskDetails.courseTaskContent.videoLink
                           " type="video/mp4" />
@@ -104,7 +110,7 @@
             </div>
           </ng-container>
           <ng-container *ngIf="taskDetails.courseTaskType.title == 'Reading'">
-            <div class="card">
+            <div class="card card-brt-0">
               <div class="card-body">
                 <div class="pdf-container">
                   <pdf-viewer [src]="
@@ -123,7 +129,7 @@
           </ng-container>
           <ng-container
             *ngIf="taskDetails.courseTaskType.title == 'Assessment' || (taskDetails.courseTaskType.title == 'Video' && loggedInUser.role.title == 'Administrator')">
-            <div class="card">
+            <div class="card card-brt-0">
               <div class="card-body">
                 <div class="assessment-container">
                   <h5 *ngIf="assessments.length == 0">
@@ -233,25 +239,22 @@
               </div>
             </div>
           </ng-container>
-        </ng-container>
-        <ng-container *ngIf="
-            loggedInUser.role.title == 'User' &&
-            taskDetails.courseTaskType.title != 'Assessment'
-          ">
-          <div class="card mt-4" *ngIf="taskDetails.progress != '100'">
-            <div class="card-body">
-              <div class="d-flex align-items-center justify-content-between">
-                <h6 class="mb-0">Have you completed this task?</h6>
-                <button type="button" class="btn btn-outline-dark btn-sm" (click)="updateTaskProgress()">
-                  Mark as Completed
-                </button>
+          <ng-container *ngIf="loggedInUser.role.title == 'User' && taskDetails.courseTaskType.title != 'Assessment'">
+            <div class="card mt-4" *ngIf="taskDetails.progress != '100'">
+              <div class="card-body">
+                <div class="d-flex align-items-center justify-content-between">
+                  <h6 class="mb-0">Have you completed this task?</h6>
+                  <button type="button" class="btn btn-outline-dark btn-sm" (click)="updateTaskProgress()">
+                    Mark as Completed
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
-        </ng-container>
-        <ng-container *ngIf="taskDetails.courseTaskContent.description != ''">
-          <div class="page-separator__text my-2">Description</div>
-          <p [innerHTML]="taskDetails.courseTaskContent.description"></p>
+          </ng-container>
+          <ng-container *ngIf="taskDetails.courseTaskContent.description.trim() != ''">
+            <div class="page-separator__text my-2">Description</div>
+            <p [innerHTML]="taskDetails.courseTaskContent.description"></p>
+          </ng-container>
         </ng-container>
       </div>
       <!-- <div class="page-navigation">
