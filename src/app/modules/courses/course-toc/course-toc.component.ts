@@ -164,12 +164,14 @@ export class CourseTocComponent {
             this.taskTodo = tasks[key + 1] ? tasks[key + 1] : null;
           }
         });
-        for (
-          let index = this.taskTodo.index + 1;
-          index < tasks.length;
-          index++
-        ) {
-          tasks[index].disabled = true;
+        if (this.taskTodo) {
+          for (
+            let index = this.taskTodo.index + 1;
+            index < tasks.length;
+            index++
+          ) {
+            tasks[index].disabled = true;
+          }
         }
       }
       this.loading = false;
