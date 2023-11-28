@@ -59,6 +59,7 @@ export class CourseUpdateComponent {
       this.courseDetails = response;
       this.courseDetails.courseDepartmentId =
         this.courseDetails.courseDepartment.id;
+      console.log(this.courseDetails);
     });
   }
 

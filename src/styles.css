@@ -93,6 +93,13 @@
   }
 }
 
+.editor-description {
+  .NgxEditor {
+    height: 152px;
+    max-height: 160px;
+  }
+}
+
 .heading-icon {
   cursor: pointer;
   margin: 0 8px;
@@ -235,4 +242,10 @@
 
 .loading-icon {
   margin-top: 10%;
+}
+
+@media (min-width: 576px) {
+  .modal-dialog {
+    max-width: 530px;
+  }
 }
