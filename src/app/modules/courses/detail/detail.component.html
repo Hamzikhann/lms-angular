@@ -25,7 +25,7 @@
         <div class="media align-items-center" *ngIf="courseDetails.courseInstructors.length > 0">
           <span class="media-left mr-16pt">
             <span *ngIf="courseDetails.courseInstructors[0].imageUrl">
-              <img [src]="ImgBaseURL + courseDetails.courseInstructors[0].imageUrl" width="40" alt="avatar"
+              <img [src]="ImgBaseURL + courseDetails.courseInstructors[0].imageUrl" width="40" height="40" alt="avatar"
                 class="rounded-circle" />
             </span>
             <span class="avatar avatar-sm mr-8pt2" *ngIf="!courseDetails.courseInstructors[0].imageUrl">

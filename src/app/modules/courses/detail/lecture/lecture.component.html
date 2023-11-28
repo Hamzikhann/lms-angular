@@ -30,7 +30,7 @@
                             <ng-container *ngIf="item.disabled && item.id != taskId">lock</ng-container>
                             <ng-container *ngIf="!item.disabled">
                               <ng-container *ngIf="item.courseTaskType.title == 'Assessment'">storage</ng-container>
-                              <ng-container *ngIf="item.courseTaskType.title == 'Reading'">inbox</ng-container>
+                              <ng-container *ngIf="item.courseTaskType.title == 'Reading'">description</ng-container>
                               <ng-container *ngIf="item.courseTaskType.title == 'Video'">play_arrow</ng-container>
                             </ng-container>
                           </i>

@@ -129,6 +129,8 @@ export class CourseTocComponent {
     }
     this.apiServices.postRequest(data).subscribe((response) => {
       this.modules = response.data;
+      console.log(this.modules);
+
       const tasks: any = [];
       this.modules.forEach((module: any) => {
         module.courseTasks.forEach((task: any, key: any) => {
@@ -160,8 +162,6 @@ export class CourseTocComponent {
         }
       }
       this.loading = false;
-
-      console.log(this.modules, tasks, this.taskTodo);
     });
   }
 
@@ -315,6 +315,7 @@ export class CourseTocComponent {
     this.task.moduleId = moduleId;
   }
   setTask(task: any) {
+    console.log(task);
     this.task = {
       id: task.id,
       title: task.title,
