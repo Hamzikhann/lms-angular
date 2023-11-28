@@ -139,21 +139,23 @@
             <textarea class="form-control" id="description" name="description" [(ngModel)]="module.description"
               [disabled]="moduleFormType == 'delete'" rows="3"></textarea>
           </div>
-          <div class="buttons">
-            <button type="submit" class="btn btn-primary" (click)="createModule()"
-              *ngIf="moduleFormType == 'create' && permission.module.create">
-              Create
-            </button>
-            <button type="submit" class="btn btn-primary" (click)="updateModule()"
-              *ngIf="moduleFormType == 'update' && permission.module.update">
-              Update
-            </button>
-            <button type="submit" class="btn btn-danger" (click)="deleteModule()"
-              *ngIf="moduleFormType == 'delete' && permission.module.delete">
-              Delete
-            </button>
-          </div>
         </form>
+      </div>
+      <div class="modal-footer">
+        <div class="buttons">
+          <button type="submit" class="btn btn-primary" (click)="createModule()"
+            *ngIf="moduleFormType == 'create' && permission.module.create">
+            Create
+          </button>
+          <button type="submit" class="btn btn-primary" (click)="updateModule()"
+            *ngIf="moduleFormType == 'update' && permission.module.update">
+            Update
+          </button>
+          <button type="submit" class="btn btn-danger" (click)="deleteModule()"
+            *ngIf="moduleFormType == 'delete' && permission.module.delete">
+            Delete
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -211,8 +213,8 @@
             <div class="col-6">
               <div class="form-group">
                 <label class="form-label" for="taskTypeId">Task Type</label>
-                <select class="form-select form-control" id="taskTypeId" name="taskTypeId"
-                  [(ngModel)]="task.taskTypeId">
+                <select class="form-select form-control" id="taskTypeId" name="taskTypeId" [(ngModel)]="task.taskTypeId"
+                  (change)="setTaskType()">
                   <ng-container *ngFor="let type of taskTypes">
                     <option [value]="type.id">
                       {{ type.title }}
@@ -229,14 +231,14 @@
               </div>
             </div>
 
-            <div class="col-12">
+            <div class="col-12" *ngIf="task.taskTypeName == 'Video'">
               <div class="form-group">
                 <label for="taskVideoLink" class="form-label">Video ID</label>
                 <input type="text" class="form-control" id="taskVideoLink" name="taskVideoLink"
                   [(ngModel)]="task.videoLink" />
               </div>
             </div>
-            <div class="col-12">
+            <div class="col-12" *ngIf="task.taskTypeName == 'Reading'">
               <div class="form-group">
                 <label for="taskHandout" class="form-label">Handout i.e pdf</label>
                 <div class="custom-file">
@@ -248,24 +250,24 @@
                 </div>
               </div>
             </div>
-            <div class="col-12">
-              <div class="buttons">
-                <button class="btn btn-primary" (click)="createTask()"
-                  *ngIf="taskFormType == 'create' && permission.task.create">
-                  Create
-                </button>
-                <button class="btn btn-primary" (click)="updateTask()"
-                  *ngIf="taskFormType == 'update' && permission.task.update">
-                  Update
-                </button>
-                <button class="btn btn-danger" (click)="deleteTask()"
-                  *ngIf="taskFormType == 'delete' && permission.task.delete">
-                  Delete
-                </button>
-              </div>
-            </div>
           </div>
         </form>
+      </div>
+      <div class="modal-footer">
+        <div class="buttons">
+          <button class="btn btn-primary" (click)="createTask()"
+            *ngIf="taskFormType == 'create' && permission.task.create">
+            Create
+          </button>
+          <button class="btn btn-primary" (click)="updateTask()"
+            *ngIf="taskFormType == 'update' && permission.task.update">
+            Update
+          </button>
+          <button class="btn btn-danger" (click)="deleteTask()"
+            *ngIf="taskFormType == 'delete' && permission.task.delete">
+            Delete
+          </button>
+        </div>
       </div>
     </div>
   </div>

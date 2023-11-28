@@ -183,21 +183,23 @@
             <textarea class="form-control" id="title" name="objectiveDescription" [(ngModel)]="objective.description"
               [disabled]="objectiveFormType == 'delete'" rows="3"></textarea>
           </div>
-          <div class="buttons">
-            <button type="submit" class="btn btn-primary" (click)="createObjective()"
-              *ngIf="objectiveFormType == 'create' && permission.create">
-              Create
-            </button>
-            <button type="submit" class="btn btn-primary" (click)="updateObjective()"
-              *ngIf="objectiveFormType == 'update' && permission.update">
-              Update
-            </button>
-            <button type="submit" class="btn btn-danger" (click)="deleteObjective()"
-              *ngIf="objectiveFormType == 'delete' && permission.delete">
-              Delete
-            </button>
-          </div>
         </form>
+      </div>
+      <div class="modal-footer">
+        <div class="buttons">
+          <button type="submit" class="btn btn-primary" (click)="createObjective()"
+            *ngIf="objectiveFormType == 'create' && permission.create">
+            Create
+          </button>
+          <button type="submit" class="btn btn-primary" (click)="updateObjective()"
+            *ngIf="objectiveFormType == 'update' && permission.update">
+            Update
+          </button>
+          <button type="submit" class="btn btn-danger" (click)="deleteObjective()"
+            *ngIf="objectiveFormType == 'delete' && permission.delete">
+            Delete
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -234,12 +236,14 @@
               </label>
             </div>
           </div>
-          <div class="buttons">
-            <button type="submit" class="btn btn-primary" (click)="updateInstructor()">
-              Update
-            </button>
-          </div>
         </form>
+      </div>
+      <div class="modal-footer">
+        <div class="buttons">
+          <button type="submit" class="btn btn-primary" (click)="updateInstructor()">
+            Update
+          </button>
+        </div>
       </div>
     </div>
   </div>

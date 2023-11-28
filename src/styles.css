@@ -185,6 +185,9 @@
 .accordion__menu-link {
   padding: 0.65rem 1.5rem !important;
 }
+.accordion__menu-link a {
+  font-weight: normal;
+}
 .accordion__menu-link a.disabled {
   cursor: not-allowed;
 }
@@ -208,4 +211,28 @@
 .accordion__menu-link.active.current {
   border-right: 4px solid #1f8354;
   background: rgb(31 131 84 / 30%);
+}
+
+.modal {
+  background: rgba(0, 0, 0, 0.63);
+}
+.modal-header,
+.modal-body {
+  padding: 1.5rem;
+}
+.modal-dialog {
+  display: inline-block;
+  margin: 0 !important;
+  position: absolute;
+  right: 0;
+  width: 100%;
+}
+.modal-content {
+  border: unset !important;
+  border-radius: unset !important;
+  height: 100vh;
+}
+
+.loading-icon {
+  margin-top: 10%;
 }

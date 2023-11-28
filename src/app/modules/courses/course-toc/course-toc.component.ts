@@ -43,6 +43,7 @@ export class CourseTocComponent {
     videoLink: '',
     handout: '',
     taskTypeId: '',
+    taskTypeName: '',
     moduleId: '',
   };
   taskFormType: string = '';
@@ -129,7 +130,6 @@ export class CourseTocComponent {
     }
     this.apiServices.postRequest(data).subscribe((response) => {
       this.modules = response.data;
-      console.log(this.modules);
 
       const tasks: any = [];
       this.modules.forEach((module: any) => {
@@ -315,7 +315,6 @@ export class CourseTocComponent {
     this.task.moduleId = moduleId;
   }
   setTask(task: any) {
-    console.log(task);
     this.task = {
       id: task.id,
       title: task.title,
@@ -326,6 +325,14 @@ export class CourseTocComponent {
       taskTypeId: task.courseTaskTypeId,
       moduleId: task.courseModuleId,
     };
+    this.setTaskType();
+  }
+  setTaskType() {
+    this.taskTypes.forEach((type: any) => {
+      if (type.id == this.task.taskTypeId) {
+        this.task.taskTypeName = type.title;
+      }
+    });
   }
   setTaskFormType(name: any) {
     this.taskFormType = name;
@@ -340,6 +347,7 @@ export class CourseTocComponent {
       videoLink: '',
       handout: '',
       taskTypeId: '',
+      taskTypeName: '',
       moduleId: '',
     };
   }
