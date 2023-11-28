@@ -17,7 +17,7 @@
         <div class="about-course">
           <p class="text-70" [innerHTML]="courseDetails.about"></p>
         </div>
-        <div class="about-course mt-4">
+        <div class="about-course mt-4" *ngIf="loggedInUser.role.title == 'Administrator'">
           <div class="row">
             <div class="col-4">
               <div class="page-separator">
@@ -60,7 +60,7 @@
                 <span class="material-icons text-50 mr-8pt">chevron_right</span>
                 <span class="text-70">{{ objective.description }}</span>
               </div>
-              <div class="buttons">
+              <div class="buttons d-flex">
                 <a href="javascript:void(0)" data-toggle="modal" data-target="#objectiveModal" (click)="
                     setObjectiveFormType('update'); setObjective(objective)
                   " *ngIf="permission.update">

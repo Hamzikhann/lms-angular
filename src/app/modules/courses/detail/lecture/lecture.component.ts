@@ -15,6 +15,8 @@ declare var YT: any;
 })
 export class LectureComponent {
   ImgBaseURL: string = this.config.ImgBaseURL;
+  VideoBaseURL: string = this.config.VideoBaseURL;
+
   loggedInUser: any;
   permission: any = {
     assessment: {
@@ -202,6 +204,7 @@ export class LectureComponent {
     }
     this.apiServices.postRequest(data).subscribe((response) => {
       this.taskDetails = response.data;
+      console.log(this.taskDetails);
       if (this.taskDetails?.courseTaskProgresses.length > 0) {
         this.taskDetails.progress =
           this.taskDetails?.courseTaskProgresses[0].percentage;

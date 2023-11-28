@@ -7,4 +7,5 @@ import { environment } from 'src/environments/environment';
 export class ConfigService {
   ApiBaseURL: string = environment.ApiBaseURL;
   ImgBaseURL: string = environment.ImgBaseURL;
+  VideoBaseURL: string = environment.VideoBaseURL;
 }

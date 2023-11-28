@@ -20,8 +20,7 @@
                       [class.current]="item.id == taskId">
                       <span class="icon-holder icon-holder--mini rounded-circle d-inline-flex icon--left"
                         [class.text-muted]="item.disabled" [class.icon-holder--light]="item.progress == 0"
-                        [class.icon-holder--success]="item.progress == '100'
-                        ">
+                        [class.icon-holder--success]="item.progress == '100'">
                         <ng-container *ngIf="item.progress == '100'">
                           <i class="material-icons icon-12pt">check</i>
                         </ng-container>
@@ -29,7 +28,9 @@
                           <i class="material-icons icon-14pt">
                             <ng-container *ngIf="item.disabled && item.id != taskId">lock</ng-container>
                             <ng-container *ngIf="!item.disabled">
-                              <ng-container *ngIf="item.courseTaskType.title == 'Assessment'">storage</ng-container>
+                              <ng-container *ngIf="
+                                  item.courseTaskType.title == 'Assessment'
+                                ">storage</ng-container>
                               <ng-container *ngIf="item.courseTaskType.title == 'Reading'">description</ng-container>
                               <ng-container *ngIf="item.courseTaskType.title == 'Video'">play_arrow</ng-container>
                             </ng-container>
@@ -37,8 +38,11 @@
                         </ng-container>
                       </span>
                       <a class="flex" [class.disabled]="item.id != taskId && item.disabled"
-                        [class.text-muted]="item.id != taskId && item.disabled"
-                        [routerLink]="!item.disabled ? ['/courses', courseId, 'task', item.id] : []">
+                        [class.text-muted]="item.id != taskId && item.disabled" [routerLink]="
+                          !item.disabled
+                            ? ['/courses', courseId, 'task', item.id]
+                            : []
+                        ">
                         <strong>{{ item.courseTaskType.title }}:</strong>
                         {{ item.title }} <br /><span class="text-muted">{{
                           item.estimatedTime
@@ -89,9 +93,12 @@
             </ng-container>
             <ng-container *ngIf="!loading">
               <ng-container *ngIf="taskDetails.courseTaskType.title == 'Video'">
-                <div id="youtube-player">
-                  <youtube-player #youtubePlayer [height]="500"
-                    [videoId]="taskDetails.courseTaskContent.videoLink"></youtube-player>
+                <div class="video">
+                  <video #videoElement controls width="765" height="450">
+                    <source [src]="
+                        VideoBaseURL + taskDetails.courseTaskContent.videoLink
+                      " type="video/mp4" />
+                  </video>
                 </div>
               </ng-container>
               <ng-container *ngIf="taskDetails.courseTaskType.title == 'Reading'">
@@ -229,12 +236,10 @@
           </div>
         </div>
         <ng-container *ngIf="
-                  loggedInUser.role.title == 'User' &&
-                  taskDetails.courseTaskType.title != 'Assessment'
-                ">
-          <div class="card mt-4" *ngIf="
-                    taskDetails.progress != '100'
-                  ">
+            loggedInUser.role.title == 'User' &&
+            taskDetails.courseTaskType.title != 'Assessment'
+          ">
+          <div class="card mt-4" *ngIf="taskDetails.progress != '100'">
             <div class="card-body">
               <div class="d-flex align-items-center justify-content-between">
                 <h6 class="mb-0">Have you completed this task?</h6>
