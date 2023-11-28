@@ -251,7 +251,7 @@
         </ng-container>
         <ng-container *ngIf="taskDetails.courseTaskContent.description != ''">
           <div class="page-separator__text my-2">Description</div>
-          <p>{{ taskDetails.courseTaskContent.description }}</p>
+          <p [innerHTML]="taskDetails.courseTaskContent.description"></p>
         </ng-container>
       </div>
       <!-- <div class="page-navigation">

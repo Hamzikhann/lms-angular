@@ -61,6 +61,8 @@ export class CourseUsefulLinksComponent {
 
   getUsefulLinks() {
     this.loading = true;
+    this.usefulLinks = [];
+    this.filteredUsefulLinks = [];
 
     const data = {
       path: 'course/useful-links/list',

@@ -45,7 +45,7 @@
                   <i class="material-icons fa-lg mx-1">delete</i></a>
               </div>
             </div>
-            <p class="text-70 mb-0">{{ link.description }}</p>
+            <p class="text-70 mb-0" [innerHTML]="link.description"></p>
           </div>
         </div>
       </div>
@@ -80,7 +80,7 @@
           </div>
           <div class="form-group">
             <label>Description</label>
-            <div class="editor">
+            <div class="editor editor-description">
               <ngx-editor-menu [editor]="editor" [toolbar]="toolbar">
               </ngx-editor-menu>
               <ngx-editor [editor]="editor" [(ngModel)]="usefulLink.description"

@@ -60,6 +60,8 @@ export class CourseFaqsComponent {
 
   getFaqs() {
     this.loading = true;
+    this.faqs = [];
+    this.filteredFaqs = [];
 
     const data = {
       path: 'course/faqs/list',

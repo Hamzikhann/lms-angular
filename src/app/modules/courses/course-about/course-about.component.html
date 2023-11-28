@@ -56,9 +56,9 @@
           </div>
           <ul class="list-unstyled mb-0">
             <li class="d-flex justify-content-between" *ngFor="let objective of courseDetails.courseObjectives">
-              <div class="list-item">
+              <div class="d-flex">
                 <span class="material-icons text-50 mr-8pt">chevron_right</span>
-                <span class="text-70">{{ objective.description }}</span>
+                <span class="text-70" [innerHTML]="objective.description"></span>
               </div>
               <div class="buttons d-flex">
                 <a href="javascript:void(0)" data-toggle="modal" data-target="#objectiveModal" (click)="
@@ -121,9 +121,7 @@
                   " *ngIf="permission.update">
                   <i class="material-icons fa-lg mx-1" style="font-size: 20px">edit</i></a>
               </h4>
-              <p>
-                {{ courseDetails.courseInstructors[0].about }}
-              </p>
+              <p [innerHTML]="courseDetails.courseInstructors[0].about"></p>
             </div>
           </div>
         </div>

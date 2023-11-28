@@ -51,6 +51,8 @@ export class CourseBooksComponent {
 
   getBooks() {
     this.loading = true;
+    this.books = [];
+    this.filteredBooks = [];
 
     const data = {
       path: 'course/books/list ',
