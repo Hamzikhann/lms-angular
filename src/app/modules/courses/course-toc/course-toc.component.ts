@@ -49,6 +49,17 @@ export class CourseTocComponent {
   };
   taskFormType: string = '';
 
+  editorModule: Editor = new Editor();
+  editorTask: Editor = new Editor();
+  toolbar: Toolbar = [
+    ['bold', 'italic'],
+    ['underline'],
+    ['ordered_list', 'bullet_list'],
+    [{ heading: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'] }],
+    ['text_color', 'background_color'],
+    ['align_left', 'align_center', 'align_right', 'align_justify'],
+  ];
+
   taskTodo: any;
 
   loading: boolean = false;
@@ -78,16 +89,6 @@ export class CourseTocComponent {
       this.getTaskTypes();
     });
   }
-
-  editor: Editor = new Editor();
-  toolbar: Toolbar = [
-    ['bold', 'italic'],
-    ['underline'],
-    ['ordered_list', 'bullet_list'],
-    [{ heading: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'] }],
-    ['text_color', 'background_color'],
-    ['align_left', 'align_center', 'align_right', 'align_justify'],
-  ];
 
   getCourseDetails() {
     this.loading = true;

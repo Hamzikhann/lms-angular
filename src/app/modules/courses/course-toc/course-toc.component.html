@@ -136,10 +136,10 @@
           </div>
           <div class="form-group">
             <label>Description</label>
-            <div class="editor">
-              <ngx-editor-menu [editor]="editor" [toolbar]="toolbar">
+            <div class="editor editor-description">
+              <ngx-editor-menu [editor]="editorModule" [toolbar]="toolbar">
               </ngx-editor-menu>
-              <ngx-editor [editor]="editor" [(ngModel)]="module.description" name="moduleDescription"
+              <ngx-editor [editor]="editorModule" [(ngModel)]="module.description" name="moduleDescription"
                 [disabled]="moduleFormType == 'delete'">
               </ngx-editor>
             </div>
@@ -211,10 +211,10 @@
             <div class="col-12">
               <div class="form-group">
                 <label>Description</label>
-                <div class="editor">
-                  <ngx-editor-menu [editor]="editor" [toolbar]="toolbar">
+                <div class="editor editor-description">
+                  <ngx-editor-menu [editor]="editorTask" [toolbar]="toolbar">
                   </ngx-editor-menu>
-                  <ngx-editor [editor]="editor" [(ngModel)]="task.description" name="taskDescription">
+                  <ngx-editor [editor]="editorTask" [(ngModel)]="task.description" name="taskDescription">
                   </ngx-editor>
                 </div>
               </div>

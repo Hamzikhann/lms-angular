@@ -180,9 +180,9 @@
           <div class="form-group">
             <label>Description</label>
             <div class="editor editor-description">
-              <ngx-editor-menu [editor]="editor" [toolbar]="toolbar">
+              <ngx-editor-menu [editor]="editorObjective" [toolbar]="toolbar">
               </ngx-editor-menu>
-              <ngx-editor [editor]="editor" [(ngModel)]="objective.description" name="ObjectiveDescription">
+              <ngx-editor [editor]="editorObjective" [(ngModel)]="objective.description" name="ObjectiveDescription">
               </ngx-editor>
             </div>
           </div>
@@ -227,9 +227,9 @@
           <div class="form-group">
             <label>About</label>
             <div class="editor editor-description">
-              <ngx-editor-menu [editor]="editor" [toolbar]="toolbar">
+              <ngx-editor-menu [editor]="editorInstructor" [toolbar]="toolbar">
               </ngx-editor-menu>
-              <ngx-editor [editor]="editor" [(ngModel)]="instructor.about" name="instructorAbout">
+              <ngx-editor [editor]="editorInstructor" [(ngModel)]="instructor.about" name="instructorAbout">
               </ngx-editor>
             </div>
           </div>
