@@ -4,6 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ConfigService } from 'src/app/config/config.service';
 import { AuthService } from 'src/app/services/auth/auth.service';
+import { Editor, Toolbar } from 'ngx-editor';
 
 @Component({
   selector: 'app-course-about',
@@ -58,6 +59,16 @@ export class CourseAboutComponent {
     this.courseId = this.route.snapshot.paramMap.get('id');
     this.getCourseDetails();
   }
+
+  editor: Editor = new Editor();
+  toolbar: Toolbar = [
+    ['bold', 'italic'],
+    ['underline'],
+    ['ordered_list', 'bullet_list'],
+    [{ heading: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'] }],
+    ['text_color', 'background_color'],
+    ['align_left', 'align_center', 'align_right', 'align_justify'],
+  ];
 
   getCourseDetails() {
     this.loading = true;
