@@ -183,7 +183,9 @@ export class LectureComponent {
 
       if (this.loggedInUser.role.title == 'User') {
         for (let index = taskTodo.index + 1; index < tasks.length; index++) {
-          tasks[index].disabled = true;
+          if (tasks[index]) {
+            tasks[index].disabled = true;
+          }
         }
       }
     });
@@ -226,10 +228,31 @@ export class LectureComponent {
       this.assessments = response.data;
       this.assessments.forEach((assignment: any) => {
         assignment.courseTaskAssessmentQuestions.forEach((question: any) => {
-          question.options = question.options.split(',');
+          var options = question.options.split(',');
+          question.options = this.shuffleAssessmentOptions(options);
         });
       });
     });
+  }
+
+  shuffleAssessmentOptions(array: any) {
+    let currentIndex = array.length,
+      randomIndex;
+
+    // While there remain elements to shuffle.
+    while (currentIndex > 0) {
+      // Pick a remaining element.
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex--;
+
+      // And swap it with the current element.
+      [array[currentIndex], array[randomIndex]] = [
+        array[randomIndex],
+        array[currentIndex],
+      ];
+    }
+
+    return array;
   }
 
   updateTaskProgress() {
