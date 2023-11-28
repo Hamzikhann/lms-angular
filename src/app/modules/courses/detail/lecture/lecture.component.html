@@ -112,7 +112,7 @@
           <ng-container *ngIf="taskDetails.courseTaskType.title == 'Reading'">
             <div class="card card-brt-0">
               <div class="card-body">
-                <div class="pdf-container">
+                <div class="pdf-container" *ngIf="taskDetails.courseTaskContent.handoutLink">
                   <pdf-viewer [src]="
                               ImgBaseURL + taskDetails.courseTaskContent.handoutLink
                             " [original-size]="false" [show-all]="true" [fit-to-page]="false" [zoom]="1"
@@ -124,6 +124,8 @@
                               box-shadow: inset 0 1px 1px rgba(39, 44, 51, 0.075);
                             "></pdf-viewer>
                 </div>
+                <div class="description-container" *ngIf="!taskDetails.courseTaskContent.handoutLink"
+                  [innerHTML]="taskDetails.courseTaskContent.description"></div>
               </div>
             </div>
           </ng-container>
@@ -251,7 +253,8 @@
               </div>
             </div>
           </ng-container>
-          <ng-container *ngIf="taskDetails.courseTaskContent.description.trim() != ''">
+          <ng-container
+            *ngIf="taskDetails.courseTaskType.title != 'Reading' && taskDetails.courseTaskContent.description.trim() != ''">
             <div class="page-separator__text my-2">Description</div>
             <p [innerHTML]="taskDetails.courseTaskContent.description"></p>
           </ng-container>
@@ -316,7 +319,7 @@
                   [(ngModel)]="assessment.estimatedTime" />
               </div>
             </div>
-            <div class="col-6" *ngIf="taskDetails.courseTaskType.title == 'Video'">
+            <div class="col-6" *ngIf="taskDetails?.courseTaskType?.title == 'Video'">
               <div class="form-group">
                 <label for="assessmentStartTime" class="form-label">Start Time</label>
                 <input type="text" class="form-control" id="assessmentStartTime" name="assessmentStartTime"
