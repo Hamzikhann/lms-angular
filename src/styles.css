@@ -253,3 +253,11 @@
 .card-brt-0 {
   border-radius: 0 0 0.5rem 0.5rem !important;
 }
+
+.color-light {
+  color: #fff;
+}
+.task-attribute {
+  display: flex;
+  align-items: center;
+}

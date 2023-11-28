@@ -73,24 +73,35 @@
           <div class="card mb-0">
             <div class="card-header">
               <div class="page-attributes">
-                <div class="estimatedTime d-flex align-items-center">
-                  <div class="task-attribute mr-4">
-                    <span class="icon-holder icon-holder--mini rounded-circle d-inline-flex icon--left">
-                      <i class="material-icons icon-14pt text-dark">folder_open</i>
-                    </span>
-                    <span class="text-dark"><strong>{{ taskDetails.courseTaskType.title }}</strong></span>
+                <div class="estimatedTime d-flex align-items-center justify-content-between">
+                  <div class="d-flex align-items-center">
+                    <div class="task-attribute mr-4">
+                      <span class="icon-holder icon-holder--mini rounded-circle d-inline-flex icon--left">
+                        <i class="material-icons icon-14pt text-dark">folder_open</i>
+                      </span>
+                      <span class="text-dark"><strong>{{ taskDetails.courseTaskType.title }}</strong></span>
+                    </div>
+                    <div class="task-attribute mr-4">
+                      <span class="icon-holder icon-holder--mini rounded-circle d-inline-flex icon--left">
+                        <i class="material-icons icon-14pt text-dark">access_time</i>
+                      </span>
+                      <span class="text-dark"><strong>{{ taskDetails.estimatedTime }}</strong></span>
+                    </div>
                   </div>
-                  <div class="task-attribute mr-4">
-                    <span class="icon-holder icon-holder--mini rounded-circle d-inline-flex icon--left">
-                      <i class="material-icons icon-14pt text-dark">access_time</i>
-                    </span>
-                    <span class="text-dark"><strong>{{ taskDetails.estimatedTime }}</strong></span>
-                  </div>
-                  <div class="task-attribute mr-4" *ngIf="taskDetails.progress == '100'">
-                    <span class="icon-holder icon-holder--mini rounded-circle d-inline-flex icon--left">
-                      <i class="material-icons icon-14pt text-dark">info_outline</i>
-                    </span>
-                    <span class="text-dark"><strong>Completed</strong></span>
+                  <div class="">
+                    <div class="task-attribute" *ngIf="taskDetails.progress == '100'">
+                      <span
+                        class="icon-holder icon-holder--success icon-holder--mini rounded-circle d-inline-flex icon--left">
+                        <i class="material-icons icon-14pt text-light">info_outline</i>
+                      </span>
+                      <span class="text-dark"><strong>Completed</strong></span>
+                    </div>
+                    <div class="task-attribute" *ngIf="taskDetails.progress != '100'">
+                      <span class="icon-holder icon-holder--mini rounded-circle d-inline-flex icon--left">
+                        <i class="material-icons icon-14pt text-dark">info_outline</i>
+                      </span>
+                      <span class="text-dark"><strong>Inprogress</strong></span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -141,101 +152,97 @@
                       <i class="material-icons">add_circle</i>
                     </span>
                   </h5>
-                  <div class="card mb-0" *ngFor="let assessment of assessments">
-                    <div class="card-body">
+                  <div *ngFor="let assessment of assessments">
+                    <div class="assessment">
                       <div class="d-flex justify-content-between">
-                        <div class="assessment">
-                          <div class="d-flex justify-content-between">
-                            <h5>{{ assessment.title }}</h5>
-                            <div class="buttons">
-                              <span data-toggle="modal" data-target="#assessmentModal"
-                                *ngIf="permission.assessment.update" (click)="
-                                      setAssessment(assessment);
-                                      setAssessmentFormType('update')
-                                    ">
-                                <i class="material-icons fa-lg fs-14pt mx-1">edit</i></span>
-                              <span data-toggle="modal" data-target="#assessmentModal"
-                                *ngIf="permission.assessment.delete" (click)="
-                                      setAssessment(assessment);
-                                      setAssessmentFormType('delete')
-                                    ">
-                                <i class="material-icons fa-lg fs-14pt">delete</i></span>
-                            </div>
-                          </div>
-                          <p>{{ assessment.description }}</p>
-                          <hr class="mb-4" />
+                        <h5>{{ assessment.title }}</h5>
+                        <div class="buttons">
+                          <span data-toggle="modal" data-target="#assessmentModal" *ngIf="permission.assessment.update"
+                            (click)="
+                                    setAssessment(assessment);
+                                    setAssessmentFormType('update')
+                                  ">
+                            <i class="material-icons fa-lg fs-14pt mx-1">edit</i></span>
+                          <span data-toggle="modal" data-target="#assessmentModal" *ngIf="permission.assessment.delete"
+                            (click)="
+                                    setAssessment(assessment);
+                                    setAssessmentFormType('delete')
+                                  ">
+                            <i class="material-icons fa-lg fs-14pt">delete</i></span>
                         </div>
                       </div>
-                      <ng-container>
-                        <div class="assessment-questions" *ngFor="
+                      <p>{{ assessment.description }}</p>
+                      <hr class="mb-4" />
+                    </div>
+                    <ng-container>
+                      <div class="assessment-questions" *ngFor="
                                 let question of assessment.courseTaskAssessmentQuestions;
                                 let i = index
                               ">
-                          <div class="d-flex justify-content-between">
-                            <p>
-                              <strong>{{ i + 1 }}. {{ question.title }}</strong>
-                            </p>
-                            <div class="buttons" *ngIf="loggedInUser.role.title == 'Administrator'">
-                              <span data-toggle="modal" data-target="#assessmentQuestionModal"
-                                *ngIf="permission.question.update" (click)="
+                        <div class="d-flex justify-content-between">
+                          <p>
+                            <strong>{{ i + 1 }}. {{ question.title }}</strong>
+                          </p>
+                          <div class="buttons" *ngIf="loggedInUser.role.title == 'Administrator'">
+                            <span data-toggle="modal" data-target="#assessmentQuestionModal"
+                              *ngIf="permission.question.update" (click)="
                                       setAssessmentQuestion(question);
                                       setAssessmentQuestionFormType('update')
                                     ">
-                                <i class="material-icons fa-lg fs-14pt mx-1">edit</i></span>
-                              <span data-toggle="modal" data-target="#assessmentQuestionModal"
-                                *ngIf="permission.question.delete" (click)="
+                              <i class="material-icons fa-lg fs-14pt mx-1">edit</i></span>
+                            <span data-toggle="modal" data-target="#assessmentQuestionModal"
+                              *ngIf="permission.question.delete" (click)="
                                       setAssessmentQuestion(question);
                                       setAssessmentQuestionFormType('delete')
                                     ">
-                                <i class="material-icons fa-lg fs-14pt">delete</i></span>
-                            </div>
+                              <i class="material-icons fa-lg fs-14pt">delete</i></span>
                           </div>
-                          <ul class="pl-2" style="list-style: none">
-                            <li *ngFor="let option of question.options; let y = index">
-                              <div class="form-check">
-                                <input class="form-check-input" type="radio" [name]="question.id"
-                                  [id]="'option-' + i + y" [value]="option" [disabled]="submitted"
-                                  (change)="getSubmissions($event, question.id)" />
-                                <label class="form-check-label fw-400" [for]="'option-' + i + y" style="color: #303840">
-                                  {{ option }}</label>
-                                <span *ngIf="
+                        </div>
+                        <ul class="pl-2" style="list-style: none">
+                          <li *ngFor="let option of question.options; let y = index">
+                            <div class="form-check">
+                              <input class="form-check-input" type="radio" [name]="question.id" [id]="'option-' + i + y"
+                                [value]="option" [disabled]="submitted"
+                                (change)="getSubmissions($event, question.id)" />
+                              <label class="form-check-label fw-400" [for]="'option-' + i + y" style="color: #303840">
+                                {{ option }}</label>
+                              <span *ngIf="
                                         permission.question.view.answer &&
                                         option.trim() == question.answer.trim()
                                       " class="badge badge-info ml-2">correct</span>
-                              </div>
-                            </li>
-                          </ul>
-                          <ng-container *ngFor="let data of submission">
-                            <div *ngIf="
+                            </div>
+                          </li>
+                        </ul>
+                        <ng-container *ngFor="let data of submission">
+                          <div *ngIf="
                                     submitted &&
                                     !(
                                       data.id == question.id &&
                                       data.answer.trim() == question.answer.trim()
                                     )
                                   ">
-                              <div class="badge badge-danger mb-4 ml-2" *ngIf="data.id == question.id">
-                                Incorrect Answer
-                              </div>
+                            <div class="badge badge-danger mb-4 ml-2" *ngIf="data.id == question.id">
+                              Incorrect Answer
                             </div>
-                          </ng-container>
-                        </div>
-                        <button type="submit" class="btn btn-outline-primary btn-sm" data-toggle="modal"
-                          data-target="#assessmentQuestionModal" *ngIf="permission.question.create" (click)="
+                          </div>
+                        </ng-container>
+                      </div>
+                      <button type="submit" class="btn btn-outline-primary btn-sm" data-toggle="modal"
+                        data-target="#assessmentQuestionModal" *ngIf="permission.question.create" (click)="
                                 setAssessmentQuestionFormType('create');
                                 setAssessment(assessment)
                               ">
-                          Add Question
-                        </button>
-                        <button type="submit" class="btn btn-primary mt-2 mr-2"
-                          *ngIf="permission.assessment.submit && !submitted" (click)="validateAssessmentAnswer()">
-                          Submit
-                        </button>
-                        <button type="submit" class="btn btn-outline-primary mt-2" *ngIf="submitted && error"
-                          (click)="retryAssessment()">
-                          Retry
-                        </button>
-                      </ng-container>
-                    </div>
+                        Add Question
+                      </button>
+                      <button type="submit" class="btn btn-primary mt-2 mr-2"
+                        *ngIf="permission.assessment.submit && !submitted" (click)="validateAssessmentAnswer()">
+                        Submit
+                      </button>
+                      <button type="submit" class="btn btn-outline-primary mt-2" *ngIf="submitted && error"
+                        (click)="retryAssessment()">
+                        Retry
+                      </button>
+                    </ng-container>
                   </div>
                 </div>
               </div>
