@@ -44,9 +44,13 @@
                             : []
                         ">
                         <strong>{{ item.courseTaskType.title }}:</strong>
-                        {{ item.title }} <br /><span class="text-muted">{{
-                          item.estimatedTime
-                          }}</span>
+                        {{ item.title }} <br />
+                        <div class="d-flex align-items-center justify-content-between">
+                          <span class="text-muted">{{ item.estimatedTime }} </span>
+                          <span class="text-muted" *ngIf="item.courseTaskType.title == 'Assessment'">
+                            Result: {{ item.progress }}%
+                          </span>
+                        </div>
                       </a>
                     </div>
                   </ng-container>
