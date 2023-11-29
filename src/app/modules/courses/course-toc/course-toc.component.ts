@@ -160,7 +160,7 @@ export class CourseTocComponent {
         tasks.forEach((task: any, key: any) => {
           task.index = key;
 
-          if (task.progress == '100') {
+          if (task.progress != '0') {
             this.taskTodo = tasks[key + 1] ? tasks[key + 1] : null;
           }
         });

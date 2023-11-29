@@ -19,12 +19,12 @@
                     <div class="accordion__menu-link" [class.active]="!item.disabled"
                       [class.current]="item.id == taskId">
                       <span class="icon-holder icon-holder--mini rounded-circle d-inline-flex icon--left"
-                        [class.text-muted]="item.disabled" [class.icon-holder--light]="item.progress == 0"
-                        [class.icon-holder--success]="item.progress == '100'">
-                        <ng-container *ngIf="item.progress == '100'">
+                        [class.text-muted]="item.disabled" [class.icon-holder--light]="item.progress == '0'"
+                        [class.icon-holder--success]="item.progress != '0'">
+                        <ng-container *ngIf="item.progress != '0'">
                           <i class="material-icons icon-12pt">check</i>
                         </ng-container>
-                        <ng-container *ngIf="item.progress != '100'">
+                        <ng-container *ngIf="item.progress == '0'">
                           <i class="material-icons icon-14pt">
                             <ng-container *ngIf="item.disabled && item.id != taskId">lock</ng-container>
                             <ng-container *ngIf="!item.disabled">
@@ -88,20 +88,33 @@
                       <span class="text-dark"><strong>{{ taskDetails.estimatedTime }}</strong></span>
                     </div>
                   </div>
-                  <div class="">
-                    <div class="task-attribute" *ngIf="taskDetails.progress == '100'">
-                      <span
-                        class="icon-holder icon-holder--success icon-holder--mini rounded-circle d-inline-flex icon--left">
-                        <i class="material-icons icon-14pt text-light">info_outline</i>
-                      </span>
-                      <span class="text-dark"><strong>Completed</strong></span>
-                    </div>
-                    <div class="task-attribute" *ngIf="taskDetails.progress != '100'">
-                      <span class="icon-holder icon-holder--mini rounded-circle d-inline-flex icon--left">
-                        <i class="material-icons icon-14pt text-dark">info_outline</i>
-                      </span>
-                      <span class="text-dark"><strong>Inprogress</strong></span>
-                    </div>
+                  <div *ngIf="loggedInUser.role.title == 'User'">
+                    <ng-container *ngIf="taskDetails.progress == '0'">
+                      <div class="task-attribute">
+                        <span class="icon-holder icon-holder--mini rounded-circle d-inline-flex icon--left">
+                          <i class="material-icons icon-14pt text-dark">info_outline</i>
+                        </span>
+                        <span class="text-dark"><strong>Inprogress</strong></span>
+                      </div>
+                    </ng-container>
+                    <ng-container *ngIf="taskDetails.progress != '0'">
+                      <div class="d-flex align-items-center">
+                        <div class="task-attribute mr-4">
+                          <span
+                            class="icon-holder icon-holder--success icon-holder--mini rounded-circle d-inline-flex icon--left">
+                            <i class="material-icons icon-14pt text-light">info_outline</i>
+                          </span>
+                          <span class="text-dark"><strong>Completed</strong></span>
+                        </div>
+                        <div class="task-attribute" *ngIf="taskDetails.courseTaskType.title == 'Assessment'">
+                          <span
+                            class="icon-holder icon-holder--success icon-holder--mini rounded-circle d-inline-flex icon--left">
+                            <i class="material-icons icon-14pt text-light">done</i>
+                          </span>
+                          <span class="text-dark"><strong>Result: {{ taskDetails.progress }}%</strong></span>
+                        </div>
+                      </div>
+                    </ng-container>
                   </div>
                 </div>
               </div>
@@ -234,11 +247,11 @@
                               ">
                         Add Question
                       </button>
-                      <button type="submit" class="btn btn-primary mt-2 mr-2"
-                        *ngIf="permission.assessment.submit && !submitted" (click)="validateAssessmentAnswer()">
+                      <button type="submit" class="btn btn-primary mt-2 mr-2" *ngIf="permission.assessment.submit"
+                        (click)="validateAssessmentAnswer()">
                         Submit
                       </button>
-                      <button type="submit" class="btn btn-outline-primary mt-2" *ngIf="submitted && error"
+                      <button type="submit" class="btn btn-outline-primary mt-2" *ngIf="taskDetails.progress != '0'"
                         (click)="retryAssessment()">
                         Retry
                       </button>
@@ -249,11 +262,11 @@
             </div>
           </ng-container>
           <ng-container *ngIf="loggedInUser.role.title == 'User' && taskDetails.courseTaskType.title != 'Assessment'">
-            <div class="card mt-4" *ngIf="taskDetails.progress != '100'">
+            <div class="card mt-4" *ngIf="taskDetails.progress == '0'">
               <div class="card-body">
                 <div class="d-flex align-items-center justify-content-between">
                   <h6 class="mb-0">Have you completed this task?</h6>
-                  <button type="button" class="btn btn-outline-dark btn-sm" (click)="updateTaskProgress()">
+                  <button type="button" class="btn btn-outline-dark btn-sm" (click)="updateTaskProgress('100')">
                     Mark as Completed
                   </button>
                 </div>

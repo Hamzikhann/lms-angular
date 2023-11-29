@@ -176,12 +176,12 @@ export class LectureComponent {
           this.taskIdNext = tasks[key + 1] ? tasks[key + 1].id : 0;
         }
 
-        if (task.progress == '100') {
+        if (task.progress != '0') {
           taskTodo = tasks[key + 1] ? tasks[key + 1] : null;
         }
       });
 
-      if (this.loggedInUser.role.title == 'User') {
+      if (this.loggedInUser.role.title == 'User' && taskTodo) {
         for (let index = taskTodo.index + 1; index < tasks.length; index++) {
           if (tasks[index]) {
             tasks[index].disabled = true;
@@ -206,7 +206,6 @@ export class LectureComponent {
     }
     this.apiServices.postRequest(data).subscribe((response) => {
       this.taskDetails = response.data;
-      console.log(this.taskDetails);
       if (this.taskDetails?.courseTaskProgresses.length > 0) {
         this.taskDetails.progress =
           this.taskDetails?.courseTaskProgresses[0].percentage;
@@ -255,12 +254,12 @@ export class LectureComponent {
     return array;
   }
 
-  updateTaskProgress() {
+  updateTaskProgress(percentage: any) {
     const data = {
       path: 'course/tasks/progress',
       payload: {
         currentTime: '',
-        percentage: '100',
+        percentage: percentage.toString(),
         courseId: this.courseId,
         courseTaskId: this.taskId,
         courseEnrollmentId: this.enrollmentId,
@@ -464,15 +463,21 @@ export class LectureComponent {
   }
 
   validateAssessmentAnswer() {
+    this.error = false;
+    var questionsTotal =
+      this.assessments[0].courseTaskAssessmentQuestions.length;
+    var questionsCorrect = 0;
+
     this.submission.forEach((questionSubmission: any) => {
       this.assessments[0].courseTaskAssessmentQuestions.forEach(
         (question: any) => {
           if (questionSubmission.id == question.id) {
             if (questionSubmission.answer.trim() == question.answer.trim()) {
               questionSubmission.message = 'Correct';
+              questionsCorrect++;
             } else {
               questionSubmission.message = 'Incorrect';
-              this.error = true;
+              // this.error = true;
             }
           }
         }
@@ -480,9 +485,11 @@ export class LectureComponent {
     });
     this.submitted = true;
 
+    var result = (questionsCorrect / questionsTotal) * 100;
+
     if (!this.error) {
       this.toastr.success('Assessment submitted successfully!');
-      this.updateTaskProgress();
+      this.updateTaskProgress(result);
       this.goToNextTask();
       this.submitted = false;
     } else {

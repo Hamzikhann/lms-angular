@@ -46,24 +46,12 @@
                   <ng-container *ngFor="let item of module.courseTasks">
                     <div class="accordion__menu-link active">
                       <span class="icon-holder icon-holder--mini rounded-circle d-inline-flex icon--left"
-                        [class.text-muted]="item.disabled" [class.icon-holder--light]="
-                          item.courseTaskProgresses?.length == 0
-                        " [class.icon-holder--success]="
-                          item.courseTaskProgresses?.length > 0 &&
-                          item.courseTaskProgresses[0].percentage == '100'
-                        ">
-                        <ng-container *ngIf="
-                            item.courseTaskProgresses?.length > 0 &&
-                            item.courseTaskProgresses[0].percentage == '100'
-                          ">
+                        [class.text-muted]="item.disabled" [class.icon-holder--light]="item.progress == '0'"
+                        [class.icon-holder--success]="item.progress != '0'">
+                        <ng-container *ngIf="item.progress != '0'">
                           <i class="material-icons icon-12pt">check</i>
                         </ng-container>
-                        <ng-container *ngIf="
-                            !(
-                              item.courseTaskProgresses?.length > 0 &&
-                              item.courseTaskProgresses[0].percentage == '100'
-                            )
-                          ">
+                        <ng-container *ngIf="item.progress == '0'">
                           <i class="material-icons icon-14pt">
                             <ng-container *ngIf="item.disabled">lock</ng-container>
                             <ng-container *ngIf="!item.disabled">
