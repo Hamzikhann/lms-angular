@@ -83,6 +83,7 @@ export class CourseUpdateComponent {
         code: this.courseDetails.code,
         level: this.courseDetails.level,
         language: this.courseDetails.language,
+        approximateTime: this.courseDetails.approximateTime,
         status: this.courseDetails.status,
         courseDepartmentId: this.courseDetails.courseDepartmentId,
       },
