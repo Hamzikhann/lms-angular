@@ -99,9 +99,7 @@ const routes: Routes = [
     NgxEditorModule,
     FormsModule,
     YouTubePlayerModule,
-    NgCircleProgressModule.forRoot({
-      backgroundColor: '#C7E596',
-    }),
+    NgCircleProgressModule.forRoot({}),
     RouterModule.forChild(routes),
     DataTablesModule,
   ],
