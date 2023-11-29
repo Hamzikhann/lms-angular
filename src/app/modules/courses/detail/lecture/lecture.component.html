@@ -45,7 +45,8 @@
                         ">
                         <strong>{{ item.courseTaskType.title }}:</strong>
                         {{ item.title }} <br />
-                        <div class="d-flex align-items-center justify-content-between">
+                        <div class="d-flex align-items-center justify-content-between"
+                          *ngIf="loggedInUser.role.title == 'User'">
                           <span class="text-muted">{{ item.estimatedTime }} </span>
                           <span class="text-muted" *ngIf="item.courseTaskType.title == 'Assessment'">
                             Result: {{ item.progress }}%
@@ -152,7 +153,7 @@
           </ng-container>
           <ng-container
             *ngIf="taskDetails.courseTaskType.title == 'Assessment' || (taskDetails.courseTaskType.title == 'Video' && loggedInUser.role.title == 'Administrator')">
-            <div class="card card-brt-0" style="min-height: 336px;">
+            <div class="card card-brt-0">
               <div class="card-body">
                 <div class="assessment-container">
                   <h5 *ngIf="assessments.length == 0">
