@@ -209,6 +209,7 @@ export class LectureComponent {
       if (this.taskDetails?.courseTaskProgresses.length > 0) {
         this.taskDetails.progress =
           this.taskDetails?.courseTaskProgresses[0].percentage;
+        this.submitted = true;
       } else {
         this.taskDetails.progress = '0';
       }
@@ -266,11 +267,10 @@ export class LectureComponent {
       },
     };
     this.apiServices.postRequest(data).subscribe((data) => {
-      if (this.closeModal) {
-        this.closeModal.nativeElement.click();
+      if (this.taskDetails.courseTaskType.title == 'Assessment') {
+        this.getTaskDetails();
       }
       this.getModules();
-      this.goToNextTask();
     });
   }
 
@@ -477,23 +477,23 @@ export class LectureComponent {
               questionsCorrect++;
             } else {
               questionSubmission.message = 'Incorrect';
-              // this.error = true;
+              this.error = true;
             }
           }
         }
       );
     });
-    this.submitted = true;
+    setTimeout(() => {
+      this.submitted = true;
+    }, 10000);
 
     var result = (questionsCorrect / questionsTotal) * 100;
+    this.toastr.success('Assessment submitted successfully!');
+    this.updateTaskProgress(result);
 
     if (!this.error) {
-      this.toastr.success('Assessment submitted successfully!');
-      this.updateTaskProgress(result);
       this.goToNextTask();
       this.submitted = false;
-    } else {
-      this.toastr.error('Incorrect answers, kindly retry!');
     }
   }
 

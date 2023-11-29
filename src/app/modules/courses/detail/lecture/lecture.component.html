@@ -44,9 +44,13 @@
                             : []
                         ">
                         <strong>{{ item.courseTaskType.title }}:</strong>
-                        {{ item.title }} <br /><span class="text-muted">{{
-                          item.estimatedTime
-                          }}</span>
+                        {{ item.title }} <br />
+                        <div class="d-flex align-items-center justify-content-between">
+                          <span class="text-muted">{{ item.estimatedTime }} </span>
+                          <span class="text-muted" *ngIf="item.courseTaskType.title == 'Assessment'">
+                            Result: {{ item.progress }}%
+                          </span>
+                        </div>
                       </a>
                     </div>
                   </ng-container>
@@ -99,19 +103,12 @@
                     </ng-container>
                     <ng-container *ngIf="taskDetails.progress != '0'">
                       <div class="d-flex align-items-center">
-                        <div class="task-attribute mr-4">
+                        <div class="task-attribute">
                           <span
                             class="icon-holder icon-holder--success icon-holder--mini rounded-circle d-inline-flex icon--left">
                             <i class="material-icons icon-14pt text-light">info_outline</i>
                           </span>
                           <span class="text-dark"><strong>Completed</strong></span>
-                        </div>
-                        <div class="task-attribute" *ngIf="taskDetails.courseTaskType.title == 'Assessment'">
-                          <span
-                            class="icon-holder icon-holder--success icon-holder--mini rounded-circle d-inline-flex icon--left">
-                            <i class="material-icons icon-14pt text-light">done</i>
-                          </span>
-                          <span class="text-dark"><strong>Result: {{ taskDetails.progress }}%</strong></span>
                         </div>
                       </div>
                     </ng-container>
@@ -155,7 +152,7 @@
           </ng-container>
           <ng-container
             *ngIf="taskDetails.courseTaskType.title == 'Assessment' || (taskDetails.courseTaskType.title == 'Video' && loggedInUser.role.title == 'Administrator')">
-            <div class="card card-brt-0">
+            <div class="card card-brt-0" style="min-height: 336px;">
               <div class="card-body">
                 <div class="assessment-container">
                   <h5 *ngIf="assessments.length == 0">
@@ -166,7 +163,7 @@
                     </span>
                   </h5>
                   <div *ngFor="let assessment of assessments">
-                    <div class="assessment">
+                    <div class="assessment" *ngIf="!submitted">
                       <div class="d-flex justify-content-between">
                         <h5>{{ assessment.title }}</h5>
                         <div class="buttons">
@@ -187,7 +184,7 @@
                       <p>{{ assessment.description }}</p>
                       <hr class="mb-4" />
                     </div>
-                    <ng-container>
+                    <ng-container *ngIf="!submitted">
                       <div class="assessment-questions" *ngFor="
                                 let question of assessment.courseTaskAssessmentQuestions;
                                 let i = index
@@ -228,7 +225,7 @@
                         </ul>
                         <ng-container *ngFor="let data of submission">
                           <div *ngIf="
-                                    submitted &&
+                                    error &&
                                     !(
                                       data.id == question.id &&
                                       data.answer.trim() == question.answer.trim()
@@ -240,6 +237,10 @@
                           </div>
                         </ng-container>
                       </div>
+                      <button type="submit" class="btn btn-primary mt-2 mr-2"
+                        *ngIf="permission.assessment.submit && !error" (click)="validateAssessmentAnswer()">
+                        Submit
+                      </button>
                       <button type="submit" class="btn btn-outline-primary btn-sm" data-toggle="modal"
                         data-target="#assessmentQuestionModal" *ngIf="permission.question.create" (click)="
                                 setAssessmentQuestionFormType('create');
@@ -247,14 +248,20 @@
                               ">
                         Add Question
                       </button>
-                      <button type="submit" class="btn btn-primary mt-2 mr-2" *ngIf="permission.assessment.submit"
-                        (click)="validateAssessmentAnswer()">
-                        Submit
-                      </button>
-                      <button type="submit" class="btn btn-outline-primary mt-2" *ngIf="taskDetails.progress != '0'"
-                        (click)="retryAssessment()">
-                        Retry
-                      </button>
+                    </ng-container>
+                    <ng-container *ngIf="submitted">
+                      <div class="text-center mt-5">
+                        <span class="icon-holder icon-holder--outline-success rounded-circle d-inline-flex m-0">
+                          <i class="material-icons">emoji_events</i>
+                        </span>
+                        <div class="flex mt-3">
+                          <p class="text-70 mb-0"><strong>Result</strong></p>
+                          <h4>{{ taskDetails?.progress }}<small>%</small></h4>
+                        </div>
+                        <button type="submit" class="btn btn-outline-primary mt-2" (click)="retryAssessment()">
+                          Retry
+                        </button>
+                      </div>
                     </ng-container>
                   </div>
                 </div>
@@ -266,7 +273,8 @@
               <div class="card-body">
                 <div class="d-flex align-items-center justify-content-between">
                   <h6 class="mb-0">Have you completed this task?</h6>
-                  <button type="button" class="btn btn-outline-dark btn-sm" (click)="updateTaskProgress('100')">
+                  <button type="button" class="btn btn-outline-dark btn-sm"
+                    (click)="updateTaskProgress('100'); goToNextTask();">
                     Mark as Completed
                   </button>
                 </div>
