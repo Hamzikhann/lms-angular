@@ -5,6 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ApiService } from 'src/app/services/users/api.service';
 import { ConfigService } from 'src/app/config/config.service';
 import { AuthService } from 'src/app/services/auth/auth.service';
+import { Editor, Toolbar } from 'ngx-editor';
 
 declare var YT: any;
 
@@ -17,6 +18,9 @@ export class LectureComponent {
   ImgBaseURL: string = this.config.ImgBaseURL;
   VideoBaseURL: string = this.config.VideoBaseURL;
 
+  editorVideoTranscript: Editor = new Editor();
+  toolbar = this.config.toolbar;
+
   loggedInUser: any;
   permission: any = {
     assessment: {
@@ -24,6 +28,9 @@ export class LectureComponent {
       update: false,
       delete: false,
       submit: true,
+    },
+    videoTranscript: {
+      update: false,
     },
     question: {
       create: false,
@@ -65,6 +72,11 @@ export class LectureComponent {
   };
   questionFormType: string = '';
 
+  videoTranscript: any = {
+    id: '',
+    content: '',
+  };
+
   submission: any = [];
   submitted: boolean = false;
   error: boolean = false;
@@ -95,6 +107,9 @@ export class LectureComponent {
           update: true,
           delete: true,
           view: { answer: true },
+        },
+        videoTranscript: {
+          update: true,
         },
       };
     }
@@ -206,6 +221,7 @@ export class LectureComponent {
     }
     this.apiServices.postRequest(data).subscribe((response) => {
       this.taskDetails = response.data;
+      console.log(this.taskDetails);
       if (this.taskDetails?.courseTaskProgresses.length > 0) {
         this.taskDetails.progress =
           this.taskDetails?.courseTaskProgresses[0].percentage;
@@ -215,6 +231,34 @@ export class LectureComponent {
       }
       this.loading = false;
     });
+  }
+
+  updateVideoTranscript() {
+    var data: any = {
+      path: 'course/task/transcript/update',
+      payload: {
+        courseTaskId: this.taskId,
+        content: this.videoTranscript.content,
+      },
+    };
+    if (this.videoTranscript.id) {
+      data.payload.transcriptId = this.videoTranscript.id;
+    }
+    console.log(data);
+    this.apiServices.postRequest(data).subscribe((data) => {
+      if (this.closeModal) {
+        this.closeModal.nativeElement.click();
+      }
+      this.toastr.success('Transcript updated successfully!');
+      this.getTaskDetails();
+    });
+  }
+
+  setVideoTranscript(transcript: any) {
+    this.videoTranscript = {
+      id: transcript.id,
+      content: transcript.content,
+    };
   }
 
   getAssessments() {
@@ -429,9 +473,7 @@ export class LectureComponent {
       type: question.type,
     };
   }
-  setAssessmentQuestionFormType(name: any) {
-    this.questionFormType = name;
-  }
+
   resetAssessmentQuestionData() {
     this.questionFormType = 'create';
     this.question = {
@@ -441,6 +483,10 @@ export class LectureComponent {
       answer: '',
       type: '',
     };
+  }
+
+  setAssessmentQuestionFormType(name: any) {
+    this.questionFormType = name;
   }
 
   getSubmissions(event: any, questionId: string) {

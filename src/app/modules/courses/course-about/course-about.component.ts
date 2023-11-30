@@ -35,16 +35,10 @@ export class CourseAboutComponent {
 
   editorObjective: Editor = new Editor();
   editorInstructor: Editor = new Editor();
-  toolbar: Toolbar = [
-    ['bold', 'italic'],
-    ['underline'],
-    ['ordered_list', 'bullet_list'],
-    [{ heading: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'] }],
-    ['text_color', 'background_color'],
-    ['align_left', 'align_center', 'align_right', 'align_justify'],
-  ];
 
   ImgBaseURL: string = this.config.ImgBaseURL;
+
+  toolbar = this.config.toolbar;
 
   loading: boolean = false;
 
