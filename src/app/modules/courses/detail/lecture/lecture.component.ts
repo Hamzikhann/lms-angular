@@ -244,7 +244,6 @@ export class LectureComponent {
     if (this.videoTranscript.id) {
       data.payload.transcriptId = this.videoTranscript.id;
     }
-    console.log(data);
     this.apiServices.postRequest(data).subscribe((data) => {
       if (this.closeModal) {
         this.closeModal.nativeElement.click();
@@ -256,8 +255,8 @@ export class LectureComponent {
 
   setVideoTranscript(transcript: any) {
     this.videoTranscript = {
-      id: transcript.id,
-      content: transcript.content,
+      id: transcript.id || null,
+      content: transcript.content || null,
     };
   }
 
@@ -313,6 +312,8 @@ export class LectureComponent {
     this.apiServices.postRequest(data).subscribe((data) => {
       if (this.taskDetails.courseTaskType.title == 'Assessment') {
         this.getTaskDetails();
+      } else {
+        this.goToNextTask();
       }
       this.getModules();
     });
