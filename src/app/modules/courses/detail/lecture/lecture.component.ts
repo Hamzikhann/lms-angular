@@ -7,8 +7,6 @@ import { ConfigService } from 'src/app/config/config.service';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { Editor, Toolbar } from 'ngx-editor';
 
-declare var YT: any;
-
 @Component({
   selector: 'app-lecture',
   templateUrl: './lecture.component.html',
@@ -83,6 +81,10 @@ export class LectureComponent {
 
   loading: boolean = false;
 
+  passAssessment: boolean = false;
+
+  showError: boolean = false;
+
   constructor(
     private toastr: ToastrService,
     private authService: AuthService,
@@ -94,6 +96,11 @@ export class LectureComponent {
 
   @ViewChild('closeModal') closeModal: ElementRef | undefined;
   @ViewChild('questionModalBtnClose') questionModalBtnClose:
+    | ElementRef
+    | undefined;
+  @ViewChild('videoPlayer') videoPlayer: ElementRef | any;
+  @ViewChild('taskAssessmentModal') taskAssessmentModal: ElementRef | undefined;
+  @ViewChild('closeVideoAssessmentModal') closeVideoAssessmentModal:
     | ElementRef
     | undefined;
 
@@ -118,6 +125,8 @@ export class LectureComponent {
       this.courseId = params.id;
       this.getCourseDetails();
     });
+
+    this.checkPauseTime();
   }
 
   getCourseDetails() {
@@ -269,6 +278,7 @@ export class LectureComponent {
     };
     this.apiServices.postRequest(data).subscribe((response) => {
       this.assessments = response.data;
+      console.log(this.assessments);
       this.assessments.forEach((assignment: any) => {
         assignment.courseTaskAssessmentQuestions.forEach((question: any) => {
           var options = question.options.split(',');
@@ -548,6 +558,52 @@ export class LectureComponent {
     this.submitted = false;
     this.error = false;
     this.getAssessments();
+  }
+
+  checkPauseTime() {
+    this.videoPlayer?.nativeElement.addEventListener('timeupdate', () => {
+      if (
+        this.videoPlayer.nativeElement.currentTime >=
+          this.assessments[0].startTime * 60 &&
+        !this.videoPlayer.nativeElement.paused &&
+        !this.passAssessment &&
+        !this.showError
+      ) {
+        this.videoPlayer.nativeElement.pause();
+        this.taskAssessmentModal?.nativeElement.click();
+      }
+    });
+  }
+
+  validateVideoAssessmentAnswer() {
+    this.showError = false;
+
+    this.submission.forEach((questionSubmission: any) => {
+      this.assessments[0].courseTaskAssessmentQuestions.forEach(
+        (question: any) => {
+          if (questionSubmission.id == question.id) {
+            if (questionSubmission.answer.trim() == question.answer.trim()) {
+              questionSubmission.modalMessage = 'Correct';
+            } else {
+              questionSubmission.modalMessage = 'Incorrect';
+              this.passAssessment = false;
+              this.showError = true;
+            }
+          }
+        }
+      );
+    });
+
+    if (!this.showError) {
+      this.passAssessment = true;
+      this.closeVideoAssessmentModal?.nativeElement.click();
+      this.videoPlayer.nativeElement.play();
+    }
+  }
+
+  retryVideoAssessment() {
+    this.showError = false;
+    this.passAssessment = true;
   }
 
   // checkQuizTime() {
