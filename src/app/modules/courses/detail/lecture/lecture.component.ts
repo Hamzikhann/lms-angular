@@ -81,17 +81,9 @@ export class LectureComponent {
 
   loading: boolean = false;
 
-  quizDisplayed: boolean = false;
-  passQuiz: boolean = false;
+  passAssessment: boolean = false;
+
   showError: boolean = false;
-
-  selectedOption: string = '';
-
-  options = [
-    { label: '3', value: '3' },
-    { label: '4', value: '4' },
-    { label: '5', value: '5' },
-  ];
 
   constructor(
     private toastr: ToastrService,
@@ -574,13 +566,11 @@ export class LectureComponent {
         this.videoPlayer.nativeElement.currentTime >=
           this.assessments[0].startTime * 60 &&
         !this.videoPlayer.nativeElement.paused &&
-        !this.quizDisplayed &&
-        !this.passQuiz &&
+        !this.passAssessment &&
         !this.showError
       ) {
         this.videoPlayer.nativeElement.pause();
         this.taskAssessmentModal?.nativeElement.click();
-        this.quizDisplayed = true;
       }
     });
   }
@@ -594,11 +584,9 @@ export class LectureComponent {
           if (questionSubmission.id == question.id) {
             if (questionSubmission.answer.trim() == question.answer.trim()) {
               questionSubmission.modalMessage = 'Correct';
-              this.quizDisplayed = false;
             } else {
               questionSubmission.modalMessage = 'Incorrect';
-              this.quizDisplayed = false;
-              this.passQuiz = false;
+              this.passAssessment = false;
               this.showError = true;
             }
           }
@@ -607,7 +595,7 @@ export class LectureComponent {
     });
 
     if (!this.showError) {
-      this.passQuiz = true;
+      this.passAssessment = true;
       this.closeVideoAssessmentModal?.nativeElement.click();
       this.videoPlayer.nativeElement.play();
     }
@@ -615,7 +603,7 @@ export class LectureComponent {
 
   retryVideoAssessment() {
     this.showError = false;
-    this.passQuiz = true;
+    this.passAssessment = true;
   }
 
   // checkQuizTime() {
