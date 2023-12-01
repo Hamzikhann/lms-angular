@@ -45,13 +45,12 @@
                         ">
                         <strong>{{ item.courseTaskType.title }}:</strong>
                         {{ item.title }} <br />
-                        <div class="d-flex align-items-center justify-content-between"
-                          *ngIf="loggedInUser.role.title == 'User'">
+                        <div class="d-flex align-items-center justify-content-between">
                           <span class="text-muted">{{ item.estimatedTime }}
                           </span>
-                          <span class="text-muted" *ngIf="item.courseTaskType.title == 'Assessment'">
+                          <!-- <span class="text-muted" *ngIf="item.courseTaskType.title == 'Assessment' && loggedInUser.role.title == 'User'">
                             Result: {{ item.progress }}%
-                          </span>
+                          </span> -->
                         </div>
                       </a>
                     </div>

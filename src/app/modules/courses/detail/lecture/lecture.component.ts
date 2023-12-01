@@ -535,7 +535,7 @@ export class LectureComponent {
     }, 10000);
 
     var result = (questionsCorrect / questionsTotal) * 100;
-    this.toastr.success('Assessment submitted successfully!');
+    this.toastr.success('Assessment submitted!');
     this.updateTaskProgress(result);
 
     if (!this.error) {

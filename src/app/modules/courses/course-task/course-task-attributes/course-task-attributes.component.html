@@ -1,0 +1,38 @@
+<div class="page-attributes">
+  <div class="estimatedTime d-flex align-items-center justify-content-between">
+    <div class="d-flex align-items-center">
+      <div class="task-attribute mr-4">
+        <span class="icon-holder icon-holder--mini rounded-circle d-inline-flex icon--left">
+          <i class="material-icons icon-14pt text-dark">folder_open</i>
+        </span>
+        <span class="text-dark"><strong>Course Task Type</strong></span>
+      </div>
+      <div class="task-attribute mr-4">
+        <span class="icon-holder icon-holder--mini rounded-circle d-inline-flex icon--left">
+          <i class="material-icons icon-14pt text-dark">access_time</i>
+        </span>
+        <span class="text-dark"><strong>Estimated Time</strong></span>
+      </div>
+    </div>
+    <div *ngIf="loggedInUser.role.title == 'User'">
+      <ng-container *ngIf="taskDetails.progress == '0'">
+        <div class="task-attribute">
+          <span class="icon-holder icon-holder--mini rounded-circle d-inline-flex icon--left">
+            <i class="material-icons icon-14pt text-dark">info_outline</i>
+          </span>
+          <span class="text-dark"><strong>Inprogress</strong></span>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="taskDetails.progress != '0'">
+        <div class="d-flex align-items-center">
+          <div class="task-attribute">
+            <span class="icon-holder icon-holder--success icon-holder--mini rounded-circle d-inline-flex icon--left">
+              <i class="material-icons icon-14pt text-light">info_outline</i>
+            </span>
+            <span class="text-dark"><strong>Completed</strong></span>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</div>

@@ -5,6 +5,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { NgxEditorModule } from 'ngx-editor';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { YouTubePlayerModule } from '@angular/youtube-player';
+import { DataTablesModule } from 'angular-datatables';
+import { NgCircleProgressModule } from 'ng-circle-progress';
 
 import { CoursesComponent } from './courses.component';
 import { CourseCreateComponent } from './course-create/course-create.component';
@@ -16,10 +18,8 @@ import { CourseFaqsComponent } from './course-faqs/course-faqs.component';
 import { CourseTocComponent } from './course-toc/course-toc.component';
 import { CourseAboutComponent } from './course-about/course-about.component';
 import { CourseUpdateComponent } from './course-update/course-update.component';
-import { NgCircleProgressModule } from 'ng-circle-progress';
 import { CourseAchievementsComponent } from './course-achievements/course-achievements.component';
 import { CourseAssignmnetReportComponent } from './course-assignmnet-report/course-assignmnet-report.component';
-import { DataTablesModule } from 'angular-datatables';
 
 const routes: Routes = [
   {
