@@ -5,13 +5,13 @@
         <span class="icon-holder icon-holder--mini rounded-circle d-inline-flex icon--left">
           <i class="material-icons icon-14pt text-dark">folder_open</i>
         </span>
-        <span class="text-dark"><strong>Course Task Type</strong></span>
+        <span class="text-dark"><strong>{{ taskDetails.courseTaskType.title }}</strong></span>
       </div>
       <div class="task-attribute mr-4">
         <span class="icon-holder icon-holder--mini rounded-circle d-inline-flex icon--left">
           <i class="material-icons icon-14pt text-dark">access_time</i>
         </span>
-        <span class="text-dark"><strong>Estimated Time</strong></span>
+        <span class="text-dark"><strong>{{ taskDetails.estimatedTime }}</strong></span>
       </div>
     </div>
     <div *ngIf="loggedInUser.role.title == 'User'">

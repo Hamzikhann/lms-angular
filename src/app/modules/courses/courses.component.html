@@ -54,7 +54,7 @@
                 <a *ngIf="loggedInUser.role.title == 'Client'" [routerLink]="[
                     'courseAssignmentReport',
                     course.courseAssignments[0].id
-                  ]" class="btn btn-success btn-sm">View Report</a>
+                  ]" class="btn btn-dark btn-sm">View Report</a>
 
                 <a [routerLink]="['update', course.id]" *ngIf="permission.update">
                   <i class="material-icons fa-lg mr-2">edit</i></a>

@@ -234,7 +234,7 @@ export class LectureComponent {
       if (this.taskDetails?.courseTaskProgresses.length > 0) {
         this.taskDetails.progress =
           this.taskDetails?.courseTaskProgresses[0].percentage;
-        this.submitted = true;
+        // this.submitted = true;
       } else {
         this.taskDetails.progress = '0';
       }
@@ -546,7 +546,10 @@ export class LectureComponent {
 
     var result = (questionsCorrect / questionsTotal) * 100;
     this.toastr.success('Assessment submitted!');
-    this.updateTaskProgress(result);
+
+    if (this.loggedInUser.role.title == 'User') {
+      this.updateTaskProgress(result);
+    }
 
     if (!this.error) {
       this.goToNextTask();
@@ -562,7 +565,10 @@ export class LectureComponent {
 
   checkPauseTime() {
     this.videoPlayer?.nativeElement.addEventListener('timeupdate', () => {
+      // console.log(this.videoPlayer.nativeElement);
+      // console.log(this.assessments);
       if (
+        this.assessments.length > 0 &&
         this.videoPlayer.nativeElement.currentTime >=
           this.assessments[0].startTime * 60 &&
         !this.videoPlayer.nativeElement.paused &&
