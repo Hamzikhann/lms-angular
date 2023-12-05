@@ -12,10 +12,11 @@ import { AuthService } from 'src/app/services/auth/auth.service';
   styleUrls: ['./course-assignmnet-report.component.css'],
 })
 export class CourseAssignmnetReportComponent {
-  courseAssignmentId: any;
-  courseAssignmentReport: any;
-
   loading: boolean = false;
+
+  courseAssignmentId: any;
+  courseDetail: any;
+  courseEnrollments: any;
 
   dtOptions: any = {
     aaSorting: [],
@@ -38,8 +39,6 @@ export class CourseAssignmnetReportComponent {
 
   getCourseAssignmentReport() {
     this.loading = true;
-    this.courseAssignmentReport = [];
-
     const data = {
       path: 'course/assignment/report',
       payload: {
@@ -47,9 +46,10 @@ export class CourseAssignmnetReportComponent {
       },
     };
     this.apiServices.postRequest(data).subscribe((response) => {
-      this.courseAssignmentReport = response.data;
+      this.courseDetail = response.data.courseDetail;
+      this.courseEnrollments = response.data.courseEnrollments;
       this.loading = false;
-      console.log(this.courseAssignmentReport);
+      console.log(this.courseDetail);
     });
   }
 }
