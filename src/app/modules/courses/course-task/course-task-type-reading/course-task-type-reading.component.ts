@@ -25,6 +25,11 @@ export class CourseTaskTypeReadingComponent {
   taskDetails: any;
   enrollmentId: string = '';
 
+  syllabus: any = {
+    id: '',
+    title: '',
+  };
+
   submission: any = [];
   submitted: boolean = false;
   error: boolean = false;
@@ -41,11 +46,48 @@ export class CourseTaskTypeReadingComponent {
   ) {}
 
   ngOnInit(): void {
+    this.loggedInUser = JSON.parse(this.authService.getUser());
+
     this.route.parent?.params.subscribe((params: any) => {
       this.courseId = params.id;
+      this.getCourseDetails();
     });
+  }
 
-    this.getTaskDetails();
+  getCourseDetails() {
+    const data = {
+      path: 'courses/detail',
+      payload: {
+        courseId: this.courseId,
+      },
+    };
+
+    this.apiServices.postRequest(data).subscribe((response) => {
+      this.courseDetails = response;
+      this.syllabus = {
+        id: this.courseDetails.courseSyllabus?.id,
+        title: this.courseDetails.courseSyllabus?.title,
+      };
+      this.getEnrollmentDetails();
+    });
+  }
+
+  getEnrollmentDetails() {
+    const data = {
+      path: 'course/tasks/enrollment',
+      payload: {
+        courseId: this.courseId,
+      },
+    };
+    this.apiServices.postRequest(data).subscribe((response) => {
+      this.enrollmentId = response.data?.id;
+      // this.getModules();
+
+      this.route.paramMap.subscribe((data: any) => {
+        this.taskId = data.params.taskId;
+        this.getTaskDetails();
+      });
+    });
   }
 
   getTaskDetails() {

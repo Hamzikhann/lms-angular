@@ -25,9 +25,34 @@ export class CourseTaskTypeVideoComponent {
   taskDetails: any;
   enrollmentId: string = '';
 
+  assessments: any = [];
+  assessment: any = {
+    id: '',
+    title: '',
+    description: '',
+    estimatedTime: '',
+    startTime: '',
+  };
+
+  question: any = {
+    id: '',
+    title: '',
+    options: '',
+    answer: '',
+    type: '',
+  };
+
+  syllabus: any = {
+    id: '',
+    title: '',
+  };
+
   submission: any = [];
   submitted: boolean = false;
-  error: boolean = false;
+
+  passAssessment: boolean = false;
+
+  showError: boolean = false;
 
   loading: boolean = false;
 
@@ -39,12 +64,54 @@ export class CourseTaskTypeVideoComponent {
     private config: ConfigService,
     private router: Router
   ) {}
+  @ViewChild('videoPlayer') videoPlayer: ElementRef | any;
+  @ViewChild('taskAssessmentModal') taskAssessmentModal: ElementRef | undefined;
+  @ViewChild('closeVideoAssessmentModal') closeVideoAssessmentModal:
+    | ElementRef
+    | undefined;
 
   ngOnInit(): void {
     this.loggedInUser = JSON.parse(this.authService.getUser());
 
     this.route.parent?.params.subscribe((params: any) => {
       this.courseId = params.id;
+      this.getCourseDetails();
+    });
+    console.log(this.taskId);
+  }
+
+  getCourseDetails() {
+    const data = {
+      path: 'courses/detail',
+      payload: {
+        courseId: this.courseId,
+      },
+    };
+
+    this.apiServices.postRequest(data).subscribe((response) => {
+      this.courseDetails = response;
+      this.syllabus = {
+        id: this.courseDetails.courseSyllabus?.id,
+        title: this.courseDetails.courseSyllabus?.title,
+      };
+      this.getEnrollmentDetails();
+    });
+  }
+
+  getEnrollmentDetails() {
+    const data = {
+      path: 'course/tasks/enrollment',
+      payload: {
+        courseId: this.courseId,
+      },
+    };
+    this.apiServices.postRequest(data).subscribe((response) => {
+      this.enrollmentId = response.data?.id;
+
+      this.route.paramMap.subscribe((data: any) => {
+        this.taskId = data.params.taskId;
+        this.getTaskDetails();
+      });
     });
   }
 
@@ -73,5 +140,112 @@ export class CourseTaskTypeVideoComponent {
       }
       this.loading = false;
     });
+  }
+
+  getAssessments() {
+    const data = {
+      path: 'course/task/assessments/list ',
+      payload: {
+        courseTaskId: this.taskId,
+      },
+    };
+    this.apiServices.postRequest(data).subscribe((response) => {
+      this.assessments = response.data;
+      console.log(this.assessments);
+      this.assessments.forEach((assignment: any) => {
+        assignment.courseTaskAssessmentQuestions.forEach((question: any) => {
+          var options = question.options.split(',');
+          question.options = this.shuffleAssessmentOptions(options);
+        });
+      });
+    });
+  }
+
+  shuffleAssessmentOptions(array: any) {
+    let currentIndex = array.length,
+      randomIndex;
+
+    // While there remain elements to shuffle.
+    while (currentIndex > 0) {
+      // Pick a remaining element.
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex--;
+
+      // And swap it with the current element.
+      [array[currentIndex], array[randomIndex]] = [
+        array[randomIndex],
+        array[currentIndex],
+      ];
+    }
+
+    return array;
+  }
+
+  getSubmissions(event: any, questionId: string) {
+    var updated = false;
+    var value = event.target.value;
+
+    this.submission.forEach((question: any) => {
+      if (question.id == questionId) {
+        question.answer = value.trim();
+        updated = true;
+      }
+    });
+
+    if (!updated) {
+      this.submission.push({
+        id: questionId,
+        answer: value.trim(),
+      });
+    }
+  }
+
+  checkPauseTime() {
+    this.videoPlayer?.nativeElement.addEventListener('timeupdate', () => {
+      // console.log(this.videoPlayer.nativeElement);
+      // console.log(this.assessments);
+      if (
+        this.assessments.length > 0 &&
+        this.videoPlayer.nativeElement.currentTime >=
+          this.assessments[0].startTime * 60 &&
+        !this.videoPlayer.nativeElement.paused &&
+        !this.passAssessment &&
+        !this.showError
+      ) {
+        this.videoPlayer.nativeElement.pause();
+        this.taskAssessmentModal?.nativeElement.click();
+      }
+    });
+  }
+
+  validateVideoAssessmentAnswer() {
+    this.showError = false;
+
+    this.submission.forEach((questionSubmission: any) => {
+      this.assessments[0].courseTaskAssessmentQuestions.forEach(
+        (question: any) => {
+          if (questionSubmission.id == question.id) {
+            if (questionSubmission.answer.trim() == question.answer.trim()) {
+              questionSubmission.modalMessage = 'Correct';
+            } else {
+              questionSubmission.modalMessage = 'Incorrect';
+              this.passAssessment = false;
+              this.showError = true;
+            }
+          }
+        }
+      );
+    });
+
+    if (!this.showError) {
+      this.passAssessment = true;
+      this.closeVideoAssessmentModal?.nativeElement.click();
+      this.videoPlayer.nativeElement.play();
+    }
+  }
+
+  retryVideoAssessment() {
+    this.showError = false;
+    this.passAssessment = true;
   }
 }

@@ -242,6 +242,33 @@ export class LectureComponent {
     });
   }
 
+  updateVideoTranscript() {
+    var data: any = {
+      path: 'course/task/transcript/update',
+      payload: {
+        courseTaskId: this.taskId,
+        content: this.videoTranscript.content,
+      },
+    };
+    if (this.videoTranscript.id) {
+      data.payload.transcriptId = this.videoTranscript.id;
+    }
+    this.apiServices.postRequest(data).subscribe((data) => {
+      if (this.closeModal) {
+        this.closeModal.nativeElement.click();
+      }
+      this.toastr.success('Transcript updated successfully!');
+      this.getTaskDetails();
+    });
+  }
+
+  setVideoTranscript(transcript: any) {
+    this.videoTranscript = {
+      id: transcript.id || null,
+      content: transcript.content || null,
+    };
+  }
+
   getAssessments() {
     const data = {
       path: 'course/task/assessments/list ',
@@ -281,6 +308,198 @@ export class LectureComponent {
     return array;
   }
 
+  updateTaskProgress(percentage: any) {
+    const data = {
+      path: 'course/tasks/progress',
+      payload: {
+        currentTime: '',
+        percentage: percentage.toString(),
+        courseId: this.courseId,
+        courseTaskId: this.taskId,
+        courseEnrollmentId: this.enrollmentId,
+      },
+    };
+    this.apiServices.postRequest(data).subscribe((data) => {
+      if (this.taskDetails.courseTaskType.title == 'Assessment') {
+        this.getTaskDetails();
+      } else {
+        this.goToNextTask();
+      }
+      this.getModules();
+    });
+  }
+
+  goToNextTask() {
+    if (this.taskIdNext) {
+      this.router.navigate([
+        '/courses',
+        this.courseId,
+        'task',
+        this.taskIdNext,
+      ]);
+    } else {
+      this.router.navigate(['/courses', this.courseId, 'achievements']);
+    }
+  }
+
+  createAssessment() {
+    const data = {
+      path: 'course/task/assessments/create ',
+      payload: {
+        courseTaskId: this.taskId,
+        title: this.assessment.title,
+        description: this.assessment.description,
+        estimatedTime: this.assessment.estimatedTime,
+        startTime: this.assessment.startTime,
+        questions: [],
+      },
+    };
+    this.apiServices.postRequest(data).subscribe((data) => {
+      if (this.closeModal) {
+        this.closeModal.nativeElement.click();
+      }
+      this.toastr.success('Assessment added successfully!');
+      this.getAssessments();
+    });
+  }
+  updateAssessment() {
+    const data = {
+      path: 'course/task/assessments/update',
+      payload: {
+        courseTaskAssessmentId: this.assessment.id,
+        title: this.assessment.title,
+        description: this.assessment.description,
+        estimatedTime: this.assessment.estimatedTime,
+        startTime: this.assessment.startTime,
+      },
+    };
+    this.apiServices.postRequest(data).subscribe((data) => {
+      if (this.closeModal) {
+        this.closeModal.nativeElement.click();
+      }
+      this.toastr.success('Assessment updated successfully!');
+      this.getAssessments();
+    });
+  }
+  deleteAssessment() {
+    const data = {
+      path: 'course/task/assessments/delete',
+      payload: {
+        courseTaskAssessmentId: this.assessment.id,
+      },
+    };
+    this.apiServices.postRequest(data).subscribe((data) => {
+      if (this.closeModal) {
+        this.closeModal.nativeElement.click();
+      }
+      this.toastr.success('Assessment deleted successfully!');
+      this.getAssessments();
+    });
+  }
+  setAssessment(assessment: any) {
+    this.assessment = {
+      id: assessment.id,
+      title: assessment.title,
+      estimatedTime: assessment.estimatedTime,
+      description: assessment.description,
+      startTime: assessment.startTime,
+    };
+  }
+  setAssessmentFormType(name: any) {
+    this.assessmentFormType = name;
+  }
+  resetAssessmentData() {
+    this.assessmentFormType = 'create';
+    this.assessment = {
+      id: '',
+      title: '',
+      description: '',
+      estimatedTime: '',
+      startTime: '',
+    };
+  }
+
+  createAssessmentQuestion() {
+    const data = {
+      path: 'course/task/assessments/question/create ',
+      payload: {
+        courseTaskAssessmentId: this.assessment.id,
+        title: this.question.title,
+        options: this.question.options,
+        answer: this.question.answer,
+        type: 'MCQ',
+      },
+    };
+    this.apiServices.postRequest(data).subscribe((data) => {
+      if (this.questionModalBtnClose) {
+        this.questionModalBtnClose.nativeElement.click();
+      }
+      this.toastr.success('Question added successfully!');
+      this.resetAssessmentQuestionData();
+      this.getAssessments();
+    });
+  }
+  updateAssessmentQuestion() {
+    const data = {
+      path: 'course/task/assessments/question/update',
+      payload: {
+        courseTaskAssessmentQuestionId: this.question.id,
+        title: this.question.title,
+        options: this.question.options,
+        answer: this.question.answer,
+        type: this.question.type,
+      },
+    };
+    this.apiServices.postRequest(data).subscribe((data) => {
+      if (this.questionModalBtnClose) {
+        this.questionModalBtnClose.nativeElement.click();
+      }
+      this.toastr.success('Question updated successfully!');
+      this.resetAssessmentQuestionData();
+      this.getAssessments();
+    });
+  }
+  deleteAssessmentQuestion() {
+    const data = {
+      path: 'course/task/assessments/question/delete',
+      payload: {
+        courseTaskAssessmentQuestionId: this.question.id,
+      },
+    };
+    this.apiServices.postRequest(data).subscribe((data) => {
+      if (this.questionModalBtnClose) {
+        this.questionModalBtnClose.nativeElement.click();
+      }
+      this.toastr.success('Question deleted successfully!');
+      this.resetAssessmentQuestionData();
+      this.getAssessments();
+    });
+  }
+  setAssessmentQuestion(question: any) {
+    this.question = {
+      id: question.id,
+      title: question.title,
+      options: question.options,
+      answer: question.answer,
+      type: question.type,
+    };
+  }
+
+  resetAssessmentQuestionData() {
+    this.questionFormType = 'create';
+    this.question = {
+      id: '',
+      title: '',
+      options: '',
+      answer: '',
+      type: '',
+    };
+  }
+
+  setAssessmentQuestionFormType(name: any) {
+    this.questionFormType = name;
+  }
+
   getSubmissions(event: any, questionId: string) {
     var updated = false;
     var value = event.target.value;
@@ -298,6 +517,50 @@ export class LectureComponent {
         answer: value.trim(),
       });
     }
+  }
+
+  validateAssessmentAnswer() {
+    this.error = false;
+    var questionsTotal =
+      this.assessments[0].courseTaskAssessmentQuestions.length;
+    var questionsCorrect = 0;
+
+    this.submission.forEach((questionSubmission: any) => {
+      this.assessments[0].courseTaskAssessmentQuestions.forEach(
+        (question: any) => {
+          if (questionSubmission.id == question.id) {
+            if (questionSubmission.answer.trim() == question.answer.trim()) {
+              questionSubmission.message = 'Correct';
+              questionsCorrect++;
+            } else {
+              questionSubmission.message = 'Incorrect';
+              this.error = true;
+            }
+          }
+        }
+      );
+    });
+    setTimeout(() => {
+      this.submitted = true;
+    }, 10000);
+
+    var result = (questionsCorrect / questionsTotal) * 100;
+    this.toastr.success('Assessment submitted!');
+
+    if (this.loggedInUser.role.title == 'User') {
+      this.updateTaskProgress(result);
+    }
+
+    if (!this.error) {
+      this.goToNextTask();
+      this.submitted = false;
+    }
+  }
+
+  retryAssessment() {
+    this.submitted = false;
+    this.error = false;
+    this.getAssessments();
   }
 
   checkPauseTime() {

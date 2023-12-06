@@ -1,8 +1,128 @@
-<div class="video">
-  <video #videoElement controls style="width: 100%">
+<div class="video" *ngIf="taskDetails">
+  <video
+    #videoPlayer
+    controls
+    (timeupdate)="checkPauseTime()"
+    style="width: 100%"
+  >
     <source
-      type="video/mp4"
       [src]="VideoBaseURL + taskDetails.courseTaskContent.videoLink"
+      type="video/mp4"
     />
   </video>
+</div>
+<button
+  data-target="#videoAssessmentModal"
+  data-toggle="modal"
+  #taskAssessmentModal
+  style="visibility: hidden"
+>
+  Show assessment
+</button>
+<div
+  class="modal"
+  id="videoAssessmentModal"
+  tabindex="-1"
+  role="dialog"
+  data-backdrop="static"
+  data-keyboard="false"
+>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Assessment</h5>
+        <span
+          data-dismiss="modal"
+          #closeVideoAssessmentModal
+          style="visibility: hidden"
+        >
+          Close assessment
+        </span>
+      </div>
+      <div class="modal-body">
+        <div class="assessment-container">
+          <div *ngFor="let assessment of assessments">
+            <div class="assessment">
+              <div class="d-flex justify-content-between">
+                <h5>{{ assessment.title }}</h5>
+              </div>
+              <p>{{ assessment.description }}</p>
+              <hr class="mb-4" />
+            </div>
+            <ng-container>
+              <div
+                class="assessment-questions"
+                *ngFor="
+                  let question of assessment.courseTaskAssessmentQuestions;
+                  let i = index
+                "
+              >
+                <div class="d-flex justify-content-between">
+                  <p>
+                    <strong>{{ i + 1 }}. {{ question.title }}</strong>
+                  </p>
+                </div>
+                <ul class="pl-2" style="list-style: none">
+                  <li *ngFor="let option of question.options; let y = index">
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="radio"
+                        [name]="question.id"
+                        [id]="'option-' + i + y"
+                        [value]="option"
+                        [disabled]="submitted"
+                        (change)="getSubmissions($event, question.id)"
+                      />
+                      <label
+                        class="form-check-label fw-400"
+                        [for]="'option-' + i + y"
+                        style="color: #303840"
+                      >
+                        {{ option }}</label
+                      >
+                    </div>
+                  </li>
+                </ul>
+                <ng-container *ngFor="let data of submission">
+                  <div
+                    *ngIf="
+                      showError &&
+                      !(
+                        data.id == question.id &&
+                        data.answer.trim() == question.answer.trim()
+                      )
+                    "
+                  >
+                    <div
+                      class="badge badge-danger mb-4 ml-2"
+                      *ngIf="data.id == question.id"
+                    >
+                      Incorrect Answer
+                    </div>
+                  </div>
+                </ng-container>
+              </div>
+              <button
+                *ngIf="!showError"
+                type="submit"
+                class="btn btn-primary mt-2 mr-2"
+                (click)="validateVideoAssessmentAnswer()"
+              >
+                Submit
+              </button>
+              <button
+                *ngIf="showError"
+                type="submit"
+                class="btn btn-outline-primary mt-2"
+                (click)="retryVideoAssessment()"
+              >
+                Retry
+              </button>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

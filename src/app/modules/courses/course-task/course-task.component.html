@@ -1,4 +1,7 @@
-<div class="container page__container" *ngIf="taskDetails && taskDetails.courseTaskContent">
+<div
+  class="container page__container"
+  *ngIf="taskDetails && taskDetails.courseTaskContent"
+>
   <div class="row">
     <div class="col-lg-4 col-sm-12">
       <div class="page-separator mb-32pt">
@@ -6,7 +9,10 @@
           {{ syllabus.title }}
         </div>
       </div>
-      <div class="accordion js-accordion accordion--boxed list-group-flush" id="parent">
+      <div
+        class="accordion js-accordion accordion--boxed list-group-flush"
+        id="parent"
+      >
         <ng-container *ngFor="let module of modules">
           <div class="row">
             <div class="col-12">
@@ -14,39 +20,68 @@
                 <div class="accordion__toggle collapsed">
                   <span class="flex">{{ module.title }}</span>
                 </div>
-                <div class="accordion__menu collapse show" [id]="'course-toc-' + module.id" data-parent="#parent">
+                <div
+                  class="accordion__menu collapse show"
+                  [id]="'course-toc-' + module.id"
+                  data-parent="#parent"
+                >
                   <ng-container *ngFor="let item of module.courseTasks">
-                    <div class="accordion__menu-link" [class.active]="!item.disabled"
-                      [class.current]="item.id == taskId">
-                      <span class="icon-holder icon-holder--mini rounded-circle d-inline-flex icon--left"
-                        [class.text-muted]="item.disabled" [class.icon-holder--light]="item.progress == '0'"
-                        [class.icon-holder--success]="item.progress != '0'">
+                    <div
+                      class="accordion__menu-link"
+                      [class.active]="!item.disabled"
+                      [class.current]="item.id == taskId"
+                    >
+                      <span
+                        class="icon-holder icon-holder--mini rounded-circle d-inline-flex icon--left"
+                        [class.text-muted]="item.disabled"
+                        [class.icon-holder--light]="item.progress == '0'"
+                        [class.icon-holder--success]="item.progress != '0'"
+                      >
                         <ng-container *ngIf="item.progress != '0'">
                           <i class="material-icons icon-12pt">check</i>
                         </ng-container>
                         <ng-container *ngIf="item.progress == '0'">
                           <i class="material-icons icon-14pt">
-                            <ng-container *ngIf="item.disabled && item.id != taskId">lock</ng-container>
+                            <ng-container
+                              *ngIf="item.disabled && item.id != taskId"
+                              >lock</ng-container
+                            >
                             <ng-container *ngIf="!item.disabled">
-                              <ng-container *ngIf="
+                              <ng-container
+                                *ngIf="
                                   item.courseTaskType.title == 'Assessment'
-                                ">storage</ng-container>
-                              <ng-container *ngIf="item.courseTaskType.title == 'Reading'">description</ng-container>
-                              <ng-container *ngIf="item.courseTaskType.title == 'Video'">play_arrow</ng-container>
+                                "
+                                >storage</ng-container
+                              >
+                              <ng-container
+                                *ngIf="item.courseTaskType.title == 'Reading'"
+                                >description</ng-container
+                              >
+                              <ng-container
+                                *ngIf="item.courseTaskType.title == 'Video'"
+                                >play_arrow</ng-container
+                              >
                             </ng-container>
                           </i>
                         </ng-container>
                       </span>
-                      <a class="flex" [class.disabled]="item.id != taskId && item.disabled"
-                        [class.text-muted]="item.id != taskId && item.disabled" [routerLink]="
+                      <a
+                        class="flex"
+                        [class.disabled]="item.id != taskId && item.disabled"
+                        [class.text-muted]="item.id != taskId && item.disabled"
+                        [routerLink]="
                           !item.disabled
                             ? ['/courses', courseId, 'task', item.id]
                             : []
-                        ">
+                        "
+                      >
                         <strong>{{ item.courseTaskType.title }}:</strong>
                         {{ item.title }} <br />
-                        <div class="d-flex align-items-center justify-content-between">
-                          <span class="text-muted">{{ item.estimatedTime }}
+                        <div
+                          class="d-flex align-items-center justify-content-between"
+                        >
+                          <span class="text-muted"
+                            >{{ item.estimatedTime }}
                           </span>
                           <!-- <span class="text-muted" *ngIf="item.courseTaskType.title == 'Assessment' && loggedInUser.role.title == 'User'">
                             Result: {{ item.progress }}%
@@ -64,9 +99,7 @@
     </div>
     <div class="col-lg-8 col-sm-12">
       <div class="page-separator mb-32pt">
-        <div class="page-separator__text">
-          Task Title
-        </div>
+        <div class="page-separator__text">Task Title</div>
       </div>
       <div class="page-task">
         <ng-container *ngIf="!loading">
@@ -82,7 +115,6 @@
           <ng-container *ngIf="taskDetails.courseTaskType.title == 'Video'">
             <div class="card card-brt-0">
               <div class="card-body">
-
                 <!--
                   Task i.e Video
                  -->
@@ -99,33 +131,40 @@
           <!--
             Task i.e Reading
            -->
-          <app-course-task-type-reading *ngIf="taskDetails.courseTaskType.title == 'Reading'"></app-course-task-type-reading>
+          <app-course-task-type-reading
+            *ngIf="taskDetails.courseTaskType.title == 'Reading'"
+          ></app-course-task-type-reading>
 
           <!--
             Task i.e Assessment
            -->
-          <app-course-task-type-assessment *ngIf="
-            taskDetails.courseTaskType.title == 'Assessment' ||
-            (taskDetails.courseTaskType.title == 'Video' &&
-              loggedInUser.role.title == 'Administrator')
-          "></app-course-task-type-assessment>
+          <app-course-task-type-assessment
+            *ngIf="
+              taskDetails.courseTaskType.title == 'Assessment' ||
+              (taskDetails.courseTaskType.title == 'Video' &&
+                loggedInUser.role.title == 'Administrator')
+            "
+          ></app-course-task-type-assessment>
 
           <!--
             Task i.e Mark as Complete
            -->
-          <app-course-task-mark-complete *ngIf="
-            loggedInUser.role.title == 'User' &&
-            taskDetails.courseTaskType.title != 'Assessment'
-          "></app-course-task-mark-complete>
+          <app-course-task-mark-complete
+            *ngIf="
+              loggedInUser.role.title == 'User' &&
+              taskDetails.courseTaskType.title != 'Assessment'
+            "
+          ></app-course-task-mark-complete>
 
           <!--
             Task Description
            -->
-          <app-course-task-description *ngIf="
-            taskDetails.courseTaskType.title != 'Reading' &&
-            taskDetails.courseTaskContent.description.trim() != ''
-          "></app-course-task-description>
-
+          <app-course-task-description
+            *ngIf="
+              taskDetails.courseTaskType.title != 'Reading' &&
+              taskDetails.courseTaskContent.description.trim() != ''
+            "
+          ></app-course-task-description>
         </ng-container>
       </div>
 
@@ -137,4 +176,9 @@
   </div>
 </div>
 
-<button #questionModalBtn data-toggle="modal" data-target="#questionModal" style="display: none"></button>
+<button
+  #questionModalBtn
+  data-toggle="modal"
+  data-target="#questionModal"
+  style="display: none"
+></button>

@@ -24,6 +24,11 @@ export class CourseTaskDescriptionComponent {
 
   loading: boolean = false;
 
+  syllabus: any = {
+    id: '',
+    title: '',
+  };
+
   constructor(
     private authService: AuthService,
     private apiServices: ApiService,
@@ -34,8 +39,46 @@ export class CourseTaskDescriptionComponent {
 
   ngOnInit(): void {
     this.loggedInUser = JSON.parse(this.authService.getUser());
+    this.route.parent?.params.subscribe((params: any) => {
+      this.courseId = params.id;
+      this.getCourseDetails();
+    });
+  }
 
-    this.taskDetails();
+  getCourseDetails() {
+    const data = {
+      path: 'courses/detail',
+      payload: {
+        courseId: this.courseId,
+      },
+    };
+
+    this.apiServices.postRequest(data).subscribe((response) => {
+      this.courseDetails = response;
+      this.syllabus = {
+        id: this.courseDetails.courseSyllabus?.id,
+        title: this.courseDetails.courseSyllabus?.title,
+      };
+      this.getEnrollmentDetails();
+    });
+  }
+
+  getEnrollmentDetails() {
+    const data = {
+      path: 'course/tasks/enrollment',
+      payload: {
+        courseId: this.courseId,
+      },
+    };
+    this.apiServices.postRequest(data).subscribe((response) => {
+      this.enrollmentId = response.data?.id;
+      // this.getModules();
+
+      this.route.paramMap.subscribe((data: any) => {
+        this.taskId = data.params.taskId;
+        this.getTaskDetails();
+      });
+    });
   }
 
   getTaskDetails() {

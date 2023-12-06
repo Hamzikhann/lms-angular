@@ -20,6 +20,15 @@ import { CourseAboutComponent } from './course-about/course-about.component';
 import { CourseUpdateComponent } from './course-update/course-update.component';
 import { CourseAchievementsComponent } from './course-achievements/course-achievements.component';
 import { CourseAssignmnetReportComponent } from './course-assignmnet-report/course-assignmnet-report.component';
+import { CourseTaskComponent } from './course-task/course-task.component';
+import { CourseTaskAttributesComponent } from './course-task/course-task-attributes/course-task-attributes.component';
+import { CourseTaskDescriptionComponent } from './course-task/course-task-description/course-task-description.component';
+import { CourseTaskTranscriptComponent } from './course-task/course-task-transcript/course-task-transcript.component';
+import { CourseTaskTypeAssessmentComponent } from './course-task/course-task-type-assessment/course-task-type-assessment.component';
+import { CourseTaskTypeVideoComponent } from './course-task/course-task-type-video/course-task-type-video.component';
+import { CourseTaskTypeReadingComponent } from './course-task/course-task-type-reading/course-task-type-reading.component';
+import { CourseTaskNavigationComponent } from './course-task/course-task-navigation/course-task-navigation.component';
+import { CourseTaskMarkCompleteComponent } from './course-task/course-task-mark-complete/course-task-mark-complete.component';
 
 const routes: Routes = [
   {
@@ -73,6 +82,10 @@ const routes: Routes = [
             path: 'task/:taskId',
             component: LectureComponent,
           },
+          {
+            path: 'task/new/:taskId',
+            component: CourseTaskComponent,
+          },
         ],
       },
     ],
@@ -92,6 +105,15 @@ const routes: Routes = [
     CourseUpdateComponent,
     CourseAchievementsComponent,
     CourseAssignmnetReportComponent,
+    CourseTaskComponent,
+    CourseTaskAttributesComponent,
+    CourseTaskDescriptionComponent,
+    CourseTaskTranscriptComponent,
+    CourseTaskTypeAssessmentComponent,
+    CourseTaskTypeVideoComponent,
+    CourseTaskTypeReadingComponent,
+    CourseTaskNavigationComponent,
+    CourseTaskMarkCompleteComponent,
   ],
   imports: [
     CommonModule,
