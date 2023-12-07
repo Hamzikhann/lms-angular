@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject } from 'rxjs';
-import { ConfigService } from '../../config/config.service';
+import { Router } from '@angular/router';
+
 import { ApiService } from '../users/api.service';
 import { AuthService } from '../auth/auth.service';
 
@@ -20,20 +20,24 @@ export class CourseTaskService {
 
   taskId: any = '';
   taskDetails: any;
-  taskIdPrevious: string = '';
-  taskIdNext: string = '';
+  taskIdPrevious: any = '';
+  taskIdNext: any = '';
   taskTodo: string = '';
 
   assessments: any;
 
   constructor(
     private apiServices: ApiService,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router
   ) {
     this.loggedInUser = JSON.parse(this.authService.getUser());
 
-    this.modules = new BehaviorSubject<any>([]);
+    this.taskId = new BehaviorSubject<any>('');
+    this.taskIdPrevious = new BehaviorSubject<any>('');
+    this.taskIdNext = new BehaviorSubject<any>('');
     this.taskDetails = new BehaviorSubject<any>(null);
+    this.modules = new BehaviorSubject<any>([]);
     this.assessments = new BehaviorSubject<any>([]);
   }
 
@@ -41,7 +45,6 @@ export class CourseTaskService {
     this.courseId = id;
     this.courseDetails = data;
   }
-
   getCourseId() {
     return this.courseId;
   }
@@ -49,7 +52,7 @@ export class CourseTaskService {
     return this.courseDetails;
   }
 
-  setEnrollment(id: string) {
+  setEnrollmentId(id: string) {
     this.enrollmentId = id;
   }
   getEnrollmentId() {
@@ -57,10 +60,10 @@ export class CourseTaskService {
   }
 
   setTaskId(id: any) {
-    this.taskId = id;
+    this.taskId.next(id);
   }
   getTaskId() {
-    return this.taskId;
+    return this.taskId.asObservable();
   }
   setTaskDetails(data: any) {
     this.taskDetails.next(data);
@@ -69,22 +72,44 @@ export class CourseTaskService {
     return this.taskDetails.asObservable();
   }
   setTaskIdPrevious(id: string) {
-    this.taskIdPrevious = id;
+    this.taskIdPrevious.next(id);
   }
   getTaskIdPrevious() {
-    return this.taskIdPrevious;
+    return this.taskIdPrevious.asObservable();
   }
   setTaskIdNext(id: string) {
-    this.taskIdNext = id;
+    this.taskIdNext.next(id);
   }
   getTaskIdNext() {
-    return this.taskIdNext;
+    return this.taskIdNext.asObservable();
   }
-  callTaskDetailsAPI() {
+  setPreviousNextTaskIds(currentTaskId: string) {
+    const tasks: any = [];
+
+    this.getModules().subscribe((data: any) => {
+      const modules = data;
+      modules.forEach((module: any) => {
+        module.courseTasks.forEach((task: any, key: any) => {
+          tasks.push(task);
+        });
+      });
+
+      tasks.forEach((task: any, key: any) => {
+        if (task.id == currentTaskId) {
+          const taskPreviousId = tasks[key - 1] ? tasks[key - 1].id : 0;
+          this.setTaskIdPrevious(taskPreviousId);
+
+          const taskNextId = tasks[key + 1] ? tasks[key + 1].id : 0;
+          this.setTaskIdNext(taskNextId);
+        }
+      });
+    });
+  }
+  callTaskDetailsAPI(currentTaskId: string) {
     var data: any = {
       path: 'course/tasks/detail',
       payload: {
-        courseTaskId: this.taskId,
+        courseTaskId: currentTaskId,
       },
     };
     if (this.loggedInUser.role.title == 'User') {
@@ -100,6 +125,7 @@ export class CourseTaskService {
       }
 
       this.setTaskDetails(taskData);
+      this.setPreviousNextTaskIds(currentTaskId);
     });
   }
 
@@ -135,23 +161,12 @@ export class CourseTaskService {
       this.setModule(modulesData);
 
       var taskTodo: any = tasks.length ? tasks[0] : null;
-
       tasks.forEach((task: any, key: any) => {
         task.index = key;
-
-        if (task.id == this.taskId) {
-          const taskPreviousId = tasks[key - 1] ? tasks[key - 1].id : 0;
-          this.setTaskIdPrevious(taskPreviousId);
-
-          const taskNextId = tasks[key + 1] ? tasks[key + 1].id : 0;
-          this.setTaskIdNext(taskNextId);
-        }
-
         if (task.progress != '0') {
           taskTodo = tasks[key + 1] ? tasks[key + 1] : null;
         }
       });
-
       if (this.loggedInUser.role.title == 'User' && taskTodo) {
         for (let index = taskTodo.index + 1; index < tasks.length; index++) {
           if (tasks[index]) {
@@ -168,11 +183,11 @@ export class CourseTaskService {
   getAssessments() {
     return this.assessments.asObservable();
   }
-  callAssessmentAPI() {
+  callAssessmentAPI(currentTaskId: string) {
     const data = {
       path: 'course/task/assessments/list ',
       payload: {
-        courseTaskId: this.taskId,
+        courseTaskId: currentTaskId,
       },
     };
     this.apiServices.postRequest(data).subscribe((response: any) => {

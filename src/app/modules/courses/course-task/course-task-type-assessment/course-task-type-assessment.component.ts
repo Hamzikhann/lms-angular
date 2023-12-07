@@ -14,12 +14,6 @@ import { CourseTaskService } from 'src/app/services/course-task/course-task.serv
   styleUrls: ['./course-task-type-assessment.component.css'],
 })
 export class CourseTaskTypeAssessmentComponent {
-  ImgBaseURL: string = this.config.ImgBaseURL;
-  VideoBaseURL: string = this.config.VideoBaseURL;
-
-  editorVideoTranscript: Editor = new Editor();
-  toolbar = this.config.toolbar;
-
   loggedInUser: any;
   permission: any = {
     assessment: {
@@ -27,9 +21,6 @@ export class CourseTaskTypeAssessmentComponent {
       update: false,
       delete: false,
       submit: true,
-    },
-    videoTranscript: {
-      update: false,
     },
     question: {
       create: false,
@@ -40,17 +31,10 @@ export class CourseTaskTypeAssessmentComponent {
   };
 
   courseId: any;
-  courseDetails: any;
+  enrollmentId: any;
   taskId: any;
-  taskIdPrevious: any;
   taskIdNext: any;
   taskDetails: any;
-  enrollmentId: string = '';
-  syllabus: any = {
-    id: '',
-    title: '',
-  };
-  modules: any;
 
   assessmentFormType: string = '';
   assessments: any = [];
@@ -71,41 +55,26 @@ export class CourseTaskTypeAssessmentComponent {
   };
   questionFormType: string = '';
 
-  videoTranscript: any = {
-    id: '',
-    content: '',
-  };
-
   submission: any = [];
   submitted: boolean = false;
   error: boolean = false;
-
-  loading: boolean = false;
 
   passAssessment: boolean = false;
 
   showError: boolean = false;
 
   constructor(
+    private router: Router,
     private toastr: ToastrService,
     private authService: AuthService,
     private apiServices: ApiService,
-    private courseTaskService: CourseTaskService,
-
-    private route: ActivatedRoute,
-    private config: ConfigService,
-    private router: Router
+    private courseTaskService: CourseTaskService
   ) {}
 
-  @ViewChild('closeModal') closeModal: ElementRef | undefined;
-  @ViewChild('questionModalBtnClose') questionModalBtnClose:
+  @ViewChild('closeAssessmentModal') closeAssessmentModal:
     | ElementRef
     | undefined;
-  @ViewChild('videoPlayer') videoPlayer: ElementRef | any;
-  @ViewChild('taskAssessmentModal') taskAssessmentModal: ElementRef | undefined;
-  @ViewChild('closeVideoAssessmentModal') closeVideoAssessmentModal:
-    | ElementRef
-    | undefined;
+  @ViewChild('closeQuestionModal') closeQuestionModal: ElementRef | undefined;
 
   ngOnInit(): void {
     this.loggedInUser = JSON.parse(this.authService.getUser());
@@ -125,16 +94,18 @@ export class CourseTaskTypeAssessmentComponent {
     }
 
     this.courseId = this.courseTaskService.getCourseId();
-    this.courseDetails = this.courseTaskService.getCourseDetails();
-
     this.enrollmentId = this.courseTaskService.getEnrollmentId();
 
-    this.taskId = this.courseTaskService.getTaskId();
-    this.taskDetails = this.courseTaskService.getTaskDetails();
-    this.taskIdNext = this.courseTaskService.getTaskIdNext();
+    this.courseTaskService.getTaskId().subscribe((data: any) => {
+      this.taskId = data;
+    });
 
-    this.courseTaskService.getModules().subscribe((data: any) => {
-      this.modules = data;
+    this.courseTaskService.getTaskIdNext().subscribe((data: any) => {
+      this.taskIdNext = data;
+    });
+
+    this.courseTaskService.getTaskDetails().subscribe((data: any) => {
+      this.taskDetails = data;
     });
 
     this.courseTaskService.getAssessments().subscribe((data: any) => {
@@ -155,11 +126,11 @@ export class CourseTaskTypeAssessmentComponent {
       },
     };
     this.apiServices.postRequest(data).subscribe((data) => {
-      if (this.closeModal) {
-        this.closeModal.nativeElement.click();
+      if (this.closeAssessmentModal) {
+        this.closeAssessmentModal.nativeElement.click();
       }
       this.toastr.success('Assessment added successfully!');
-      this.courseTaskService.callAssessmentAPI();
+      this.courseTaskService.callAssessmentAPI(this.taskId);
     });
   }
   updateAssessment() {
@@ -174,11 +145,11 @@ export class CourseTaskTypeAssessmentComponent {
       },
     };
     this.apiServices.postRequest(data).subscribe((data) => {
-      if (this.closeModal) {
-        this.closeModal.nativeElement.click();
+      if (this.closeAssessmentModal) {
+        this.closeAssessmentModal.nativeElement.click();
       }
       this.toastr.success('Assessment updated successfully!');
-      this.courseTaskService.callAssessmentAPI();
+      this.courseTaskService.callAssessmentAPI(this.taskId);
     });
   }
   deleteAssessment() {
@@ -189,11 +160,11 @@ export class CourseTaskTypeAssessmentComponent {
       },
     };
     this.apiServices.postRequest(data).subscribe((data) => {
-      if (this.closeModal) {
-        this.closeModal.nativeElement.click();
+      if (this.closeAssessmentModal) {
+        this.closeAssessmentModal.nativeElement.click();
       }
       this.toastr.success('Assessment deleted successfully!');
-      this.courseTaskService.callAssessmentAPI();
+      this.courseTaskService.callAssessmentAPI(this.taskId);
     });
   }
   setAssessment(assessment: any) {
@@ -231,12 +202,12 @@ export class CourseTaskTypeAssessmentComponent {
       },
     };
     this.apiServices.postRequest(data).subscribe((data) => {
-      if (this.questionModalBtnClose) {
-        this.questionModalBtnClose.nativeElement.click();
+      if (this.closeQuestionModal) {
+        this.closeQuestionModal.nativeElement.click();
       }
       this.toastr.success('Question added successfully!');
       this.resetAssessmentQuestionData();
-      this.courseTaskService.callAssessmentAPI();
+      this.courseTaskService.callAssessmentAPI(this.taskId);
     });
   }
   updateAssessmentQuestion() {
@@ -251,12 +222,12 @@ export class CourseTaskTypeAssessmentComponent {
       },
     };
     this.apiServices.postRequest(data).subscribe((data) => {
-      if (this.questionModalBtnClose) {
-        this.questionModalBtnClose.nativeElement.click();
+      if (this.closeQuestionModal) {
+        this.closeQuestionModal.nativeElement.click();
       }
       this.toastr.success('Question updated successfully!');
       this.resetAssessmentQuestionData();
-      this.courseTaskService.callAssessmentAPI();
+      this.courseTaskService.callAssessmentAPI(this.taskId);
     });
   }
   deleteAssessmentQuestion() {
@@ -267,12 +238,12 @@ export class CourseTaskTypeAssessmentComponent {
       },
     };
     this.apiServices.postRequest(data).subscribe((data) => {
-      if (this.questionModalBtnClose) {
-        this.questionModalBtnClose.nativeElement.click();
+      if (this.closeQuestionModal) {
+        this.closeQuestionModal.nativeElement.click();
       }
       this.toastr.success('Question deleted successfully!');
       this.resetAssessmentQuestionData();
-      this.courseTaskService.callAssessmentAPI();
+      this.courseTaskService.callAssessmentAPI(this.taskId);
     });
   }
   setAssessmentQuestion(question: any) {
@@ -284,7 +255,9 @@ export class CourseTaskTypeAssessmentComponent {
       type: question.type,
     };
   }
-
+  setAssessmentQuestionFormType(name: any) {
+    this.questionFormType = name;
+  }
   resetAssessmentQuestionData() {
     this.questionFormType = 'create';
     this.question = {
@@ -294,10 +267,6 @@ export class CourseTaskTypeAssessmentComponent {
       answer: '',
       type: '',
     };
-  }
-
-  setAssessmentQuestionFormType(name: any) {
-    this.questionFormType = name;
   }
 
   getSubmissions(event: any, questionId: string) {
@@ -318,7 +287,6 @@ export class CourseTaskTypeAssessmentComponent {
       });
     }
   }
-
   updateTaskProgress(percentage: any) {
     const data = {
       path: 'course/tasks/progress',
@@ -339,20 +307,19 @@ export class CourseTaskTypeAssessmentComponent {
       this.courseTaskService.callModulesAPI();
     });
   }
-
   goToNextTask() {
     if (this.taskIdNext) {
       this.router.navigate([
         '/courses',
         this.courseId,
         'task',
+        'new',
         this.taskIdNext,
       ]);
     } else {
       this.router.navigate(['/courses', this.courseId, 'achievements']);
     }
   }
-
   validateAssessmentAnswer() {
     this.error = false;
     var questionsTotal =
@@ -390,10 +357,9 @@ export class CourseTaskTypeAssessmentComponent {
       this.submitted = false;
     }
   }
-
   retryAssessment() {
     this.submitted = false;
     this.error = false;
-    this.courseTaskService.callAssessmentAPI();
+    this.courseTaskService.callAssessmentAPI(this.taskId);
   }
 }

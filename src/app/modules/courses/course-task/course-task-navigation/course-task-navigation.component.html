@@ -1,16 +1,10 @@
 <div class="page-navigation">
-  <div
-    class="btn btn-outline-dark"
-    *ngIf="taskIdPrevious"
-    [routerLink]="['/courses', courseId, 'task', taskIdPrevious]"
-  >
+  <div class="btn btn-outline-dark" *ngIf="taskIdPrevious"
+    [routerLink]="['/courses', courseId, 'task', 'new', taskIdPrevious]">
     Previous Task
   </div>
-  <div
-    class="btn btn-outline-dark"
-    *ngIf="taskIdNext && taskDetails.progress == '100'"
-    [routerLink]="['/courses', courseId, 'task', taskIdNext]"
-  >
+  <div class="btn btn-outline-dark" *ngIf="taskIdNext && taskDetails.progress == '100'"
+    [routerLink]="['/courses', courseId, 'task', 'new',taskIdNext]">
     Next Task
   </div>
 </div>

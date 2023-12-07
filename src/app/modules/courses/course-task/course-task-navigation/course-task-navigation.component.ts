@@ -15,46 +15,25 @@ import { CourseTaskService } from 'src/app/services/course-task/course-task.serv
 })
 export class CourseTaskNavigationComponent {
   courseId: any;
-  taskId: any;
   taskIdPrevious: any;
   taskIdNext: any;
   taskDetails: any;
 
-  enrollmentId: string = '';
-
-  loading: boolean = false;
-  loggedInUser: any;
-  courseDetails: any;
-
-  syllabus: any = {
-    id: '',
-    title: '',
-  };
-
-  constructor(
-    private toastr: ToastrService,
-    private authService: AuthService,
-    private courseTaskService: CourseTaskService,
-
-    private apiServices: ApiService,
-    private route: ActivatedRoute,
-    private config: ConfigService,
-    private router: Router
-  ) {}
+  constructor(private courseTaskService: CourseTaskService) {}
 
   ngOnInit(): void {
-    this.loggedInUser = JSON.parse(this.authService.getUser());
-
     this.courseId = this.courseTaskService.getCourseId();
-    this.taskId = this.courseTaskService.getTaskId();
 
     this.courseTaskService.getTaskDetails().subscribe((data: any) => {
       this.taskDetails = data;
     });
 
-    this.taskIdPrevious = this.courseTaskService.getTaskIdPrevious();
-    this.taskIdNext = this.courseTaskService.getTaskIdNext();
+    this.courseTaskService.getTaskIdPrevious().subscribe((data: any) => {
+      this.taskIdPrevious = data;
+    });
 
-    console.log(this.taskIdPrevious, this.taskIdNext);
+    this.courseTaskService.getTaskIdNext().subscribe((data: any) => {
+      this.taskIdNext = data;
+    });
   }
 }

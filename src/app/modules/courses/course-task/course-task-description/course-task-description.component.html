@@ -1,2 +1,4 @@
-<div class="page-separator__text my-2">Description</div>
-<p [innerHTML]="taskDetails?.courseTaskContent?.description"></p>
+<ng-container *ngIf="taskDetails?.courseTaskContent?.description">
+  <div class="page-separator__text my-2">Description</div>
+  <p [innerHTML]="taskDetails?.courseTaskContent?.description"></p>
+</ng-container>

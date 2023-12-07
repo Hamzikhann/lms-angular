@@ -1,10 +1,9 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 
-import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from 'src/app/services/users/api.service';
-import { ConfigService } from 'src/app/config/config.service';
-import { AuthService } from 'src/app/services/auth/auth.service';
 import { CourseTaskService } from 'src/app/services/course-task/course-task.service';
+import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-course-task-mark-complete',
   templateUrl: './course-task-mark-complete.component.html',
@@ -12,51 +11,52 @@ import { CourseTaskService } from 'src/app/services/course-task/course-task.serv
 })
 export class CourseTaskMarkCompleteComponent {
   courseId: any;
+  enrollmentId: string = '';
   taskId: any;
-  taskIdPrevious: any;
   taskIdNext: any;
   taskDetails: any;
-  enrollmentId: string = '';
-  modules: any;
 
   constructor(
+    private router: Router,
     private apiServices: ApiService,
-    private courseTaskService: CourseTaskService,
-    private router: Router
+    private courseTaskService: CourseTaskService
   ) {}
 
   ngOnInit(): void {
     this.courseId = this.courseTaskService.getCourseId();
     this.enrollmentId = this.courseTaskService.getEnrollmentId();
-    this.taskId = this.courseTaskService.getTaskId();
-    this.taskIdNext = this.courseTaskService.getTaskIdNext();
+
+    this.courseTaskService.getTaskId().subscribe((data: any) => {
+      this.taskId = data;
+    });
+
+    this.courseTaskService.getTaskIdNext().subscribe((data: any) => {
+      this.taskIdNext = data;
+    });
 
     this.courseTaskService.getTaskDetails().subscribe((data: any) => {
       this.taskDetails = data;
     });
-    this.courseTaskService.getModules().subscribe((data: any) => {
-      this.modules = data;
-    });
   }
 
-  updateTaskProgress(percentage: any) {
+  updateTaskProgress() {
     const data = {
       path: 'course/tasks/progress',
       payload: {
         currentTime: '',
-        percentage: percentage.toString(),
+        percentage: '100',
         courseId: this.courseId,
         courseTaskId: this.taskId,
         courseEnrollmentId: this.enrollmentId,
       },
     };
     this.apiServices.postRequest(data).subscribe((data) => {
+      this.courseTaskService.callModulesAPI();
       if (this.taskDetails.courseTaskType.title == 'Assessment') {
-        this.courseTaskService.callTaskDetailsAPI();
+        this.courseTaskService.callTaskDetailsAPI(this.taskId);
       } else {
         this.goToNextTask();
       }
-      this.courseTaskService.callModulesAPI();
     });
   }
 
@@ -66,6 +66,7 @@ export class CourseTaskMarkCompleteComponent {
         '/courses',
         this.courseId,
         'task',
+        'new',
         this.taskIdNext,
       ]);
     } else {

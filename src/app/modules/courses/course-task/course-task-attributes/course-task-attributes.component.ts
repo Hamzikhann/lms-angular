@@ -1,9 +1,6 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 
-import { ActivatedRoute, Router } from '@angular/router';
-import { ApiService } from 'src/app/services/users/api.service';
 import { CourseTaskService } from 'src/app/services/course-task/course-task.service';
-import { ConfigService } from 'src/app/config/config.service';
 import { AuthService } from 'src/app/services/auth/auth.service';
 
 @Component({
@@ -13,19 +10,23 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 })
 export class CourseTaskAttributesComponent {
   loggedInUser: any;
+  permission: any = {
+    task: { progress: false },
+  };
 
-  courseId: any;
-  taskId: any;
   taskDetails: any;
-  enrollmentId: string = '';
 
   constructor(
-    private authService: AuthService,
-    private courseTaskService: CourseTaskService
+    private courseTaskService: CourseTaskService,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
     this.loggedInUser = JSON.parse(this.authService.getUser());
+    if (this.loggedInUser.role.title == 'User') {
+      this.permission.task.progress = true;
+    }
+
     this.courseTaskService.getTaskDetails().subscribe((data: any) => {
       this.taskDetails = data;
     });
