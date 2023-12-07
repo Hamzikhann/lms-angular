@@ -71,7 +71,7 @@
                         [class.text-muted]="item.id != taskId && item.disabled"
                         [routerLink]="
                           !item.disabled
-                            ? ['/courses', courseId, 'task', item.id]
+                            ? ['/courses', courseId, 'task', 'new', item.id]
                             : []
                         "
                       >

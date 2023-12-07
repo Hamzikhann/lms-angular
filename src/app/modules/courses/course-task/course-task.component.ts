@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from 'src/app/services/users/api.service';
 import { ConfigService } from 'src/app/config/config.service';
 import { AuthService } from 'src/app/services/auth/auth.service';
+import { CourseTaskService } from 'src/app/services/course-task/course-task.service';
 
 @Component({
   selector: 'app-course-task',
@@ -55,6 +56,7 @@ export class CourseTaskComponent {
   constructor(
     private authService: AuthService,
     private apiServices: ApiService,
+    private courseTaskService: CourseTaskService,
     private route: ActivatedRoute,
     private config: ConfigService,
     private router: Router
@@ -81,6 +83,14 @@ export class CourseTaskComponent {
       this.courseId = params.id;
       this.getCourseDetails();
     });
+
+    this.courseTaskService.getModules().subscribe((data: any) => {
+      this.modules = data;
+    });
+
+    this.courseTaskService.getTaskDetails().subscribe((data: any) => {
+      this.taskDetails = data;
+    });
   }
 
   getCourseDetails() {
@@ -93,6 +103,8 @@ export class CourseTaskComponent {
 
     this.apiServices.postRequest(data).subscribe((response) => {
       this.courseDetails = response;
+      this.courseTaskService.setCourse(this.courseId, this.courseDetails);
+
       this.syllabus = {
         id: this.courseDetails.courseSyllabus?.id,
         title: this.courseDetails.courseSyllabus?.title,
@@ -110,88 +122,16 @@ export class CourseTaskComponent {
     };
     this.apiServices.postRequest(data).subscribe((response) => {
       this.enrollmentId = response.data?.id;
-      this.getModules();
+      this.courseTaskService.setEnrollment(this.enrollmentId);
+      this.courseTaskService.callModulesAPI();
 
       this.route.paramMap.subscribe((data: any) => {
         this.taskId = data.params.taskId;
-        this.getTaskDetails();
+
+        this.courseTaskService.setTaskId(this.taskId);
+        this.courseTaskService.callTaskDetailsAPI();
+        this.courseTaskService.callAssessmentAPI();
       });
-    });
-  }
-
-  getTaskDetails() {
-    this.loading = true;
-
-    var data: any = {
-      path: 'course/tasks/detail',
-      payload: {
-        courseTaskId: this.taskId,
-      },
-    };
-    if (this.loggedInUser.role.title == 'User') {
-      data.payload.courseId = this.courseId;
-      data.payload.courseEnrollmentId = this.enrollmentId;
-    }
-    this.apiServices.postRequest(data).subscribe((response) => {
-      this.taskDetails = response.data;
-      console.log(this.taskDetails);
-      if (this.taskDetails?.courseTaskProgresses.length > 0) {
-        this.taskDetails.progress =
-          this.taskDetails?.courseTaskProgresses[0].percentage;
-        // this.submitted = true;
-      } else {
-        this.taskDetails.progress = '0';
-      }
-      this.loading = false;
-    });
-  }
-
-  getModules() {
-    var data: any = {
-      path: 'course/modules/list',
-      payload: {
-        courseSyllabusId: this.syllabus.id,
-      },
-    };
-    if (this.loggedInUser.role.title == 'User') {
-      data.payload.courseEnrollmentId = this.enrollmentId;
-    }
-    this.apiServices.postRequest(data).subscribe((response) => {
-      this.modules = response.data;
-
-      const tasks: any = [];
-      this.modules.forEach((module: any) => {
-        module.courseTasks.forEach((task: any, key: any) => {
-          task.progress =
-            task.courseTaskProgresses?.length > 0
-              ? task.courseTaskProgresses[0].percentage
-              : '0';
-          tasks.push(task);
-        });
-      });
-
-      var taskTodo: any = tasks.length ? tasks[0] : null;
-
-      tasks.forEach((task: any, key: any) => {
-        task.index = key;
-
-        if (task.id == this.taskId) {
-          this.taskIdPrevious = tasks[key - 1] ? tasks[key - 1].id : 0;
-          this.taskIdNext = tasks[key + 1] ? tasks[key + 1].id : 0;
-        }
-
-        if (task.progress != '0') {
-          taskTodo = tasks[key + 1] ? tasks[key + 1] : null;
-        }
-      });
-
-      if (this.loggedInUser.role.title == 'User' && taskTodo) {
-        for (let index = taskTodo.index + 1; index < tasks.length; index++) {
-          if (tasks[index]) {
-            tasks[index].disabled = true;
-          }
-        }
-      }
     });
   }
 }

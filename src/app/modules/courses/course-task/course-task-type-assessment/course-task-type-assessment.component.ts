@@ -6,6 +6,7 @@ import { ApiService } from 'src/app/services/users/api.service';
 import { ConfigService } from 'src/app/config/config.service';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { Editor, Toolbar } from 'ngx-editor';
+import { CourseTaskService } from 'src/app/services/course-task/course-task.service';
 
 @Component({
   selector: 'app-course-task-type-assessment',
@@ -89,6 +90,8 @@ export class CourseTaskTypeAssessmentComponent {
     private toastr: ToastrService,
     private authService: AuthService,
     private apiServices: ApiService,
+    private courseTaskService: CourseTaskService,
+
     private route: ActivatedRoute,
     private config: ConfigService,
     private router: Router
@@ -121,161 +124,22 @@ export class CourseTaskTypeAssessmentComponent {
       };
     }
 
-    this.route.parent?.params.subscribe((params: any) => {
-      this.courseId = params.id;
-      this.getCourseDetails();
+    this.courseId = this.courseTaskService.getCourseId();
+    this.courseDetails = this.courseTaskService.getCourseDetails();
+
+    this.enrollmentId = this.courseTaskService.getEnrollmentId();
+
+    this.taskId = this.courseTaskService.getTaskId();
+    this.taskDetails = this.courseTaskService.getTaskDetails();
+    this.taskIdNext = this.courseTaskService.getTaskIdNext();
+
+    this.courseTaskService.getModules().subscribe((data: any) => {
+      this.modules = data;
     });
-  }
 
-  getCourseDetails() {
-    const data = {
-      path: 'courses/detail',
-      payload: {
-        courseId: this.courseId,
-      },
-    };
-
-    this.apiServices.postRequest(data).subscribe((response) => {
-      this.courseDetails = response;
-      this.syllabus = {
-        id: this.courseDetails.courseSyllabus?.id,
-        title: this.courseDetails.courseSyllabus?.title,
-      };
-      this.getEnrollmentDetails();
+    this.courseTaskService.getAssessments().subscribe((data: any) => {
+      this.assessments = data;
     });
-  }
-
-  getEnrollmentDetails() {
-    const data = {
-      path: 'course/tasks/enrollment',
-      payload: {
-        courseId: this.courseId,
-      },
-    };
-    this.apiServices.postRequest(data).subscribe((response) => {
-      this.enrollmentId = response.data?.id;
-      this.getModules();
-
-      this.route.paramMap.subscribe((data: any) => {
-        this.taskId = data.params.taskId;
-        this.getTaskDetails();
-      });
-    });
-  }
-
-  getModules() {
-    var data: any = {
-      path: 'course/modules/list',
-      payload: {
-        courseSyllabusId: this.syllabus.id,
-      },
-    };
-    if (this.loggedInUser.role.title == 'User') {
-      data.payload.courseEnrollmentId = this.enrollmentId;
-    }
-    this.apiServices.postRequest(data).subscribe((response) => {
-      this.modules = response.data;
-
-      const tasks: any = [];
-      this.modules.forEach((module: any) => {
-        module.courseTasks.forEach((task: any, key: any) => {
-          task.progress =
-            task.courseTaskProgresses?.length > 0
-              ? task.courseTaskProgresses[0].percentage
-              : '0';
-          tasks.push(task);
-        });
-      });
-
-      var taskTodo: any = tasks.length ? tasks[0] : null;
-
-      tasks.forEach((task: any, key: any) => {
-        task.index = key;
-
-        if (task.id == this.taskId) {
-          this.taskIdPrevious = tasks[key - 1] ? tasks[key - 1].id : 0;
-          this.taskIdNext = tasks[key + 1] ? tasks[key + 1].id : 0;
-        }
-
-        if (task.progress != '0') {
-          taskTodo = tasks[key + 1] ? tasks[key + 1] : null;
-        }
-      });
-
-      if (this.loggedInUser.role.title == 'User' && taskTodo) {
-        for (let index = taskTodo.index + 1; index < tasks.length; index++) {
-          if (tasks[index]) {
-            tasks[index].disabled = true;
-          }
-        }
-      }
-    });
-  }
-
-  getTaskDetails() {
-    this.loading = true;
-
-    var data: any = {
-      path: 'course/tasks/detail',
-      payload: {
-        courseTaskId: this.taskId,
-      },
-    };
-    if (this.loggedInUser.role.title == 'User') {
-      data.payload.courseId = this.courseId;
-      data.payload.courseEnrollmentId = this.enrollmentId;
-    }
-    this.apiServices.postRequest(data).subscribe((response) => {
-      this.taskDetails = response.data;
-      console.log(this.taskDetails);
-      if (this.taskDetails?.courseTaskProgresses.length > 0) {
-        this.taskDetails.progress =
-          this.taskDetails?.courseTaskProgresses[0].percentage;
-        this.submitted = true;
-      } else {
-        this.taskDetails.progress = '0';
-      }
-      this.loading = false;
-    });
-  }
-
-  getAssessments() {
-    const data = {
-      path: 'course/task/assessments/list ',
-      payload: {
-        courseTaskId: this.taskId,
-      },
-    };
-    this.apiServices.postRequest(data).subscribe((response) => {
-      this.assessments = response.data;
-      console.log(this.assessments);
-      this.assessments.forEach((assignment: any) => {
-        assignment.courseTaskAssessmentQuestions.forEach((question: any) => {
-          var options = question.options.split(',');
-          question.options = this.shuffleAssessmentOptions(options);
-        });
-      });
-    });
-  }
-
-  shuffleAssessmentOptions(array: any) {
-    let currentIndex = array.length,
-      randomIndex;
-
-    // While there remain elements to shuffle.
-    while (currentIndex > 0) {
-      // Pick a remaining element.
-      randomIndex = Math.floor(Math.random() * currentIndex);
-      currentIndex--;
-
-      // And swap it with the current element.
-      [array[currentIndex], array[randomIndex]] = [
-        array[randomIndex],
-        array[currentIndex],
-      ];
-    }
-
-    return array;
   }
 
   createAssessment() {
@@ -295,7 +159,7 @@ export class CourseTaskTypeAssessmentComponent {
         this.closeModal.nativeElement.click();
       }
       this.toastr.success('Assessment added successfully!');
-      this.getAssessments();
+      this.courseTaskService.callAssessmentAPI();
     });
   }
   updateAssessment() {
@@ -314,7 +178,7 @@ export class CourseTaskTypeAssessmentComponent {
         this.closeModal.nativeElement.click();
       }
       this.toastr.success('Assessment updated successfully!');
-      this.getAssessments();
+      this.courseTaskService.callAssessmentAPI();
     });
   }
   deleteAssessment() {
@@ -329,7 +193,7 @@ export class CourseTaskTypeAssessmentComponent {
         this.closeModal.nativeElement.click();
       }
       this.toastr.success('Assessment deleted successfully!');
-      this.getAssessments();
+      this.courseTaskService.callAssessmentAPI();
     });
   }
   setAssessment(assessment: any) {
@@ -372,7 +236,7 @@ export class CourseTaskTypeAssessmentComponent {
       }
       this.toastr.success('Question added successfully!');
       this.resetAssessmentQuestionData();
-      this.getAssessments();
+      this.courseTaskService.callAssessmentAPI();
     });
   }
   updateAssessmentQuestion() {
@@ -392,7 +256,7 @@ export class CourseTaskTypeAssessmentComponent {
       }
       this.toastr.success('Question updated successfully!');
       this.resetAssessmentQuestionData();
-      this.getAssessments();
+      this.courseTaskService.callAssessmentAPI();
     });
   }
   deleteAssessmentQuestion() {
@@ -408,7 +272,7 @@ export class CourseTaskTypeAssessmentComponent {
       }
       this.toastr.success('Question deleted successfully!');
       this.resetAssessmentQuestionData();
-      this.getAssessments();
+      this.courseTaskService.callAssessmentAPI();
     });
   }
   setAssessmentQuestion(question: any) {
@@ -468,11 +332,11 @@ export class CourseTaskTypeAssessmentComponent {
     };
     this.apiServices.postRequest(data).subscribe((data) => {
       if (this.taskDetails.courseTaskType.title == 'Assessment') {
-        this.getTaskDetails();
+        this.courseTaskService.getTaskDetails();
       } else {
         this.goToNextTask();
       }
-      this.getModules();
+      this.courseTaskService.callModulesAPI();
     });
   }
 
@@ -530,6 +394,6 @@ export class CourseTaskTypeAssessmentComponent {
   retryAssessment() {
     this.submitted = false;
     this.error = false;
-    this.getAssessments();
+    this.courseTaskService.callAssessmentAPI();
   }
 }
