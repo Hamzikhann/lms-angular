@@ -84,6 +84,11 @@ export class CourseTaskComponent {
 
       this.route.paramMap.subscribe((data: any) => {
         this.taskId = data.params.taskId;
+        window.scrollTo({
+          top: 0,
+          left: 0,
+          behavior: 'smooth',
+        });
         this.courseTaskService.setTaskId(this.taskId);
         this.courseTaskService.callTaskDetailsAPI(this.taskId);
         this.courseTaskService.callAssessmentAPI(this.taskId);

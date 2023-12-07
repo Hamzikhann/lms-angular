@@ -106,6 +106,12 @@ export class CourseTaskTypeAssessmentComponent {
 
     this.courseTaskService.getTaskDetails().subscribe((data: any) => {
       this.taskDetails = data;
+      if (
+        this.taskDetails.courseTaskType.title == 'Assessment' &&
+        this.taskDetails.progress != '0'
+      ) {
+        this.submitted = true;
+      }
     });
 
     this.courseTaskService.getAssessments().subscribe((data: any) => {
@@ -300,7 +306,7 @@ export class CourseTaskTypeAssessmentComponent {
     };
     this.apiServices.postRequest(data).subscribe((data) => {
       if (this.taskDetails.courseTaskType.title == 'Assessment') {
-        this.courseTaskService.getTaskDetails();
+        this.courseTaskService.callTaskDetailsAPI(this.taskId);
       } else {
         this.goToNextTask();
       }
@@ -342,19 +348,18 @@ export class CourseTaskTypeAssessmentComponent {
       );
     });
     setTimeout(() => {
+      window.scroll({
+        top: 0,
+        behavior: 'smooth',
+      });
       this.submitted = true;
-    }, 10000);
+    }, 5000);
 
     var result = (questionsCorrect / questionsTotal) * 100;
     this.toastr.success('Assessment submitted!');
 
     if (this.loggedInUser.role.title == 'User') {
       this.updateTaskProgress(result);
-    }
-
-    if (!this.error) {
-      this.goToNextTask();
-      this.submitted = false;
     }
   }
   retryAssessment() {

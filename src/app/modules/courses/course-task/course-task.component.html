@@ -48,9 +48,10 @@
                         <div class="d-flex align-items-center justify-content-between">
                           <span class="text-muted">{{ item.estimatedTime }}
                           </span>
-                          <!-- <span class="text-muted" *ngIf="item.courseTaskType.title == 'Assessment' && loggedInUser.role.title == 'User'">
+                          <span class="text-muted"
+                            *ngIf="item.courseTaskType.title == 'Assessment' && loggedInUser.role.title == 'User' && !item.disabled && item.progress != '0'">
                             Result: {{ item.progress }}%
-                          </span> -->
+                          </span>
                         </div>
                       </a>
                     </div>
