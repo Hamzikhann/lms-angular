@@ -48,6 +48,10 @@ export class CourseTaskComponent {
     this.courseTaskService.getModules().subscribe((data: any) => {
       this.modules = data;
     });
+
+    this.courseTaskService.getLoading().subscribe((data: any) => {
+      this.loading = data;
+    });
   }
 
   getCourseDetails() {
