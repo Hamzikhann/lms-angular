@@ -148,11 +148,15 @@
 
                 <div
                   class="button mt-3"
-                  *ngIf="course.courseAssignments[0].courseEnrollments[0]"
+                  *ngIf="loggedInUser.role.title == 'User'"
                 >
                   <a
-                    *ngIf="loggedInUser.role.title == 'User'"
-                    (click)="resumeCourse()"
+                    (click)="
+                      resumeCourse(
+                        course.id,
+                        course.courseAssignments[0].courseEnrollments[0].id
+                      )
+                    "
                     class="btn btn-dark btn-sm"
                     >Resume Course</a
                   >
