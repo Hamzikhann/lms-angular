@@ -140,15 +140,17 @@
                   The progress for this course has reached a
                   {{ courseEnrollmentDetails.courseProgress }}% completion.
                 </p>
-                <div *ngIf="loggedInUser.role.title == 'User'">
-                  <button
-                    data-toggle="modal"
-                    data-target="#resetModal"
-                    class="btn btn-primary btn-sm mt-3"
-                  >
-                    Start Over
-                  </button>
-                </div>
+                <ng-container *ngIf="loggedInUser.role.title == 'User'">
+                  <div *ngIf="courseEnrollmentDetails.courseProgress != '0'">
+                    <button
+                      data-toggle="modal"
+                      data-target="#resetModal"
+                      class="btn btn-primary btn-sm mt-3"
+                    >
+                      Start Over
+                    </button>
+                  </div>
+                </ng-container>
               </div>
             </div>
           </div>
