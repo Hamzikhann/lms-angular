@@ -307,6 +307,15 @@ export class CourseTaskTypeAssessmentComponent {
     this.apiServices.postRequest(data).subscribe((data) => {
       if (this.taskDetails.courseTaskType.title == 'Assessment') {
         this.courseTaskService.callTaskDetailsAPI(this.taskId);
+        window.scroll({
+          top: 0,
+          behavior: 'smooth',
+        });
+        setTimeout(() => {
+          if (!this.taskIdNext && this.taskDetails.progress != '0') {
+            this.router.navigate(['/courses', this.courseId, 'achievements']);
+          }
+        }, 5000);
       } else {
         this.goToNextTask();
       }
