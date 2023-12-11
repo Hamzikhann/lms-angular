@@ -26,6 +26,8 @@ export class CourseTaskService {
 
   assessments: any;
 
+  loading: any = false;
+
   constructor(
     private apiServices: ApiService,
     private authService: AuthService,
@@ -39,6 +41,7 @@ export class CourseTaskService {
     this.taskDetails = new BehaviorSubject<any>(null);
     this.modules = new BehaviorSubject<any>([]);
     this.assessments = new BehaviorSubject<any>([]);
+    this.loading = new BehaviorSubject<any>(false);
   }
 
   setCourse(id: string, data: any) {
@@ -105,7 +108,16 @@ export class CourseTaskService {
       });
     });
   }
+
+  setLoading(type: boolean) {
+    this.loading.next(type);
+  }
+  getLoading() {
+    return this.loading.asObservable();
+  }
+
   callTaskDetailsAPI(currentTaskId: string) {
+    this.setLoading(true);
     var data: any = {
       path: 'course/tasks/detail',
       payload: {
@@ -124,6 +136,7 @@ export class CourseTaskService {
         taskData.progress = '0';
       }
 
+      this.setLoading(false);
       this.setTaskDetails(taskData);
       this.setPreviousNextTaskIds(currentTaskId);
     });
