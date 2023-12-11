@@ -12,6 +12,7 @@ export class DashboardComponent implements OnInit {
   loggedInUser: any;
   loggedInUserRole: string = '';
   courseStats: any;
+  courseEnrollmentId: any;
 
   constructor(
     private authService: AuthService,
@@ -32,6 +33,7 @@ export class DashboardComponent implements OnInit {
     };
     this.apiServices.postRequest(data).subscribe((response) => {
       this.courses = response;
+      console.log(this.courses);
     });
   }
 
@@ -44,5 +46,16 @@ export class DashboardComponent implements OnInit {
       this.courseStats = response.data;
       console.log(this.courseStats);
     });
+  }
+
+  resumeCourse() {
+    const data = {
+      path: 'course/tasks/due',
+      payload: {
+        courseEnrollmentId:
+          this.courses.courseAssignments[0].courseEnrollments[0].id,
+      },
+    };
+    this.apiServices.postRequest(data).subscribe((data: any) => {});
   }
 }
