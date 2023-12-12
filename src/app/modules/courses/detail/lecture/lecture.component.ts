@@ -217,7 +217,11 @@ export class LectureComponent {
 
   getTaskDetails() {
     this.loading = true;
-
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'smooth',
+    });
     var data: any = {
       path: 'course/tasks/detail',
       payload: {

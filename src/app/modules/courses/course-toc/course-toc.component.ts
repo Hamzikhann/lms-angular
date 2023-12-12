@@ -92,7 +92,6 @@ export class CourseTocComponent {
 
   getCourseDetails() {
     this.loading = true;
-
     const data = {
       path: 'courses/detail',
       payload: {
@@ -105,8 +104,6 @@ export class CourseTocComponent {
         id: this.courseDetails.courseSyllabus?.id,
         title: this.courseDetails.courseSyllabus?.title,
       };
-      this.loading = false;
-
       if (this.loggedInUser.role.title == 'User') {
         this.getEnrollmentDetails();
       } else {
