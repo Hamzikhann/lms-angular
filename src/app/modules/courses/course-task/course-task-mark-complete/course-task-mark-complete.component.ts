@@ -66,7 +66,6 @@ export class CourseTaskMarkCompleteComponent {
         '/courses',
         this.courseId,
         'task',
-        'new',
         this.taskIdNext,
       ]);
     } else {

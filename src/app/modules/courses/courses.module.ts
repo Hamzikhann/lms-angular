@@ -80,10 +80,10 @@ const routes: Routes = [
           },
           {
             path: 'task/:taskId',
-            component: LectureComponent,
-          },
-          {
-            path: 'task/new/:taskId',
+            // component: LectureComponent,
+            // },
+            // {
+            // path: 'task/new/:taskId',
             component: CourseTaskComponent,
           },
         ],

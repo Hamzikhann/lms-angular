@@ -328,7 +328,6 @@ export class CourseTaskTypeAssessmentComponent {
         '/courses',
         this.courseId,
         'task',
-        'new',
         this.taskIdNext,
       ]);
     } else {

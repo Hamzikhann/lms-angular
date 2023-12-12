@@ -1,10 +1,16 @@
-<div class="page-navigation">
+<div class="page-navigation" *ngIf="taskDetails">
   <div class="btn btn-outline-dark" *ngIf="taskIdPrevious"
-    [routerLink]="['/courses', courseId, 'task', 'new', taskIdPrevious]">
-    Previous Task
+    [routerLink]="['/courses', courseId, 'task', taskIdPrevious]">
+    <span class="icon-holder--mini d-inline-flex icon--left">
+      <i class="material-icons icon-14pt text-dark">arrow_back</i>
+    </span>
+    <span>Previous Task</span>
   </div>
   <div class="btn btn-outline-dark" *ngIf="taskIdNext && taskDetails.progress != '0'"
-    [routerLink]="['/courses', courseId, 'task', 'new',taskIdNext]">
-    Next Task
+    [routerLink]="['/courses', courseId, 'task', taskIdNext]">
+    <span>Next Task</span>
+    <span class="icon-holder--mini d-inline-flex icon--right">
+      <i class="material-icons icon-14pt text-dark">arrow_forward</i>
+    </span>
   </div>
 </div>
