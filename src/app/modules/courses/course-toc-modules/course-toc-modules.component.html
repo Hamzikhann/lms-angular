@@ -1,160 +1,139 @@
-<ng-container *ngIf="loading">
-  <div class="text-center loading-icon">
-    <img src="/assets/images/loading.svg" />
-  </div>
-</ng-container>
-<div class="container page__container" *ngIf="!loading">
-  <div
-    class="page-separator d-flex align-items-center justify-content-between mb-32pt"
-  >
-    <div class="page-separator__text" *ngIf="syllabus.id">
-      {{ syllabus.title }}
-    </div>
-    <button
-      class="btn btn-primary btn-sm ml-5"
-      *ngIf="loggedInUser.role.title == 'User' && taskTodo"
-      [routerLink]="['/courses', courseId, 'task', taskTodo.id]"
-    >
-      Resume Course
-    </button>
-  </div>
+<div
+  class="heading-icon mb-32pt"
+  data-toggle="modal"
+  data-target="#moduleModal"
+  (click)="setModuleFormType('create')"
+  *ngIf="permission.module.create"
+>
+  <i class="material-icons">add_circle</i> Create New Module
+</div>
 
-  <div class="row mb-0">
-    <div class="col-lg-12">
-      <app-course-toc-modules></app-course-toc-modules>
-      <!-- <div
-        class="accordion js-accordion accordion--boxed list-group-flush"
-        id="parent"
-      >
-        <ng-container *ngFor="let module of modules">
-          <div class="row">
-            <div class="col-12">
-              <div class="accordion__item mb-4">
-                <div class="accordion__toggle collapsed">
-                  <span class="flex"
-                    >{{ module.title }}
-                    <span
-                      class="heading-icon"
+<div
+  class="accordion js-accordion accordion--boxed list-group-flush"
+  id="parent"
+>
+  <ng-container *ngFor="let module of modules">
+    <div class="row">
+      <div class="col-12">
+        <div class="accordion__item mb-4">
+          <div class="accordion__toggle collapsed">
+            <span class="flex"
+              >{{ module.title }}
+              <span
+                class="heading-icon"
+                data-toggle="modal"
+                data-target="#taskModal"
+                (click)="setTaskFormType('create'); setTaskModuleId(module.id)"
+                *ngIf="permission.task.create"
+              >
+                <i class="material-icons">add_circle</i>
+              </span>
+            </span>
+            <div class="buttons">
+              <span
+                data-toggle="modal"
+                data-target="#moduleModal"
+                (click)="setModule(module); setModuleFormType('update')"
+                *ngIf="permission.module.update"
+              >
+                <i class="material-icons fa-lg mx-1">edit</i></span
+              >
+              <span
+                data-toggle="modal"
+                data-target="#moduleModal"
+                (click)="setModule(module); setModuleFormType('delete')"
+                *ngIf="permission.module.delete"
+              >
+                <i class="material-icons fa-lg">delete</i></span
+              >
+            </div>
+          </div>
+          <div
+            class="accordion__menu collapse show"
+            [id]="'course-toc-' + module.id"
+            data-parent="#parent"
+          >
+            <ng-container *ngFor="let item of module.courseTasks">
+              <div
+                class="accordion__menu-link"
+                [class.active]="!item.disabled"
+                [class.current]="item.id == taskId"
+              >
+                <span
+                  class="icon-holder icon-holder--mini rounded-circle d-inline-flex icon--left"
+                  [class.text-muted]="item.disabled"
+                  [class.icon-holder--light]="item.progress == '0'"
+                  [class.icon-holder--success]="item.progress != '0'"
+                >
+                  <ng-container *ngIf="item.progress != '0'">
+                    <i class="material-icons icon-12pt">check</i>
+                  </ng-container>
+                  <ng-container *ngIf="item.progress == '0'">
+                    <i class="material-icons icon-14pt">
+                      <ng-container *ngIf="item.disabled">lock</ng-container>
+                      <ng-container *ngIf="!item.disabled">
+                        <ng-container
+                          *ngIf="item.courseTaskType.title == 'Assessment'"
+                          >storage</ng-container
+                        >
+                        <ng-container
+                          *ngIf="item.courseTaskType.title == 'Reading'"
+                          >description</ng-container
+                        >
+                        <ng-container
+                          *ngIf="item.courseTaskType.title == 'Video'"
+                          >play_arrow</ng-container
+                        >
+                      </ng-container>
+                    </i>
+                  </ng-container>
+                </span>
+                <a
+                  class="flex"
+                  [class.text-muted]="item.disabled"
+                  [class.disabled]="item.disabled"
+                  [routerLink]="
+                    !item.disabled
+                      ? ['/courses', courseId, 'task', item.id]
+                      : []
+                  "
+                >
+                  <strong>{{ item.courseTaskType.title }}: </strong
+                  >{{ item.title }}</a
+                >
+                <span class="text-muted">{{ item.estimatedTime }}</span>
+                <div class="d-flex align-items-center">
+                  <div class="buttons">
+                    <a
+                      href="javascript:void(0)"
                       data-toggle="modal"
                       data-target="#taskModal"
-                      (click)="
-                        setTaskFormType('create'); setTaskModuleId(module.id)
-                      "
-                      *ngIf="permission.task.create"
+                      (click)="setTask(item); setTaskFormType('update')"
+                      *ngIf="permission.task.update"
                     >
-                      <i class="material-icons">add_circle</i>
-                    </span>
-                  </span>
-                  <div class="buttons">
-                    <span
+                      <i class="material-icons fa-lg mx-1 ml-2">edit</i></a
+                    >
+                    <a
+                      href="javascript:void(0)"
                       data-toggle="modal"
-                      data-target="#moduleModal"
-                      (click)="setModule(module); setModuleFormType('update')"
-                      *ngIf="permission.module.update"
+                      data-target="#taskModal"
+                      (click)="setTask(item); setTaskFormType('delete')"
+                      *ngIf="permission.task.delete"
                     >
-                      <i class="material-icons fa-lg mx-1">edit</i></span
-                    >
-                    <span
-                      data-toggle="modal"
-                      data-target="#moduleModal"
-                      (click)="setModule(module); setModuleFormType('delete')"
-                      *ngIf="permission.module.delete"
-                    >
-                      <i class="material-icons fa-lg">delete</i></span
+                      <i class="material-icons fa-lg">delete</i></a
                     >
                   </div>
                 </div>
-                <div
-                  class="accordion__menu collapse show"
-                  [id]="'course-toc-' + module.id"
-                  data-parent="#parent"
-                >
-                  <ng-container *ngFor="let item of module.courseTasks">
-                    <div class="accordion__menu-link active">
-                      <span
-                        class="icon-holder icon-holder--mini rounded-circle d-inline-flex icon--left"
-                        [class.text-muted]="item.disabled"
-                        [class.icon-holder--light]="item.progress == '0'"
-                        [class.icon-holder--success]="item.progress != '0'"
-                      >
-                        <ng-container *ngIf="item.progress != '0'">
-                          <i class="material-icons icon-12pt">check</i>
-                        </ng-container>
-                        <ng-container *ngIf="item.progress == '0'">
-                          <i class="material-icons icon-14pt">
-                            <ng-container *ngIf="item.disabled"
-                              >lock</ng-container
-                            >
-                            <ng-container *ngIf="!item.disabled">
-                              <ng-container
-                                *ngIf="
-                                  item.courseTaskType.title == 'Assessment'
-                                "
-                                >storage</ng-container
-                              >
-                              <ng-container
-                                *ngIf="item.courseTaskType.title == 'Reading'"
-                                >description</ng-container
-                              >
-                              <ng-container
-                                *ngIf="item.courseTaskType.title == 'Video'"
-                                >play_arrow</ng-container
-                              >
-                            </ng-container>
-                          </i>
-                        </ng-container>
-                      </span>
-                      <a
-                        class="flex"
-                        [class.text-muted]="item.disabled"
-                        [class.disabled]="item.disabled"
-                        [routerLink]="
-                          !item.disabled
-                            ? ['/courses', courseId, 'task', item.id]
-                            : []
-                        "
-                      >
-                        <strong>{{ item.courseTaskType.title }}: </strong
-                        >{{ item.title }}</a
-                      >
-                      <span class="text-muted">{{ item.estimatedTime }}</span>
-                      <div class="d-flex align-items-center">
-                        <div class="buttons">
-                          <a
-                            href="javascript:void(0)"
-                            data-toggle="modal"
-                            data-target="#taskModal"
-                            (click)="setTask(item); setTaskFormType('update')"
-                            *ngIf="permission.task.update"
-                          >
-                            <i class="material-icons fa-lg mx-1 ml-2"
-                              >edit</i
-                            ></a
-                          >
-                          <a
-                            href="javascript:void(0)"
-                            data-toggle="modal"
-                            data-target="#taskModal"
-                            (click)="setTask(item); setTaskFormType('delete')"
-                            *ngIf="permission.task.delete"
-                          >
-                            <i class="material-icons fa-lg">delete</i></a
-                          >
-                        </div>
-                      </div>
-                    </div>
-                  </ng-container>
-                </div>
               </div>
-            </div>
+            </ng-container>
           </div>
-        </ng-container>
-      </div> -->
+        </div>
+      </div>
     </div>
-  </div>
+  </ng-container>
 </div>
 
-<!-- <div
+<div
   class="modal"
   id="moduleModal"
   tabindex="-1"
@@ -450,4 +429,4 @@
       </div>
     </div>
   </div>
-</div> -->
+</div>

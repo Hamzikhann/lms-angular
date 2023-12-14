@@ -29,6 +29,7 @@ import { CourseTaskTypeVideoComponent } from './course-task/course-task-type-vid
 import { CourseTaskTypeReadingComponent } from './course-task/course-task-type-reading/course-task-type-reading.component';
 import { CourseTaskNavigationComponent } from './course-task/course-task-navigation/course-task-navigation.component';
 import { CourseTaskMarkCompleteComponent } from './course-task/course-task-mark-complete/course-task-mark-complete.component';
+import { CourseTocModulesComponent } from './course-toc-modules/course-toc-modules.component';
 
 const routes: Routes = [
   {
@@ -80,10 +81,10 @@ const routes: Routes = [
           },
           {
             path: 'task/:taskId',
-            component: LectureComponent,
-          },
-          {
-            path: 'task/new/:taskId',
+            //   component: LectureComponent,
+            // },
+            // {
+            //   path: 'task/new/:taskId',
             component: CourseTaskComponent,
           },
         ],
@@ -114,6 +115,7 @@ const routes: Routes = [
     CourseTaskTypeReadingComponent,
     CourseTaskNavigationComponent,
     CourseTaskMarkCompleteComponent,
+    CourseTocModulesComponent,
   ],
   imports: [
     CommonModule,
