@@ -20,6 +20,9 @@
           <h6 class="mb-0" *ngIf="enrollmentFormType == 'create'">
             Create New
           </h6>
+          <h6 class="mb-0" *ngIf="enrollmentFormType == 'update'">
+            Update Information
+          </h6>
           <h6 class="mb-0" *ngIf="enrollmentFormType == 'delete'">
             Delete Information
           </h6>
@@ -143,6 +146,34 @@
                 </div>
               </div>
             </div>
+            <div class="form-group d-flex justify-content-between">
+              <div>
+                <label for="completionDateOne " class="form-label"
+                  >Completion Date One
+                </label>
+                <input
+                  class="form-control"
+                  type="date"
+                  id="completionDateOne "
+                  name="completionDateOne "
+                  [(ngModel)]="enrollment.completionDateOne"
+                  [disabled]="enrollmentFormType == 'delete'"
+                />
+              </div>
+              <div>
+                <label for="completionDateTwo " class="form-label"
+                  >Completion Date Two
+                </label>
+                <input
+                  class="form-control"
+                  type="date"
+                  id="completionDateTwo "
+                  name="completionDateTwo "
+                  [(ngModel)]="enrollment.completionDateTwo"
+                  [disabled]="enrollmentFormType == 'delete'"
+                />
+              </div>
+            </div>
             <div class="form-buttons">
               <button
                 type="submit"
@@ -152,6 +183,15 @@
                 [disabled]="!enrollment.assignmentId || !enrollment.typeId"
               >
                 Create
+              </button>
+              <button
+                type="submit"
+                class="btn btn-primary"
+                (click)="updateEnrollment()"
+                *ngIf="enrollmentFormType == 'update'"
+                [disabled]="!enrollment.assignmentId || !enrollment.typeId"
+              >
+                Update
               </button>
               <button
                 type="submit"
@@ -220,6 +260,15 @@
                     </td>
                     <td>{{ enrollment.courseAssignment.course.title }}</td>
                     <td class="text-center">
+                      <span
+                        class="badge badge-primary p-1 mr-2"
+                        (click)="
+                          setEnrollment(enrollment);
+                          setEnrollmentFormType('update')
+                        "
+                      >
+                        <i class="material-icons mr-0">edit</i>
+                      </span>
                       <span
                         class="badge badge-primary p-1 mr-2"
                         (click)="

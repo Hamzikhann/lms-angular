@@ -21,6 +21,7 @@ export class CourseCreateComponent {
     level: '',
     language: '',
     approximateTime: '',
+    passingThreshold: '',
     status: '',
     objectives: '',
     classId: '',
@@ -70,7 +71,7 @@ export class CourseCreateComponent {
   ];
 
   createCourse() {
-    const data = {
+    const data: any = {
       path: 'courses/create',
       payload: {
         title: this.course.title,
@@ -87,6 +88,9 @@ export class CourseCreateComponent {
         instructorAbout: this.course.instructorAbout,
       },
     };
+    if (this.course.passingThreshold) {
+      data.payload.passingThreshold = this.course.passingThreshold;
+    }
     this.apiServices.postRequest(data).subscribe((response) => {
       this.toastr.success('Course added successfully!');
       this.router.navigate(['/courses', response.data.id]);

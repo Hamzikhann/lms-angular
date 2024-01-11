@@ -74,7 +74,7 @@ export class CourseUpdateComponent {
   }
 
   updateCourse() {
-    const data = {
+    const data: any = {
       path: 'courses/update ',
       payload: {
         courseId: this.courseId,
@@ -88,6 +88,9 @@ export class CourseUpdateComponent {
         courseDepartmentId: this.courseDetails.courseDepartmentId,
       },
     };
+    if (this.courseDetails.passingThreshold) {
+      data.payload.passingThreshold = this.courseDetails.passingThreshold;
+    }
     this.apiServices.postRequest(data).subscribe((data: any) => {
       this.toastr.success('Course updated successfully!');
       this.router.navigate(['/courses', this.courseId]);

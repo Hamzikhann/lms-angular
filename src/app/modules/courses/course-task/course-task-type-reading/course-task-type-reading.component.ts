@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import { PdfViewerComponent } from 'ng2-pdf-viewer';
 import { ConfigService } from 'src/app/config/config.service';
 
 import { CourseTaskService } from 'src/app/services/course-task/course-task.service';
@@ -15,6 +16,12 @@ export class CourseTaskTypeReadingComponent {
   taskId: any;
   taskDetails: any;
 
+  currentPage = 1;
+  pageNumber: any;
+  totalPages: any;
+
+  @ViewChild(PdfViewerComponent) pdfViewer?: PdfViewerComponent;
+
   constructor(
     private courseTaskService: CourseTaskService,
     private config: ConfigService
@@ -29,6 +36,36 @@ export class CourseTaskTypeReadingComponent {
 
     this.courseTaskService.getTaskDetails().subscribe((data: any) => {
       this.taskDetails = data;
+    });
+  }
+
+  afterLoadComplete(pdf: any): void {
+    this.totalPages = pdf.numPages;
+  }
+
+  goToPage() {
+    if (
+      this.pageNumber &&
+      this.pageNumber >= 1 &&
+      this.pageNumber <= this.getTotalPages()
+    ) {
+      this.currentPage = this.pageNumber;
+    }
+  }
+
+  private getTotalPages(): any {
+    return this.totalPages || 0;
+  }
+
+  search(target: any) {
+    if (!target.value) return;
+    this.pdfViewer?.eventBus.dispatch('find', {
+      query: target.value,
+      type: 'again',
+      caseSensitive: false,
+      findPrevious: undefined,
+      highlightAll: true,
+      phraseSearch: true,
     });
   }
 }

@@ -151,6 +151,7 @@ export class UsersComponent {
         firstName: this.user.firstName,
         lastName: this.user.lastName,
         email: this.user.email,
+        password: this.user.password,
         managerId: this.user.managerId,
         departmentId: this.user.departmentId,
         designationId: this.user.designationId,

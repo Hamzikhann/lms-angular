@@ -27,6 +27,8 @@ export class EnrollmentsComponent {
     departmentId: '',
     userId: '',
     teamId: '',
+    completionDateOne: '',
+    completionDateTwo: '',
   };
   enrollmentFormType: string = 'create';
 
@@ -133,7 +135,7 @@ export class EnrollmentsComponent {
   }
 
   createEnrollment() {
-    const data = {
+    const data: any = {
       path: 'course/enrollments/create',
       payload: {
         required: this.enrollment.required,
@@ -144,8 +146,35 @@ export class EnrollmentsComponent {
         teamId: this.enrollment.teamId,
       },
     };
+    if (this.enrollment.completionDateOne) {
+      data.payload.completionDateOne = this.enrollment.completionDateOne;
+    }
+    if (this.enrollment.completionDateTwo) {
+      data.payload.completionDateTwo = this.enrollment.completionDateTwo;
+    }
     this.apiServices.postRequest(data).subscribe((response) => {
       this.toastr.success('Course has been enrolled successfully');
+      this.resetEnrollmentData();
+      this.getEnrollments();
+    });
+  }
+
+  updateEnrollment() {
+    const data: any = {
+      path: 'course/enrollments/update',
+      payload: {
+        courseEnrollmentId: this.enrollment.id,
+        required: this.enrollment.required,
+      },
+    };
+    if (this.enrollment.completionDateOne) {
+      data.payload.completionDateOne = this.enrollment.completionDateOne;
+    }
+    if (this.enrollment.completionDateTwo) {
+      data.payload.completionDateTwo = this.enrollment.completionDateTwo;
+    }
+    this.apiServices.postRequest(data).subscribe((data: any) => {
+      this.toastr.success('Course enrollment has been updated successfully!');
       this.resetEnrollmentData();
       this.getEnrollments();
     });
@@ -171,6 +200,8 @@ export class EnrollmentsComponent {
       required: enrollment.required,
       assignmentId: enrollment.courseAssignmentId,
       typeId: enrollment.courseEnrollmentTypeId,
+      completionDateOne: enrollment.completionDateOne,
+      completionDateTwo: enrollment.completionDateTwo,
     };
   }
 
@@ -189,6 +220,8 @@ export class EnrollmentsComponent {
       departmentId: '',
       userId: '',
       teamId: '',
+      completionDateOne: '',
+      completionDateTwo: '',
     };
   }
 }

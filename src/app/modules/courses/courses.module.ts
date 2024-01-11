@@ -30,6 +30,7 @@ import { CourseTaskTypeReadingComponent } from './course-task/course-task-type-r
 import { CourseTaskNavigationComponent } from './course-task/course-task-navigation/course-task-navigation.component';
 import { CourseTaskMarkCompleteComponent } from './course-task/course-task-mark-complete/course-task-mark-complete.component';
 import { CourseTocModulesComponent } from './course-toc-modules/course-toc-modules.component';
+import { CourseDiscussionComponent } from './course-discussion/course-discussion.component';
 
 const routes: Routes = [
   {
@@ -80,6 +81,10 @@ const routes: Routes = [
             component: CourseAchievementsComponent,
           },
           {
+            path: 'discussion',
+            component: CourseDiscussionComponent,
+          },
+          {
             path: 'task/:taskId',
             //   component: LectureComponent,
             // },
@@ -116,6 +121,7 @@ const routes: Routes = [
     CourseTaskNavigationComponent,
     CourseTaskMarkCompleteComponent,
     CourseTocModulesComponent,
+    CourseDiscussionComponent,
   ],
   imports: [
     CommonModule,

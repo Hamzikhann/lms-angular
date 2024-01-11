@@ -19,6 +19,8 @@ export class AssignmentsComponent {
     id: '',
     clientId: '',
     courseId: '',
+    dateTo: '',
+    dateFrom: '',
   };
   assignmentFormType: string = 'create';
 
@@ -84,15 +86,43 @@ export class AssignmentsComponent {
   }
 
   createAssignment() {
-    const data = {
+    this.assignments = [];
+
+    const data: any = {
       path: 'course/assignment/create',
       payload: {
         courseId: this.assignment.courseId,
         clientId: this.assignment.clientId,
       },
     };
+    if (this.assignment.dateTo) {
+      data.payload.dateTo = this.assignment.dateTo;
+    }
+    if (this.assignment.dateFrom) {
+      data.payload.dateFrom = this.assignment.dateFrom;
+    }
+
     this.apiServices.postRequest(data).subscribe((response) => {
       this.toastr.success('Course has been assigned to client');
+      this.resetAssignmentData();
+      this.getCourseAssignments();
+    });
+  }
+  updateAssignment() {
+    const data: any = {
+      path: 'course/assignment/update',
+      payload: {
+        courseAssignmentId: this.assignment.id,
+      },
+    };
+    if (this.assignment.dateTo) {
+      data.payload.dateTo = this.assignment.dateTo;
+    }
+    if (this.assignment.dateFrom) {
+      data.payload.dateFrom = this.assignment.dateFrom;
+    }
+    this.apiServices.postRequest(data).subscribe((data: any) => {
+      this.toastr.success('Course assignment has been updated successfully!');
       this.resetAssignmentData();
       this.getCourseAssignments();
     });
@@ -117,6 +147,8 @@ export class AssignmentsComponent {
       id: assignment.id,
       clientId: assignment.clientId,
       courseId: assignment.courseId,
+      dateTo: assignment.dateTo,
+      dateFrom: assignment.dateFrom,
     };
   }
 
@@ -130,6 +162,8 @@ export class AssignmentsComponent {
       id: '',
       clientId: '',
       courseId: '',
+      dateTo: '',
+      dateFrom: '',
     };
   }
 }
