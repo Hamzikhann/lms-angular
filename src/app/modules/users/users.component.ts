@@ -42,6 +42,8 @@ export class UsersComponent {
     order: [[0, 'desc']],
   };
 
+  newPassword: string = '';
+
   constructor(
     private router: Router,
     private toastr: ToastrService,
@@ -151,7 +153,6 @@ export class UsersComponent {
         firstName: this.user.firstName,
         lastName: this.user.lastName,
         email: this.user.email,
-        password: this.user.password,
         managerId: this.user.managerId,
         departmentId: this.user.departmentId,
         designationId: this.user.designationId,
@@ -173,6 +174,24 @@ export class UsersComponent {
     };
     this.apiServices.postRequest(data).subscribe((data) => {
       this.toastr.success('User deleted successfully!');
+      this.resetUserData();
+      this.getUsers();
+    });
+  }
+
+  updateUserPassword() {
+    const data = {
+      path: 'users/reset/credentials',
+      payload: {
+        userId: this.user.id,
+        newPassword: this.newPassword,
+      },
+    };
+    this.apiServices.postRequest(data).subscribe((data) => {
+      if (this.closeModal) {
+        this.closeModal.nativeElement.click();
+      }
+      this.toastr.success('User password updated successfully!');
       this.resetUserData();
       this.getUsers();
     });
