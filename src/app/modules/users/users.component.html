@@ -277,6 +277,7 @@
                         <i class="material-icons mr-0">delete</i>
                       </span>
                       <span
+                        *ngIf="loggedInUser.role.title == 'Client'"
                         class="badge badge-primary p-1 mr-2"
                         href="#"
                         data-toggle="modal"
