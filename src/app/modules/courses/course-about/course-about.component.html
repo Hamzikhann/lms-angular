@@ -26,10 +26,7 @@
         </div>
         <div class="about-course mt-4">
           <div class="row">
-            <div
-              class="col-4"
-              *ngIf="loggedInUser.role.title == 'Administrator'"
-            >
+            <div class="col" *ngIf="loggedInUser.role.title == 'Administrator'">
               <div class="page-separator">
                 <div class="page-separator__text">Status</div>
               </div>
@@ -46,17 +43,29 @@
                 Draft
               </div>
             </div>
-            <div class="col-4">
+            <div class="col">
               <div class="page-separator">
                 <div class="page-separator__text">Language</div>
               </div>
               <p class="text-70">{{ courseDetails.language }}</p>
             </div>
-            <div class="col-4">
+            <div class="col">
               <div class="page-separator">
                 <div class="page-separator__text">Difficulty Level</div>
               </div>
               <p class="text-70">{{ courseDetails.level }}</p>
+            </div>
+            <div class="col" *ngIf="courseDetails.approximateTime">
+              <div class="page-separator">
+                <div class="page-separator__text">Approximate Time</div>
+              </div>
+              <p class="text-70">{{ courseDetails.approximateTime }}</p>
+            </div>
+            <div class="col" *ngIf="courseDetails.passingThreshold">
+              <div class="page-separator">
+                <div class="page-separator__text">Threshold for Success</div>
+              </div>
+              <p class="text-70">{{ courseDetails.passingThreshold }}</p>
             </div>
           </div>
         </div>
