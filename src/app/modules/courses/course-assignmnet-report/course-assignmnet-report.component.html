@@ -1,4 +1,6 @@
-<div class="container page__container d-flex flex-column flex-md-row align-items-center text-center text-sm-left">
+<div
+  class="container page__container d-flex flex-column flex-md-row align-items-center text-center text-sm-left"
+>
   <div class="flex d-flex flex-column flex-sm-row align-items-center">
     <div class="my-24pt mr-sm-24pt">
       <h2 class="mb-0">Report</h2>
@@ -47,8 +49,12 @@
           <ng-container *ngIf="loading">
             <img src="/assets/images/loading.svg" width="20" class="mb-3" />
           </ng-container>
-          <table class="table table-sm table-hover table-bordered mb-0" *ngIf="!loading && courseEnrollments.length > 0"
-            datatable [dtOptions]="dtOptions">
+          <table
+            class="table table-sm table-hover table-bordered mb-0"
+            *ngIf="!loading && courseEnrollments.length > 0"
+            datatable
+            [dtOptions]="dtOptions"
+          >
             <thead class="bg-light">
               <tr>
                 <th scope="col">User Name</th>
@@ -61,15 +67,36 @@
             <tbody>
               <ng-container *ngFor="let enrollment of courseEnrollments">
                 <tr>
-                  <td>{{ enrollment.user.firstName + " " + enrollment.user.lastName }}</td>
-                  <td>{{ enrollment.user.email }}</td>
-                  <td>{{ enrollment.user.userDepartment.title }}</td>
-                  <td>{{ enrollment.user.manager.firstName + " " + enrollment.user.manager.lastName }}</td>
+                  <td>
+                    {{
+                      enrollment.courseEnrollmentUsers.user.firstName +
+                        " " +
+                        enrollment.courseEnrollmentUsers.user.lastName
+                    }}
+                  </td>
+                  <td>{{ enrollment.courseEnrollmentUsers.user.email }}</td>
+                  <td>
+                    {{
+                      enrollment.courseEnrollmentUsers.user.userDepartment.title
+                    }}
+                  </td>
+                  <td>
+                    {{
+                      enrollment.courseEnrollmentUsers.user.manager.firstName +
+                        " " +
+                        enrollment.courseEnrollmentUsers.user.manager.lastName
+                    }}
+                  </td>
                   <td>
                     <div class="progress">
-                      <div class="progress-bar progress-bar-striped bg-success progress-bar-animated" role="progressbar"
-                        [attr.aria-valuenow]="enrollment.courseProgress" aria-valuemin="0" aria-valuemax="100"
-                        [style.width.%]="enrollment.courseProgress">
+                      <div
+                        class="progress-bar progress-bar-striped bg-success progress-bar-animated"
+                        role="progressbar"
+                        [attr.aria-valuenow]="enrollment.courseProgress"
+                        aria-valuemin="0"
+                        aria-valuemax="100"
+                        [style.width.%]="enrollment.courseProgress"
+                      >
                         {{ enrollment.courseProgress }}%
                       </div>
                     </div>

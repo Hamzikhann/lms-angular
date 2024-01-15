@@ -50,6 +50,7 @@ export class CourseAssignmnetReportComponent {
       this.courseEnrollments = response.data.courseEnrollments;
       this.loading = false;
       console.log(this.courseDetail);
+      console.log(this.courseEnrollments);
     });
   }
 }
