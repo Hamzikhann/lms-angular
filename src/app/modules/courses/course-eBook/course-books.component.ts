@@ -3,6 +3,7 @@ import { ApiService } from 'src/app/services/users/api.service';
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from 'src/app/services/auth/auth.service';
+import { ConfigService } from 'src/app/config/config.service';
 
 @Component({
   selector: 'app-course-books',
@@ -10,6 +11,8 @@ import { AuthService } from 'src/app/services/auth/auth.service';
   styleUrls: ['./course-books.component.css'],
 })
 export class CourseBooksComponent {
+  ImgBaseURL: string = this.config.ImgBaseURL;
+
   loggedInUser: any;
   permission: any = { create: false, update: false, delete: false };
 
@@ -21,7 +24,7 @@ export class CourseBooksComponent {
     edition: '',
     author: '',
     publisher: '',
-    bookUrl: '',
+    eBook: '',
   };
   bookFormType: string = '';
 
@@ -34,7 +37,8 @@ export class CourseBooksComponent {
     private toastr: ToastrService,
     private apiServices: ApiService,
     private route: ActivatedRoute,
-    private authService: AuthService
+    private authService: AuthService,
+    private config: ConfigService
   ) {}
 
   ngOnInit(): void {
@@ -62,6 +66,7 @@ export class CourseBooksComponent {
     };
     this.apiServices.postRequest(data).subscribe((response) => {
       this.books = response.data;
+      console.log(this.books);
       this.filteredBooks = this.books;
       this.loading = false;
     });
@@ -76,7 +81,7 @@ export class CourseBooksComponent {
         edition: this.book.edition,
         author: this.book.author,
         publisher: this.book.publisher,
-        bookUrl: this.book.bookUrl,
+        eBook: this.book.eBook,
       },
     };
     this.apiServices.postRequest(data).subscribe((data) => {
@@ -98,7 +103,7 @@ export class CourseBooksComponent {
         edition: this.book.edition,
         author: this.book.author,
         publisher: this.book.publisher,
-        bookUrl: this.book.bookUrl,
+        eBook: this.book.eBook,
       },
     };
     this.apiServices.postRequest(data).subscribe((data) => {
@@ -135,7 +140,7 @@ export class CourseBooksComponent {
       edition: book.edition,
       author: book.author,
       publisher: book.publisher,
-      bookUrl: book.bookUrl,
+      eBook: book.eBook,
     };
   }
 
@@ -151,7 +156,7 @@ export class CourseBooksComponent {
       edition: '',
       author: '',
       publisher: '',
-      bookUrl: '',
+      eBook: '',
     };
   }
 
@@ -160,5 +165,10 @@ export class CourseBooksComponent {
     this.filteredBooks = this.books.filter((book: any) =>
       book.title.toLowerCase().includes(searchQuery)
     );
+  }
+
+  eBookSelected(event: any) {
+    this.book.eBook = event.target.files[0];
+    console.log(this.book.eBook);
   }
 }

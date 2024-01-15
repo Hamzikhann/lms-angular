@@ -12,10 +12,10 @@ import { CoursesComponent } from './courses.component';
 import { CourseCreateComponent } from './course-create/course-create.component';
 import { DetailComponent } from './detail/detail.component';
 import { LectureComponent } from './detail/lecture/lecture.component';
-import { CourseBooksComponent } from './course-books/course-books.component';
+import { CourseBooksComponent } from './course-eBook/course-books.component';
 import { CourseUsefulLinksComponent } from './course-useful-links/course-useful-links.component';
 import { CourseFaqsComponent } from './course-faqs/course-faqs.component';
-import { CourseTocComponent } from './course-toc/course-toc.component';
+import { CourseTocComponent } from './course-modules/course-toc.component';
 import { CourseAboutComponent } from './course-about/course-about.component';
 import { CourseUpdateComponent } from './course-update/course-update.component';
 import { CourseAchievementsComponent } from './course-achievements/course-achievements.component';
@@ -61,11 +61,11 @@ const routes: Routes = [
             component: CourseAboutComponent,
           },
           {
-            path: 'tasks',
+            path: 'modules',
             component: CourseTocComponent,
           },
           {
-            path: 'books',
+            path: 'eBook',
             component: CourseBooksComponent,
           },
           {

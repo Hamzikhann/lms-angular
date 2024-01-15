@@ -21,7 +21,7 @@ export class DetailComponent {
   sections: any = {
     about: false,
     index: false,
-    books: false,
+    eBook: false,
     links: false,
     faqs: false,
     achievements: false,
@@ -42,10 +42,10 @@ export class DetailComponent {
     this.courseId = this.route.snapshot.paramMap.get('id');
     this.getCourseDetails();
 
-    if (this.router.url.includes('task')) {
+    if (this.router.url.includes('modules')) {
       this.sections.index = true;
-    } else if (this.router.url.includes('books')) {
-      this.sections.books = true;
+    } else if (this.router.url.includes('eBook')) {
+      this.sections.eBook = true;
     } else if (this.router.url.includes('links')) {
       this.sections.links = true;
     } else if (this.router.url.includes('faqs')) {
@@ -76,7 +76,7 @@ export class DetailComponent {
     this.sections = {
       about: false,
       index: false,
-      books: false,
+      eBook: false,
       links: false,
       faqs: false,
       achievements: false,

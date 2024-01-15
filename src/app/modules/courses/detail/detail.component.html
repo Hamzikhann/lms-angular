@@ -77,19 +77,19 @@
             class="nav-item navbar-list__item pl-3"
             [class.active]="sections.index"
             (click)="toggleSection('index')"
-            [routerLink]="['tasks']"
+            [routerLink]="['modules']"
           >
             <i class="material-icons icon--left">list_alt</i>
-            <span>Syllabus / Table of Content</span>
+            <span>Modules</span>
           </li>
           <li
             class="nav-item navbar-list__item pl-3"
-            [class.active]="sections.books"
-            (click)="toggleSection('books')"
-            [routerLink]="['books']"
+            [class.active]="sections.eBook"
+            (click)="toggleSection('eBook')"
+            [routerLink]="['eBook']"
           >
             <i class="material-icons icon--left">menu_book</i>
-            <span>Books</span>
+            <span>eBook</span>
           </li>
           <li
             class="nav-item navbar-list__item pl-3"

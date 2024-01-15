@@ -339,5 +339,6 @@ export class CourseTocModulesComponent {
 
   onHandoutSelected(event: any) {
     this.task.handout = event.target.files[0];
+    console.log(this.task.handout);
   }
 }
