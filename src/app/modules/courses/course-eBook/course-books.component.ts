@@ -73,16 +73,18 @@ export class CourseBooksComponent {
   }
 
   createBook() {
+    const payload = new FormData();
+
+    payload.append('courseId', this.courseId);
+    payload.append('title', this.book.title);
+    payload.append('edition', this.book.edition);
+    payload.append('author', this.book.author);
+    payload.append('publisher', this.book.publisher);
+    payload.append('eBook', this.book.eBook);
+
     const data = {
       path: 'course/books/create ',
-      payload: {
-        courseId: this.courseId,
-        title: this.book.title,
-        edition: this.book.edition,
-        author: this.book.author,
-        publisher: this.book.publisher,
-        eBook: this.book.eBook,
-      },
+      payload: payload,
     };
     this.apiServices.postRequest(data).subscribe((data) => {
       if (this.closeBookModal) {
@@ -95,16 +97,18 @@ export class CourseBooksComponent {
   }
 
   updateBook() {
+    const payload = new FormData();
+
+    payload.append('bookId', this.book.id);
+    payload.append('title', this.book.title);
+    payload.append('edition', this.book.edition);
+    payload.append('author', this.book.author);
+    payload.append('publisher', this.book.publisher);
+    payload.append('eBook', this.book.eBook);
+
     const data = {
       path: 'course/books/update ',
-      payload: {
-        bookId: this.book.id,
-        title: this.book.title,
-        edition: this.book.edition,
-        author: this.book.author,
-        publisher: this.book.publisher,
-        eBook: this.book.eBook,
-      },
+      payload: payload,
     };
     this.apiServices.postRequest(data).subscribe((data) => {
       if (this.closeBookModal) {
@@ -160,12 +164,12 @@ export class CourseBooksComponent {
     };
   }
 
-  searchBooks(event: any) {
-    const searchQuery = (event.target as HTMLInputElement).value.toLowerCase();
-    this.filteredBooks = this.books.filter((book: any) =>
-      book.title.toLowerCase().includes(searchQuery)
-    );
-  }
+  // searchBooks(event: any) {
+  //   const searchQuery = (event.target as HTMLInputElement).value.toLowerCase();
+  //   this.filteredBooks = this.books.filter((book: any) =>
+  //     book.title.toLowerCase().includes(searchQuery)
+  //   );
+  // }
 
   eBookSelected(event: any) {
     this.book.eBook = event.target.files[0];

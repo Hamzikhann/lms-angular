@@ -77,16 +77,16 @@
             class="nav-item navbar-list__item pl-3"
             [class.active]="sections.index"
             (click)="toggleSection('index')"
-            [routerLink]="['modules']"
+            [routerLink]="['tasks']"
           >
             <i class="material-icons icon--left">list_alt</i>
             <span>Modules</span>
           </li>
           <li
             class="nav-item navbar-list__item pl-3"
-            [class.active]="sections.eBook"
-            (click)="toggleSection('eBook')"
-            [routerLink]="['eBook']"
+            [class.active]="sections.books"
+            (click)="toggleSection('books')"
+            [routerLink]="['books']"
           >
             <i class="material-icons icon--left">menu_book</i>
             <span>eBook</span>

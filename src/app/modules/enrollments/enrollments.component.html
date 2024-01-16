@@ -258,6 +258,11 @@
                           >Optional</ng-container
                         >
                       </div>
+                    </td>
+                    <td>{{ enrollment.courseAssignment.course.title }}</td>
+                    <td>
+                      {{ enrollment.courseEnrollmentType.title }}
+
                       <div>
                         <ng-container
                           *ngIf="
@@ -265,14 +270,14 @@
                             'Department'
                           "
                         >
-                          {{ enrollment.userDepartment.title }}
+                          ({{ enrollment.userDepartment.title }})
                         </ng-container>
                         <ng-container
                           *ngIf="
                             enrollment.courseEnrollmentType.title == 'Team'
                           "
                         >
-                          {{ enrollment.team.title }}
+                          ({{ enrollment.team.title }})
                         </ng-container>
                         <ng-container
                           *ngIf="
@@ -280,16 +285,15 @@
                             'Individual'
                           "
                         >
-                          {{
+                          ({{
                             enrollment.courseEnrollmentUsers[0].user.firstName +
                               " " +
-                              enrollment.courseEnrollmentUsers[0].user.firstName
-                          }}
+                              enrollment.courseEnrollmentUsers[0].user
+                                .firstName
+                          }})
                         </ng-container>
                       </div>
                     </td>
-                    <td>{{ enrollment.courseAssignment.course.title }}</td>
-                    <td>{{ enrollment.courseEnrollmentType.title }}</td>
                     <!-- <td>
                      
                       {{

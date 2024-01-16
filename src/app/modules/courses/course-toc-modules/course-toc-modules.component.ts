@@ -52,6 +52,7 @@ export class CourseTocModulesComponent {
     taskTypeId: '',
     taskTypeName: '',
     moduleId: '',
+    reference: '',
   };
   taskFormType: string = '';
 
@@ -235,6 +236,8 @@ export class CourseTocModulesComponent {
     payload.append('contentVideoLink', this.task.videoLink);
     payload.append('courseTaskTypeId', this.task.taskTypeId);
     payload.append('courseModuleId', this.task.moduleId);
+    payload.append('reference', this.task.reference);
+
     if (this.task.handout) {
       payload.append('handout', this.task.handout);
     }
@@ -261,6 +264,8 @@ export class CourseTocModulesComponent {
     payload.append('contentDescription', this.task.description);
     payload.append('contentVideoLink', this.task.videoLink);
     payload.append('courseTaskTypeId', this.task.taskTypeId);
+    payload.append('reference', this.task.reference);
+
     if (this.task.handout) {
       payload.append('handout', this.task.handout);
     }
@@ -309,6 +314,7 @@ export class CourseTocModulesComponent {
       handout: task.courseTaskContent.handout,
       taskTypeId: task.courseTaskTypeId,
       moduleId: task.courseModuleId,
+      reference: task.reference,
     };
     this.setTaskType();
   }
@@ -334,6 +340,7 @@ export class CourseTocModulesComponent {
       taskTypeId: '',
       taskTypeName: '',
       moduleId: '',
+      reference: '',
     };
   }
 

@@ -61,11 +61,11 @@ const routes: Routes = [
             component: CourseAboutComponent,
           },
           {
-            path: 'modules',
+            path: 'tasks',
             component: CourseTocComponent,
           },
           {
-            path: 'eBook',
+            path: 'books',
             component: CourseBooksComponent,
           },
           {

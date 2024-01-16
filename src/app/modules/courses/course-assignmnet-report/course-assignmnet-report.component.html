@@ -69,22 +69,18 @@
                 <tr>
                   <td>
                     {{
-                      enrollment.courseEnrollmentUsers.user.firstName +
-                        " " +
-                        enrollment.courseEnrollmentUsers.user.lastName
+                      enrollment.user.firstName + " " + enrollment.user.lastName
                     }}
                   </td>
-                  <td>{{ enrollment.courseEnrollmentUsers.user.email }}</td>
+                  <td>{{ enrollment.user.email }}</td>
                   <td>
-                    {{
-                      enrollment.courseEnrollmentUsers.user.userDepartment.title
-                    }}
+                    {{ enrollment.user.userDepartment.title }}
                   </td>
                   <td>
                     {{
-                      enrollment.courseEnrollmentUsers.user.manager.firstName +
+                      enrollment.user.manager.firstName +
                         " " +
-                        enrollment.courseEnrollmentUsers.user.manager.lastName
+                        enrollment.user.manager.lastName
                     }}
                   </td>
                   <td>
