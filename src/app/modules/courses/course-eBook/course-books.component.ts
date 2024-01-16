@@ -104,7 +104,7 @@ export class CourseBooksComponent {
     payload.append('edition', this.book.edition);
     payload.append('author', this.book.author);
     payload.append('publisher', this.book.publisher);
-    payload.append('eBook', this.book.eBook);
+    payload.append('ebook', this.book.eBook);
 
     const data = {
       path: 'course/books/update ',
