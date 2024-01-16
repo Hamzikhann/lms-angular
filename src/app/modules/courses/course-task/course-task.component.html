@@ -12,8 +12,19 @@
       <app-course-toc-modules></app-course-toc-modules>
     </div>
     <div class="col-lg-8 col-sm-12">
-      <div class="page-separator mb-32pt">
+      <div class="page-separator d-flex justify-content-between mb-32pt">
         <div class="page-separator__text">{{ taskDetails.title }}</div>
+        <div>
+          <a
+            [routerLink]="[
+              '/courses',
+              courseId,
+              'books',
+              taskDetails.reference
+            ]"
+            >View eBook</a
+          >
+        </div>
       </div>
       <div class="page-task">
         <!-- <ng-container *ngIf="loading">

@@ -4,6 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { ConfigService } from 'src/app/config/config.service';
+import { PdfViewerComponent } from 'ng2-pdf-viewer';
 
 @Component({
   selector: 'app-course-books',
@@ -30,7 +31,13 @@ export class CourseBooksComponent {
 
   loading: boolean = false;
 
+  currentPage = 1;
+  pageNumber: any = 1;
+  totalPages: any;
+
   @ViewChild('closeBookModal') closeBookModal: ElementRef | undefined;
+  @ViewChild(PdfViewerComponent) pdfViewer?: PdfViewerComponent;
+
   filteredBooks: any;
 
   constructor(
@@ -50,6 +57,12 @@ export class CourseBooksComponent {
     this.route.parent?.params.subscribe((params: any) => {
       this.courseId = params.id;
       this.getBooks();
+    });
+
+    this.route.paramMap.subscribe((data: any) => {
+      this.pageNumber = data.params.referenceNo;
+      this.pageNumber = parseInt(this.pageNumber);
+      console.log(this.pageNumber, typeof this.pageNumber);
     });
   }
 
@@ -177,6 +190,37 @@ export class CourseBooksComponent {
 
   eBookSelected(event: any) {
     this.book.eBook = event.target.files[0];
-    console.log(this.book.eBook, this.book.eBook.name);
+  }
+
+  search(target: any) {
+    if (!target.value) return;
+    this.pdfViewer?.eventBus.dispatch('find', {
+      query: target.value,
+      type: 'again',
+      caseSensitive: false,
+      findPrevious: undefined,
+      highlightAll: true,
+      phraseSearch: true,
+    });
+  }
+
+  afterLoadComplete(pdf: any): void {
+    this.totalPages = pdf.numPages;
+    this.goToPage();
+  }
+
+  goToPage() {
+    if (
+      this.pageNumber &&
+      this.pageNumber >= 1 &&
+      this.pageNumber <= this.getTotalPages()
+    ) {
+      this.currentPage = 12;
+      console.log(this.currentPage);
+    }
+  }
+
+  private getTotalPages(): any {
+    return this.totalPages || 0;
   }
 }

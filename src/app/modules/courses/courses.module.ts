@@ -69,6 +69,10 @@ const routes: Routes = [
             component: CourseBooksComponent,
           },
           {
+            path: 'books/:referenceNo',
+            component: CourseBooksComponent,
+          },
+          {
             path: 'useful-links',
             component: CourseUsefulLinksComponent,
           },

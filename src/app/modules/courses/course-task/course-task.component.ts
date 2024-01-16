@@ -27,6 +27,11 @@ export class CourseTaskComponent {
   taskDetails: any;
   loggedInUser: any;
 
+  currentPage = 1;
+  pageNumber: any;
+  totalPages: any;
+  reference: any;
+
   constructor(
     private authService: AuthService,
     private apiServices: ApiService,
@@ -98,5 +103,13 @@ export class CourseTaskComponent {
         this.courseTaskService.callAssessmentAPI(this.taskId);
       });
     });
+  }
+
+  afterLoadComplete(pdf: any): void {
+    this.totalPages = pdf.numPages;
+  }
+
+  private getTotalPages(): any {
+    return this.totalPages || 0;
   }
 }
