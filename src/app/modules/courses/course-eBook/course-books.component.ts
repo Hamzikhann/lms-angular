@@ -80,7 +80,7 @@ export class CourseBooksComponent {
     payload.append('edition', this.book.edition);
     payload.append('author', this.book.author);
     payload.append('publisher', this.book.publisher);
-    payload.append('eBook', this.book.eBook);
+    payload.append('ebook', this.book.eBook);
 
     const data = {
       path: 'course/books/create ',
@@ -98,7 +98,6 @@ export class CourseBooksComponent {
 
   updateBook() {
     const payload = new FormData();
-
     payload.append('bookId', this.book.id);
     payload.append('title', this.book.title);
     payload.append('edition', this.book.edition);
@@ -144,8 +143,13 @@ export class CourseBooksComponent {
       edition: book.edition,
       author: book.author,
       publisher: book.publisher,
-      eBook: book.eBook,
     };
+    const urlSplit = book.bookUrl.split('/');
+    if (urlSplit.length > 0 && urlSplit[2]) {
+      this.book.eBook = {
+        name: urlSplit[2],
+      };
+    }
   }
 
   setBookFormType(name: any) {
@@ -173,6 +177,6 @@ export class CourseBooksComponent {
 
   eBookSelected(event: any) {
     this.book.eBook = event.target.files[0];
-    console.log(this.book.eBook);
+    console.log(this.book.eBook, this.book.eBook.name);
   }
 }
