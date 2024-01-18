@@ -62,6 +62,16 @@
             </button>
           </div>
         </div>
+        <div class="mb-3">
+          <input
+            type="text"
+            [(ngModel)]="pageNumber"
+            placeholder="Enter page number"
+          />
+          <button class="btn btn-primary btn-sm ml-2" (click)="goToPage()">
+            Go to Page
+          </button>
+        </div>
         <div class="row" *ngFor="let book of filteredBooks">
           <div class="col-md-12">
             <div class="card card--elevated card-group-row__card">

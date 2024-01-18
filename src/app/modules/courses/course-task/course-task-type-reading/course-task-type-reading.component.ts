@@ -16,9 +16,9 @@ export class CourseTaskTypeReadingComponent {
   taskId: any;
   taskDetails: any;
 
-  currentPage = 1;
-  pageNumber: any;
-  totalPages: any;
+  currentPage: number = 1;
+  pageNumber: number = 1;
+  totalPages: number = 0;
 
   @ViewChild(PdfViewerComponent) pdfViewer?: PdfViewerComponent;
 

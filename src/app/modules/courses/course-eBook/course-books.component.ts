@@ -29,16 +29,16 @@ export class CourseBooksComponent {
   };
   bookFormType: string = '';
 
+  filteredBooks: any;
+
   loading: boolean = false;
 
-  currentPage = 1;
-  pageNumber: any = 1;
-  totalPages: any;
+  currentPage: number = 1;
+  pageNumber: number = 1;
+  totalPages: number = 0;
 
   @ViewChild('closeBookModal') closeBookModal: ElementRef | undefined;
   @ViewChild(PdfViewerComponent) pdfViewer?: PdfViewerComponent;
-
-  filteredBooks: any;
 
   constructor(
     private toastr: ToastrService,
@@ -59,11 +59,10 @@ export class CourseBooksComponent {
       this.getBooks();
     });
 
-    this.route.paramMap.subscribe((data: any) => {
-      this.pageNumber = data.params.referenceNo;
-      this.pageNumber = parseInt(this.pageNumber);
-      console.log(this.pageNumber, typeof this.pageNumber);
-    });
+    // this.route.paramMap.subscribe((data: any) => {
+    //   this.pageNumber = data.params.referenceNo;
+    //   this.pageNumber = this.pageNumber;
+    // });
   }
 
   getBooks() {
@@ -206,7 +205,6 @@ export class CourseBooksComponent {
 
   afterLoadComplete(pdf: any): void {
     this.totalPages = pdf.numPages;
-    this.goToPage();
   }
 
   goToPage() {
@@ -215,8 +213,7 @@ export class CourseBooksComponent {
       this.pageNumber >= 1 &&
       this.pageNumber <= this.getTotalPages()
     ) {
-      this.currentPage = 12;
-      console.log(this.currentPage);
+      this.currentPage = this.pageNumber;
     }
   }
 
