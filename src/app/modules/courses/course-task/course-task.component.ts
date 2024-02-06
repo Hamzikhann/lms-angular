@@ -27,9 +27,9 @@ export class CourseTaskComponent {
   taskDetails: any;
   loggedInUser: any;
 
-  currentPage = 1;
-  pageNumber: any;
-  totalPages: any;
+  currentPage: number = 1;
+  pageNumber: number = 1;
+  totalPages: number = 0;
   reference: any;
 
   constructor(
