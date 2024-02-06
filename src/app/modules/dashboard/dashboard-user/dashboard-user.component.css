@@ -189,6 +189,9 @@
 .task-row .task-icon-play {
   color: #292d30;
 }
+.task-row .task-info {
+  width: 100%;
+}
 .task-row .task-info .task-title {
   font-weight: 500;
   margin-bottom: 8px;
