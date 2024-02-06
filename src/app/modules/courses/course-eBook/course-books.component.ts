@@ -37,6 +37,8 @@ export class CourseBooksComponent {
   pageNumber: number = 1;
   totalPages: number = 0;
 
+  pdfLoaded: boolean = false;
+
   @ViewChild('closeBookModal') closeBookModal: ElementRef | undefined;
   @ViewChild(PdfViewerComponent) pdfViewer?: PdfViewerComponent;
 
@@ -59,9 +61,10 @@ export class CourseBooksComponent {
       this.getBooks();
     });
 
-    // this.route.paramMap.subscribe((data: any) => {
-    //   this.pageNumber = data.params.referenceNo;
-    //   this.pageNumber = this.pageNumber;
+    // this.route.paramMap.subscribe((params: any) => {
+    //   this.pageNumber = +params.get('referenceNo');
+    //   console.log('pageNumber:', this.pageNumber);
+    //   this.goToPage();
     // });
   }
 
@@ -205,6 +208,9 @@ export class CourseBooksComponent {
 
   afterLoadComplete(pdf: any): void {
     this.totalPages = pdf.numPages;
+    this.pdfLoaded = true;
+
+    this.goToPage();
   }
 
   goToPage() {
