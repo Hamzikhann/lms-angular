@@ -53,7 +53,8 @@
               "src/assets/js/app.js",
               "src/assets/js/preloader.js",
               "src/assets/js/yt_iframe_api.js",
-              "node_modules/datatables.net/js/jquery.dataTables.js"
+              "node_modules/datatables.net/js/jquery.dataTables.js",
+              "node_modules/apexcharts/dist/apexcharts.min.js"
             ]
           },
           "configurations": {

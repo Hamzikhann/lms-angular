@@ -1,0 +1,295 @@
+<div class="app-sidebar">
+  <div class="app-logo border-bottom-1">
+    <img [src]="'/assets/images/logo/logo-senastic.png'" class="h-32px" />
+  </div>
+  <div class="app-navigation">
+    <h4 class="nav-title">Navigation</h4>
+    <ul class="nav-items">
+      <li>
+        <span class="nav-icon"><i class="material-icons">dashboard</i></span>
+        <span class="nav-text">Dashboard</span>
+      </li>
+      <li>
+        <span class="nav-icon"><i class="material-icons">library_books</i></span>
+        <span class="nav-text">My Courses</span>
+      </li>
+      <li>
+        <span class="nav-icon"><i class="material-icons">group</i></span>
+        <span class="nav-text">Teams</span>
+      </li>
+    </ul>
+    <h4 class="nav-title">Settings</h4>
+    <ul class="nav-items">
+      <li>
+        <span class="nav-icon"><i class="material-icons">account_circle</i></span>
+        <span class="nav-text">My Account</span>
+      </li>
+      <li>
+        <span class="nav-icon"><i class="material-icons">vpn_key</i></span>
+        <span class="nav-text">Change Password</span>
+      </li>
+    </ul>
+  </div>
+  <div class="app-user">
+    <img class="image" src="/assets/images/user-default.png" />
+    <div class="info">
+      <p>John Doe</p>
+      <span>Designer</span>
+    </div>
+  </div>
+</div>
+<div class="app-content">
+  <div class="page-head"></div>
+  <div class="page-content">
+    <div class="row">
+      <div class="col-lg-12 col-sm-12">
+        <div class="page-component">
+          <h5 class="component-title">Overall Progress</h5>
+          <div class="card">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-3">
+                  <div class="progress-widget">
+                    <div id="chart">
+                      <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart"
+                        [plotOptions]="chartOptions.plotOptions" [labels]="chartOptions.labels"
+                        [legend]="chartOptions.legend" [stroke]="chartOptions.stroke"></apx-chart>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-3">
+                  <div class="stat-widget mb-4">
+                    <span class="stat-icon">
+                      <i class="material-icons">playlist_play</i>
+                    </span>
+                    <div class="">
+                      <h4 class="stat-value">9</h4>
+                      <h4 class="stat-title">Enrolled Courses</h4>
+                    </div>
+                  </div>
+                  <div class="stat-widget">
+                    <span class="stat-icon">
+                      <i class="material-icons">replay</i>
+                    </span>
+                    <div class="">
+                      <h4 class="stat-value">2</h4>
+                      <h4 class="stat-title">Courses Not Started</h4>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-3">
+                  <div class="stat-widget mb-4">
+                    <span class="stat-icon">
+                      <i class="material-icons">check</i>
+                    </span>
+                    <div class="">
+                      <h4 class="stat-value">3</h4>
+                      <h4 class="stat-title">Inprogress Courses</h4>
+                    </div>
+                  </div>
+                  <div class="stat-widget">
+                    <span class="stat-icon">
+                      <i class="material-icons">check</i>
+                    </span>
+                    <div class="">
+                      <h4 class="stat-value">4</h4>
+                      <h4 class="stat-title">Completed Courses</h4>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-3">
+                  <img src="/assets/images/stat-calculation.png" height="162" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-8 col-sm-12">
+        <div class="page-component">
+          <h5 class="component-title">Resume Tasks</h5>
+          <div class="card">
+            <div class="card-body p-0">
+              <div class="tasks-list-widget">
+                <div class="task-row">
+                  <div class="task-info">
+                    <h6 class="task-title">Human Centered Design</h6>
+                    <div class="task-attributes">
+                      <div class="attrib">
+                        <i class="material-icons">info_outline</i>
+                        Reading
+                      </div>
+                      <div class="attrib">
+                        <i class="material-icons">access_time</i>
+                        1h 30mins
+                      </div>
+                      <div class="attrib">
+                        <i class="material-icons">bookmark_border</i>
+                        UI/UX Design
+                      </div>
+                    </div>
+                  </div>
+                  <span class="task-icon-play material-icons">play_circle_outline</span>
+                </div>
+                <div class="task-row">
+                  <div class="task-info">
+                    <h6 class="task-title">Learning and Digital Culture</h6>
+                    <div class="task-attributes">
+                      <div class="attrib">
+                        <i class="material-icons">info_outline</i>
+                        Video
+                      </div>
+                      <div class="attrib">
+                        <i class="material-icons">access_time</i>
+                        1h 30mins
+                      </div>
+                      <div class="attrib">
+                        <i class="material-icons">bookmark_border</i>
+                        <div class="text-ellipsis">
+                          <span>Comprehensive Customer Relationship Management</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <span class="task-icon-play material-icons">play_circle_outline</span>
+                </div>
+                <div class="task-row">
+                  <div class="task-info">
+                    <h6 class="task-title">SQL: Super Complex</h6>
+                    <div class="task-attributes">
+                      <div class="attrib">
+                        <i class="material-icons">info_outline</i>
+                        Assessment
+                      </div>
+                      <div class="attrib">
+                        <i class="material-icons">access_time</i>
+                        1h 30mins
+                      </div>
+                      <div class="attrib">
+                        <i class="material-icons">bookmark_border</i>
+                        UI/UX Design
+                      </div>
+                    </div>
+                  </div>
+                  <span class="task-icon-play material-icons">play_circle_outline</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4 col-sm-12">
+        <div class="page-component">
+          <h5 class="component-title">Upcoming Completions</h5>
+          <div class="card">
+            <div class="card-body p-0">
+              <div class="tasks-list-widget">
+                <div class="task-row">
+                  <div class="task-info">
+                    <h6 class="task-title">UI/UX Design</h6>
+                    <div class="task-attributes">
+                      <div class="attrib">
+                        <i class="material-icons">access_time</i>
+                        Februray 23, 2024
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="task-row">
+                  <div class="task-info">
+                    <h6 class="task-title">Comprehensive Customer Relationship Management</h6>
+                    <div class="task-attributes">
+                      <div class="attrib">
+                        <i class="material-icons">access_time</i>
+                        March 03, 2024
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="task-row">
+                  <div class="task-info">
+                    <h6 class="task-title">SQL: Super Complex</h6>
+                    <div class="task-attributes">
+                      <div class="attrib">
+                        <i class="material-icons">access_time</i>
+                        March 13, 2024
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-12">
+        <div class="page-component">
+          <h5 class="component-title">My Courses</h5>
+          <div class="row">
+            <div class="col-lg-4 col-sm-12 col-xs-12">
+              <div class="card course">
+                <div class="card-body course-body">
+                  <h6 class="course-attributes">CRM101 - Sales and Marketing</h6>
+                  <div class="text-ellipsis-2">
+                    <h5 class="course-title">Comprehensive Customer Relationship Management</h5>
+                  </div>
+                  <div class="course-stats">
+                    <div class="course-stats-info">
+                      <span class="course-tasks-count"><strong>04</strong> / 12</span>
+                      <span class="course-tasks-nav-icon"><i class="material-icons">keyboard_arrow_right</i></span>
+                    </div>
+                    <div class="course-progress progress">
+                      <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25"
+                        aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-4 col-sm-12 col-xs-12">
+              <div class="card course">
+                <div class="card-body course-body">
+                  <h6 class="course-attributes">UIX-204 - Human Computer Interaction</h6>
+                  <div class="text-ellipsis-2">
+                    <h5 class="course-title">UI/UX Design</h5>
+                  </div>
+                  <div class="course-stats">
+                    <div class="course-stats-info">
+                      <span class="course-tasks-count"><strong>10</strong> / 20</span>
+                      <span class="course-tasks-nav-icon"><i class="material-icons">keyboard_arrow_right</i></span>
+                    </div>
+                    <div class="course-progress progress">
+                      <div class="progress-bar" role="progressbar" style="width: 50%" aria-valuenow="50"
+                        aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-4 col-sm-12 col-xs-12">
+              <div class="card course">
+                <div class="card-body course-body">
+                  <h6 class="course-attributes">CRM101 - Sales and Marketing</h6>
+                  <div class="text-ellipsis-2">
+                    <h5 class="course-title">Comprehensive Customer Relationship Management</h5>
+                  </div>
+                  <div class="course-stats">
+                    <div class="course-stats-info">
+                      <span class="course-tasks-count"><strong>04</strong> / 12</span>
+                      <span class="course-tasks-nav-icon"><i class="material-icons">keyboard_arrow_right</i></span>
+                    </div>
+                    <div class="course-progress progress">
+                      <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25"
+                        aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="page-footer"></div>
+</div>
