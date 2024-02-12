@@ -1,4 +1,4 @@
-<div class="container page__container">
+<div>
   <ng-container *ngIf="loading">
     <div class="text-center loading-icon">
       <img src="/assets/images/loading.svg" />
@@ -6,17 +6,6 @@
   </ng-container>
   <div class="page-separator d-flex align-items-center justify-content-between mb-32pt" *ngIf="!loading">
     <div class="page-separator__text">Achievements</div>
-    <!-- <div class="search-form search-form--light pr-0 pl-16pt">
-      <input
-        class="form-control form-input"
-        type="text"
-        placeholder="Search Achievement"
-        (input)="searchCourseAchievements($event)"
-      />
-      <button class="btn" type="submit">
-        <i class="material-icons">search</i>
-      </button>
-    </div> -->
   </div>
   <div class="row" *ngFor="let achievement of courseAchievements; let i = index">
     <div class="col-md-12">

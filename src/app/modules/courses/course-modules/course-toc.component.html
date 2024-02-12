@@ -3,18 +3,13 @@
     <img src="/assets/images/loading.svg" />
   </div>
 </ng-container>
-<div class="container page__container" *ngIf="!loading">
-  <div
-    class="page-separator d-flex align-items-center justify-content-between mb-32pt"
-  >
+<div *ngIf="!loading">
+  <div class="page-separator d-flex align-items-center justify-content-between mb-32pt">
     <div class="page-separator__text" *ngIf="syllabus.id">
       {{ syllabus.title }}
     </div>
-    <button
-      class="btn btn-primary btn-sm ml-5"
-      *ngIf="loggedInUser.role.title == 'User' && taskTodo"
-      [routerLink]="['/courses', courseId, 'task', taskTodo.id]"
-    >
+    <button class="btn btn-primary btn-sm ml-5" *ngIf="loggedInUser.role.title == 'User' && taskTodo"
+      [routerLink]="['/courses', courseId, 'task', taskTodo.id]">
       Resume Course
     </button>
   </div>

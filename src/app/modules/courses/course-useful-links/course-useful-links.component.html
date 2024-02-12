@@ -1,4 +1,4 @@
-<div class="container page__container">
+<div>
   <ng-container *ngIf="loading">
     <div class="text-center loading-icon">
       <img src="/assets/images/loading.svg" />
@@ -12,8 +12,9 @@
         <i class="material-icons">add_circle</i>
       </span>
     </div>
-    <div class="search-form search-form--light pr-0 pl-16pt">
-      <input class="form-control form-input" type="text" placeholder="Search Useful Links"
+    <div class="search-form search-form--light">
+      <button class="btn" style="white-space: nowrap;">Search</button>
+      <input class="form-control form-input" type="text" placeholder="Useful Links"
         (input)="searchUsefulLinks($event)" />
       <button class="btn" type="submit">
         <i class="material-icons">search</i>

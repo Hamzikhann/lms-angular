@@ -1,5 +1,5 @@
 .footer {
-  position: sticky;
-  width: 100%;
-  bottom: 0;
+  position: absolute;
+  width: calc(100% - 221px);
+  right: 0;
 }

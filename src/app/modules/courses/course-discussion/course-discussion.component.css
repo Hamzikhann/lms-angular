@@ -1,0 +1,6 @@
+.message__body {
+  background-color: #f9f9f9 !important;
+}
+.message__body .time {
+  margin-top: 4px;
+}

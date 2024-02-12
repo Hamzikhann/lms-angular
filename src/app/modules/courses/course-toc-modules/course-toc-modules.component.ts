@@ -305,6 +305,7 @@ export class CourseTocModulesComponent {
     this.task.moduleId = moduleId;
   }
   setTask(task: any) {
+    console.log(task);
     this.task = {
       id: task.id,
       title: task.title,

@@ -8,6 +8,7 @@ import { NgxMasonryModule } from 'ngx-masonry';
 import { AuthGuard } from '../guards/auth.guard';
 import { IndexComponent } from './index.component';
 import { HeaderComponent } from '../shared/header/header.component';
+import { SidebarComponent } from '../shared/sidebar/sidebar.component';
 import { FooterComponent } from '../shared/footer/footer.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { TermsComponent } from './agreements/terms/terms.component';
@@ -106,6 +107,7 @@ const routes: Routes = [
   declarations: [
     IndexComponent,
     HeaderComponent,
+    SidebarComponent,
     FooterComponent,
     DashboardComponent,
     TermsComponent,

@@ -34,7 +34,7 @@ export class CourseBooksComponent {
   loading: boolean = false;
 
   currentPage: number = 1;
-  pageNumber: number = 1;
+  pageNumber: number | undefined;
   totalPages: number = 0;
 
   pdfLoaded: boolean = false;
@@ -60,12 +60,6 @@ export class CourseBooksComponent {
       this.courseId = params.id;
       this.getBooks();
     });
-
-    // this.route.paramMap.subscribe((params: any) => {
-    //   this.pageNumber = +params.get('referenceNo');
-    //   console.log('pageNumber:', this.pageNumber);
-    //   this.goToPage();
-    // });
   }
 
   getBooks() {
@@ -211,9 +205,17 @@ export class CourseBooksComponent {
     this.pdfLoaded = true;
 
     this.goToPage();
+
+    setTimeout(() => {
+      this.route.paramMap.subscribe((params: any) => {
+        this.pageNumber = params.get('referenceNo');
+        this.goToPage();
+      });
+    }, 500);
   }
 
   goToPage() {
+    console.log(this.pageNumber);
     if (
       this.pageNumber &&
       this.pageNumber >= 1 &&

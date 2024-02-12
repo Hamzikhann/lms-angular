@@ -1,8 +1,6 @@
-<div
-  class="container page__container d-flex flex-column flex-md-row align-items-center text-center text-sm-left"
->
+<div class="container page__container d-flex flex-column flex-md-row align-items-center text-center text-sm-left">
   <div class="flex d-flex flex-column flex-sm-row align-items-center">
-    <div class="my-24pt mr-sm-24pt">
+    <div class="mb-24pt mr-sm-24pt">
       <h2 class="mb-0">Teams</h2>
       <ol class="breadcrumb p-0 m-0">
         <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
@@ -29,41 +27,20 @@
           <form #formData="ngForm">
             <div class="form-group">
               <label for="title" class="form-label">Title</label>
-              <input
-                type="text"
-                class="form-control"
-                id="title"
-                name="title"
-                [(ngModel)]="team.title"
-                [disabled]="teamsFormType == 'delete'"
-              />
+              <input type="text" class="form-control" id="title" name="title" [(ngModel)]="team.title"
+                [disabled]="teamsFormType == 'delete'" />
             </div>
             <div class="form-buttons">
-              <button
-                type="submit"
-                class="btn btn-primary"
-                (click)="addTeam()"
-                *ngIf="teamsFormType == 'create'"
-                [disabled]="!team.title"
-              >
+              <button type="submit" class="btn btn-primary" (click)="addTeam()" *ngIf="teamsFormType == 'create'"
+                [disabled]="!team.title">
                 Create
               </button>
-              <button
-                type="submit"
-                class="btn btn-primary"
-                (click)="updateTeam()"
-                *ngIf="teamsFormType == 'update'"
-                [disabled]="!team.id || !team.title"
-              >
+              <button type="submit" class="btn btn-primary" (click)="updateTeam()" *ngIf="teamsFormType == 'update'"
+                [disabled]="!team.id || !team.title">
                 Update
               </button>
-              <button
-                type="submit"
-                class="btn btn-danger"
-                (click)="deleteTeam()"
-                *ngIf="teamsFormType == 'delete'"
-                [disabled]="!team.id || !team.title"
-              >
+              <button type="submit" class="btn btn-danger" (click)="deleteTeam()" *ngIf="teamsFormType == 'delete'"
+                [disabled]="!team.id || !team.title">
                 Delete
               </button>
             </div>
@@ -80,12 +57,8 @@
           <ng-container *ngIf="loading">
             <img src="/assets/images/loading.svg" width="20" class="mb-3" />
           </ng-container>
-          <table
-            *ngIf="!loading && teams.length > 0"
-            class="table table-sm table-hover table-bordered mb-0"
-            datatable
-            [dtOptions]="dtOptions"
-          >
+          <table *ngIf="!loading && teams.length > 0" class="table table-sm table-hover table-bordered mb-0" datatable
+            [dtOptions]="dtOptions">
             <thead class="bg-light">
               <tr>
                 <th scope="col">Title</th>
@@ -98,39 +71,24 @@
                 <tr>
                   <td>{{ team.title }}</td>
                   <td>
-                    <div
-                      class="badge badge-primary mr-1"
-                      data-toggle="modal"
-                      data-target="#classModal"
-                      (click)="setTeam(team); setUserFormType('create')"
-                    >
+                    <div class="badge badge-primary mr-1" data-toggle="modal" data-target="#classModal"
+                      (click)="setTeam(team); setUserFormType('create')">
                       Add <span class="material-icons ml-1">add</span>
                     </div>
                     <ng-container *ngFor="let user of team.teamUsers">
                       <div class="badge badge-light mr-1">
                         {{ user.user.firstName + user.user.lastName }}
-                        <span
-                          class="material-icons"
-                          data-toggle="modal"
-                          data-target="#classModal"
-                          (click)="setUser(user); setUserFormType('delete')"
-                          >delete</span
-                        >
+                        <span class="material-icons" data-toggle="modal" data-target="#classModal"
+                          (click)="setUser(user); setUserFormType('delete')">delete</span>
                       </div>
                     </ng-container>
                   </td>
                   <td class="text-center">
                     <div class="buttons">
-                      <span
-                        class="badge badge-primary p-1 mr-2"
-                        (click)="setTeam(team); setTeamFormType('update')"
-                      >
+                      <span class="badge badge-primary p-1 mr-2" (click)="setTeam(team); setTeamFormType('update')">
                         <i class="material-icons mr-0">edit</i>
                       </span>
-                      <span
-                        class="badge badge-primary p-1 mr-2"
-                        (click)="setTeam(team); setTeamFormType('delete')"
-                      >
+                      <span class="badge badge-primary p-1 mr-2" (click)="setTeam(team); setTeamFormType('delete')">
                         <i class="material-icons mr-0">delete</i>
                       </span>
                     </div>
@@ -145,29 +103,15 @@
   </div>
 </div>
 
-<div
-  class="modal"
-  id="classModal"
-  tabindex="-1"
-  role="dialog"
-  aria-labelledby="viewModalLabel"
-  aria-hidden="true"
->
+<div class="modal" id="classModal" tabindex="-1" role="dialog" aria-labelledby="viewModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="classModalLabel">
           <ng-container *ngIf="userFormType == 'create'">Add User</ng-container>
-          <ng-container *ngIf="userFormType == 'delete'"
-            >Delete User</ng-container
-          >
+          <ng-container *ngIf="userFormType == 'delete'">Delete User</ng-container>
         </h5>
-        <button
-          type="button"
-          class="close"
-          data-dismiss="modal"
-          aria-label="Close"
-        >
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -177,13 +121,8 @@
             <div class="row mb-3">
               <div class="col">
                 <label for="userId" class="form-label">Name</label>
-                <select
-                  class="form-select form-control"
-                  id="userId"
-                  name="userId"
-                  [(ngModel)]="user.id"
-                  *ngIf="userFormType == 'create'"
-                >
+                <select class="form-select form-control" id="userId" name="userId" [(ngModel)]="user.id"
+                  *ngIf="userFormType == 'create'">
                   <ng-container *ngFor="let user of users">
                     <option [value]="user.id">
                       {{ user.firstName + " " + user.lastName }}
@@ -195,26 +134,12 @@
             </div>
           </div>
           <div class="modal-footer">
-            <button
-              type="submit"
-              class="btn btn-primary"
-              (click)="addUser()"
-              *ngIf="userFormType == 'create'"
-              [disabled]="!user.id"
-              data-dismiss="modal"
-              aria-label="Close"
-            >
+            <button type="submit" class="btn btn-primary" (click)="addUser()" *ngIf="userFormType == 'create'"
+              [disabled]="!user.id" data-dismiss="modal" aria-label="Close">
               Add
             </button>
-            <button
-              type="submit"
-              class="btn btn-danger"
-              (click)="deleteUser()"
-              *ngIf="userFormType == 'delete'"
-              [disabled]="!user.id"
-              data-dismiss="modal"
-              aria-label="Close"
-            >
+            <button type="submit" class="btn btn-danger" (click)="deleteUser()" *ngIf="userFormType == 'delete'"
+              [disabled]="!user.id" data-dismiss="modal" aria-label="Close">
               Delete
             </button>
           </div>

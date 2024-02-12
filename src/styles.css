@@ -125,7 +125,7 @@
 }
 
 .app-content .page-section {
-  min-height: calc(100vh - 312px);
+  /* min-height: calc(100vh - 312px); */
 }
 
 @media (min-width: 992px) {
@@ -260,4 +260,148 @@
 .task-attribute {
   display: flex;
   align-items: center;
+}
+
+.app-content {
+  padding: 32px;
+  margin-left: 220px;
+  width: calc(100% - 220px);
+}
+
+.progress {
+  border-radius: 0 0.5rem 0.5rem;
+}
+
+.mdk-box__bg-front {
+  background-image: url(/assets/images/photodune-4161018-group-of-students-m.jpg);
+}
+
+.mdk-box__bg {
+  visibility: unset;
+}
+
+.page-component {
+  margin-bottom: 16px;
+}
+.component-title {
+  text-transform: capitalize;
+}
+.course {
+  border-radius: 12px;
+}
+.course-body {
+  padding: 24px;
+}
+.course-title {
+  font-weight: 500;
+  height: 40px;
+  line-height: normal;
+  margin-bottom: 0;
+  text-transform: capitalize;
+}
+.course-attributes {
+  color: #666;
+  font-weight: normal;
+  margin-bottom: 8px;
+}
+.course-stats {
+  margin-top: 40px;
+}
+.course-stats-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+.course-stats-info .course-tasks-count {
+  font-size: 12px;
+  color: #555;
+}
+.course-stats-info .course-tasks-nav-icon i {
+  color: #555;
+  font-size: 16px;
+}
+.course-stats .course-progress {
+  height: 8px;
+}
+.course-stats .course-progress .progress-bar {
+  background-color: #3b5be9;
+}
+
+.tasks-list-widget .card-body {
+  padding: 0;
+}
+.task-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #dedede;
+  padding: 16px;
+}
+.task-row:hover {
+  background: #f9f9f9;
+  cursor: pointer;
+}
+.task-row:hover .task-icon-play {
+  color: #3b5be9;
+}
+.task-row:hover .task-info .task-title {
+  color: #3b5be9;
+}
+.task-row:last-child {
+  border: 0;
+}
+.task-row .task-icon-play {
+  color: #292d30;
+}
+.task-row .task-info {
+  width: 100%;
+}
+.task-row .task-info .task-title {
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+.task-row .task-info .task-attributes {
+  display: flex;
+  align-items: center;
+}
+.task-row .task-info .task-attributes .attrib {
+  color: #555;
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+  margin-right: 16px;
+}
+.task-row .task-info .task-attributes .attrib i {
+  font-size: 14px;
+  padding-right: 4px;
+}
+
+.stat-widget {
+  display: flex;
+  align-items: center;
+  margin: 16px 0;
+}
+.stat-widget .stat-icon {
+  background: #f8f8f8;
+  border-radius: 6px;
+  margin-right: 20px;
+  padding: 12px;
+}
+.stat-widget .stat-icon i {
+  color: #444;
+  font-size: 24px;
+}
+.stat-widget .stat-title {
+  color: #666;
+  font-size: 12px;
+  font-weight: 500;
+  margin-bottom: 0;
+  text-transform: capitalize;
+}
+.stat-widget .stat-value {
+  color: #444;
+  font-size: 26px;
+  font-weight: 600;
+  margin-bottom: 0;
 }

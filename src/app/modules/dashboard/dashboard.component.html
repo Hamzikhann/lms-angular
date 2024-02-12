@@ -1,131 +1,258 @@
-<div class="mdk-box mdk-box--bg-dark bg-dark js-mdk-box mb-0" data-effects="parallax-background blend-background">
-  <div class="mdk-box__bg">
-    <div class="mdk-box__bg-front"></div>
-  </div>
-  <div class="mdk-box__content justify-content-center">
-    <div class="hero container page__container text-center py-52pt">
-      <h1 class="text-white text-shadow">Learning Management System</h1>
-      <p class="lead measure-hero-lead mx-auto text-white text-shadow mb-0">
-        Our platform offers a comprehensive suite of tools and features to
-        streamline the learning process, making more accessible and engaging.
-      </p>
-    </div>
-  </div>
-</div>
-
-<div class="border-bottom-2 py-16pt navbar-light bg-white">
-  <div class="container page__container">
-    <div class="row align-items-center">
-      <div class="d-flex col-md align-items-center border-bottom border-md-0 mb-16pt mb-md-0 pb-16pt pb-md-0">
-        <div
-          class="rounded-circle bg-primary w-64 h-64 d-inline-flex align-items-center justify-content-center mr-16pt">
-          <i class="material-icons text-white">subscriptions</i>
-        </div>
-        <div class="flex">
-          <div class="card-title mb-4pt">
-            <ng-container *ngIf="loggedInUserRole != 'User'">Courses</ng-container>
-            <ng-container *ngIf="loggedInUserRole == 'User'">{{
-              courseStats?.courses?.enrolled
-              }}</ng-container>
-          </div>
-          <p class="card-subtitle text-70">
-            <ng-container *ngIf="loggedInUserRole != 'User'">Explore a wide range of skills.</ng-container>
-            <ng-container *ngIf="loggedInUserRole == 'User'">Enrolled Courses</ng-container>
-          </p>
-        </div>
-      </div>
-      <div class="d-flex col-md align-items-center" *ngIf="loggedInUserRole == 'User'">
-        <div
-          class="rounded-circle bg-primary w-64 h-64 d-inline-flex align-items-center justify-content-center mr-16pt">
-          <i class="material-icons text-white">update</i>
-        </div>
-        <div class="flex">
-          <div class="card-title mb-4pt">
-            {{ courseStats?.courses?.inQueue }}
-          </div>
-          <p class="card-subtitle text-70">Courses Not Started</p>
-        </div>
-      </div>
-      <div class="d-flex col-md align-items-center">
-        <div
-          class="rounded-circle bg-primary w-64 h-64 d-inline-flex align-items-center justify-content-center mr-16pt">
-          <i class="material-icons text-white">update</i>
-        </div>
-        <div class="flex">
-          <div class="card-title mb-4pt">
-            <ng-container *ngIf="loggedInUserRole != 'User'">Unlimited Access</ng-container>
-            <ng-container *ngIf="loggedInUserRole == 'User'">{{
-              courseStats?.courses?.inProgress
-              }}</ng-container>
-          </div>
-          <p class="card-subtitle text-70">
-            <ng-container *ngIf="loggedInUserRole != 'User'">Course Library, Tasks or Assessments</ng-container>
-            <ng-container *ngIf="loggedInUserRole == 'User'">In Progress Courses</ng-container>
-          </p>
-        </div>
-      </div>
-      <div class="d-flex col-md align-items-center border-bottom border-md-0 mb-16pt mb-md-0 pb-16pt pb-md-0">
-        <div
-          class="rounded-circle bg-primary w-64 h-64 d-inline-flex align-items-center justify-content-center mr-16pt">
-          <i class="material-icons text-white">verified_user</i>
-        </div>
-        <div class="flex">
-          <div class="card-title mb-4pt">
-            <ng-container *ngIf="loggedInUserRole != 'User'">Artifical Intelligence</ng-container>
-            <ng-container *ngIf="loggedInUserRole == 'User'">{{
-              courseStats?.courses?.completed
-              }}</ng-container>
-          </div>
-          <p class="card-subtitle text-70">
-            <ng-container *ngIf="loggedInUserRole != 'User'">Highly specialized courses provided by the
-              AI</ng-container>
-            <ng-container *ngIf="loggedInUserRole == 'User'">Completed Courses</ng-container>
-          </p>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="border-bottom-2 py-48pt">
-  <div class="container page__container">
-    <div class="row card-group-row">
-      <div class="col-lg-4 card-group-row__col" *ngFor="let course of courses">
-        <div class="card card-course w-100">
-          <a [routerLink]="['/courses', course.id]">
-            <img src="/assets/images/bg-course.jpg" height="140" class="w-100" alt="course" />
-            <div class="overlay__content">
-              <div class="w-100 mx-3">
-                <h5 class="text-white m-0">{{ course.title }}</h5>
+<div class="row">
+  <div class="col-lg-12 col-sm-12">
+    <div class="page-component">
+      <div class="card">
+        <div class="card-body p-0">
+          <h5 class="component-title px-3 pt-3">Overall Progress</h5>
+          <div class="row">
+            <div class="col-3">
+              <div class="progress-widget">
+                <div id="chart">
+                  <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart"
+                    [plotOptions]="chartOptions.plotOptions" [labels]="chartOptions.labels"
+                    [legend]="chartOptions.legend" [stroke]="chartOptions.stroke"></apx-chart>
+                </div>
               </div>
             </div>
-          </a>
-          <div class="card-body flex">
-            <div class="media align-items-start">
-              <div class="media-body">
-                <a [routerLink]="['/courses', course.id]" class="card-title">
-                  {{ course.courseDepartment.title }}</a>
-                <small class="text-50 font-weight-bold mb-4pt">
-                  {{ course.code + " - " + course.level }}</small>
-                <div class="mt-2">
-                  <a class="button" *ngIf="loggedInUser.role.title == 'User'" (click)="
-                      resumeCourse(
-                        course.id,
-                        course.courseAssignments[0].courseEnrollments[0].id
-                      )
-                    " class="btn btn-dark btn-sm">Resume Course</a>
+            <div class="col-3">
+              <div class="stat-widget mb-4">
+                <span class="stat-icon">
+                  <i class="material-icons">playlist_play</i>
+                </span>
+                <div class="">
+                  <h4 class="stat-value">9</h4>
+                  <h4 class="stat-title">Enrolled Courses</h4>
+                </div>
+              </div>
+              <div class="stat-widget">
+                <span class="stat-icon">
+                  <i class="material-icons">replay</i>
+                </span>
+                <div class="">
+                  <h4 class="stat-value">2</h4>
+                  <h4 class="stat-title">Courses Not Started</h4>
+                </div>
+              </div>
+            </div>
+            <div class="col-3">
+              <div class="stat-widget mb-4">
+                <span class="stat-icon">
+                  <i class="material-icons">access_time</i>
+                </span>
+                <div class="">
+                  <h4 class="stat-value">3</h4>
+                  <h4 class="stat-title">Inprogress Courses</h4>
+                </div>
+              </div>
+              <div class="stat-widget">
+                <span class="stat-icon">
+                  <i class="material-icons">check</i>
+                </span>
+                <div class="">
+                  <h4 class="stat-value">4</h4>
+                  <h4 class="stat-title">Completed Courses</h4>
+                </div>
+              </div>
+            </div>
+            <div class="col-3">
+              <img src="/assets/images/stat-calculation.png" height="162" class="mt-3" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-8 col-sm-12">
+    <div class="page-component">
+      <h5 class="component-title">Resume Tasks</h5>
+      <div class="card">
+        <div class="card-body p-0">
+          <div class="tasks-list-widget">
+            <div class="task-row">
+              <div class="task-info">
+                <h6 class="task-title">Human Centered Design</h6>
+                <div class="task-attributes">
+                  <div class="attrib">
+                    <i class="material-icons">info_outline</i>
+                    Reading
+                  </div>
+                  <div class="attrib">
+                    <i class="material-icons">access_time</i>
+                    1h 30mins
+                  </div>
+                  <div class="attrib">
+                    <i class="material-icons">bookmark_border</i>
+                    UI/UX Design
+                  </div>
+                </div>
+              </div>
+              <span class="task-icon-play material-icons">play_circle_outline</span>
+            </div>
+            <div class="task-row">
+              <div class="task-info">
+                <h6 class="task-title">Learning and Digital Culture</h6>
+                <div class="task-attributes">
+                  <div class="attrib">
+                    <i class="material-icons">info_outline</i>
+                    Video
+                  </div>
+                  <div class="attrib">
+                    <i class="material-icons">access_time</i>
+                    1h 30mins
+                  </div>
+                  <div class="attrib">
+                    <i class="material-icons">bookmark_border</i>
+                    <div class="text-ellipsis">
+                      <span>Comprehensive Customer Relationship Management</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <span class="task-icon-play material-icons">play_circle_outline</span>
+            </div>
+            <div class="task-row">
+              <div class="task-info">
+                <h6 class="task-title">SQL: Super Complex</h6>
+                <div class="task-attributes">
+                  <div class="attrib">
+                    <i class="material-icons">info_outline</i>
+                    Assessment
+                  </div>
+                  <div class="attrib">
+                    <i class="material-icons">access_time</i>
+                    1h 30mins
+                  </div>
+                  <div class="attrib">
+                    <i class="material-icons">bookmark_border</i>
+                    UI/UX Design
+                  </div>
+                </div>
+              </div>
+              <span class="task-icon-play material-icons">play_circle_outline</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-4 col-sm-12">
+    <div class="page-component">
+      <h5 class="component-title">Courses Completion</h5>
+      <div class="card">
+        <div class="card-body p-0">
+          <div class="tasks-list-widget">
+            <div class="task-row">
+              <div class="task-info">
+                <h6 class="task-title">UI/UX Design</h6>
+                <div class="task-attributes justify-content-between">
+                  <div class="attrib">
+                    <i class="material-icons">date_range</i>
+                    <strong class="pr-1">Due Date: </strong> Februray 23, 2024
+                  </div>
+                  <div class="attrib">
+                    <i class="material-icons">access_time</i>
+                    <strong class="pr-1">Progress: </strong> 25%
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="task-row">
+              <div class="task-info">
+                <h6 class="task-title">Comprehensive Customer Relationship Management</h6>
+                <div class="task-attributes justify-content-between">
+                  <div class="attrib">
+                    <i class="material-icons">date_range</i>
+                    <strong class="pr-1">Due Date: </strong> March 03, 2024
+                  </div>
+                  <div class="attrib">
+                    <i class="material-icons">access_time</i>
+                    <strong class="pr-1">Progress: </strong> 50%
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="task-row">
+              <div class="task-info">
+                <h6 class="task-title">SQL: Super Complex</h6>
+                <div class="task-attributes justify-content-between">
+                  <div class="attrib">
+                    <i class="material-icons">date_range</i>
+                    <strong class="pr-1">Due Date: </strong> March 13, 2024
+                  </div>
+                  <div class="attrib">
+                    <i class="material-icons">access_time</i>
+                    <strong class="pr-1">Progress: </strong> 10%
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-          <div class="progress bg-light" *ngIf="loggedInUserRole == 'User' && course.courseAssignments"
-            style="height: 4px">
-            <div class="progress-bar bg-success" *ngIf="course.courseAssignments[0].courseEnrollments"
-              role="progressbar" [attr.aria-valuenow]="
-                course.courseAssignments[0].courseEnrollments[0].courseProgress
-              " aria-valuemin="0" aria-valuemax="100" [style.width.%]="
-                course.courseAssignments[0].courseEnrollments[0].courseProgress
-              "></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-12">
+    <div class="page-component">
+      <h5 class="component-title">My Courses</h5>
+      <div class="row">
+        <div class="col-lg-4 col-sm-12 col-xs-12">
+          <div class="card course">
+            <div class="card-body course-body">
+              <h6 class="course-attributes">CRM101 - Sales and Marketing</h6>
+              <div class="text-ellipsis-2">
+                <h5 class="course-title">Comprehensive Customer Relationship Management</h5>
+              </div>
+              <div class="course-stats">
+                <div class="course-stats-info">
+                  <span class="course-tasks-count"><strong>04</strong> / 12</span>
+                  <span class="course-tasks-nav-icon"><i class="material-icons">keyboard_arrow_right</i></span>
+                </div>
+                <div class="course-progress progress">
+                  <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0"
+                    aria-valuemax="100"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-sm-12 col-xs-12">
+          <div class="card course">
+            <div class="card-body course-body">
+              <h6 class="course-attributes">UIX-204 - Human Computer Interaction</h6>
+              <div class="text-ellipsis-2">
+                <h5 class="course-title">UI/UX Design</h5>
+              </div>
+              <div class="course-stats">
+                <div class="course-stats-info">
+                  <span class="course-tasks-count"><strong>10</strong> / 20</span>
+                  <span class="course-tasks-nav-icon"><i class="material-icons">keyboard_arrow_right</i></span>
+                </div>
+                <div class="course-progress progress">
+                  <div class="progress-bar" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0"
+                    aria-valuemax="100"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-sm-12 col-xs-12">
+          <div class="card course">
+            <div class="card-body course-body">
+              <h6 class="course-attributes">CRM101 - Sales and Marketing</h6>
+              <div class="text-ellipsis-2">
+                <h5 class="course-title">Comprehensive Customer Relationship Management</h5>
+              </div>
+              <div class="course-stats">
+                <div class="course-stats-info">
+                  <span class="course-tasks-count"><strong>04</strong> / 12</span>
+                  <span class="course-tasks-nav-icon"><i class="material-icons">keyboard_arrow_right</i></span>
+                </div>
+                <div class="course-progress progress">
+                  <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0"
+                    aria-valuemax="100"></div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

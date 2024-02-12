@@ -1,7 +1,5 @@
-<div class="pt-32pt">
-  <div
-    class="container page__container d-flex flex-column flex-md-row align-items-center text-center text-sm-left"
-  >
+<div class="">
+  <div class="container page__container d-flex flex-column flex-md-row align-items-center text-center text-sm-left">
     <div class="flex d-flex flex-column flex-sm-row align-items-center">
       <div class="mb-24pt mb-sm-0 mr-sm-24pt">
         <h2 class="mb-0">Courses</h2>
@@ -13,12 +11,7 @@
     </div>
     <div class="row" role="tablist">
       <div class="col-auto">
-        <a
-          [routerLink]="['create']"
-          class="btn btn-outline-primary"
-          *ngIf="permission.create"
-          >Add Course</a
-        >
+        <a [routerLink]="['create']" class="btn btn-outline-primary" *ngIf="permission.create">Add Course</a>
       </div>
     </div>
   </div>
@@ -31,62 +24,39 @@
         <img src="/assets/images/loading.svg" />
       </div>
     </ng-container>
-    <!-- <div class="page-separator">
-      <div class="page-separator__text">Required Courses</div>
-    </div> -->
-    <div class="row card-group-row" *ngIf="!loading">
-      <div class="col-lg-4 card-group-row__col" *ngFor="let course of courses">
-        <div class="card card-course w-100">
-          <a [routerLink]="['/courses', course.id]">
-            <img
-              src="/assets/images/bg-course.jpg"
-              height="140"
-              class="w-100"
-              alt="course"
-            />
 
-            <div class="overlay__content">
-              <div class="w-100 mx-3">
-                <h5 class="text-white m-0">{{ course.title }}</h5>
+    <div class="page-component" *ngIf="!loading">
+      <div class="row">
+        <div class="col-lg-4 col-sm-12 col-xs-12" *ngFor="let course of courses">
+          <div class="card course">
+            <div class="card-body course-body">
+              <h6 class="course-attributes">{{ course.code }} - {{ course.courseDepartment.title }}</h6>
+              <div class="text-ellipsis-2">
+                <h5 class="course-title">
+                  <a [routerLink]="['/courses', course.id]" class="text-dark">{{ course.title }}</a>
+                </h5>
               </div>
-            </div>
-          </a>
-          <div class="card-body flex">
-            <div class="media align-items-start">
-              <div class="media-body">
-                <a [routerLink]="['/courses', course.id]" class="card-title">{{
-                  course.courseDepartment.title
-                }}</a>
-                <small class="text-50 font-weight-bold mb-4pt">{{
-                  course.code + " - " + course.level
-                }}</small>
+              <div>
+                <a [routerLink]="['update', course.id]" *ngIf="permission.update">
+                  <i class="material-icons fa-lg mr-2">edit</i></a>
+                <a href="#" data-toggle="modal" data-target="#deleteCourse" (click)="setCourse(course)"
+                  *ngIf="permission.delete"><i class="material-icons fa-lg">delete</i></a>
               </div>
-
-              <div class="buttons">
-                <a
-                  *ngIf="loggedInUser.role.title == 'Client'"
-                  [routerLink]="[
+              <div class="course-stats" *ngIf="loggedInUser.role.title == 'User'">
+                <div class="course-stats-info">
+                  <span class="course-tasks-count"><strong>04</strong> / 12</span>
+                  <span class="course-tasks-nav-icon"><i class="material-icons">keyboard_arrow_right</i></span>
+                </div>
+                <div class="course-progress progress">
+                  <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0"
+                    aria-valuemax="100"></div>
+                </div>
+              </div>
+              <div class="buttons mt-3">
+                <a *ngIf="loggedInUser.role.title == 'Client'" [routerLink]="[
                     'courseAssignmentReport',
                     course.courseAssignments[0].id
-                  ]"
-                  class="btn btn-dark btn-sm"
-                  >View Report</a
-                >
-
-                <a
-                  [routerLink]="['update', course.id]"
-                  *ngIf="permission.update"
-                >
-                  <i class="material-icons fa-lg mr-2">edit</i></a
-                >
-                <a
-                  href="#"
-                  data-toggle="modal"
-                  data-target="#deleteCourse"
-                  (click)="setCourse(course)"
-                  *ngIf="permission.delete"
-                  ><i class="material-icons fa-lg">delete</i></a
-                >
+                  ]" class="btn btn-dark btn-sm">View Report</a>
               </div>
             </div>
           </div>
@@ -96,26 +66,13 @@
   </div>
 </div>
 
-<div
-  class="modal fade"
-  id="deleteCourse"
-  tabindex="-1"
-  role="dialog"
-  aria-labelledby="exampleModalCenterTitle"
-  aria-hidden="true"
-  *ngIf="permission.delete"
->
+<div class="modal fade" id="deleteCourse" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+  aria-hidden="true" *ngIf="permission.delete">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalCenterTitle">Delete Course</h5>
-        <button
-          type="button"
-          class="close"
-          data-dismiss="modal"
-          aria-label="Close"
-          #closeModal
-        >
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" #closeModal>
           <i class="material-icons">close</i>
         </button>
       </div>
@@ -132,10 +89,7 @@
           <h6 class="text-primary">Department:</h6>
           <p>{{ courseSelected.courseDepartment.title }}</p>
         </div>
-        <div
-          class="form-group"
-          *ngIf="courseSelected.courseInstructors.length > 0"
-        >
+        <div class="form-group" *ngIf="courseSelected.courseInstructors.length > 0">
           <h6 class="text-primary">Instructor:</h6>
           <p>{{ courseSelected.courseInstructors[0].name }}</p>
         </div>

@@ -1,7 +1,5 @@
-<div class="pt-32pt">
-  <div
-    class="container page__container d-flex flex-column flex-md-row align-items-center text-center text-sm-left"
-  >
+<div class="">
+  <div class="container page__container d-flex flex-column flex-md-row align-items-center text-center text-sm-left">
     <div class="flex d-flex flex-column flex-sm-row align-items-center">
       <div class="mb-24pt mb-sm-0 mr-sm-24pt">
         <h2 class="mb-0">Update Course</h2>
@@ -32,12 +30,7 @@
           <div class="card-body">
             <div class="form-group">
               <label>Title</label>
-              <input
-                type="text"
-                class="form-control"
-                name="title"
-                [(ngModel)]="courseDetails.title"
-              />
+              <input type="text" class="form-control" name="title" [(ngModel)]="courseDetails.title" />
             </div>
             <div class="form-group mb-2">
               <label>About</label>
@@ -58,30 +51,14 @@
               <label>Status</label>
               <div class="form-control">
                 <div class="form-check form-check-inline">
-                  <input
-                    class="form-check-input"
-                    type="radio"
-                    name="status"
-                    id="statusDraft"
-                    value="D"
-                    [(ngModel)]="courseDetails.status"
-                  />
-                  <label class="form-check-label" for="statusDraft"
-                    >Draft</label
-                  >
+                  <input class="form-check-input" type="radio" name="status" id="statusDraft" value="D"
+                    [(ngModel)]="courseDetails.status" />
+                  <label class="form-check-label" for="statusDraft">Draft</label>
                 </div>
                 <div class="form-check form-check-inline">
-                  <input
-                    class="form-check-input"
-                    type="radio"
-                    name="status"
-                    id="statusPublish"
-                    value="P"
-                    [(ngModel)]="courseDetails.status"
-                  />
-                  <label class="form-check-label" for="statusPublish"
-                    >Publish</label
-                  >
+                  <input class="form-check-input" type="radio" name="status" id="statusPublish" value="P"
+                    [(ngModel)]="courseDetails.status" />
+                  <label class="form-check-label" for="statusPublish">Publish</label>
                 </div>
               </div>
             </div>
@@ -91,11 +68,7 @@
           <div class="card-body">
             <div class="form-group mb-2">
               <label>Department</label>
-              <select
-                class="form-control"
-                name="courseDepartmentId"
-                [(ngModel)]="courseDetails.courseDepartmentId"
-              >
+              <select class="form-control" name="courseDepartmentId" [(ngModel)]="courseDetails.courseDepartmentId">
                 <option>...</option>
                 <ng-container *ngFor="let department of courseDepartments">
                   <option [value]="department.id">
@@ -110,48 +83,25 @@
           <div class="card-body">
             <div class="form-group">
               <label>Course Code</label>
-              <input
-                type="text"
-                class="form-control"
-                name="code"
-                [(ngModel)]="courseDetails.code"
-              />
+              <input type="text" class="form-control" name="code" [(ngModel)]="courseDetails.code" />
             </div>
             <div class="form-group">
               <label>Level of Difficulty</label>
-              <input
-                type="text"
-                class="form-control"
-                name="level"
-                [(ngModel)]="courseDetails.level"
-              />
+              <input type="text" class="form-control" name="level" [(ngModel)]="courseDetails.level" />
             </div>
             <div class="form-group mb-2">
               <label>Language</label>
-              <input
-                type="text"
-                class="form-control"
-                name="language"
-                [(ngModel)]="courseDetails.language"
-              />
+              <input type="text" class="form-control" name="language" [(ngModel)]="courseDetails.language" />
             </div>
             <div class="form-group mb-2">
               <label>Approximate Time</label>
-              <input
-                type="text"
-                class="form-control"
-                name="approximateTime"
-                [(ngModel)]="courseDetails.approximateTime"
-              />
+              <input type="text" class="form-control" name="approximateTime"
+                [(ngModel)]="courseDetails.approximateTime" />
             </div>
             <div class="form-group mb-2">
               <label>Passing Threshold (Optional)</label>
-              <input
-                type="text"
-                class="form-control"
-                name="passingThreshold"
-                [(ngModel)]="courseDetails.passingThreshold"
-              />
+              <input type="text" class="form-control" name="passingThreshold"
+                [(ngModel)]="courseDetails.passingThreshold" />
             </div>
           </div>
         </div>

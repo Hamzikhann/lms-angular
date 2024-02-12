@@ -1,7 +1,5 @@
-<div class="pt-32pt">
-  <div
-    class="container page__container d-flex flex-column flex-md-row align-items-center text-center text-sm-left"
-  >
+<div class="">
+  <div class="container page__container d-flex flex-column flex-md-row align-items-center text-center text-sm-left">
     <div class="flex d-flex flex-column flex-sm-row align-items-center">
       <div class="mb-24pt mb-sm-0 mr-sm-24pt">
         <h2 class="mb-0">Add New Course</h2>
@@ -32,12 +30,7 @@
           <div class="card-body">
             <div class="form-group">
               <label>Title</label>
-              <input
-                type="text"
-                class="form-control"
-                name="title"
-                [(ngModel)]="course.title"
-              />
+              <input type="text" class="form-control" name="title" [(ngModel)]="course.title" />
             </div>
             <div class="form-group mb-2">
               <label>About</label>
@@ -61,22 +54,16 @@
                     <td>{{ objective }}</td>
                     <td>
                       <div class="buttons text-center">
-                        <span
-                          class="badge badge-primary p-1 mr-2"
-                          (click)="
+                        <span class="badge badge-primary p-1 mr-2" (click)="
                             setCourseObjective(objective, i);
                             setCourseObjectiveFormType('update')
-                          "
-                        >
+                          ">
                           <i class="material-icons mr-0">edit</i>
                         </span>
-                        <span
-                          class="badge badge-primary p-1 mr-2"
-                          (click)="
+                        <span class="badge badge-primary p-1 mr-2" (click)="
                             setCourseObjective(objective, i);
                             setCourseObjectiveFormType('delete')
-                          "
-                        >
+                          ">
                           <i class="material-icons mr-0">delete</i>
                         </span>
                       </div>
@@ -85,38 +72,21 @@
                   <tr>
                     <td></td>
                     <td>
-                      <input
-                        type="text"
-                        name="objective"
-                        class="form-control"
-                        placeholder="Enter course objective or what you'll learn"
-                        [(ngModel)]="objective.description"
-                        [disabled]="objectiveFormType == 'delete'"
-                      />
+                      <input type="text" name="objective" class="form-control"
+                        placeholder="Enter course objective or what you'll learn" [(ngModel)]="objective.description"
+                        [disabled]="objectiveFormType == 'delete'" />
                     </td>
                     <td class="w-10">
-                      <button
-                        type="submit"
-                        class="btn btn-outline-primary"
-                        (click)="addCourseObjective()"
-                        *ngIf="objectiveFormType == 'create'"
-                      >
+                      <button type="submit" class="btn btn-outline-primary" (click)="addCourseObjective()"
+                        *ngIf="objectiveFormType == 'create'">
                         Add
                       </button>
-                      <button
-                        type="submit"
-                        class="btn btn-outline-primary"
-                        (click)="updateCourseObjective()"
-                        *ngIf="objectiveFormType == 'update'"
-                      >
+                      <button type="submit" class="btn btn-outline-primary" (click)="updateCourseObjective()"
+                        *ngIf="objectiveFormType == 'update'">
                         Update
                       </button>
-                      <button
-                        type="submit"
-                        class="btn btn-outline-danger"
-                        (click)="deleteCourseObjective()"
-                        *ngIf="objectiveFormType == 'delete'"
-                      >
+                      <button type="submit" class="btn btn-outline-danger" (click)="deleteCourseObjective()"
+                        *ngIf="objectiveFormType == 'delete'">
                         Delete
                       </button>
                     </td>
@@ -130,21 +100,11 @@
           <div class="card-body">
             <div class="form-group">
               <label>Instructor Name </label>
-              <input
-                type="text"
-                class="form-control"
-                name="name"
-                [(ngModel)]="course.instructorName"
-              />
+              <input type="text" class="form-control" name="name" [(ngModel)]="course.instructorName" />
             </div>
             <div class="form-group">
               <label> About</label>
-              <input
-                type="text"
-                class="form-control"
-                name="about"
-                [(ngModel)]="course.instructorAbout"
-              />
+              <input type="text" class="form-control" name="about" [(ngModel)]="course.instructorAbout" />
             </div>
           </div>
         </div>
@@ -156,30 +116,14 @@
               <label>Status</label>
               <div class="form-control">
                 <div class="form-check form-check-inline">
-                  <input
-                    class="form-check-input"
-                    type="radio"
-                    name="status"
-                    id="statusDraft"
-                    value="D"
-                    [(ngModel)]="course.status"
-                  />
-                  <label class="form-check-label" for="statusDraft"
-                    >Draft</label
-                  >
+                  <input class="form-check-input" type="radio" name="status" id="statusDraft" value="D"
+                    [(ngModel)]="course.status" />
+                  <label class="form-check-label" for="statusDraft">Draft</label>
                 </div>
                 <div class="form-check form-check-inline">
-                  <input
-                    class="form-check-input"
-                    type="radio"
-                    name="status"
-                    id="statusPublish"
-                    value="P"
-                    [(ngModel)]="course.status"
-                  />
-                  <label class="form-check-label" for="statusPublish"
-                    >Publish</label
-                  >
+                  <input class="form-check-input" type="radio" name="status" id="statusPublish" value="P"
+                    [(ngModel)]="course.status" />
+                  <label class="form-check-label" for="statusPublish">Publish</label>
                 </div>
               </div>
             </div>
@@ -189,48 +133,23 @@
           <div class="card-body">
             <div class="form-group">
               <label>Course Code</label>
-              <input
-                type="text"
-                class="form-control"
-                name="code"
-                [(ngModel)]="course.code"
-              />
+              <input type="text" class="form-control" name="code" [(ngModel)]="course.code" />
             </div>
             <div class="form-group">
               <label>Level of Difficulty</label>
-              <input
-                type="text"
-                class="form-control"
-                name="level"
-                [(ngModel)]="course.level"
-              />
+              <input type="text" class="form-control" name="level" [(ngModel)]="course.level" />
             </div>
             <div class="form-group mb-2">
               <label>Language</label>
-              <input
-                type="text"
-                class="form-control"
-                name="language"
-                [(ngModel)]="course.language"
-              />
+              <input type="text" class="form-control" name="language" [(ngModel)]="course.language" />
             </div>
             <div class="form-group mb-2">
               <label>Approximate Time</label>
-              <input
-                type="text"
-                class="form-control"
-                name="approximateTime"
-                [(ngModel)]="course.approximateTime"
-              />
+              <input type="text" class="form-control" name="approximateTime" [(ngModel)]="course.approximateTime" />
             </div>
             <div class="form-group mb-2">
               <label>Passing Threshold (Optional)</label>
-              <input
-                type="text"
-                class="form-control"
-                name="passingThreshold "
-                [(ngModel)]="course.passingThreshold"
-              />
+              <input type="text" class="form-control" name="passingThreshold " [(ngModel)]="course.passingThreshold" />
             </div>
           </div>
         </div>
@@ -238,11 +157,7 @@
           <div class="card-body">
             <div class="form-group">
               <label>Class</label>
-              <select
-                class="form-control"
-                name="classId"
-                [(ngModel)]="course.classId"
-              >
+              <select class="form-control" name="classId" [(ngModel)]="course.classId">
                 <option>...</option>
                 <ng-container *ngFor="let learningPath of learningPaths">
                   <ng-container *ngFor="let class of learningPath.classes">
@@ -253,11 +168,7 @@
             </div>
             <div class="form-group mb-2">
               <label>Department</label>
-              <select
-                class="form-control"
-                name="courseDepartmentId"
-                [(ngModel)]="course.courseDepartmentId"
-              >
+              <select class="form-control" name="courseDepartmentId" [(ngModel)]="course.courseDepartmentId">
                 <option>...</option>
                 <ng-container *ngFor="let department of courseDepartments">
                   <option [value]="department.id">

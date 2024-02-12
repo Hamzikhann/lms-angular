@@ -35256,3 +35256,51 @@ label {
   padding: 1rem;
   border-radius: 0.5rem;
 }
+
+.card {
+  border: 0 !important;
+  border-radius: 12px !important;
+}
+.text-ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
+.text-ellipsis-2 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+.text-ellipsis-3 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+[dir="ltr"] .container,
+[dir="ltr"] .container-fluid,
+[dir="ltr"] .container-lg,
+[dir="ltr"] .container-md,
+[dir="ltr"] .container-sm,
+[dir="ltr"] .container-xl,
+[dir="ltr"] .page__container,
+[dir="rtl"] .container,
+[dir="rtl"] .container-fluid,
+[dir="rtl"] .container-lg,
+[dir="rtl"] .container-md,
+[dir="rtl"] .container-sm,
+[dir="rtl"] .container-xl,
+[dir="rtl"] .page__container {
+  padding-right: 1rem !important;
+  padding-left: 1rem !important;
+}
+
+.modal-body {
+  padding: 1rem;
+  overflow: scroll;
+}

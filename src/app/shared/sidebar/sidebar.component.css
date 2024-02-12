@@ -1,0 +1,97 @@
+.app-sidebar {
+  background: #fff;
+  width: 220px;
+  height: 100vh;
+  position: fixed;
+  left: 0;
+}
+.app-sidebar .app-logo {
+  background: #fff;
+  padding: 24px;
+  position: fixed;
+  top: 0;
+  width: 220px;
+}
+.app-sidebar .app-navigation {
+  padding: 100px 0 60px;
+  overflow-y: scroll;
+  height: 100vh;
+}
+.app-sidebar .app-navigation .nav-title {
+  color: #666;
+  font-weight: 500;
+  font-size: 12px;
+  padding: 12px 24px 0;
+  text-transform: uppercase;
+}
+.app-sidebar .app-navigation .nav-items {
+  list-style: none;
+  margin: 0 0 16px;
+  padding: 0;
+}
+.app-sidebar .app-navigation .nav-items li {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  margin: 8px 0;
+  padding: 8px 24px;
+  color: #292d30;
+}
+.app-sidebar .app-navigation .nav-items li:hover {
+  border-left: 3px solid #3b5be9;
+  cursor: pointer;
+  padding-left: 21px;
+}
+.app-sidebar .app-navigation .nav-items li.active {
+  border-left: 3px solid #3b5be9;
+  cursor: pointer;
+  padding-left: 21px;
+}
+.app-sidebar .app-navigation .nav-items .nav-text {
+  font-size: 13px;
+  font-weight: 500;
+  padding: 0 12px;
+}
+.app-sidebar .app-navigation .nav-items .nav-icon i {
+  font-size: 16px;
+  color: #292d30;
+}
+.app-sidebar .app-navigation .nav-items li:hover .nav-text {
+  color: #3b5be9;
+}
+.app-sidebar .app-navigation .nav-items li.active .nav-text {
+  color: #3b5be9;
+}
+.app-sidebar .app-navigation .nav-items li:hover .nav-icon i {
+  color: #3b5be9;
+}
+.app-sidebar .app-navigation .nav-items li.active .nav-icon i {
+  color: #3b5be9;
+}
+.app-sidebar .app-user {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  background: #fff;
+  padding: 0 24px;
+  position: fixed;
+  bottom: 0;
+  width: 220px;
+}
+.app-sidebar .app-user .image {
+  height: 28px;
+  width: 28px;
+}
+.app-sidebar .app-user .info {
+  padding: 16px;
+}
+.app-sidebar .app-user .info p {
+  color: #292d30;
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 0;
+}
+.app-sidebar .app-user .info span {
+  font-size: 11px;
+  color: #666;
+}
