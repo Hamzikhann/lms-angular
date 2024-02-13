@@ -1,6 +1,15 @@
+.card-hero {
+  background-image: url(/assets/images/bg-course.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  border-radius: 14px;
+}
+.hero {
+  background: rgb(48 57 85 / 83%);
+  border-radius: 12px 12px 0 0;
+}
 .navbar {
   border-radius: 0 0 12px 12px;
-  background: #f3f3f3 !important;
 }
 .navbar-nav li {
   cursor: pointer;
