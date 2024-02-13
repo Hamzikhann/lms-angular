@@ -39,6 +39,8 @@ export class CourseBooksComponent {
 
   pdfLoaded: boolean = false;
 
+  zoom: number = 1;
+
   @ViewChild('closeBookModal') closeBookModal: ElementRef | undefined;
   @ViewChild(PdfViewerComponent) pdfViewer?: PdfViewerComponent;
 
@@ -113,6 +115,7 @@ export class CourseBooksComponent {
     payload.append('author', this.book.author);
     payload.append('publisher', this.book.publisher);
     payload.append('ebook', this.book.eBook);
+    console.log(this.book.eBook);
 
     const data = {
       path: 'course/books/update ',
@@ -227,5 +230,15 @@ export class CourseBooksComponent {
 
   private getTotalPages(): any {
     return this.totalPages || 0;
+  }
+
+  ZoomInPdf() {
+    this.zoom += 0.1;
+  }
+
+  ZoomOutPdf() {
+    if (this.zoom > 0.1) {
+      this.zoom -= 0.1;
+    }
   }
 }

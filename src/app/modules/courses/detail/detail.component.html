@@ -1,11 +1,12 @@
 <div class="mdk-box js-mdk-box mb-0" [style.background]="'#6138c2'">
-  <div class="mdk-box__content" style="
+  <div
+    class="mdk-box__content"
+    style="
       background-image: 'url(/assets/images/bg-course.jpg)';
       background-size: contain;
       background-repeat: no-repeat;
-    ">
-
-  </div>
+    "
+  ></div>
 </div>
 
 <div class="card card-hero">
@@ -19,18 +20,33 @@
         </p>
       </div>
     </div>
-    <div class="navbar navbar-expand-sm navbar-light bg-white border-top-2 navbar-list p-0 m-0 align-items-center"
-      *ngIf="courseDetails">
+    <div
+      class="navbar navbar-expand-sm navbar-light bg-white border-top-2 navbar-list p-0 m-0 align-items-center"
+      *ngIf="courseDetails"
+    >
       <div class="container page__container">
         <ul class="nav navbar-nav flex align-items-sm-center">
           <li class="nav-item navbar-list__item">
-            <div class="media align-items-center" *ngIf="courseDetails.courseInstructors.length > 0">
+            <div
+              class="media align-items-center"
+              *ngIf="courseDetails.courseInstructors.length > 0"
+            >
               <span class="media-left mr-16pt">
                 <span *ngIf="courseDetails.courseInstructors[0].imageUrl">
-                  <img [src]="ImgBaseURL + courseDetails.courseInstructors[0].imageUrl" width="40" height="40"
-                    alt="avatar" class="rounded-circle" />
+                  <img
+                    [src]="
+                      ImgBaseURL + courseDetails.courseInstructors[0].imageUrl
+                    "
+                    width="40"
+                    height="40"
+                    alt="avatar"
+                    class="rounded-circle"
+                  />
                 </span>
-                <span class="avatar avatar-sm mr-8pt2" *ngIf="!courseDetails.courseInstructors[0].imageUrl">
+                <span
+                  class="avatar avatar-sm mr-8pt2"
+                  *ngIf="!courseDetails.courseInstructors[0].imageUrl"
+                >
                   <span class="avatar-title rounded-circle bg-primary">
                     <i class="material-icons">account_box</i>
                   </span>
@@ -44,40 +60,70 @@
               </div>
             </div>
           </li>
-          <li class="nav-item ml-sm-auto text-sm-center flex-column navbar-list__item">
+          <li
+            class="nav-item ml-sm-auto text-sm-center flex-column navbar-list__item"
+          >
             <ul class="nav navbar-nav flex align-items-sm-center">
-              <li class="nav-item navbar-list__item pl-3" [class.active]="sections.about"
-                (click)="toggleSection('about')" [routerLink]="['/courses', courseDetails.id]">
+              <li
+                class="nav-item navbar-list__item pl-3"
+                [class.active]="sections.about"
+                (click)="toggleSection('about')"
+                [routerLink]="['/courses', courseDetails.id]"
+              >
                 <i class="material-icons icon--left">info</i> <span>About</span>
               </li>
-              <li class="nav-item navbar-list__item pl-3" [class.active]="sections.index"
-                (click)="toggleSection('index')" [routerLink]="['tasks']">
+              <li
+                class="nav-item navbar-list__item pl-3"
+                [class.active]="sections.index"
+                (click)="toggleSection('index')"
+                [routerLink]="['tasks']"
+              >
                 <i class="material-icons icon--left">list_alt</i>
                 <span>Modules</span>
               </li>
-              <li class="nav-item navbar-list__item pl-3" [class.active]="sections.books"
-                (click)="toggleSection('books')" [routerLink]="['books']">
+              <li
+                class="nav-item navbar-list__item pl-3"
+                [class.active]="sections.books"
+                (click)="toggleSection('books')"
+                [routerLink]="['books']"
+              >
                 <i class="material-icons icon--left">menu_book</i>
                 <span>eBook</span>
               </li>
-              <li class="nav-item navbar-list__item pl-3" [class.active]="sections.links"
-                (click)="toggleSection('links')" [routerLink]="['useful-links']">
+              <li
+                class="nav-item navbar-list__item pl-3"
+                [class.active]="sections.links"
+                (click)="toggleSection('links')"
+                [routerLink]="['useful-links']"
+              >
                 <i class="material-icons icon--left">share</i>
                 <span>Useful Links</span>
               </li>
-              <li class="nav-item navbar-list__item pl-3" [class.active]="sections.faqs" (click)="toggleSection('faqs')"
-                [routerLink]="['faqs']">
+              <li
+                class="nav-item navbar-list__item pl-3"
+                [class.active]="sections.faqs"
+                (click)="toggleSection('faqs')"
+                [routerLink]="['faqs']"
+              >
                 <i class="material-icons icon--left">dvr</i> <span>FAQs</span>
               </li>
 
-              <li class="nav-item navbar-list__item pl-3" [class.active]="sections.achievements"
-                (click)="toggleSection('achievements')" [routerLink]="['achievements']"
-                *ngIf="loggedInUser.role.title == 'User'">
+              <li
+                class="nav-item navbar-list__item pl-3"
+                [class.active]="sections.achievements"
+                (click)="toggleSection('achievements')"
+                [routerLink]="['achievements']"
+                *ngIf="loggedInUser.role.title == 'User'"
+              >
                 <i class="material-icons icon--left">emoji_events</i>
                 <span>Achievements</span>
               </li>
-              <li class="nav-item navbar-list__item pl-3" [class.active]="sections.discussion"
-                (click)="toggleSection('discussion')" [routerLink]="['discussion']">
+              <li
+                class="nav-item navbar-list__item pl-3"
+                [class.active]="sections.discussion"
+                (click)="toggleSection('discussion')"
+                [routerLink]="['discussion']"
+              >
                 <i class="material-icons icon--left">forum</i>
                 <span>AI Assistant</span>
               </li>
@@ -89,6 +135,6 @@
   </div>
 </div>
 
-<div class=" pt-3">
+<div class="pt-3">
   <router-outlet></router-outlet>
 </div>

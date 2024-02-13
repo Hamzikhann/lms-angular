@@ -6,6 +6,14 @@
   }
 }
 
+.zoom-buttons {
+  padding-left: 15px;
+}
+
+.zoom {
+  padding: 8px;
+}
+
 .popover {
   width: 312px !important;
   max-width: 312px !important;
