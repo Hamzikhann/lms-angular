@@ -86,11 +86,10 @@ export class CourseUpdateComponent {
         approximateTime: this.courseDetails.approximateTime,
         status: this.courseDetails.status,
         courseDepartmentId: this.courseDetails.courseDepartmentId,
+        passingThreshold: this.courseDetails.passingThreshold,
       },
     };
-    if (this.courseDetails.passingThreshold) {
-      data.payload.passingThreshold = this.courseDetails.passingThreshold;
-    }
+
     this.apiServices.postRequest(data).subscribe((data: any) => {
       this.toastr.success('Course updated successfully!');
       this.router.navigate(['/courses', this.courseId]);

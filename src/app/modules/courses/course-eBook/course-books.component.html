@@ -79,7 +79,14 @@
             </div>
           </div>
         </div>
+
         <div class="row" *ngFor="let book of filteredBooks">
+          <div class="book-details">
+            <p><strong>Title:</strong> {{ book.title }}</p>
+            <p><strong>Author: </strong>{{ book.author }}</p>
+            <p><strong>Publisher: </strong>{{ book.publisher }}</p>
+            <p><strong>Edition: </strong>{{ book.edition }}</p>
+          </div>
           <div class="col-md-12">
             <div class="card card--elevated card-group-row__card">
               <pdf-viewer
@@ -225,7 +232,7 @@
                   />
                   <label class="custom-file-label" for="eBook">
                     <span>{{
-                      book.eBook ? book.eBook.name : "Choose File"
+                      book.eBookUrl ? book.eBookUrl : "Choose File"
                     }}</span>
                   </label>
                 </div>

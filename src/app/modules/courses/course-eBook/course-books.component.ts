@@ -114,7 +114,9 @@ export class CourseBooksComponent {
     payload.append('edition', this.book.edition);
     payload.append('author', this.book.author);
     payload.append('publisher', this.book.publisher);
-    payload.append('ebook', this.book.eBook);
+    if (this.book.eBook) {
+      payload.append('ebook', this.book.eBook);
+    }
     console.log(this.book.eBook);
 
     const data = {
@@ -158,9 +160,7 @@ export class CourseBooksComponent {
     };
     const urlSplit = book.bookUrl.split('/');
     if (urlSplit.length > 0 && urlSplit[2]) {
-      this.book.eBook = {
-        name: urlSplit[2],
-      };
+      this.book.eBookUrl = urlSplit[2];
     }
   }
 
