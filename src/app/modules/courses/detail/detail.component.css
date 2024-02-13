@@ -1,12 +1,13 @@
 .navbar {
   border-radius: 0 0 12px 12px;
+  background: #f3f3f3 !important;
 }
 .navbar-nav li {
   cursor: pointer;
   color: var(--secondary);
 }
 .navbar-nav li.active {
-  color: var(--gray-dark);
+  color: var(--primary);
   font-weight: bold;
 }
 .card-folder .card-body {
