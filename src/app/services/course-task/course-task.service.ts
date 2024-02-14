@@ -47,6 +47,12 @@ export class CourseTaskService {
   setCourse(id: string, data: any) {
     this.courseId = id;
     this.courseDetails = data;
+    // this.taskId = '';
+    // this.taskIdPrevious = '';
+    // this.taskIdNext = '';
+    // this.taskDetails = null;
+    // this.modules = [];
+    // this.assessments = [];
   }
   getCourseId() {
     return this.courseId;

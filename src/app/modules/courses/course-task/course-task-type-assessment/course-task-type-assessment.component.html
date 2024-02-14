@@ -18,7 +18,8 @@
           <div class="d-flex justify-content-between">
             <h5>{{ assessment.title }}</h5>
             <div class="buttons">
-              <span
+              <a
+                href="javascript:void(0)"
                 data-toggle="modal"
                 data-target="#assessmentModal"
                 *ngIf="permission.assessment.update"
@@ -26,9 +27,10 @@
                   setAssessment(assessment); setAssessmentFormType('update')
                 "
               >
-                <i class="material-icons fa-lg fs-14pt mx-1">edit</i></span
+                <i class="material-icons fa-lg fs-14pt mx-1">edit</i></a
               >
-              <span
+              <a
+                href="javascript:void(0)"
                 data-toggle="modal"
                 data-target="#assessmentModal"
                 *ngIf="permission.assessment.delete"
@@ -36,7 +38,7 @@
                   setAssessment(assessment); setAssessmentFormType('delete')
                 "
               >
-                <i class="material-icons fa-lg fs-14pt">delete</i></span
+                <i class="material-icons fa-lg fs-14pt">delete</i></a
               >
             </div>
           </div>
@@ -59,7 +61,8 @@
                 class="buttons"
                 *ngIf="loggedInUser.role.title == 'Administrator'"
               >
-                <span
+                <a
+                  href="javascript:void(0)"
                   data-toggle="modal"
                   data-target="#assessmentQuestionModal"
                   *ngIf="permission.question.update"
@@ -68,9 +71,10 @@
                     setAssessmentQuestionFormType('update')
                   "
                 >
-                  <i class="material-icons fa-lg fs-14pt mx-1">edit</i></span
+                  <i class="material-icons fa-lg fs-14pt mx-1">edit</i></a
                 >
-                <span
+                <a
+                  href="javascript:void(0)"
                   data-toggle="modal"
                   data-target="#assessmentQuestionModal"
                   *ngIf="permission.question.delete"
@@ -79,7 +83,7 @@
                     setAssessmentQuestionFormType('delete')
                   "
                 >
-                  <i class="material-icons fa-lg fs-14pt">delete</i></span
+                  <i class="material-icons fa-lg fs-14pt">delete</i></a
                 >
               </div>
             </div>
