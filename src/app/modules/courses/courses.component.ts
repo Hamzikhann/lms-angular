@@ -44,6 +44,10 @@ export class CoursesComponent {
     };
     this.apiServices.postRequest(data).subscribe((data) => {
       this.courses = data;
+
+      this.courses.forEach((course: any) => {
+        course.progress = (course.tasks.completed / course.tasks.total) * 100;
+      });
       this.loading = false;
       console.log(this.courses);
     });
