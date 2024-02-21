@@ -20,13 +20,13 @@ export class DashboardComponent implements OnInit {
 
   series: any = [];
 
-  stats: any;
-
   completedCourses: any;
 
   @ViewChild('chart') chart: ChartComponent | undefined;
   courseEnrollments: any;
   coursesEnrolled: any;
+
+  loading: boolean = false;
 
   constructor(
     private router: Router,
@@ -85,13 +85,21 @@ export class DashboardComponent implements OnInit {
   }
 
   getCourses() {
+    this.loading = true;
+
     const data = {
       path: 'courses/list',
       payload: {},
     };
-    this.apiServices.postRequest(data).subscribe((response) => {
-      this.courses = response;
-      // console.log(this.courses);
+    this.apiServices.postRequest(data).subscribe((data) => {
+      this.courses = data;
+
+      this.courses.forEach((course: any) => {
+        if (course.tasks)
+          course.progress = (course.tasks.completed / course.tasks.total) * 100;
+      });
+      this.loading = false;
+      console.log(this.courses);
     });
   }
 
@@ -106,9 +114,9 @@ export class DashboardComponent implements OnInit {
         this.courseStats.stats.percentages.task,
         this.courseStats.stats.percentages.assessments,
       ];
-      this.completedCourses = this.courseStats.courses.completions[0];
-      this.coursesEnrolled =
-        this.courseStats.courses.enrolled[0].courseTaskProgresses[0].courseTask.courseModule.courseSyllabus.course;
+      // this.completedCourses = this.courseStats.courses.completions[0];
+      // this.coursesEnrolled =
+      //   this.courseStats.courses.enrolled[0].courseTaskProgresses[0].courseTask.courseModule.courseSyllabus.course;
       // console.log(this.coursesEnrolled);
       // console.log(this.completedCourses);
       console.log(this.courseStats);
