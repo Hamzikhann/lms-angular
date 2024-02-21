@@ -46,7 +46,8 @@ export class CoursesComponent {
       this.courses = data;
 
       this.courses.forEach((course: any) => {
-        course.progress = (course.tasks.completed / course.tasks.total) * 100;
+        if (course.tasks)
+          course.progress = (course.tasks.completed / course.tasks.total) * 100;
       });
       this.loading = false;
       console.log(this.courses);

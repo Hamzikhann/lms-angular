@@ -49,8 +49,6 @@ export class CourseAssignmnetReportComponent {
       this.courseDetail = response.data.courseDetail;
       this.courseEnrollments = response.data.courseEnrollments;
       this.loading = false;
-      console.log(this.courseDetail);
-      console.log(this.courseEnrollments);
     });
   }
 }
