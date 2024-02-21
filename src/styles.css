@@ -293,7 +293,7 @@
 }
 
 .page-component {
-  margin-bottom: 16px;
+  margin-bottom: 32px;
 }
 .component-title {
   text-transform: capitalize;
@@ -392,7 +392,7 @@
 .stat-widget {
   display: flex;
   align-items: center;
-  margin: 16px 0;
+  margin: 11.75px 0;
 }
 .stat-widget .stat-icon {
   background: #f8f8f8;

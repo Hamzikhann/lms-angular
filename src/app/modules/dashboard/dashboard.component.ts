@@ -89,7 +89,6 @@ export class DashboardComponent implements OnInit {
     };
     this.apiServices.postRequest(data).subscribe((response) => {
       this.courses = response;
-      // console.log(this.courses);
     });
   }
 
@@ -101,8 +100,8 @@ export class DashboardComponent implements OnInit {
     this.apiServices.postRequest(data).subscribe((response) => {
       this.courseStats = response.data;
       this.chartOptions.series = [
-        this.courseStats.stats.percentages.task.toFixed(1),
-        this.courseStats.stats.percentages.assessments.toFixed(1),
+        this.courseStats.stats?.percentages?.task.toFixed(1),
+        this.courseStats.stats?.percentages?.assessments.toFixed(1),
       ];
     });
   }

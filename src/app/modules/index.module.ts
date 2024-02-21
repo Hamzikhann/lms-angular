@@ -31,10 +31,6 @@ import { NgApexchartsModule } from 'ng-apexcharts';
 
 const routes: Routes = [
   {
-    path: 'user',
-    component: DashboardUserComponent,
-  },
-  {
     path: '',
     canActivate: [AuthGuard],
     component: IndexComponent,
@@ -42,6 +38,10 @@ const routes: Routes = [
       {
         path: '',
         component: DashboardComponent,
+      },
+      {
+        path: 'client',
+        component: DashboardClientComponent,
       },
       {
         path: 'courses',
