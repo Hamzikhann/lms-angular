@@ -17,7 +17,16 @@ export class DashboardComponent implements OnInit {
   courseEnrollmentId: any;
 
   chartOptions: any;
+
+  series: any = [];
+
+  stats: any;
+
+  completedCourses: any;
+
   @ViewChild('chart') chart: ChartComponent | undefined;
+  courseEnrollments: any;
+  coursesEnrolled: any;
 
   constructor(
     private router: Router,
@@ -57,12 +66,12 @@ export class DashboardComponent implements OnInit {
       stroke: {
         lineCap: 'round',
       },
-      series: [71, 63],
+      series: [],
       labels: ['Tasks', 'Assessments'],
       legend: {
         show: true,
         position: 'right',
-        offsetX: 72,
+        offsetX: 30,
         offsetY: 82,
       },
     };
@@ -82,6 +91,7 @@ export class DashboardComponent implements OnInit {
     };
     this.apiServices.postRequest(data).subscribe((response) => {
       this.courses = response;
+      // console.log(this.courses);
     });
   }
 
@@ -92,6 +102,16 @@ export class DashboardComponent implements OnInit {
     };
     this.apiServices.postRequest(data).subscribe((response) => {
       this.courseStats = response.data;
+      this.chartOptions.series = [
+        this.courseStats.stats.percentages.task,
+        this.courseStats.stats.percentages.assessments,
+      ];
+      this.completedCourses = this.courseStats.courses.completions[0];
+      this.coursesEnrolled =
+        this.courseStats.courses.enrolled[0].courseTaskProgresses[0].courseTask.courseModule.courseSyllabus.course;
+      // console.log(this.coursesEnrolled);
+      // console.log(this.completedCourses);
+      console.log(this.courseStats);
     });
   }
 
