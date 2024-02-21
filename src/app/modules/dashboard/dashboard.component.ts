@@ -15,16 +15,14 @@ export class DashboardComponent implements OnInit {
   loggedInUserRole: string = '';
   courseStats: any;
   courseEnrollmentId: any;
-
   chartOptions: any;
-
   series: any = [];
-
-  stats: any;
 
   @ViewChild('chart') chart: ChartComponent | undefined;
   courseEnrollments: any;
   coursesEnrolled: any;
+
+  loading: boolean = false;
 
   constructor(
     private router: Router,
@@ -83,12 +81,21 @@ export class DashboardComponent implements OnInit {
   }
 
   getCourses() {
+    this.loading = true;
+
     const data = {
       path: 'courses/list',
       payload: {},
     };
-    this.apiServices.postRequest(data).subscribe((response) => {
-      this.courses = response;
+    this.apiServices.postRequest(data).subscribe((data) => {
+      this.courses = data;
+
+      this.courses.forEach((course: any) => {
+        if (course.tasks)
+          course.progress = (course.tasks.completed / course.tasks.total) * 100;
+      });
+      this.loading = false;
+      console.log(this.courses);
     });
   }
 
@@ -103,6 +110,7 @@ export class DashboardComponent implements OnInit {
         this.courseStats.stats?.percentages?.task.toFixed(1),
         this.courseStats.stats?.percentages?.assessments.toFixed(1),
       ];
+      console.log(this.courseStats);
     });
   }
 
