@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row" *ngIf="courseStats">
   <div class="col-lg-12 col-sm-12">
     <div class="page-component">
       <div class="card">
@@ -8,14 +8,9 @@
             <div class="col-3">
               <div class="progress-widget">
                 <div id="chart">
-                  <apx-chart
-                    [series]="chartOptions.series"
-                    [chart]="chartOptions.chart"
-                    [plotOptions]="chartOptions.plotOptions"
-                    [labels]="chartOptions.labels"
-                    [legend]="chartOptions.legend"
-                    [stroke]="chartOptions.stroke"
-                  ></apx-chart>
+                  <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart"
+                    [plotOptions]="chartOptions.plotOptions" [labels]="chartOptions.labels"
+                    [legend]="chartOptions.legend" [stroke]="chartOptions.stroke"></apx-chart>
                 </div>
               </div>
             </div>
@@ -25,7 +20,7 @@
                   <i class="material-icons">playlist_play</i>
                 </span>
                 <div class="">
-                  <h4 class="stat-value">{{ courseStats.stats.enrolled }}</h4>
+                  <h4 class="stat-value">{{ courseStats.stats.courses.enrolled }}</h4>
                   <h4 class="stat-title">Enrolled Courses</h4>
                 </div>
               </div>
@@ -34,7 +29,7 @@
                   <i class="material-icons">replay</i>
                 </span>
                 <div class="">
-                  <h4 class="stat-value">{{ courseStats.stats.inQueue }}</h4>
+                  <h4 class="stat-value">{{ courseStats.stats.courses.inqueue }}</h4>
                   <h4 class="stat-title">Courses Not Started</h4>
                 </div>
               </div>
@@ -45,7 +40,7 @@
                   <i class="material-icons">access_time</i>
                 </span>
                 <div class="">
-                  <h4 class="stat-value">{{ courseStats.stats.inProgress }}</h4>
+                  <h4 class="stat-value">{{ courseStats.stats.courses.inprogress }}</h4>
                   <h4 class="stat-title">Inprogress Courses</h4>
                 </div>
               </div>
@@ -54,17 +49,13 @@
                   <i class="material-icons">check</i>
                 </span>
                 <div class="">
-                  <h4 class="stat-value">{{ courseStats.stats.completed }}</h4>
+                  <h4 class="stat-value">{{ courseStats.stats.courses.completed }}</h4>
                   <h4 class="stat-title">Completed Courses</h4>
                 </div>
               </div>
             </div>
             <div class="col-3">
-              <img
-                src="/assets/images/stat-calculation.png"
-                height="162"
-                class="mt-3"
-              />
+              <img src="/assets/images/stat-calculation.png" height="162" class="mt-3" />
             </div>
           </div>
         </div>
@@ -77,32 +68,27 @@
       <div class="card">
         <div class="card-body p-0">
           <div class="tasks-list-widget">
-            <div class="task-row">
+            <div class="task-row" *ngFor="let task of courseStats.tasks.upcoming">
               <div class="task-info">
                 <h6 class="task-title">
-                  {{ courseStats.upcomingTasks[0].courseTask.title }}
+                  {{ task.courseTask.title }}
                 </h6>
                 <div class="task-attributes">
                   <div class="attrib">
                     <i class="material-icons">info_outline</i>
-                    {{
-                      courseStats.upcomingTasks[0].courseTask.courseTaskType
-                        .title
-                    }}
+                    {{ task.courseTask.courseTaskType.title }}
                   </div>
                   <div class="attrib">
                     <i class="material-icons">access_time</i>
-                    {{ courseStats.upcomingTasks[0].courseTask.estimatedTime }}
+                    {{ task.courseTask.estimatedTime }}
                   </div>
                   <div class="attrib">
                     <i class="material-icons">bookmark_border</i>
-                    {{ courseStats.courses.enrolled[0].title }}
+                    <!-- {{ courseStats.courses.enrolled[0].title }} -->
                   </div>
                 </div>
               </div>
-              <span class="task-icon-play material-icons"
-                >play_circle_outline</span
-              >
+              <span class="task-icon-play material-icons">play_circle_outline</span>
             </div>
           </div>
         </div>
@@ -115,31 +101,28 @@
       <div class="card">
         <div class="card-body p-0">
           <div class="tasks-list-widget">
-            <div class="task-row">
-              <div class="task-info">
-                <h6 class="task-title">
-                  {{ completedCourses.title }}
-                </h6>
-                <div class="task-attributes justify-content-between">
-                  <div class="attrib">
-                    <i class="material-icons">date_range</i>
-                    <strong class="pr-1">Due Date: </strong>
-                    <!-- {{
-                      completedCourses.courseAssignments.courseEnrollments
-                        .completionDateOne
-                    }} -->
-                  </div>
-                  <div class="attrib">
-                    <i class="material-icons">access_time</i>
-                    <strong class="pr-1">Progress: </strong>
-                    <!-- {{
-                      completedCourses.courseAssignments.courseEnrollments
-                        .courseEnrollmentUsers.progress
-                    }}% -->
+            <ng-container *ngFor="let course of courseStats.courses.completion">
+              <div class="task-row" *ngIf="course.courseAssignments && course.courseAssignments.length > 0">
+                <div class="task-info">
+                  <h6 class="task-title">
+                    {{ course.title }}
+                  </h6>
+                  <div class="task-attributes justify-content-between"
+                    *ngFor="let enrollment of course.courseAssignments[0].courseEnrollments">
+                    <div class="attrib">
+                      <i class="material-icons">date_range</i>
+                      <strong class="pr-1">Due Date: </strong>
+                      {{ enrollment.completionDateOne || 'Not Mentioned' }}
+                    </div>
+                    <div class="attrib">
+                      <i class="material-icons">access_time</i>
+                      <strong class="pr-1">Progress: </strong>
+                      {{ enrollment.courseEnrollmentUsers[0].progress }}%
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
+            </ng-container>
           </div>
         </div>
       </div>
@@ -148,51 +131,6 @@
   <div class="col-lg-12">
     <div class="page-component">
       <h5 class="component-title">My Courses</h5>
-      <div class="row">
-        <div class="col-lg-4 col-sm-12 col-xs-12">
-          <div class="card course">
-            <div class="card-body course-body">
-              <h6 class="course-attributes">
-                {{ coursesEnrolled.code }}
-              </h6>
-              <div class="text-ellipsis-2">
-                <h5 class="course-title">
-                  {{ coursesEnrolled.title }}
-                </h5>
-              </div>
-              <div class="course-stats">
-                <div class="course-stats-info">
-                  <span class="course-tasks-count"
-                    ><strong>{{ coursesEnrolled.tasksCompleted }}</strong> /
-                    {{ coursesEnrolled.tasksTotal }}</span
-                  >
-                  <span class="course-tasks-nav-icon"
-                    ><i class="material-icons">keyboard_arrow_right</i></span
-                  >
-                </div>
-                <div class="course-progress progress">
-                  <div
-                    class="progress-bar"
-                    role="progressbar"
-                    [attr.aria-valuenow]="
-                      (coursesEnrolled.tasksCompleted /
-                        coursesEnrolled.tasksTotal) *
-                      100
-                    "
-                    [style.width.%]="
-                      (coursesEnrolled.tasksCompleted /
-                        coursesEnrolled.tasksTotal) *
-                      100
-                    "
-                    aria-valuemin="0"
-                    aria-valuemax="100"
-                  ></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
   </div>
 </div>
