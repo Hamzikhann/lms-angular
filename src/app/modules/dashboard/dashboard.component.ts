@@ -80,7 +80,7 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     this.loggedInUser = JSON.parse(this.authService.getUser());
     this.loggedInUserRole = this.loggedInUser.role.title;
-    if (this.loggedInUserRole == 'User') this.getCourseStatistics();
+    this.getCourseStatistics();
     this.getCourses();
   }
 
@@ -111,15 +111,9 @@ export class DashboardComponent implements OnInit {
     this.apiServices.postRequest(data).subscribe((response) => {
       this.courseStats = response.data;
       this.chartOptions.series = [
-        this.courseStats.stats.percentages.task,
-        this.courseStats.stats.percentages.assessments,
+        this.courseStats.stats.percentages.task.toFixed(1),
+        this.courseStats.stats.percentages.assessments.toFixed(1),
       ];
-      // this.completedCourses = this.courseStats.courses.completions[0];
-      // this.coursesEnrolled =
-      //   this.courseStats.courses.enrolled[0].courseTaskProgresses[0].courseTask.courseModule.courseSyllabus.course;
-      // console.log(this.coursesEnrolled);
-      // console.log(this.completedCourses);
-      console.log(this.courseStats);
     });
   }
 
