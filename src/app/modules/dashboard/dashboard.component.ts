@@ -15,12 +15,8 @@ export class DashboardComponent implements OnInit {
   loggedInUserRole: string = '';
   courseStats: any;
   courseEnrollmentId: any;
-
   chartOptions: any;
-
   series: any = [];
-
-  completedCourses: any;
 
   @ViewChild('chart') chart: ChartComponent | undefined;
   courseEnrollments: any;
@@ -114,6 +110,7 @@ export class DashboardComponent implements OnInit {
         this.courseStats.stats.percentages.task.toFixed(1),
         this.courseStats.stats.percentages.assessments.toFixed(1),
       ];
+      console.log(this.courseStats);
     });
   }
 
