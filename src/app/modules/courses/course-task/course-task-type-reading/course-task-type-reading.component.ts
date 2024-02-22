@@ -1,6 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { PdfViewerComponent } from 'ng2-pdf-viewer';
 import { ConfigService } from 'src/app/config/config.service';
+import { ActivatedRoute } from '@angular/router';
 
 import { CourseTaskService } from 'src/app/services/course-task/course-task.service';
 
@@ -17,14 +18,19 @@ export class CourseTaskTypeReadingComponent {
   taskDetails: any;
 
   currentPage: number = 1;
-  pageNumber: number = 1;
+  pageNumber: number | undefined;
   totalPages: number = 0;
+
+  pdfLoaded: boolean = false;
+
+  zoom: number = 1;
 
   @ViewChild(PdfViewerComponent) pdfViewer?: PdfViewerComponent;
 
   constructor(
     private courseTaskService: CourseTaskService,
-    private config: ConfigService
+    private config: ConfigService,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
@@ -39,11 +45,34 @@ export class CourseTaskTypeReadingComponent {
     });
   }
 
+  search(target: any) {
+    if (!target.value) return;
+    this.pdfViewer?.eventBus.dispatch('find', {
+      query: target.value,
+      type: 'again',
+      caseSensitive: false,
+      findPrevious: undefined,
+      highlightAll: true,
+      phraseSearch: true,
+    });
+  }
+
   afterLoadComplete(pdf: any): void {
     this.totalPages = pdf.numPages;
+    this.pdfLoaded = true;
+
+    this.goToPage();
+
+    setTimeout(() => {
+      this.route.paramMap.subscribe((params: any) => {
+        this.pageNumber = params.get('referenceNo');
+        this.goToPage();
+      });
+    }, 500);
   }
 
   goToPage() {
+    console.log(this.pageNumber);
     if (
       this.pageNumber &&
       this.pageNumber >= 1 &&
@@ -57,15 +86,13 @@ export class CourseTaskTypeReadingComponent {
     return this.totalPages || 0;
   }
 
-  search(target: any) {
-    if (!target.value) return;
-    this.pdfViewer?.eventBus.dispatch('find', {
-      query: target.value,
-      type: 'again',
-      caseSensitive: false,
-      findPrevious: undefined,
-      highlightAll: true,
-      phraseSearch: true,
-    });
+  ZoomInPdf() {
+    this.zoom += 0.1;
+  }
+
+  ZoomOutPdf() {
+    if (this.zoom > 0.1) {
+      this.zoom -= 0.1;
+    }
   }
 }

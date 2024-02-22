@@ -4,30 +4,55 @@
       class="pdf-container"
       *ngIf="taskDetails.courseTaskContent.handoutLink"
     >
-      <div>
-        <input
-          type="text"
-          placeholder="Search text or keyword"
-          (change)="search($event.target)"
-        />
-      </div>
-      <br />
-      <div class="mb-3">
-        <input
-          type="text"
-          [(ngModel)]="pageNumber"
-          placeholder="Enter page number"
-        />
-        <button class="btn btn-primary btn-sm ml-2" (click)="goToPage()">
-          Go to Page
-        </button>
+      <div class="row mb-4">
+        <div class="col-6">
+          <div class="search-form search-form--light">
+            <button class="btn" style="white-space: nowrap">Search</button>
+            <input
+              type="text"
+              class="form-control form-input"
+              placeholder="Text or Keyword"
+              (change)="search($event.target)"
+            />
+            <button class="btn" type="submit">
+              <i class="material-icons">search</i>
+            </button>
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="search-form search-form--light">
+            <button class="btn" style="white-space: nowrap">Page #</button>
+            <input
+              type="number"
+              class="form-control form-input p-0"
+              [(ngModel)]="pageNumber"
+              (change)="goToPage()"
+            />
+            <button class="btn pl-0" type="submit">
+              <i class="material-icons">search</i>
+            </button>
+          </div>
+        </div>
+        <div class="col">
+          <div
+            class="search-form search-form--light p-1"
+            style="width: 13vh; height: 6vh"
+          >
+            <button (click)="ZoomOutPdf()" class="border-0">
+              <i class="material-icons">zoom_out</i>
+            </button>
+            <button (click)="ZoomInPdf()" class="border-0">
+              <i class="material-icons">zoom_in</i>
+            </button>
+          </div>
+        </div>
       </div>
       <pdf-viewer
         [src]="ImgBaseURL + taskDetails.courseTaskContent.handoutLink"
         [original-size]="false"
         [show-all]="true"
         [fit-to-page]="false"
-        [zoom]="1"
+        [zoom]="zoom"
         [zoom-scale]="'page-width'"
         [stick-to-page]="false"
         [render-text]="true"
