@@ -1,242 +1,124 @@
-<div class="row" *ngIf="courseStats">
-  <div class="col-lg-12 col-sm-12">
-    <div class="page-component">
-      <div class="card">
-        <div class="card-body p-0">
-          <h5 class="component-title px-3 pt-3">Overall Progress</h5>
-          <div class="row">
-            <div class="col-3">
-              <div class="progress-widget">
-                <div id="chart">
-                  <apx-chart
-                    [series]="chartOptions.series"
-                    [chart]="chartOptions.chart"
-                    [plotOptions]="chartOptions.plotOptions"
-                    [labels]="chartOptions.labels"
-                    [legend]="chartOptions.legend"
-                    [stroke]="chartOptions.stroke"
-                  ></apx-chart>
-                </div>
-              </div>
-            </div>
-            <div class="col-3">
-              <div class="stat-widget mb-4">
-                <span class="stat-icon">
-                  <i class="material-icons">playlist_play</i>
-                </span>
-                <div class="">
-                  <h4 class="stat-value">
-                    {{ courseStats.stats.courses.enrolled }}
-                  </h4>
-                  <h4 class="stat-title">Enrolled Courses</h4>
-                </div>
-              </div>
-              <div class="stat-widget">
-                <span class="stat-icon">
-                  <i class="material-icons">replay</i>
-                </span>
-                <div class="">
-                  <h4 class="stat-value">
-                    {{ courseStats.stats.courses.inqueue }}
-                  </h4>
-                  <h4 class="stat-title">Courses Not Started</h4>
-                </div>
-              </div>
-            </div>
-            <div class="col-3">
-              <div class="stat-widget mb-4">
-                <span class="stat-icon">
-                  <i class="material-icons">access_time</i>
-                </span>
-                <div class="">
-                  <h4 class="stat-value">
-                    {{ courseStats.stats.courses.inprogress }}
-                  </h4>
-                  <h4 class="stat-title">Inprogress Courses</h4>
-                </div>
-              </div>
-              <div class="stat-widget">
-                <span class="stat-icon">
-                  <i class="material-icons">check</i>
-                </span>
-                <div class="">
-                  <h4 class="stat-value">
-                    {{ courseStats.stats.courses.completed }}
-                  </h4>
-                  <h4 class="stat-title">Completed Courses</h4>
-                </div>
-              </div>
-            </div>
-            <div class="col-3">
-              <img
-                src="/assets/images/stat-calculation.png"
-                height="162"
-                class="mt-3"
-              />
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="col-lg-8 col-sm-12">
-    <div class="page-component">
-      <h5 class="component-title">Resume Tasks</h5>
-      <div class="card">
-        <div class="card-body p-0">
-          <div class="tasks-list-widget">
-            <div
-              class="task-row"
-              *ngFor="let task of courseStats.tasks.upcoming"
-            >
-              <div class="task-info">
-                <h6 class="task-title">
-                  <a
-                    [routerLink]="[
-                      '/courses',
-                      task.courseId,
-                      'task',
-                      task.taskId
-                    ]"
-                    >{{ task.taskName }}</a
-                  >
-                </h6>
-                <div class="task-attributes">
-                  <div class="attrib">
-                    <i class="material-icons">info_outline</i>
-                    {{ task.taskType }}
+<ng-container *ngIf="loggedInUser.role.title == 'User'">
+  <div class="row" *ngIf="courseStats">
+    <div class="col-lg-12 col-sm-12">
+      <div class="page-component">
+        <div class="card">
+          <div class="card-body p-0">
+            <h5 class="component-title px-3 pt-3">Overall Progress</h5>
+            <div class="row">
+              <div class="col-3">
+                <div class="progress-widget">
+                  <div id="chart">
+                    <apx-chart
+                      [series]="chartOptions.series"
+                      [chart]="chartOptions.chart"
+                      [plotOptions]="chartOptions.plotOptions"
+                      [labels]="chartOptions.labels"
+                      [legend]="chartOptions.legend"
+                      [stroke]="chartOptions.stroke"
+                    ></apx-chart>
                   </div>
-                  <div class="attrib">
+                </div>
+              </div>
+              <div class="col-3">
+                <div class="stat-widget mb-4">
+                  <span class="stat-icon">
+                    <i class="material-icons">playlist_play</i>
+                  </span>
+                  <div class="">
+                    <h4 class="stat-value">
+                      {{ courseStats.stats.courses.enrolled }}
+                    </h4>
+                    <h4 class="stat-title">Enrolled Courses</h4>
+                  </div>
+                </div>
+                <div class="stat-widget">
+                  <span class="stat-icon">
+                    <i class="material-icons">replay</i>
+                  </span>
+                  <div class="">
+                    <h4 class="stat-value">
+                      {{ courseStats.stats.courses.inqueue }}
+                    </h4>
+                    <h4 class="stat-title">Courses Not Started</h4>
+                  </div>
+                </div>
+              </div>
+              <div class="col-3">
+                <div class="stat-widget mb-4">
+                  <span class="stat-icon">
                     <i class="material-icons">access_time</i>
-                    {{ task.estimatedTime }}
+                  </span>
+                  <div class="">
+                    <h4 class="stat-value">
+                      {{ courseStats.stats.courses.inprogress }}
+                    </h4>
+                    <h4 class="stat-title">Inprogress Courses</h4>
                   </div>
-                  <div class="attrib">
-                    <i class="material-icons">bookmark_border</i>
-                    {{ task.courseName }}
+                </div>
+                <div class="stat-widget">
+                  <span class="stat-icon">
+                    <i class="material-icons">check</i>
+                  </span>
+                  <div class="">
+                    <h4 class="stat-value">
+                      {{ courseStats.stats.courses.completed }}
+                    </h4>
+                    <h4 class="stat-title">Completed Courses</h4>
                   </div>
                 </div>
               </div>
-              <span class="task-icon-play material-icons"
-                >play_circle_outline</span
-              >
+              <div class="col-3">
+                <img
+                  src="/assets/images/stat-calculation.png"
+                  height="162"
+                  class="mt-3"
+                />
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-  <div class="col-lg-4 col-sm-12">
-    <div class="page-component">
-      <h5 class="component-title">Courses Completion</h5>
-      <div class="card">
-        <div class="card-body p-0">
-          <div class="tasks-list-widget">
-            <ng-container *ngFor="let course of courseStats.courses.completion">
+    <div class="col-lg-8 col-sm-12">
+      <div class="page-component">
+        <h5 class="component-title">Resume Tasks</h5>
+        <div class="card">
+          <div class="card-body p-0">
+            <div class="tasks-list-widget">
               <div
                 class="task-row"
-                *ngIf="
-                  course.courseAssignments &&
-                  course.courseAssignments.length > 0
-                "
+                *ngFor="let task of courseStats.tasks.upcoming"
               >
                 <div class="task-info">
                   <h6 class="task-title">
                     <a
-                      [routerLink]="['/courses', course.id]"
-                      class="text-dark"
-                      >{{ course.title }}</a
+                      [routerLink]="[
+                        '/courses',
+                        task.courseId,
+                        'task',
+                        task.taskId
+                      ]"
+                      >{{ task.taskName }}</a
                     >
                   </h6>
-                  <div
-                    class="task-attributes justify-content-between"
-                    *ngFor="
-                      let enrollment of course.courseAssignments[0]
-                        .courseEnrollments
-                    "
-                  >
+                  <div class="task-attributes">
                     <div class="attrib">
-                      <i class="material-icons">date_range</i>
-                      <strong class="pr-1">Due Date: </strong>
-                      {{ enrollment.completionDateOne || "Not Mentioned" }}
+                      <i class="material-icons">info_outline</i>
+                      {{ task.taskType }}
                     </div>
                     <div class="attrib">
                       <i class="material-icons">access_time</i>
-                      <strong class="pr-1">Progress: </strong>
-                      {{ enrollment.courseEnrollmentUsers[0].progress }}%
+                      {{ task.estimatedTime }}
+                    </div>
+                    <div class="attrib">
+                      <i class="material-icons">bookmark_border</i>
+                      {{ task.courseName }}
                     </div>
                   </div>
                 </div>
-              </div>
-            </ng-container>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="col-lg-12">
-    <ng-container *ngIf="loading">
-      <div class="text-center loading-icon">
-        <img src="/assets/images/loading.svg" />
-      </div>
-    </ng-container>
-    <div class="page-component" *ngIf="!loading">
-      <h5 class="component-title">My Courses</h5>
-
-      <div class="row">
-        <div
-          class="col-lg-4 col-sm-12 col-xs-12"
-          *ngFor="let course of courses"
-        >
-          <div class="card course">
-            <div class="card-body course-body">
-              <h6 class="course-attributes">
-                {{ course.code }} - {{ course.courseDepartment.title }}
-              </h6>
-              <div class="text-ellipsis-2">
-                <h5 class="course-title">
-                  <a [routerLink]="['/courses', course.id]" class="text-dark">{{
-                    course.title
-                  }}</a>
-                </h5>
-              </div>
-              <!-- <div>
-                  <a [routerLink]="['update', course.id]" *ngIf="permission.update">
-                    <i class="material-icons fa-lg mr-2">edit</i></a>
-                  <a href="#" data-toggle="modal" data-target="#deleteCourse" (click)="setCourse(course)"
-                    *ngIf="permission.delete"><i class="material-icons fa-lg">delete</i></a>
-                </div> -->
-              <div
-                class="course-stats"
-                *ngIf="loggedInUser.role.title == 'User'"
-              >
-                <div class="course-stats-info">
-                  <span class="course-tasks-count"
-                    ><strong>{{ course.tasks.completed }}</strong> /
-                    {{ course.tasks.total }}</span
-                  >
-                  <span class="course-tasks-nav-icon"
-                    ><i class="material-icons">keyboard_arrow_right</i></span
-                  >
-                </div>
-                <div class="course-progress progress">
-                  <div
-                    class="progress-bar"
-                    role="progressbar"
-                    [style]="'width: ' + course.progress + '%'"
-                    aria-valuemin="0"
-                    aria-valuemax="100"
-                  ></div>
-                </div>
-              </div>
-              <div class="buttons mt-3">
-                <a
-                  *ngIf="loggedInUser.role.title == 'Client'"
-                  [routerLink]="[
-                    'courseAssignmentReport',
-                    course.courseAssignmentId
-                  ]"
-                  class="btn btn-dark btn-sm"
-                  >View Report</a
+                <span class="task-icon-play material-icons"
+                  >play_circle_outline</span
                 >
               </div>
             </div>
@@ -244,5 +126,382 @@
         </div>
       </div>
     </div>
+    <div class="col-lg-4 col-sm-12">
+      <div class="page-component">
+        <h5 class="component-title">Courses Completion</h5>
+        <div class="card">
+          <div class="card-body p-0">
+            <div class="tasks-list-widget">
+              <ng-container
+                *ngFor="let course of courseStats.courses.completion"
+              >
+                <div
+                  class="task-row"
+                  *ngIf="
+                    course.courseAssignments &&
+                    course.courseAssignments.length > 0
+                  "
+                >
+                  <div class="task-info">
+                    <h6 class="task-title">
+                      <a
+                        [routerLink]="['/courses', course.id]"
+                        class="text-dark"
+                        >{{ course.title }}</a
+                      >
+                    </h6>
+                    <div
+                      class="task-attributes justify-content-between"
+                      *ngFor="
+                        let enrollment of course.courseAssignments[0]
+                          .courseEnrollments
+                      "
+                    >
+                      <div class="attrib">
+                        <i class="material-icons">date_range</i>
+                        <strong class="pr-1">Due Date: </strong>
+                        {{ enrollment.completionDateOne || "Not Mentioned" }}
+                      </div>
+                      <div class="attrib">
+                        <i class="material-icons">access_time</i>
+                        <strong class="pr-1">Progress: </strong>
+                        {{ enrollment.courseEnrollmentUsers[0].progress }}%
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-12">
+      <ng-container *ngIf="loading">
+        <div class="text-center loading-icon">
+          <img src="/assets/images/loading.svg" />
+        </div>
+      </ng-container>
+      <div class="page-component" *ngIf="!loading">
+        <h5 class="component-title">My Courses</h5>
+
+        <div class="row">
+          <div
+            class="col-lg-4 col-sm-12 col-xs-12"
+            *ngFor="let course of courses"
+          >
+            <div class="card course">
+              <div class="card-body course-body">
+                <h6 class="course-attributes">
+                  {{ course.code }} - {{ course.courseDepartment.title }}
+                </h6>
+                <div class="text-ellipsis-2">
+                  <h5 class="course-title">
+                    <a
+                      [routerLink]="['/courses', course.id]"
+                      class="text-dark"
+                      >{{ course.title }}</a
+                    >
+                  </h5>
+                </div>
+                <!-- <div>
+                    <a [routerLink]="['update', course.id]" *ngIf="permission.update">
+                      <i class="material-icons fa-lg mr-2">edit</i></a>
+                    <a href="#" data-toggle="modal" data-target="#deleteCourse" (click)="setCourse(course)"
+                      *ngIf="permission.delete"><i class="material-icons fa-lg">delete</i></a>
+                  </div> -->
+                <div
+                  class="course-stats"
+                  *ngIf="loggedInUser.role.title == 'User'"
+                >
+                  <div class="course-stats-info">
+                    <span class="course-tasks-count"
+                      ><strong>{{ course.tasks.completed }}</strong> /
+                      {{ course.tasks.total }}</span
+                    >
+                    <span class="course-tasks-nav-icon"
+                      ><i class="material-icons">keyboard_arrow_right</i></span
+                    >
+                  </div>
+                  <div class="course-progress progress">
+                    <div
+                      class="progress-bar"
+                      role="progressbar"
+                      [style]="'width: ' + course.progress + '%'"
+                      aria-valuemin="0"
+                      aria-valuemax="100"
+                    ></div>
+                  </div>
+                </div>
+                <div class="buttons mt-3">
+                  <a
+                    *ngIf="loggedInUser.role.title == 'Client'"
+                    [routerLink]="[
+                      'courseAssignmentReport',
+                      course.courseAssignmentId
+                    ]"
+                    class="btn btn-dark btn-sm"
+                    >View Report</a
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-</div>
+</ng-container>
+
+<ng-container *ngIf="loggedInUser.role.title == 'Client'">
+  <div class="row">
+    <div class="col-lg-8 col-sm-12">
+      <div class="page-component">
+        <h5 class="component-title">Overview</h5>
+        <div class="card">
+          <div class="card-body py-2">
+            <div class="row">
+              <div class="col-3">
+                <div class="stat-widget">
+                  <span class="stat-icon p-2">
+                    <i class="material-icons">people</i>
+                  </span>
+                  <div class="">
+                    <h4 class="stat-value fs-20px">12</h4>
+                    <h4 class="stat-title">Users</h4>
+                  </div>
+                </div>
+              </div>
+              <div class="col-3">
+                <div class="stat-widget">
+                  <span class="stat-icon p-2">
+                    <i class="material-icons">recent_actors</i>
+                  </span>
+                  <div class="">
+                    <h4 class="stat-value fs-20px">3</h4>
+                    <h4 class="stat-title">Teams</h4>
+                  </div>
+                </div>
+              </div>
+              <div class="col-3">
+                <div class="stat-widget">
+                  <span class="stat-icon p-2">
+                    <i class="material-icons">dns</i>
+                  </span>
+                  <div class="">
+                    <h4 class="stat-value fs-20px">4</h4>
+                    <h4 class="stat-title">All Courses</h4>
+                  </div>
+                </div>
+              </div>
+              <div class="col-3">
+                <div class="stat-widget">
+                  <span class="stat-icon p-2">
+                    <i class="material-icons">assignment</i>
+                  </span>
+                  <div class="">
+                    <h4 class="stat-value fs-20px">3</h4>
+                    <h4 class="stat-title">Active Courses</h4>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="page-component">
+        <h5 class="component-title">Courses Enrolled</h5>
+        <div class="card">
+          <div class="card-body p-0">
+            <div class="tasks-list-widget">
+              <div class="task-row">
+                <div class="task-info">
+                  <h6 class="task-title">Project Management</h6>
+                  <div class="task-attributes">
+                    <div class="attrib">
+                      <i class="material-icons">info_outline</i>
+                      Course Code
+                    </div>
+                    <div class="attrib">
+                      <i class="material-icons">bookmark_border</i>
+                      Department Name
+                    </div>
+                    <div class="attrib">
+                      <i class="material-icons">access_time</i>
+                      Approximate Time
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="task-row">
+                <div class="task-info">
+                  <h6 class="task-title">Project Management</h6>
+                  <div class="task-attributes">
+                    <div class="attrib">
+                      <i class="material-icons">info_outline</i>
+                      Course Code
+                    </div>
+                    <div class="attrib">
+                      <i class="material-icons">bookmark_border</i>
+                      Department Name
+                    </div>
+                    <div class="attrib">
+                      <i class="material-icons">access_time</i>
+                      Approximate Time
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="task-row">
+                <div class="task-info">
+                  <h6 class="task-title">Project Management</h6>
+                  <div class="task-attributes">
+                    <div class="attrib">
+                      <i class="material-icons">info_outline</i>
+                      Course Code
+                    </div>
+                    <div class="attrib">
+                      <i class="material-icons">bookmark_border</i>
+                      Department Name
+                    </div>
+                    <div class="attrib">
+                      <i class="material-icons">access_time</i>
+                      Approximate Time
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="page-component">
+        <h5 class="component-title">Most Recent Acheivements</h5>
+        <div class="card">
+          <div class="card-body p-0">
+            <table class="table table-bordered mb-0">
+              <thead>
+                <tr>
+                  <td class="w-25"><strong>User</strong></td>
+                  <td><strong>Course</strong></td>
+                  <td class="w-15 text-center"><strong>Marks</strong></td>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Ahmad Murtaza</td>
+                  <td>Social Engineering</td>
+                  <td class="text-center">95%</td>
+                </tr>
+                <tr>
+                  <td>Muneeb Ahmad</td>
+                  <td>Project Management</td>
+                  <td class="text-center">99%</td>
+                </tr>
+                <tr>
+                  <td>Fahad Khan</td>
+                  <td>Social Engineering</td>
+                  <td class="text-center">87%</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-4 col-sm-12">
+      <div class="page-component">
+        <h5 class="component-title">Users</h5>
+        <div class="card card-users">
+          <div class="card-body">
+            <div class="users-images">
+              <img src="/assets/images/users/avatar-s-1.png" />
+              <img src="/assets/images/users/avatar-s-2.png" />
+              <img src="/assets/images/users/avatar-s-7.png" />
+              <img src="/assets/images/users/avatar-s-8.png" />
+              <img src="/assets/images/users/avatar-s-9.png" />
+              <img src="/assets/images/users/avatar-s-10.png" />
+              <span>+ 13 more</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="page-component">
+        <h5 class="component-title">Teams</h5>
+        <div class="card card-users">
+          <div class="card-body">
+            <div class="team-row">
+              <h6 class="team-title">Web Developers</h6>
+              <div class="team-images">
+                <img src="/assets/images/users/avatar-s-6.png" />
+                <img src="/assets/images/users/avatar-s-7.png" />
+                <img src="/assets/images/users/avatar-s-8.png" />
+                <div class="team-more">+6</div>
+              </div>
+            </div>
+            <div class="team-row">
+              <h6 class="team-title">Human Resources</h6>
+              <div class="team-images">
+                <img src="/assets/images/users/avatar-s-1.png" />
+              </div>
+            </div>
+            <div class="team-row">
+              <h6 class="team-title">Administration</h6>
+              <div class="team-images">
+                <img src="/assets/images/users/avatar-s-7.png" />
+                <img src="/assets/images/users/avatar-s-10.png" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="page-component">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h5 class="component-title mb-0">Upcoming Course</h5>
+          <span>Schedule</span>
+        </div>
+        <div class="card">
+          <div class="card-body p-0">
+            <div class="tasks-list-widget">
+              <div class="task-row">
+                <div class="task-info">
+                  <h6 class="task-title">UI/UX Design</h6>
+                  <div class="task-attributes justify-content-between">
+                    <div class="attrib">
+                      <i class="material-icons">date_range</i>
+                      <strong class="pr-1">Due Date: </strong> Februray 23, 2024
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="task-row">
+                <div class="task-info">
+                  <h6 class="task-title">
+                    Comprehensive Customer Relationship Management
+                  </h6>
+                  <div class="task-attributes justify-content-between">
+                    <div class="attrib">
+                      <i class="material-icons">date_range</i>
+                      <strong class="pr-1">Due Date: </strong> March 03, 2024
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="task-row">
+                <div class="task-info">
+                  <h6 class="task-title">SQL: Super Complex</h6>
+                  <div class="task-attributes justify-content-between">
+                    <div class="attrib">
+                      <i class="material-icons">date_range</i>
+                      <strong class="pr-1">Due Date: </strong> March 13, 2024
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>
