@@ -1,3 +1,7 @@
+.users-images {
+  padding-top: 2px;
+  padding-bottom: 2px;
+}
 .users-images img {
   border: 2px solid #dedede;
   border-radius: 2rem;
@@ -47,4 +51,8 @@
   text-align: center;
   padding: 6px;
   margin-left: -8px;
+}
+
+.fs-20px {
+  font-size: 20px;
 }
