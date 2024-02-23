@@ -1,4 +1,6 @@
-<div class="container page__container d-flex flex-column flex-md-row align-items-center text-center text-sm-left">
+<div
+  class="container page__container d-flex flex-column flex-md-row align-items-center text-center text-sm-left"
+>
   <div class="flex d-flex flex-column flex-sm-row align-items-center">
     <div class="mb-24pt mr-sm-24pt">
       <h2 class="mb-0">Enrollments</h2>
@@ -29,11 +31,16 @@
           <form #formData="ngForm">
             <div class="form-group">
               <label for="assignmentId" class="form-label">Course</label>
-              <select id="assignmentId" class="form-control" name="assignmentId" [(ngModel)]="enrollment.assignmentId"
+              <select
+                id="assignmentId"
+                class="form-control"
+                name="assignmentId"
+                [(ngModel)]="enrollment.assignmentId"
                 [disabled]="
                   enrollmentFormType == 'delete' ||
                   enrollmentFormType == 'update'
-                ">
+                "
+              >
                 <option></option>
                 <ng-container *ngFor="let assignment of courses">
                   <option [value]="assignment.id">
@@ -44,10 +51,17 @@
             </div>
             <div class="form-group">
               <label for="typeId" class="form-label">Access Level</label>
-              <select id="typeId" class="form-control" name="typeId" [(ngModel)]="enrollment.typeId" [disabled]="
+              <select
+                id="typeId"
+                class="form-control"
+                name="typeId"
+                [(ngModel)]="enrollment.typeId"
+                [disabled]="
                   enrollmentFormType == 'delete' ||
                   enrollmentFormType == 'update'
-                " (change)="setAccessLevel()">
+                "
+                (change)="setAccessLevel()"
+              >
                 <option></option>
                 <ng-container *ngFor="let type of enrollmentTypes">
                   <option [value]="type.id">{{ type.title }}</option>
@@ -56,8 +70,13 @@
             </div>
             <div class="form-group" *ngIf="enrollment.type == 'Individual'">
               <label for="userId" class="form-label">User</label>
-              <select id="userId" class="form-control" name="userId" [(ngModel)]="enrollment.userId"
-                [disabled]="enrollmentFormType == 'delete'">
+              <select
+                id="userId"
+                class="form-control"
+                name="userId"
+                [(ngModel)]="enrollment.userId"
+                [disabled]="enrollmentFormType == 'delete'"
+              >
                 <option>Select ...</option>
                 <ng-container *ngFor="let user of users">
                   <ng-container *ngIf="user.role.title == 'User'">
@@ -69,9 +88,16 @@
               </select>
             </div>
             <div class="form-group" *ngIf="enrollment.type == 'Department'">
-              <label for="departmentId" class="form-label">User Departments</label>
-              <select id="departmentId" class="form-control" name="departmentId" [(ngModel)]="enrollment.departmentId"
-                [disabled]="enrollmentFormType == 'delete'">
+              <label for="departmentId" class="form-label"
+                >User Departments</label
+              >
+              <select
+                id="departmentId"
+                class="form-control"
+                name="departmentId"
+                [(ngModel)]="enrollment.departmentId"
+                [disabled]="enrollmentFormType == 'delete'"
+              >
                 <option>Select ...</option>
                 <ng-container *ngFor="let department of userDepartments">
                   <option [value]="department.id">
@@ -82,8 +108,13 @@
             </div>
             <div class="form-group" *ngIf="enrollment.type == 'Team'">
               <label for="teamId" class="form-label">Team</label>
-              <select id="teamId" class="form-control" name="teamId" [(ngModel)]="enrollment.teamId"
-                [disabled]="enrollmentFormType == 'delete'">
+              <select
+                id="teamId"
+                class="form-control"
+                name="teamId"
+                [(ngModel)]="enrollment.teamId"
+                [disabled]="enrollmentFormType == 'delete'"
+              >
                 <option>Select ...</option>
                 <ng-container *ngFor="let team of teams">
                   <option [value]="team.id">{{ team.title }}</option>
@@ -94,40 +125,85 @@
               <label class="form-label">Enrollment Type</label>
               <div class="form-control">
                 <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="radio" name="required" id="requiredYes" value="Y"
-                    [(ngModel)]="enrollment.required" />
-                  <label class="form-check-label" for="requiredYes">Compulsory</label>
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    name="required"
+                    id="requiredYes"
+                    value="Y"
+                    [(ngModel)]="enrollment.required"
+                  />
+                  <label class="form-check-label" for="requiredYes"
+                    >Compulsory</label
+                  >
                 </div>
                 <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="radio" name="status" id="requiredNo" value="N"
-                    [(ngModel)]="enrollment.required" />
-                  <label class="form-check-label" for="requiredNo">Optional</label>
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    name="status"
+                    id="requiredNo"
+                    value="N"
+                    [(ngModel)]="enrollment.required"
+                  />
+                  <label class="form-check-label" for="requiredNo"
+                    >Optional</label
+                  >
                 </div>
               </div>
             </div>
             <div class="form-group">
-              <label for="completionDateOne " class="form-label">Completion Date 1 (Optional)
+              <label for="completionDateOne " class="form-label"
+                >Completion Date 1 (Optional)
               </label>
-              <input class="form-control" type="date" id="completionDateOne " name="completionDateOne "
-                [(ngModel)]="enrollment.completionDateOne" [disabled]="enrollmentFormType == 'delete'" />
+              <input
+                class="form-control"
+                type="date"
+                id="completionDateOne "
+                name="completionDateOne "
+                [(ngModel)]="enrollment.completionDateOne"
+                [disabled]="enrollmentFormType == 'delete'"
+              />
             </div>
             <div class="form-group">
-              <label for="completionDateTwo " class="form-label">Completion Date 2 (Optional)
+              <label for="completionDateTwo " class="form-label"
+                >Completion Date 2 (Optional)
               </label>
-              <input class="form-control" type="date" id="completionDateTwo " name="completionDateTwo "
-                [(ngModel)]="enrollment.completionDateTwo" [disabled]="enrollmentFormType == 'delete'" />
+              <input
+                class="form-control"
+                type="date"
+                id="completionDateTwo "
+                name="completionDateTwo "
+                [(ngModel)]="enrollment.completionDateTwo"
+                [disabled]="enrollmentFormType == 'delete'"
+              />
             </div>
             <div class="form-buttons">
-              <button type="submit" class="btn btn-primary" (click)="createEnrollment()"
-                *ngIf="enrollmentFormType == 'create'" [disabled]="!enrollment.assignmentId || !enrollment.typeId">
+              <button
+                type="submit"
+                class="btn btn-primary"
+                (click)="createEnrollment()"
+                *ngIf="enrollmentFormType == 'create'"
+                [disabled]="!enrollment.assignmentId || !enrollment.typeId"
+              >
                 Create
               </button>
-              <button type="submit" class="btn btn-primary" (click)="updateEnrollment()"
-                *ngIf="enrollmentFormType == 'update'" [disabled]="!enrollment.assignmentId || !enrollment.typeId">
+              <button
+                type="submit"
+                class="btn btn-primary"
+                (click)="updateEnrollment()"
+                *ngIf="enrollmentFormType == 'update'"
+                [disabled]="!enrollment.assignmentId || !enrollment.typeId"
+              >
                 Update
               </button>
-              <button type="submit" class="btn btn-danger" (click)="deleteEnrollment()"
-                *ngIf="enrollmentFormType == 'delete'" [disabled]="!enrollment.id">
+              <button
+                type="submit"
+                class="btn btn-danger"
+                (click)="deleteEnrollment()"
+                *ngIf="enrollmentFormType == 'delete'"
+                [disabled]="!enrollment.id"
+              >
                 Delete
               </button>
             </div>
@@ -145,7 +221,11 @@
             <img src="/assets/images/loading.svg" width="20" class="mb-3" />
           </ng-container>
           <ng-container *ngIf="!loading && enrollments.length > 0">
-            <table class="table table-sm table-hover table-bordered mb-0" datatable [dtOptions]="dtOptions">
+            <table
+              class="table table-sm table-hover table-bordered mb-0"
+              datatable
+              [dtOptions]="dtOptions"
+            >
               <thead class="bg-light">
                 <tr>
                   <th scope="col">Timestamp</th>
@@ -159,64 +239,73 @@
                 </tr>
               </thead>
               <tbody>
-                <ng-container *ngFor="let enrollment of enrollments; let i = index">
+                <ng-container
+                  *ngFor="let enrollment of enrollments; let i = index"
+                >
                   <tr>
                     <td>{{ enrollment.date }}</td>
 
                     <td>
-                      <div class="badge mb-2" [class.badge-info]="enrollment.required == 'Y'"
-                        [class.badge-warning]="enrollment.required == 'N'">
-                        <ng-container *ngIf="enrollment.required == 'Y'">Compulsory</ng-container>
-                        <ng-container *ngIf="enrollment.required == 'N'">Optional</ng-container>
+                      <div
+                        class="badge mb-2"
+                        [class.badge-info]="enrollment.required == 'Y'"
+                        [class.badge-warning]="enrollment.required == 'N'"
+                      >
+                        <ng-container *ngIf="enrollment.required == 'Y'"
+                          >Compulsory</ng-container
+                        >
+                        <ng-container *ngIf="enrollment.required == 'N'"
+                          >Optional</ng-container
+                        >
                       </div>
                     </td>
                     <td>{{ enrollment.courseAssignment.course.title }}</td>
                     <td>
                       {{ enrollment.courseEnrollmentType.title }}
 
-                      <div>
-                        <ng-container *ngIf="
-                            enrollment.courseEnrollmentType.title ==
-                            'Department'
-                          ">
-                          ({{ enrollment.userDepartment.title }})
-                        </ng-container>
-                        <ng-container *ngIf="
-                            enrollment.courseEnrollmentType.title == 'Team'
-                          ">
-                          ({{ enrollment.team.title }})
-                        </ng-container>
-                        <ng-container *ngIf="
-                            enrollment.courseEnrollmentType.title ==
-                            'Individual'
-                          ">
+                      <ng-container
+                        *ngIf="
+                          enrollment.courseEnrollmentType.title == 'Department'
+                        "
+                      >
+                        <p>({{ enrollment.userDepartment.title }})</p>
+                      </ng-container>
+                      <ng-container
+                        *ngIf="enrollment.courseEnrollmentType.title == 'Team'"
+                      >
+                        <p>({{ enrollment.team.title }})</p>
+                      </ng-container>
+                      <ng-container
+                        *ngIf="
+                          enrollment.courseEnrollmentType.title == 'Individual'
+                        "
+                      >
+                        <p>
                           ({{
-                          enrollment.courseEnrollmentUsers[0].user.firstName +
-                          " " +
-                          enrollment.courseEnrollmentUsers[0].user.lastName
+                            enrollment.courseEnrollmentUsers[0].user.firstName +
+                              " " +
+                              enrollment.courseEnrollmentUsers[0].user.lastName
                           }})
-                        </ng-container>
-                      </div>
+                        </p>
+                      </ng-container>
                     </td>
-                    <!-- <td>
-
-                      {{
-                        enrollment.user.firstName +
-                          " " +
-                          enrollment.user.lastName
-                      }}
-                    </td> -->
                     <td class="text-center">
-                      <span class="badge badge-primary p-1 mr-2" (click)="
+                      <span
+                        class="badge badge-primary p-1 mr-2"
+                        (click)="
                           setEnrollment(enrollment);
                           setEnrollmentFormType('update')
-                        ">
+                        "
+                      >
                         <i class="material-icons mr-0">edit</i>
                       </span>
-                      <span class="badge badge-primary p-1 mr-2" (click)="
+                      <span
+                        class="badge badge-primary p-1 mr-2"
+                        (click)="
                           setEnrollment(enrollment);
                           setEnrollmentFormType('delete')
-                        ">
+                        "
+                      >
                         <i class="material-icons mr-0">delete</i>
                       </span>
                     </td>

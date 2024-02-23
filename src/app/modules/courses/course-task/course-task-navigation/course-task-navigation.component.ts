@@ -18,18 +18,26 @@ export class CourseTaskNavigationComponent {
   taskIdPrevious: any;
   taskIdNext: any;
   taskDetails: any;
+  loggedInUser: any;
 
-  constructor(private courseTaskService: CourseTaskService) {}
+  constructor(
+    private courseTaskService: CourseTaskService,
+    private authService: AuthService
+  ) {}
 
   ngOnInit(): void {
+    this.loggedInUser = JSON.parse(this.authService.getUser());
+
     this.courseId = this.courseTaskService.getCourseId();
 
     this.courseTaskService.getTaskDetails().subscribe((data: any) => {
       this.taskDetails = data;
+      console.log(this.taskDetails);
     });
 
     this.courseTaskService.getTaskIdPrevious().subscribe((data: any) => {
       this.taskIdPrevious = data;
+      console.log(this.taskIdPrevious);
     });
 
     this.courseTaskService.getTaskIdNext().subscribe((data: any) => {

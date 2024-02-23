@@ -1,4 +1,6 @@
-<div class="container page__container d-flex flex-column flex-md-row align-items-center text-center text-sm-left">
+<div
+  class="container page__container d-flex flex-column flex-md-row align-items-center text-center text-sm-left"
+>
   <div class="flex d-flex flex-column flex-sm-row align-items-center">
     <div class="mb-24pt mr-sm-24pt">
       <h2 class="mb-0">Course Assignments</h2>
@@ -29,10 +31,15 @@
           <form #formData="ngForm">
             <div class="form-group">
               <label for="title" class="form-label">Client</label>
-              <select class="form-control" name="clientId" [(ngModel)]="assignment.clientId" [disabled]="
+              <select
+                class="form-control"
+                name="clientId"
+                [(ngModel)]="assignment.clientId"
+                [disabled]="
                   assignmentFormType == 'delete' ||
                   assignmentFormType == 'update'
-                ">
+                "
+              >
                 <option></option>
                 <ng-container *ngFor="let client of clients">
                   <option [value]="client.id">{{ client.name }}</option>
@@ -41,10 +48,15 @@
             </div>
             <div class="form-group">
               <label for="title" class="form-label">Course</label>
-              <select class="form-control" name="courseId" [(ngModel)]="assignment.courseId" [disabled]="
+              <select
+                class="form-control"
+                name="courseId"
+                [(ngModel)]="assignment.courseId"
+                [disabled]="
                   assignmentFormType == 'delete' ||
                   assignmentFormType == 'update'
-                ">
+                "
+              >
                 <option></option>
                 <ng-container *ngFor="let course of courses">
                   <option [value]="course.id">{{ course.title }}</option>
@@ -53,28 +65,59 @@
             </div>
             <div class="form-group d-flex justify-content-between">
               <div>
-                <label for="dateTo" class="form-label">Date To (Optional)</label>
-                <input class="form-control" type="date" id="dateTo" name="dateTo" [(ngModel)]="assignment.dateTo"
-                  [disabled]="assignmentFormType == 'delete'" />
+                <label for="dateTo" class="form-label"
+                  >Date To (Optional)</label
+                >
+                <input
+                  class="form-control"
+                  type="date"
+                  id="dateTo"
+                  name="dateTo"
+                  [(ngModel)]="assignment.dateTo"
+                  [disabled]="assignmentFormType == 'delete'"
+                />
               </div>
               <div>
-                <label for="dateFrom" class="form-label">Date From (Optional)</label>
-                <input class="form-control" type="date" id="dateFrom" name="dateFrom" [(ngModel)]="assignment.dateFrom"
-                  [disabled]="assignmentFormType == 'delete'" />
+                <label for="dateFrom" class="form-label"
+                  >Date From (Optional)</label
+                >
+                <input
+                  class="form-control"
+                  type="date"
+                  id="dateFrom"
+                  name="dateFrom"
+                  [(ngModel)]="assignment.dateFrom"
+                  [disabled]="assignmentFormType == 'delete'"
+                />
               </div>
             </div>
 
             <div class="form-buttons">
-              <button type="submit" class="btn btn-primary" (click)="createAssignment()"
-                *ngIf="assignmentFormType == 'create'" [disabled]="!assignment.courseId || !assignment.courseId">
+              <button
+                type="submit"
+                class="btn btn-primary"
+                (click)="createAssignment()"
+                *ngIf="assignmentFormType == 'create'"
+                [disabled]="!assignment.courseId || !assignment.courseId"
+              >
                 Create
               </button>
-              <button type="submit" class="btn btn-primary" (click)="updateAssignment()"
-                *ngIf="assignmentFormType == 'update'" [disabled]="!assignment.courseId || !assignment.courseId">
+              <button
+                type="submit"
+                class="btn btn-primary"
+                (click)="updateAssignment()"
+                *ngIf="assignmentFormType == 'update'"
+                [disabled]="!assignment.courseId || !assignment.courseId"
+              >
                 Update
               </button>
-              <button type="submit" class="btn btn-danger" (click)="deleteAssignment()"
-                *ngIf="assignmentFormType == 'delete'" [disabled]="!assignment.id">
+              <button
+                type="submit"
+                class="btn btn-danger"
+                (click)="deleteAssignment()"
+                *ngIf="assignmentFormType == 'delete'"
+                [disabled]="!assignment.id"
+              >
                 Delete
               </button>
             </div>
@@ -91,8 +134,12 @@
           <ng-container *ngIf="loading">
             <img src="/assets/images/loading.svg" width="20" class="mb-3" />
           </ng-container>
-          <table class="table table-sm table-hover table-bordered mb-0" *ngIf="!loading && assignments.length > 0"
-            datatable [dtOptions]="dtOptions">
+          <table
+            class="table table-sm table-hover table-bordered mb-0"
+            *ngIf="!loading && assignments.length > 0"
+            datatable
+            [dtOptions]="dtOptions"
+          >
             <thead class="bg-light">
               <tr>
                 <th scope="col" class="w-25">Client</th>
@@ -104,21 +151,38 @@
                 <tr>
                   <td>{{ client.name }}</td>
                   <td>
-                    <div class="badge badge-info mr-1" *ngIf="client.courseAssignments.length == 0">
+                    <div
+                      class="badge badge-info mr-1"
+                      *ngIf="client.courseAssignments.length == 0"
+                    >
                       <span class="material-icons ml-1">info</span> No course
                       assigned
                     </div>
-                    <ng-container *ngFor="let assignment of client.courseAssignments">
+                    <ng-container
+                      *ngFor="let assignment of client.courseAssignments"
+                    >
                       <div class="badge badge-light mr-1">
                         {{ assignment.course.title }}
-                        <span class="material-icons ml-2" data-toggle="modal" data-target="#classModal" (click)="
+                        <span
+                          class="material-icons ml-2"
+                          data-toggle="modal"
+                          data-target="#classModal"
+                          (click)="
                             setAssignment(assignment);
                             setAssignmentFormType('update')
-                          ">edit</span>
-                        <span class="material-icons" data-toggle="modal" data-target="#classModal" (click)="
+                          "
+                          >edit</span
+                        >
+                        <span
+                          class="material-icons"
+                          data-toggle="modal"
+                          data-target="#classModal"
+                          (click)="
                             setAssignment(assignment);
                             setAssignmentFormType('delete')
-                          ">delete</span>
+                          "
+                          >delete</span
+                        >
                       </div>
                     </ng-container>
                   </td>

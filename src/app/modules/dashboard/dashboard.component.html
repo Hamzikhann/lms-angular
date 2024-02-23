@@ -91,7 +91,15 @@
             >
               <div class="task-info">
                 <h6 class="task-title">
-                  {{ task.taskName }}
+                  <a
+                    [routerLink]="[
+                      '/courses',
+                      task.courseId,
+                      'task',
+                      task.taskId
+                    ]"
+                    >{{ task.taskName }}</a
+                  >
                 </h6>
                 <div class="task-attributes">
                   <div class="attrib">
