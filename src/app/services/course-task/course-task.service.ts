@@ -14,7 +14,7 @@ export class CourseTaskService {
   courseId: string = '';
   courseDetails: any;
 
-  modules: any;
+  modules: any = [];
 
   enrollmentId: string = '';
 
@@ -93,10 +93,13 @@ export class CourseTaskService {
     return this.taskIdNext.asObservable();
   }
   setPreviousNextTaskIds(currentTaskId: string) {
-    const tasks: any = [];
+    this.taskIdPrevious.next(0);
+    this.taskIdNext.next(0);
 
     this.getModules().subscribe((data: any) => {
       const modules = data;
+
+      const tasks: any = [];
       modules.forEach((module: any) => {
         module.courseTasks.forEach((task: any, key: any) => {
           tasks.push(task);

@@ -32,12 +32,10 @@ export class CourseTaskNavigationComponent {
 
     this.courseTaskService.getTaskDetails().subscribe((data: any) => {
       this.taskDetails = data;
-      console.log(this.taskDetails);
     });
 
     this.courseTaskService.getTaskIdPrevious().subscribe((data: any) => {
       this.taskIdPrevious = data;
-      console.log(this.taskIdPrevious);
     });
 
     this.courseTaskService.getTaskIdNext().subscribe((data: any) => {

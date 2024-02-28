@@ -253,13 +253,21 @@ export class CourseTaskTypeAssessmentComponent {
     });
   }
   setAssessmentQuestion(question: any) {
+    var options = '';
+    question.options.forEach((option: any, key: any) => {
+      options += option.trim();
+      if (key != question.options.length - 1) {
+        options += ', ';
+      }
+    });
     this.question = {
       id: question.id,
       title: question.title,
-      options: question.options,
+      options: options,
       answer: question.answer,
       type: question.type,
     };
+    console.log(this.question);
   }
   setAssessmentQuestionFormType(name: any) {
     this.questionFormType = name;

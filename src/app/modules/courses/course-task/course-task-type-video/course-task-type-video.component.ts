@@ -41,7 +41,10 @@ export class CourseTaskTypeVideoComponent {
     });
 
     this.courseTaskService.getTaskDetails().subscribe((data: any) => {
-      this.taskDetails = data;
+      this.taskDetails = null;
+      setTimeout(() => {
+        this.taskDetails = data;
+      }, 100);
     });
     this.courseTaskService.getAssessments().subscribe((data: any) => {
       this.assessments = data;

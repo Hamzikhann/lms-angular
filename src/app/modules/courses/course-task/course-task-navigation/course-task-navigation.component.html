@@ -1,22 +1,15 @@
 <div class="page-navigation" *ngIf="taskDetails">
-  <div
-    class="btn btn-outline-dark"
-    *ngIf="taskIdPrevious"
-    [routerLink]="['/courses', courseId, 'task', taskIdPrevious]"
-  >
+  <div class="btn btn-outline-dark" *ngIf="taskIdPrevious"
+    [routerLink]="['/courses', courseId, 'task', taskIdPrevious]">
     <span class="icon-holder--mini d-inline-flex icon--left">
       <i class="material-icons icon-14pt text-dark">arrow_back</i>
     </span>
     <span>Previous Task</span>
   </div>
-  <div
-    class="btn btn-outline-dark"
-    *ngIf="
+  <div class="btn btn-outline-dark" *ngIf="
       (taskIdNext && taskDetails.progress != '0') ||
       (loggedInUser.role.title == 'Administrator' && taskIdNext)
-    "
-    [routerLink]="['/courses', courseId, 'task', taskIdNext]"
-  >
+    " [routerLink]="['/courses', courseId, 'task', taskIdNext]">
     <div></div>
     <span>Next Task</span>
     <span class="icon-holder--mini d-inline-flex icon--right">

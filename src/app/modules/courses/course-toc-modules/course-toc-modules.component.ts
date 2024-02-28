@@ -73,7 +73,6 @@ export class CourseTocModulesComponent {
   constructor(
     private authService: AuthService,
     private toastr: ToastrService,
-
     private apiServices: ApiService,
     private courseTaskService: CourseTaskService,
     private route: ActivatedRoute
@@ -90,6 +89,7 @@ export class CourseTocModulesComponent {
     this.route.parent?.params.subscribe((params: any) => {
       this.courseId = params.id;
       this.getCourseDetails();
+      this.courseTaskService.setModule([]);
       this.getTaskTypes();
     });
 
@@ -305,7 +305,6 @@ export class CourseTocModulesComponent {
     this.task.moduleId = moduleId;
   }
   setTask(task: any) {
-    console.log(task);
     this.task = {
       id: task.id,
       title: task.title,
@@ -347,6 +346,5 @@ export class CourseTocModulesComponent {
 
   onHandoutSelected(event: any) {
     this.task.handout = event.target.files[0];
-    console.log(this.task.handout);
   }
 }
