@@ -254,7 +254,7 @@
 </ng-container>
 
 <ng-container *ngIf="loggedInUser.role.title == 'Client'">
-  <div class="row">
+  <div class="row" *ngIf="courseStats">
     <div class="col-lg-8 col-sm-12">
       <div class="page-component">
         <h5 class="component-title">Overview</h5>
@@ -267,7 +267,9 @@
                     <i class="material-icons">people</i>
                   </span>
                   <div class="">
-                    <h4 class="stat-value fs-20px">12</h4>
+                    <h4 class="stat-value fs-20px">
+                      {{ courseStats.stats.allUsers }}
+                    </h4>
                     <h4 class="stat-title">Users</h4>
                   </div>
                 </div>
@@ -278,7 +280,9 @@
                     <i class="material-icons">recent_actors</i>
                   </span>
                   <div class="">
-                    <h4 class="stat-value fs-20px">3</h4>
+                    <h4 class="stat-value fs-20px">
+                      {{ courseStats.stats.teams }}
+                    </h4>
                     <h4 class="stat-title">Teams</h4>
                   </div>
                 </div>
@@ -289,7 +293,9 @@
                     <i class="material-icons">dns</i>
                   </span>
                   <div class="">
-                    <h4 class="stat-value fs-20px">4</h4>
+                    <h4 class="stat-value fs-20px">
+                      {{ courseStats.stats.allCourses }}
+                    </h4>
                     <h4 class="stat-title">All Courses</h4>
                   </div>
                 </div>
@@ -300,7 +306,9 @@
                     <i class="material-icons">assignment</i>
                   </span>
                   <div class="">
-                    <h4 class="stat-value fs-20px">3</h4>
+                    <h4 class="stat-value fs-20px">
+                      {{ courseStats.stats.activeCourses }}
+                    </h4>
                     <h4 class="stat-title">Active Courses</h4>
                   </div>
                 </div>
@@ -314,63 +322,43 @@
         <div class="card">
           <div class="card-body p-0">
             <div class="tasks-list-widget">
-              <div class="task-row">
-                <div class="task-info">
-                  <h6 class="task-title">Project Management</h6>
-                  <div class="task-attributes">
-                    <div class="attrib">
-                      <i class="material-icons">info_outline</i>
-                      Course Code
-                    </div>
-                    <div class="attrib">
-                      <i class="material-icons">bookmark_border</i>
-                      Department Name
-                    </div>
-                    <div class="attrib">
-                      <i class="material-icons">access_time</i>
-                      Approximate Time
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="task-row">
-                <div class="task-info">
-                  <h6 class="task-title">Project Management</h6>
-                  <div class="task-attributes">
-                    <div class="attrib">
-                      <i class="material-icons">info_outline</i>
-                      Course Code
-                    </div>
-                    <div class="attrib">
-                      <i class="material-icons">bookmark_border</i>
-                      Department Name
-                    </div>
-                    <div class="attrib">
-                      <i class="material-icons">access_time</i>
-                      Approximate Time
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="task-row">
-                <div class="task-info">
-                  <h6 class="task-title">Project Management</h6>
-                  <div class="task-attributes">
-                    <div class="attrib">
-                      <i class="material-icons">info_outline</i>
-                      Course Code
-                    </div>
-                    <div class="attrib">
-                      <i class="material-icons">bookmark_border</i>
-                      Department Name
-                    </div>
-                    <div class="attrib">
-                      <i class="material-icons">access_time</i>
-                      Approximate Time
+              <ng-container
+                *ngIf="
+                  courseStats.courses.enrolled &&
+                  courseStats.courses.enrolled.length > 0
+                "
+              >
+                <div
+                  class="task-row"
+                  *ngFor="let enrollment of courseStats.courses.enrolled"
+                >
+                  <div class="task-info">
+                    <h6 class="task-title">
+                      {{ enrollment.courseAssignment.course.title }}
+                    </h6>
+                    <div class="task-attributes">
+                      <div class="attrib">
+                        <i class="material-icons">info_outline</i>
+                        {{ enrollment.courseAssignment.course.code }}
+                      </div>
+                      <div class="attrib">
+                        <i class="material-icons">bookmark_border</i>
+                        {{
+                          enrollment.courseAssignment.course.courseDepartment
+                            .title
+                        }}
+                      </div>
+                      <div class="attrib">
+                        <i class="material-icons">access_time</i>
+                        {{
+                          enrollment.courseAssignment.course.approximateTime ||
+                            "Not Mentioned"
+                        }}
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
+              </ng-container>
             </div>
           </div>
         </div>
@@ -463,41 +451,36 @@
         <div class="card">
           <div class="card-body p-0">
             <div class="tasks-list-widget">
-              <div class="task-row">
-                <div class="task-info">
-                  <h6 class="task-title">UI/UX Design</h6>
-                  <div class="task-attributes justify-content-between">
-                    <div class="attrib">
-                      <i class="material-icons">date_range</i>
-                      <strong class="pr-1">Due Date: </strong> Februray 23, 2024
+              <ng-container
+                *ngFor="let upcomingCourse of courseStats.courses.upcoming"
+              >
+                <div
+                  class="task-row"
+                  *ngIf="
+                    upcomingCourse.courseAssignments &&
+                    upcomingCourse.courseAssignments.length > 0
+                  "
+                >
+                  <div class="task-info">
+                    <h6 class="task-title">{{ upcomingCourse.title }}</h6>
+                    <div
+                      class="task-attributes justify-content-between"
+                      *ngFor="
+                        let courseEnrollment of upcomingCourse
+                          .courseAssignments[0].courseEnrollments
+                      "
+                    >
+                      <div class="attrib">
+                        <i class="material-icons">date_range</i>
+                        <strong class="pr-1">Due Date: </strong>
+                        {{
+                          courseEnrollment.completionDateOne || "Not Mentioned"
+                        }}
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              <div class="task-row">
-                <div class="task-info">
-                  <h6 class="task-title">
-                    Comprehensive Customer Relationship Management
-                  </h6>
-                  <div class="task-attributes justify-content-between">
-                    <div class="attrib">
-                      <i class="material-icons">date_range</i>
-                      <strong class="pr-1">Due Date: </strong> March 03, 2024
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="task-row">
-                <div class="task-info">
-                  <h6 class="task-title">SQL: Super Complex</h6>
-                  <div class="task-attributes justify-content-between">
-                    <div class="attrib">
-                      <i class="material-icons">date_range</i>
-                      <strong class="pr-1">Due Date: </strong> March 13, 2024
-                    </div>
-                  </div>
-                </div>
-              </div>
+              </ng-container>
             </div>
           </div>
         </div>
