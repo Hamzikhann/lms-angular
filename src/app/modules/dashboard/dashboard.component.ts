@@ -95,7 +95,6 @@ export class DashboardComponent implements OnInit {
           course.progress = (course.tasks.completed / course.tasks.total) * 100;
       });
       this.loading = false;
-      // console.log(this.courses);
     });
   }
 
@@ -110,7 +109,6 @@ export class DashboardComponent implements OnInit {
         this.courseStats.stats?.percentages?.task.toFixed(1),
         this.courseStats.stats?.percentages?.assessments.toFixed(1),
       ];
-      console.log(this.courseStats);
     });
   }
 

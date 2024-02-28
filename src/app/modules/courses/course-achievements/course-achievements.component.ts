@@ -43,7 +43,6 @@ export class CourseAchievementsComponent {
     };
     this.apiServices.postRequest(data).subscribe((response) => {
       this.courseAchievements = response.data;
-      console.log(this.courseAchievements);
       this.courseAchievements.forEach((achievement: any) => {
         achievement.datetime = moment(achievement.createdAt).format(
           'MMM DD, YYYY hh:mm A'
