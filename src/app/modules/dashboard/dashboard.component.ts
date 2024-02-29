@@ -110,6 +110,7 @@ export class DashboardComponent implements OnInit {
         this.courseStats.stats?.percentages?.task.toFixed(1),
         this.courseStats.stats?.percentages?.assessments.toFixed(1),
       ];
+      console.log(this.courseStats.courses.enrolled);
     });
   }
 
