@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { ChartComponent } from 'ng-apexcharts';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { ApiService } from 'src/app/services/users/api.service';
+import { ConfigService } from 'src/app/config/config.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -10,6 +11,8 @@ import { ApiService } from 'src/app/services/users/api.service';
   styleUrls: ['./dashboard.component.css'],
 })
 export class DashboardComponent implements OnInit {
+  ImgBaseURL: string = this.config.ImgBaseURL;
+
   courses: any;
   loggedInUser: any;
   loggedInUserRole: string = '';
@@ -27,7 +30,8 @@ export class DashboardComponent implements OnInit {
   constructor(
     private router: Router,
     private authService: AuthService,
-    private apiServices: ApiService
+    private apiServices: ApiService,
+    private config: ConfigService
   ) {
     this.chartOptions = {
       chart: {

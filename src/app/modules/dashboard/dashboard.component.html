@@ -358,16 +358,15 @@
     <div class="col-lg-4 col-sm-12">
       <div class="page-component">
         <h5 class="component-title">Users</h5>
-        <div class="card card-users">
+        <div
+          class="card card-users"
+          *ngIf="courseStats.users && courseStats.users.length > 0"
+        >
           <div class="card-body">
-            <div class="users-images">
-              <img src="/assets/images/users/avatar-s-1.png" />
-              <img src="/assets/images/users/avatar-s-2.png" />
-              <img src="/assets/images/users/avatar-s-7.png" />
-              <img src="/assets/images/users/avatar-s-8.png" />
-              <img src="/assets/images/users/avatar-s-9.png" />
-              <img src="/assets/images/users/avatar-s-10.png" />
-              <span>+ 13 more</span>
+            <div class="team-row">
+              <div class="users-images" *ngFor="let user of courseStats.users">
+                <img [src]="ImgBaseURL + user.imageURL" />
+              </div>
             </div>
           </div>
         </div>
@@ -379,28 +378,14 @@
             <ng-container *ngIf="courseStats.teams && courseStats.teams.length > 0">
               <div class="team-row" *ngFor="let team of courseStats.teams">
                 <h6 class="team-title">{{ team.title }}</h6>
-                <div class="team-images">
-                  <img src="/assets/images/users/avatar-s-6.png" />
-                  <img src="/assets/images/users/avatar-s-7.png" />
-                  <img src="/assets/images/users/avatar-s-8.png" />
-                  <div class="team-more">+6</div>
+                <div
+                  class="team-images"
+                  *ngFor="let teamUser of team.teamUsers"
+                >
+                  <img [src]="ImgBaseURL + teamUser.user.imageURL" />
                 </div>
               </div>
             </ng-container>
-
-            <!-- <div class="team-row">
-              <h6 class="team-title">Human Resources</h6>
-              <div class="team-images">
-                <img src="/assets/images/users/avatar-s-1.png" />
-              </div>
-            </div>
-            <div class="team-row">
-              <h6 class="team-title">Administration</h6>
-              <div class="team-images">
-                <img src="/assets/images/users/avatar-s-7.png" />
-                <img src="/assets/images/users/avatar-s-10.png" />
-              </div>
-            </div> -->
           </div>
         </div>
       </div>
