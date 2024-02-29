@@ -99,6 +99,7 @@
                         'task',
                         task.taskId
                       ]"
+                      class="text-primary"
                       >{{ task.taskName }}</a
                     >
                   </h6>
@@ -146,7 +147,7 @@
                     <h6 class="task-title">
                       <a
                         [routerLink]="['/courses', course.id]"
-                        class="text-dark"
+                        class="text-primary"
                         >{{ course.title }}</a
                       >
                     </h6>
@@ -199,7 +200,7 @@
                   <h5 class="course-title">
                     <a
                       [routerLink]="['/courses', course.id]"
-                      class="text-dark"
+                      class="text-primary"
                       >{{ course.title }}</a
                     >
                   </h5>
@@ -334,7 +335,14 @@
                 >
                   <div class="task-info">
                     <h6 class="task-title">
-                      {{ enrollment.courseAssignment.course.title }}
+                      <a
+                        [routerLink]="[
+                          '/courses',
+                          enrollment.courseAssignment.courseId
+                        ]"
+                        class="text-primary"
+                        >{{ enrollment.courseAssignment.course.title }}</a
+                      >
                     </h6>
                     <div class="task-attributes">
                       <div class="attrib">
@@ -368,30 +376,38 @@
         <div class="card">
           <div class="card-body p-0">
             <table class="table table-bordered mb-0">
-              <thead>
-                <tr>
-                  <td class="w-25"><strong>User</strong></td>
-                  <td><strong>Course</strong></td>
-                  <td class="w-15 text-center"><strong>Marks</strong></td>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Ahmad Murtaza</td>
-                  <td>Social Engineering</td>
-                  <td class="text-center">95%</td>
-                </tr>
-                <tr>
-                  <td>Muneeb Ahmad</td>
-                  <td>Project Management</td>
-                  <td class="text-center">99%</td>
-                </tr>
-                <tr>
-                  <td>Fahad Khan</td>
-                  <td>Social Engineering</td>
-                  <td class="text-center">87%</td>
-                </tr>
-              </tbody>
+              <ng-container
+                *ngIf="
+                  courseStats.achievements &&
+                  courseStats.achievements.length > 0
+                "
+              >
+                <thead>
+                  <tr>
+                    <td class="w-25"><strong>User</strong></td>
+                    <td><strong>Course</strong></td>
+                    <td class="w-15 text-center"><strong>Marks</strong></td>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let achievements of courseStats.achievements">
+                    <td>
+                      {{
+                        achievements.courseEnrollmentUser.user.firstName +
+                          " " +
+                          achievements.courseEnrollmentUser.user.lastName
+                      }}
+                    </td>
+                    <td>
+                      {{
+                        achievements.courseEnrollmentUser.courseEnrollment
+                          .courseAssignment.course.title
+                      }}
+                    </td>
+                    <td class="text-center">{{ achievements.result }}%</td>
+                  </tr>
+                </tbody>
+              </ng-container>
             </table>
           </div>
         </div>
@@ -418,16 +434,21 @@
         <h5 class="component-title">Teams</h5>
         <div class="card card-users">
           <div class="card-body">
-            <div class="team-row">
-              <h6 class="team-title">Web Developers</h6>
-              <div class="team-images">
-                <img src="/assets/images/users/avatar-s-6.png" />
-                <img src="/assets/images/users/avatar-s-7.png" />
-                <img src="/assets/images/users/avatar-s-8.png" />
-                <div class="team-more">+6</div>
+            <ng-container
+              *ngIf="courseStats.teams && courseStats.teams.length > 0"
+            >
+              <div class="team-row" *ngFor="let team of courseStats.teams">
+                <h6 class="team-title">{{ team.title }}</h6>
+                <div class="team-images">
+                  <img src="/assets/images/users/avatar-s-6.png" />
+                  <img src="/assets/images/users/avatar-s-7.png" />
+                  <img src="/assets/images/users/avatar-s-8.png" />
+                  <div class="team-more">+6</div>
+                </div>
               </div>
-            </div>
-            <div class="team-row">
+            </ng-container>
+
+            <!-- <div class="team-row">
               <h6 class="team-title">Human Resources</h6>
               <div class="team-images">
                 <img src="/assets/images/users/avatar-s-1.png" />
@@ -439,7 +460,7 @@
                 <img src="/assets/images/users/avatar-s-7.png" />
                 <img src="/assets/images/users/avatar-s-10.png" />
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
@@ -462,7 +483,13 @@
                   "
                 >
                   <div class="task-info">
-                    <h6 class="task-title">{{ upcomingCourse.title }}</h6>
+                    <h6 class="task-title">
+                      <a
+                        [routerLink]="['/courses', upcomingCourse.id]"
+                        class="text-primary"
+                        >{{ upcomingCourse.title }}</a
+                      >
+                    </h6>
                     <div
                       class="task-attributes justify-content-between"
                       *ngFor="
