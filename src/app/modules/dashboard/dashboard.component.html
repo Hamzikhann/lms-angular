@@ -71,7 +71,7 @@
         </div>
       </div>
     </div>
-    <div class="col-lg-8 col-sm-12">
+    <div class="col-lg-8 col-sm-12" *ngIf="courseStats.tasks.upcoming.length > 0">
       <div class="page-component">
         <h5 class="component-title">Resume Tasks</h5>
         <div class="card">
@@ -109,7 +109,7 @@
         </div>
       </div>
     </div>
-    <div class="col-lg-4 col-sm-12">
+    <div class="col-lg-4 col-sm-12" *ngIf="courseStats.tasks.upcoming.length > 0">
       <div class="page-component">
         <h5 class="component-title">Courses Completion</h5>
         <div class="card">
@@ -118,7 +118,9 @@
               <ng-container *ngFor="let course of courseStats.courses.completion">
                 <div class="task-row" *ngIf="
                     course.courseAssignments &&
-                    course.courseAssignments.length > 0
+                    course.courseAssignments.length > 0 &&
+                    course.courseAssignments[0]
+                          .courseEnrollments[0].courseEnrollmentUsers[0].progress != 100
                   ">
                   <div class="task-info">
                     <h6 class="task-title">
@@ -275,12 +277,20 @@
                 ">
                 <div class="task-row" *ngFor="let enrollment of courseStats.courses.enrolled">
                   <div class="task-info">
-                    <h6 class="task-title">
-                      <a [routerLink]="[
-                          '/courses',
-                          enrollment.courseAssignment.courseId
-                        ]" class="text-primary">{{ enrollment.courseAssignment.course.title }}</a>
-                    </h6>
+                    <div class="d-flex justify-content-between">
+                      <h6 class="task-title">
+                        <a [routerLink]="[
+                            '/courses',
+                            enrollment.courseAssignment.courseId
+                          ]" class="text-primary">{{ enrollment.courseAssignment.course.title }}</a>
+                      </h6>
+                      <div class="task-attributes">
+                        <div class="attrib">
+                          <i class="material-icons">date_range</i>
+                          <span><strong>Created At:</strong> {{ enrollment.createdAt }}</span>
+                        </div>
+                      </div>
+                    </div>
                     <div class="task-attributes">
                       <div class="attrib">
                         <i class="material-icons">info_outline</i>
@@ -358,14 +368,16 @@
     <div class="col-lg-4 col-sm-12">
       <div class="page-component">
         <h5 class="component-title">Users</h5>
-        <div
-          class="card card-users"
-          *ngIf="courseStats.users && courseStats.users.length > 0"
-        >
+        <div class="card card-users" *ngIf="courseStats.users && courseStats.users.length > 0">
           <div class="card-body">
             <div class="team-row">
-              <div class="users-images" *ngFor="let user of courseStats.users">
-                <img [src]="ImgBaseURL + user.imageURL" />
+              <div class="users-images">
+                <ng-container *ngFor="let number of [0,1,2,3,4,5]">
+                  <img [src]="ImgBaseURL + courseStats.users[number].imageURL"
+                    *ngIf="courseStats.users[number].imageURL" />
+                  <img src="/assets/images/users/user-placeholder.png" *ngIf="!courseStats.users[number].imageURL" />
+                </ng-container>
+                <span *ngIf="courseStats.users.length > 6">+ {{ courseStats.users.length - 6 }} more</span>
               </div>
             </div>
           </div>
@@ -378,51 +390,17 @@
             <ng-container *ngIf="courseStats.teams && courseStats.teams.length > 0">
               <div class="team-row" *ngFor="let team of courseStats.teams">
                 <h6 class="team-title">{{ team.title }}</h6>
-                <div
-                  class="team-images"
-                  *ngFor="let teamUser of team.teamUsers"
-                >
-                  <img [src]="ImgBaseURL + teamUser.user.imageURL" />
+                <div class="team-images">
+                  <ng-container *ngFor="let number of [0,1,2]">
+                    <img [src]="ImgBaseURL + team.teamUsers[number].user.imageURL"
+                      *ngIf="team.teamUsers[number]?.user.imageURL" />
+                    <img src="/assets/images/users/user-placeholder.png"
+                      *ngIf="!team.teamUsers[number]?.user.imageURL" />
+                  </ng-container>
+                  <div class="team-more" *ngIf="team.teamUsers.length > 3">+ {{ team.teamUsers.length - 3 }}</div>
                 </div>
               </div>
             </ng-container>
-          </div>
-        </div>
-      </div>
-      <div class="page-component">
-        <div class="d-flex justify-content-between align-items-center mb-3">
-          <h5 class="component-title mb-0">Upcoming Course</h5>
-          <span>Schedule</span>
-        </div>
-        <div class="card">
-          <div class="card-body p-0">
-            <div class="tasks-list-widget">
-              <ng-container *ngFor="let upcomingCourse of courseStats.courses.upcoming">
-                <div class="task-row" *ngIf="
-                    upcomingCourse.courseAssignments &&
-                    upcomingCourse.courseAssignments.length > 0
-                  ">
-                  <div class="task-info">
-                    <h6 class="task-title">
-                      <a [routerLink]="['/courses', upcomingCourse.id]" class="text-primary">{{ upcomingCourse.title
-                        }}</a>
-                    </h6>
-                    <div class="task-attributes justify-content-between" *ngFor="
-                        let courseEnrollment of upcomingCourse
-                          .courseAssignments[0].courseEnrollments
-                      ">
-                      <div class="attrib">
-                        <i class="material-icons">date_range</i>
-                        <strong class="pr-1">Due Date: </strong>
-                        {{
-                        courseEnrollment.completionDateOne || "Not Mentioned"
-                        }}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </ng-container>
-            </div>
           </div>
         </div>
       </div>

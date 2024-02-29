@@ -4,6 +4,7 @@ import { ChartComponent } from 'ng-apexcharts';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { ApiService } from 'src/app/services/users/api.service';
 import { ConfigService } from 'src/app/config/config.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-dashboard',
@@ -114,6 +115,10 @@ export class DashboardComponent implements OnInit {
         this.courseStats.stats?.percentages?.task.toFixed(1),
         this.courseStats.stats?.percentages?.assessments.toFixed(1),
       ];
+
+      this.courseStats.courses.enrolled.forEach((element: any) => {
+        element.createdAt = moment(element.createdAt).format('MM/DD/YYYY');
+      });
       console.log(this.courseStats.courses.enrolled);
     });
   }
