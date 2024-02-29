@@ -119,6 +119,9 @@ export class DashboardComponent implements OnInit {
       this.courseStats.courses.enrolled.forEach((element: any) => {
         element.createdAt = moment(element.createdAt).format('MM/DD/YYYY');
       });
+      this.courseStats.achievements.forEach((element: any) => {
+        element.createdAt = moment(element.createdAt).format('MM/DD/YYYY');
+      });
       console.log(this.courseStats.courses.enrolled);
     });
   }
