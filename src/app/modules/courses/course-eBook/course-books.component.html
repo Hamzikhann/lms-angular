@@ -92,6 +92,11 @@
           </div>
           <div class="col-md-12">
             <div class="card card--elevated card-group-row__card">
+              <ng-container *ngIf="loading">
+                <div class="text-center loading-icon">
+                  <img src="/assets/images/loading.svg" />
+                </div>
+              </ng-container>
               <pdf-viewer
                 [src]="ImgBaseURL + book.bookUrl"
                 [original-size]="false"
