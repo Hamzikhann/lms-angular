@@ -79,9 +79,9 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     this.loggedInUser = JSON.parse(this.authService.getUser());
     this.loggedInUserRole = this.loggedInUser.role.title;
-    if (this.loggedInUserRole != 'Administrator') {
-      this.getCourseStatistics();
-    }
+    // if (this.loggedInUserRole != 'Administrator') {
+    // }
+    this.getCourseStatistics();
     this.getCourses();
   }
 
@@ -116,13 +116,15 @@ export class DashboardComponent implements OnInit {
         this.courseStats.stats?.percentages?.assessments.toFixed(1),
       ];
 
-      this.courseStats.courses.enrolled.forEach((element: any) => {
-        element.createdAt = moment(element.createdAt).format('MM/DD/YYYY');
-      });
-      this.courseStats.achievements.forEach((element: any) => {
-        element.createdAt = moment(element.createdAt).format('MM/DD/YYYY');
-      });
-      console.log(this.courseStats.courses.enrolled);
+      if (this.courseStats.courses)
+        this.courseStats.courses.enrolled.forEach((element: any) => {
+          element.createdAt = moment(element.createdAt).format('MM/DD/YYYY');
+        });
+
+      if (this.courseStats.achievements)
+        this.courseStats.achievements.forEach((element: any) => {
+          element.createdAt = moment(element.createdAt).format('MM/DD/YYYY');
+        });
     });
   }
 
