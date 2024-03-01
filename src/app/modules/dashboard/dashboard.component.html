@@ -269,7 +269,7 @@
         <h5 class="component-title">Overview</h5>
         <div class="card">
           <div class="card-body py-2">
-            <div class="row">
+            <div class="team-row">
               <div class="col-3">
                 <div class="stat-widget">
                   <span class="stat-icon p-2">
@@ -326,17 +326,17 @@
           </div>
         </div>
       </div>
-      <div class="page-component">
-        <h5 class="component-title">Active Enrollments</h5>
-        <div class="card">
-          <div class="card-body p-0">
-            <div class="tasks-list-widget">
-              <ng-container
-                *ngIf="
-                  courseStats.courses.enrolled &&
-                  courseStats.courses.enrolled.length > 0
-                "
-              >
+      <ng-container
+        *ngIf="
+          courseStats.courses.enrolled &&
+          courseStats.courses.enrolled.length > 0
+        "
+      >
+        <div class="page-component">
+          <h5 class="component-title">Active Enrollments</h5>
+          <div class="card">
+            <div class="card-body p-0">
+              <div class="tasks-list-widget">
                 <div
                   class="task-row"
                   *ngFor="let enrollment of courseStats.courses.enrolled"
@@ -411,22 +411,20 @@
                     </div>
                   </div>
                 </div>
-              </ng-container>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <div class="page-component">
-        <h5 class="component-title">Most Recent Acheivements</h5>
-        <div class="card">
-          <div class="card-body p-0">
-            <table class="table table-bordered mb-0">
-              <ng-container
-                *ngIf="
-                  courseStats.achievements &&
-                  courseStats.achievements.length > 0
-                "
-              >
+      </ng-container>
+
+      <ng-container
+        *ngIf="courseStats.achievements && courseStats.achievements.length > 0"
+      >
+        <div class="page-component">
+          <h5 class="component-title">Most Recent Acheivements</h5>
+          <div class="card">
+            <div class="card-body p-0">
+              <table class="table table-bordered mb-0">
                 <thead>
                   <tr>
                     <td class="w-15"><strong>Created At</strong></td>
@@ -454,11 +452,11 @@
                     <td class="text-center">{{ achievements.result }}%</td>
                   </tr>
                 </tbody>
-              </ng-container>
-            </table>
+              </table>
+            </div>
           </div>
         </div>
-      </div>
+      </ng-container>
     </div>
     <div class="col-lg-4 col-sm-12">
       <div class="page-component">
