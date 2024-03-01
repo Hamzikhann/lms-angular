@@ -382,13 +382,21 @@
           <div class="card-body">
             <div class="team-row">
               <div class="users-images">
-                <ng-container *ngFor="let number of [0, 1, 2, 3, 4, 5]">
-                  <img [src]="ImgBaseURL + courseStats.users[number].userProfile.imageUrl"
-                    *ngIf="courseStats.users[number].userProfile.imageUrl" />
-                  <img src="/assets/images/users/user-placeholder.png"
-                    *ngIf="!courseStats.users[number].userProfile.imageUrl" />
+                <ng-container *ngIf="courseStats.users.length > 6">
+                  <ng-container *ngFor="let number of [0, 1, 2, 3, 4, 5]">
+                    <img [src]="ImgBaseURL + courseStats.users[number].userProfile.imageUrl"
+                      *ngIf="courseStats.users[number].userProfile.imageUrl" />
+                    <img src="/assets/images/users/user-placeholder.png"
+                      *ngIf="!courseStats.users[number].userProfile.imageUrl" />
+                  </ng-container>
+                  <span>+ {{ courseStats.users.length - 6 }} more</span>
                 </ng-container>
-                <span *ngIf="courseStats.users.length > 6">+ {{ courseStats.users.length - 6 }} more</span>
+                <ng-container *ngIf="courseStats.users.length <= 6">
+                  <ng-container *ngFor="let user of courseStats.users">
+                    <img [src]="ImgBaseURL + user.userProfile.imageUrl" *ngIf="user.userProfile.imageUrl" />
+                    <img src="/assets/images/users/user-placeholder.png" *ngIf="!user.userProfile.imageUrl" />
+                  </ng-container>
+                </ng-container>
               </div>
             </div>
           </div>
@@ -402,15 +410,25 @@
               <div class="team-row" *ngFor="let team of courseStats.teams">
                 <h6 class="team-title">{{ team.title }}</h6>
                 <div class="team-images">
-                  <ng-container *ngFor="let number of [0, 1, 2]">
-                    <img [src]="ImgBaseURL + team.teamUsers[number].user.imageURL"
-                      *ngIf="team.teamUsers[number]?.user.imageURL" />
-                    <img src="/assets/images/users/user-placeholder.png"
-                      *ngIf="!team.teamUsers[number]?.user.imageURL" />
+                  <ng-container *ngIf="team.teamUsers.length > 3">
+                    <ng-container *ngFor="let number of [0, 1, 2]">
+                      <img [src]="ImgBaseURL + team.teamUsers[number].user.userProfile.imageUrl"
+                        *ngIf="team.teamUsers[number]?.user.userProfile.imageUrl" />
+                      <img src="/assets/images/users/user-placeholder.png"
+                        *ngIf="!team.teamUsers[number]?.user.userProfile.imageUrl" />
+                    </ng-container>
+                    <div class="team-more">
+                      + {{ team.teamUsers.length - 3 }}
+                    </div>
                   </ng-container>
-                  <div class="team-more" *ngIf="team.teamUsers.length > 3">
-                    + {{ team.teamUsers.length - 3 }}
-                  </div>
+                  <ng-container *ngIf="team.teamUsers.length <= 3">
+                    <ng-container *ngFor="let teamUser of team.teamUsers">
+                      <img [src]="ImgBaseURL + teamUser.user.userProfile.imageUrl"
+                        *ngIf="teamUser?.user.userProfile.imageUrl" />
+                      <img src="/assets/images/users/user-placeholder.png"
+                        *ngIf="!teamUser?.user.userProfile.imageUrl" />
+                    </ng-container>
+                  </ng-container>
                 </div>
               </div>
             </ng-container>
