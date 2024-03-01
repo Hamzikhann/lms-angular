@@ -1,100 +1,53 @@
 <div class="app-sidebar">
   <div class="app-logo border-bottom-1">
-    <img
-      [src]="'/assets/images/logo/logo-senastic.png'"
-      class="h-32px"
-      *ngIf="!client"
-    />
+    <img [src]="'/assets/images/logo/logo-senastic.png'" class="h-32px" *ngIf="!client" />
     <img [src]="imageBaseUrl + client?.logoURL" class="h-32px" *ngIf="client" />
   </div>
   <div class="app-navigation">
     <h4 class="nav-title">Navigation</h4>
     <ul class="nav-items">
       <ng-container>
-        <li
-          [routerLink]="['/']"
-          [class.active]="sections.dashboard"
-          (click)="toggleSection('dashboard')"
-        >
+        <li [routerLink]="['/']" [class.active]="sections.dashboard" (click)="toggleSection('dashboard')">
           <span class="nav-icon"><i class="material-icons">dashboard</i></span>
           <span class="nav-text">Dashboard</span>
         </li>
-        <li
-          [routerLink]="['/courses']"
-          [class.active]="sections.courses"
-          (click)="toggleSection('courses')"
-        >
-          <span class="nav-icon"
-            ><i class="material-icons">library_books</i></span
-          >
-          <span class="nav-text" *ngIf="loggedInUserRole == 'Administrator'"
-            >Courses</span
-          >
-          <span class="nav-text" *ngIf="loggedInUserRole != 'Administrator'"
-            >My Courses</span
-          >
+        <li [routerLink]="['/courses']" [class.active]="sections.courses" (click)="toggleSection('courses')">
+          <span class="nav-icon"><i class="material-icons">library_books</i></span>
+          <span class="nav-text" *ngIf="loggedInUserRole == 'Administrator'">Courses</span>
+          <span class="nav-text" *ngIf="loggedInUserRole != 'Administrator'">My Courses</span>
         </li>
       </ng-container>
       <ng-container *ngIf="loggedInUserRole == 'Administrator'">
-        <li
-          [routerLink]="['/clients']"
-          [class.active]="sections.clients"
-          (click)="toggleSection('clients')"
-        >
+        <li [routerLink]="['/clients']" [class.active]="sections.clients" (click)="toggleSection('clients')">
           <span class="nav-icon"><i class="material-icons">business</i></span>
           <span class="nav-text">Clients</span>
         </li>
-        <li
-          [routerLink]="['/learningPaths']"
-          [class.active]="sections.learningPaths"
-          (click)="toggleSection('learningPaths')"
-        >
+        <li [routerLink]="['/learningPaths']" [class.active]="sections.learningPaths"
+          (click)="toggleSection('learningPaths')">
           <span class="nav-icon"><i class="material-icons">storage</i></span>
           <span class="nav-text">Learning Paths</span>
         </li>
-        <li
-          [routerLink]="['/users']"
-          [class.active]="sections.users"
-          (click)="toggleSection('users')"
-        >
-          <span class="nav-icon"
-            ><i class="material-icons">supervised_user_circle</i></span
-          >
+        <li [routerLink]="['/users']" [class.active]="sections.users" (click)="toggleSection('users')">
+          <span class="nav-icon"><i class="material-icons">supervised_user_circle</i></span>
           <span class="nav-text">Users</span>
         </li>
-        <li
-          [routerLink]="['/assignments']"
-          [class.active]="sections.assignments"
-          (click)="toggleSection('assignments')"
-        >
+        <li [routerLink]="['/assignments']" [class.active]="sections.assignments"
+          (click)="toggleSection('assignments')">
           <span class="nav-icon"><i class="material-icons">assignment</i></span>
           <span class="nav-text">Assignments</span>
         </li>
       </ng-container>
       <ng-container *ngIf="loggedInUserRole == 'Client'">
-        <li
-          [routerLink]="['/users']"
-          [class.active]="sections.users"
-          (click)="toggleSection('users')"
-        >
-          <span class="nav-icon"
-            ><i class="material-icons">supervised_user_circle</i></span
-          >
+        <li [routerLink]="['/users']" [class.active]="sections.users" (click)="toggleSection('users')">
+          <span class="nav-icon"><i class="material-icons">supervised_user_circle</i></span>
           <span class="nav-text">Users</span>
         </li>
-        <li
-          [routerLink]="['/teams']"
-          [class.active]="sections.teams"
-          (click)="toggleSection('teams')"
-        >
+        <li [routerLink]="['/teams']" [class.active]="sections.teams" (click)="toggleSection('teams')">
           <span class="nav-icon"><i class="material-icons">badge</i></span>
           <span class="nav-text">Teams</span>
         </li>
-        <li
-          [routerLink]="['/enrollments']"
-          [class.active]="sections.enrollments"
-          (click)="toggleSection('enrollments')"
-        >
+        <li [routerLink]="['/enrollments']" [class.active]="sections.enrollments"
+          (click)="toggleSection('enrollments')">
           <span class="nav-icon"><i class="material-icons">storage</i></span>
           <span class="nav-text">Enrollments</span>
         </li>
@@ -102,11 +55,8 @@
     </ul>
     <h4 class="nav-title">Settings</h4>
     <ul class="nav-items">
-      <li
-        [routerLink]="['/change-password']"
-        [class.active]="sections.changePassword"
-        (click)="toggleSection('changePassword')"
-      >
+      <li [routerLink]="['/change-password']" [class.active]="sections.changePassword"
+        (click)="toggleSection('changePassword')">
         <span class="nav-icon"><i class="material-icons">vpn_key</i></span>
         <span class="nav-text">Change Password</span>
       </li>
@@ -117,7 +67,9 @@
     </ul>
   </div>
   <div class="app-user" [routerLink]="['/account']">
-    <img class="image" src="/assets/images/user-default.png" />
+    <img class="image" src="/assets/images/user-default.png" *ngIf="!loggedInUser.userProfile.imageUrl" />
+    <img class="image" [src]="imageBaseUrl + loggedInUser.userProfile.imageUrl" class="rounded-circle" width="32"
+      *ngIf="loggedInUser.userProfile.imageUrl" />
     <div class="info">
       <p>{{ loggedInUser.firstName + " " + loggedInUser.lastName }}</p>
       <span>{{ loggedInUser.role.title }}</span>

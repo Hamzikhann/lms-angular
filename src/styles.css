@@ -319,10 +319,10 @@
 }
 .course-stats-info .course-tasks-count {
   font-size: 12px;
-  color: #555;
+  color: #fff;
 }
 .course-stats-info .course-tasks-nav-icon i {
-  color: #555;
+  color: #fff;
   font-size: 16px;
 }
 .course-stats .course-progress {
@@ -408,4 +408,26 @@
   font-size: 26px;
   font-weight: 600;
   margin-bottom: 0;
+}
+
+.card.course {
+  background-image: url(/assets/images/bg-course.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.card-body.course-body {
+  background: rgb(48 57 85 / 70%);
+  border-radius: 12px;
+  padding: 1.5rem;
+}
+.course-attributes {
+  color: #aaa;
+  font-weight: 400;
+  margin-bottom: 6px !important;
+}
+h5.course-title {
+  line-height: inherit;
+}
+.course-title a {
+  color: #fff !important;
 }

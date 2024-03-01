@@ -383,9 +383,10 @@
             <div class="team-row">
               <div class="users-images">
                 <ng-container *ngFor="let number of [0, 1, 2, 3, 4, 5]">
-                  <img [src]="ImgBaseURL + courseStats.users[number].imageURL"
-                    *ngIf="courseStats.users[number].imageURL" />
-                  <img src="/assets/images/users/user-placeholder.png" *ngIf="!courseStats.users[number].imageURL" />
+                  <img [src]="ImgBaseURL + courseStats.users[number].userProfile.imageUrl"
+                    *ngIf="courseStats.users[number].userProfile.imageUrl" />
+                  <img src="/assets/images/users/user-placeholder.png"
+                    *ngIf="!courseStats.users[number].userProfile.imageUrl" />
                 </ng-container>
                 <span *ngIf="courseStats.users.length > 6">+ {{ courseStats.users.length - 6 }} more</span>
               </div>

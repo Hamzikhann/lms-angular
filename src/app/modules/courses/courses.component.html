@@ -38,9 +38,9 @@
               </div>
               <div>
                 <a [routerLink]="['update', course.id]" *ngIf="permission.update">
-                  <i class="material-icons fa-lg mr-2">edit</i></a>
+                  <i class="material-icons fa-lg color-light mr-2">edit</i></a>
                 <a href="#" data-toggle="modal" data-target="#deleteCourse" (click)="setCourse(course)"
-                  *ngIf="permission.delete"><i class="material-icons fa-lg">delete</i></a>
+                  *ngIf="permission.delete"><i class="material-icons fa-lg color-light">delete</i></a>
               </div>
               <div class="course-stats" *ngIf="loggedInUser.role.title == 'User'">
                 <div class="course-stats-info">
