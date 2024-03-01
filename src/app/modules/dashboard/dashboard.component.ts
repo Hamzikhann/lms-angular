@@ -58,10 +58,8 @@ export class DashboardComponent implements OnInit {
             background: 'transparent',
           },
           track: {
-            show: false,
+            show: true,
           },
-          startAngle: -180,
-          endAngle: 180,
         },
       },
       stroke: {
