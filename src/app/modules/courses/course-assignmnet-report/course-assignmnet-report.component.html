@@ -1,4 +1,6 @@
-<div class="container page__container d-flex flex-column flex-md-row align-items-center text-center text-sm-left">
+<div
+  class="container page__container d-flex flex-column flex-md-row align-items-center text-center text-sm-left"
+>
   <div class="flex d-flex flex-column flex-sm-row align-items-center">
     <div class="mb-24pt mr-sm-24pt">
       <h2 class="mb-0">Report</h2>
@@ -35,6 +37,18 @@
             <label>Level of Difficulty</label>
             <p class="text-70">{{ courseDetail?.level }}</p>
           </div>
+          <div class="form-group">
+            <label>Passing Threshold</label>
+            <p class="text-70">
+              {{ courseDetail?.passingThreshold || "Not Mentioned" }}
+            </p>
+          </div>
+          <div class="form-group">
+            <label>Approximate Time</label>
+            <p class="text-70">
+              {{ courseDetail?.aprroximateTime || "Not Mentioned" }}
+            </p>
+          </div>
         </div>
       </div>
     </div>
@@ -47,8 +61,12 @@
           <ng-container *ngIf="loading">
             <img src="/assets/images/loading.svg" width="20" class="mb-3" />
           </ng-container>
-          <table class="table table-sm table-hover table-bordered mb-0" *ngIf="!loading && courseEnrollments.length > 0"
-            datatable [dtOptions]="dtOptions">
+          <table
+            class="table table-sm table-hover table-bordered mb-0"
+            *ngIf="!loading && courseEnrollments.length > 0"
+            datatable
+            [dtOptions]="dtOptions"
+          >
             <thead class="bg-light">
               <tr>
                 <th scope="col">User Name</th>
@@ -63,7 +81,7 @@
                 <tr>
                   <td>
                     {{
-                    enrollment.user.firstName + " " + enrollment.user.lastName
+                      enrollment.user.firstName + " " + enrollment.user.lastName
                     }}
                   </td>
                   <td>{{ enrollment.user.email }}</td>
@@ -72,16 +90,21 @@
                   </td>
                   <td>
                     {{
-                    enrollment.user.manager.firstName +
-                    " " +
-                    enrollment.user.manager.lastName
+                      enrollment.user.manager.firstName +
+                        " " +
+                        enrollment.user.manager.lastName
                     }}
                   </td>
                   <td>
                     <div class="progress">
-                      <div class="progress-bar progress-bar-striped bg-success progress-bar-animated" role="progressbar"
-                        [attr.aria-valuenow]="enrollment.progress" aria-valuemin="0" aria-valuemax="100"
-                        [style.width.%]="enrollment.progress">
+                      <div
+                        class="progress-bar progress-bar-striped bg-success progress-bar-animated"
+                        role="progressbar"
+                        [attr.aria-valuenow]="enrollment.progress"
+                        aria-valuemin="0"
+                        aria-valuemax="100"
+                        [style.width.%]="enrollment.progress"
+                      >
                         {{ enrollment.progress }}%
                       </div>
                     </div>
