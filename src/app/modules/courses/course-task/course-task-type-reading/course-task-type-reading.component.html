@@ -24,6 +24,7 @@
             <button class="btn" style="white-space: nowrap">Page #</button>
             <input
               type="number"
+              min="1"
               class="form-control form-input p-0"
               [(ngModel)]="pageNumber"
               (change)="goToPage()"

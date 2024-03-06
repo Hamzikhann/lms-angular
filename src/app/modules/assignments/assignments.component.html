@@ -40,7 +40,7 @@
                   assignmentFormType == 'update'
                 "
               >
-                <option></option>
+                <option value="" disabled>Select Client</option>
                 <ng-container *ngFor="let client of clients">
                   <option [value]="client.id">{{ client.name }}</option>
                 </ng-container>
@@ -57,7 +57,7 @@
                   assignmentFormType == 'update'
                 "
               >
-                <option></option>
+                <option value="" disabled>Select Course</option>
                 <ng-container *ngFor="let course of courses">
                   <option [value]="course.id">{{ course.title }}</option>
                 </ng-container>

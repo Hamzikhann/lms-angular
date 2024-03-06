@@ -93,8 +93,28 @@ export class ProfilePrivacyComponent {
     });
   }
 
+  // onImageSelected(event: any) {
+  //   this.profileImage = event.target.files[0];
+  // }
+
   onImageSelected(event: any) {
-    this.profileImage = event.target.files[0];
+    const file: File = event.target.files[0];
+    if (file) {
+      const fileNameParts = file.name.split('.');
+      const fileExtension =
+        fileNameParts[fileNameParts.length - 1].toLowerCase();
+
+      if (
+        fileExtension === 'jpg' ||
+        fileExtension === 'jpeg' ||
+        fileExtension === 'png'
+      ) {
+        this.profileImage = file;
+      } else {
+        event.target.value = null;
+        this.toastr.error('Only JPEG and PNG files are allowed!');
+      }
+    }
   }
 
   onImageUpload() {

@@ -7,22 +7,39 @@
   <div class="row" *ngIf="!loading">
     <div class="col-md-12">
       <div class="what-you-learn">
-        <div class="page-separator d-flex align-items-center justify-content-between mb-32pt">
+        <div
+          class="page-separator d-flex align-items-center justify-content-between mb-32pt"
+        >
           <div class="page-separator__text">
             Recommended eBook
             <ng-container *ngIf="filteredBooks.length == 0">
-              <span class="heading-icon" data-toggle="modal" data-target="#bookModal"
-                (click)="setBookFormType('create')" *ngIf="permission.create && !book.id">
+              <span
+                class="heading-icon"
+                data-toggle="modal"
+                data-target="#bookModal"
+                (click)="setBookFormType('create')"
+                *ngIf="permission.create && !book.id"
+              >
                 <i class="material-icons">add_circle</i>
               </span>
             </ng-container>
             <ng-container *ngIf="filteredBooks.length > 0">
-              <span class="heading-icon" data-toggle="modal" data-target="#bookModal"
-                (click)="setBookFormType('update'); setBook(filteredBooks[0])" *ngIf="permission.update">
+              <span
+                class="heading-icon"
+                data-toggle="modal"
+                data-target="#bookModal"
+                (click)="setBookFormType('update'); setBook(filteredBooks[0])"
+                *ngIf="permission.update"
+              >
                 <i class="material-icons">edit</i>
               </span>
-              <span class="heading-icon" data-toggle="modal" data-target="#bookModal"
-                (click)="setBookFormType('delete'); setBook(filteredBooks[0])" *ngIf="permission.delete">
+              <span
+                class="heading-icon"
+                data-toggle="modal"
+                data-target="#bookModal"
+                (click)="setBookFormType('delete'); setBook(filteredBooks[0])"
+                *ngIf="permission.delete"
+              >
                 <i class="material-icons">delete</i>
               </span>
             </ng-container>
@@ -30,15 +47,28 @@
           <div class="d-flex justify-content-end">
             <div class="search-form search-form--light pr-0 mr-3">
               <button class="btn" style="white-space: nowrap">Search</button>
-              <input type="text" class="form-control form-input" placeholder="Text or Keyword"
-                (change)="search($event.target)" />
+              <input
+                type="text"
+                class="form-control form-input"
+                placeholder="Text or Keyword"
+                (change)="search($event.target)"
+              />
               <button class="btn" type="submit">
                 <i class="material-icons">search</i>
               </button>
             </div>
-            <div class="search-form search-form--light pr-0 mr-3" style="width: 30%">
+            <div
+              class="search-form search-form--light pr-0 mr-3"
+              style="width: 30%"
+            >
               <button class="btn" style="white-space: nowrap">Page #</button>
-              <input type="number" class="form-control form-input p-0" [(ngModel)]="pageNumber" (change)="goToPage()" />
+              <input
+                type="number"
+                min="1"
+                class="form-control form-input p-0"
+                [(ngModel)]="pageNumber"
+                (change)="goToPage()"
+              />
               <button class="btn pl-0" type="submit">
                 <i class="material-icons">search</i>
               </button>
@@ -68,15 +98,26 @@
                   <img src="/assets/images/loading.svg" />
                 </div>
               </ng-container>
-              <pdf-viewer [src]="ImgBaseURL + book.bookUrl" [original-size]="false" [show-all]="true"
-                [fit-to-page]="false" [zoom]="zoom" [zoom-scale]="'page-width'" [stick-to-page]="false"
-                [render-text]="true" [external-link-target]="'blank'" [autoresize]="true" [page]="currentPage"
-                (after-load-complete)="afterLoadComplete($event)" style="
+              <pdf-viewer
+                [src]="ImgBaseURL + book.bookUrl"
+                [original-size]="false"
+                [show-all]="true"
+                [fit-to-page]="false"
+                [zoom]="zoom"
+                [zoom-scale]="'page-width'"
+                [stick-to-page]="false"
+                [render-text]="true"
+                [external-link-target]="'blank'"
+                [autoresize]="true"
+                [page]="currentPage"
+                (after-load-complete)="afterLoadComplete($event)"
+                style="
                   width: 100%;
                   height: 600px;
                   border: 1px solid #edf0f2;
                   box-shadow: inset 0 1px 1px rgba(39, 44, 51, 0.075);
-                ">
+                "
+              >
               </pdf-viewer>
             </div>
           </div>
@@ -86,21 +127,46 @@
   </div>
 </div>
 
-<div class="modal" id="bookModal" tabindex="-1" role="dialog" aria-labelledby="bookModalLabel" aria-hidden="true"
-  *ngIf="permission.create || permission.update || permission.delete">
+<div
+  class="modal"
+  id="bookModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="bookModalLabel"
+  aria-hidden="true"
+  *ngIf="permission.create || permission.update || permission.delete"
+>
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="bookModalLabel" *ngIf="bookFormType == 'create' && permission.create">
+        <h5
+          class="modal-title"
+          id="bookModalLabel"
+          *ngIf="bookFormType == 'create' && permission.create"
+        >
           Create eBook
         </h5>
-        <h5 class="modal-title" id="bookModalLabel" *ngIf="bookFormType == 'update' && permission.update">
+        <h5
+          class="modal-title"
+          id="bookModalLabel"
+          *ngIf="bookFormType == 'update' && permission.update"
+        >
           Update eBook
         </h5>
-        <h5 class="modal-title" id="bookModalLabel" *ngIf="bookFormType == 'delete' && permission.delete">
+        <h5
+          class="modal-title"
+          id="bookModalLabel"
+          *ngIf="bookFormType == 'delete' && permission.delete"
+        >
           Delete eBook
         </h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close" #closeBookModal>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+          #closeBookModal
+        >
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -110,41 +176,74 @@
             <div class="col-12">
               <div class="form-group">
                 <label for="title" class="form-label">Title</label>
-                <input type="text" class="form-control" id="title" name="bookTitle" [(ngModel)]="book.title"
-                  [disabled]="bookFormType == 'delete'" />
+                <input
+                  type="text"
+                  class="form-control"
+                  id="title"
+                  name="bookTitle"
+                  [(ngModel)]="book.title"
+                  [disabled]="bookFormType == 'delete'"
+                />
               </div>
             </div>
             <div class="col-12">
               <div class="form-group">
                 <label for="author" class="form-label">Author</label>
-                <input type="text" class="form-control" id="author" name="bookAuthor" [(ngModel)]="book.author"
-                  [disabled]="bookFormType == 'delete'" />
+                <input
+                  type="text"
+                  class="form-control"
+                  id="author"
+                  name="bookAuthor"
+                  [(ngModel)]="book.author"
+                  [disabled]="bookFormType == 'delete'"
+                />
               </div>
             </div>
             <div class="col-6">
               <div class="form-group">
                 <label for="publisher" class="form-label">Publisher</label>
-                <input type="text" class="form-control" id="publisher" name="bookPublisher" [(ngModel)]="book.publisher"
-                  [disabled]="bookFormType == 'delete'" />
+                <input
+                  type="text"
+                  class="form-control"
+                  id="publisher"
+                  name="bookPublisher"
+                  [(ngModel)]="book.publisher"
+                  [disabled]="bookFormType == 'delete'"
+                />
               </div>
             </div>
             <div class="col-6">
               <div class="form-group">
                 <label for="edition" class="form-label">Edition</label>
-                <input type="text" class="form-control" id="edition" name="bookEdition" [(ngModel)]="book.edition"
-                  [disabled]="bookFormType == 'delete'" />
+                <input
+                  type="text"
+                  class="form-control"
+                  id="edition"
+                  name="bookEdition"
+                  [(ngModel)]="book.edition"
+                  [disabled]="bookFormType == 'delete'"
+                />
               </div>
             </div>
-            <div class="col-12" *ngIf="bookFormType == 'create' || bookFormType == 'update'">
+            <div
+              class="col-12"
+              *ngIf="bookFormType == 'create' || bookFormType == 'update'"
+            >
               <div class="form-group">
                 <label for="eBookFile" class="form-label">eBook</label>
                 <div class="custom-file">
-                  <input type="file" class="custom-file-input" id="eBookFile" name="eBookFile"
-                    (change)="eBookSelected($event)" />
+                  <input
+                    type="file"
+                    class="custom-file-input"
+                    accept=".pdf"
+                    id="eBookFile"
+                    name="eBookFile"
+                    (change)="eBookSelected($event)"
+                  />
                   <label class="custom-file-label" for="eBook">
                     <span>{{
                       book.eBookUrl ? book.eBookUrl : "Choose File"
-                      }}</span>
+                    }}</span>
                   </label>
                 </div>
               </div>
@@ -153,16 +252,29 @@
         </form>
       </div>
       <div class="modal-footer">
-        <button type="submit" class="btn btn-primary" (click)="createBook()"
-          *ngIf="bookFormType == 'create' && permission.create" [disabled]="filteredBooks.length > 0">
+        <button
+          type="submit"
+          class="btn btn-primary"
+          (click)="createBook()"
+          *ngIf="bookFormType == 'create' && permission.create"
+          [disabled]="filteredBooks.length > 0"
+        >
           Create
         </button>
-        <button type="submit" class="btn btn-primary" (click)="updateBook()"
-          *ngIf="bookFormType == 'update' && permission.update">
+        <button
+          type="submit"
+          class="btn btn-primary"
+          (click)="updateBook()"
+          *ngIf="bookFormType == 'update' && permission.update"
+        >
           Update
         </button>
-        <button type="submit" class="btn btn-danger" (click)="deleteBook()"
-          *ngIf="bookFormType == 'delete' && permission.delete">
+        <button
+          type="submit"
+          class="btn btn-danger"
+          (click)="deleteBook()"
+          *ngIf="bookFormType == 'delete' && permission.delete"
+        >
           Delete
         </button>
       </div>

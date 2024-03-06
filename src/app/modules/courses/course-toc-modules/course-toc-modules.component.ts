@@ -344,7 +344,23 @@ export class CourseTocModulesComponent {
     };
   }
 
+  // onHandoutSelected(event: any) {
+  //   this.task.handout = event.target.files[0];
+  // }
+
   onHandoutSelected(event: any) {
-    this.task.handout = event.target.files[0];
+    const file: File = event.target.files[0];
+    if (file) {
+      const fileNameParts = file.name.split('.');
+      const fileExtension =
+        fileNameParts[fileNameParts.length - 1].toLowerCase();
+
+      if (fileExtension === 'pdf') {
+        this.task.handout = file;
+      } else {
+        event.target.value = null;
+        this.toastr.error('Only PDF files are allowed!');
+      }
+    }
   }
 }

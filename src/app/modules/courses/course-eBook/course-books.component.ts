@@ -187,8 +187,24 @@ export class CourseBooksComponent {
   //   );
   // }
 
+  // eBookSelected(event: any) {
+  //   this.book.eBook = event.target.files[0];
+  // }
   eBookSelected(event: any) {
-    this.book.eBook = event.target.files[0];
+    const file: File = event.target.files[0];
+    if (file) {
+      const fileNameParts = file.name.split('.');
+      const fileExtension =
+        fileNameParts[fileNameParts.length - 1].toLowerCase();
+
+      if (fileExtension === 'pdf') {
+        this.book.eBook = file;
+      } else {
+        console.log('Only PDF files are allowed.');
+        event.target.value = null;
+        this.toastr.error('Only PDF files are allowed!');
+      }
+    }
   }
 
   search(target: any) {
