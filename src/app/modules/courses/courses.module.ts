@@ -11,7 +11,6 @@ import { NgCircleProgressModule } from 'ng-circle-progress';
 import { CoursesComponent } from './courses.component';
 import { CourseCreateComponent } from './course-create/course-create.component';
 import { DetailComponent } from './detail/detail.component';
-import { LectureComponent } from './detail/lecture/lecture.component';
 import { CourseBooksComponent } from './course-eBook/course-books.component';
 import { CourseUsefulLinksComponent } from './course-useful-links/course-useful-links.component';
 import { CourseFaqsComponent } from './course-faqs/course-faqs.component';
@@ -90,10 +89,6 @@ const routes: Routes = [
           },
           {
             path: 'task/:taskId',
-            //   component: LectureComponent,
-            // },
-            // {
-            //   path: 'task/new/:taskId',
             component: CourseTaskComponent,
           },
         ],
@@ -106,7 +101,6 @@ const routes: Routes = [
   declarations: [
     CourseCreateComponent,
     DetailComponent,
-    LectureComponent,
     CourseBooksComponent,
     CourseUsefulLinksComponent,
     CourseFaqsComponent,
