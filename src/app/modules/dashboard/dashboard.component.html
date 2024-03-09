@@ -262,14 +262,14 @@
           </div>
         </div>
       </div>
-      <ng-container *ngIf="
-          courseStats.courses.enrolled &&
-          courseStats.courses.enrolled.length > 0
-        ">
-        <div class="page-component">
-          <h5 class="component-title">Active Enrollments</h5>
-          <div class="card">
-            <div class="card-body p-0">
+      <div class="page-component">
+        <h5 class="component-title">Active Enrollments</h5>
+        <div class="card">
+          <div class="card-body p-0">
+            <ng-container *ngIf="courseStats.courses.enrolled.length == 0">
+              <div class="m-3">No Enrollment Found</div>
+            </ng-container>
+            <ng-container *ngIf="courseStats.courses.enrolled.length > 0">
               <div class="tasks-list-widget">
                 <div class="task-row" *ngFor="let enrollment of courseStats.courses.enrolled">
                   <div class="task-info">
@@ -327,45 +327,50 @@
                   </div>
                 </div>
               </div>
-            </div>
+            </ng-container>
           </div>
         </div>
-      </ng-container>
+      </div>
 
-      <ng-container *ngIf="courseStats.achievements && courseStats.achievements.length > 0">
+      <ng-container>
         <div class="page-component">
           <h5 class="component-title">Most Recent Acheivements</h5>
           <div class="card">
             <div class="card-body p-0">
-              <table class="table table-bordered mb-0">
-                <thead>
-                  <tr>
-                    <td class="w-15"><strong>Created At</strong></td>
-                    <td class="w-25"><strong>User</strong></td>
-                    <td><strong>Course</strong></td>
-                    <td class="w-15 text-center"><strong>Marks</strong></td>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr *ngFor="let achievements of courseStats.achievements">
-                    <td>{{ achievements.createdAt }}</td>
-                    <td>
-                      {{
-                      achievements.courseEnrollmentUser.user.firstName +
-                      " " +
-                      achievements.courseEnrollmentUser.user.lastName
-                      }}
-                    </td>
-                    <td>
-                      {{
-                      achievements.courseEnrollmentUser.courseEnrollment
-                      .courseAssignment.course.title
-                      }}
-                    </td>
-                    <td class="text-center">{{ achievements.result }}%</td>
-                  </tr>
-                </tbody>
-              </table>
+              <ng-container *ngIf="courseStats.achievements && courseStats.achievements.length == 0">
+                <div class="m-3">No Acheivement Found</div>
+              </ng-container>
+              <ng-container *ngIf="courseStats.achievements && courseStats.achievements.length > 0">
+                <table class="table table-bordered mb-0">
+                  <thead>
+                    <tr>
+                      <td class="w-15"><strong>Created At</strong></td>
+                      <td class="w-25"><strong>User</strong></td>
+                      <td><strong>Course</strong></td>
+                      <td class="w-15 text-center"><strong>Marks</strong></td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let achievements of courseStats.achievements">
+                      <td>{{ achievements.createdAt }}</td>
+                      <td>
+                        {{
+                        achievements.courseEnrollmentUser.user.firstName +
+                        " " +
+                        achievements.courseEnrollmentUser.user.lastName
+                        }}
+                      </td>
+                      <td>
+                        {{
+                        achievements.courseEnrollmentUser.courseEnrollment
+                        .courseAssignment.course.title
+                        }}
+                      </td>
+                      <td class="text-center">{{ achievements.result }}%</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </ng-container>
             </div>
           </div>
         </div>
