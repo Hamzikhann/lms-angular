@@ -11,7 +11,6 @@ import { Observable } from 'rxjs';
 export class AuthService {
   baseUrl: string = environment.ApiBaseURL + 'auth/';
   imgUrl: string = environment.ImgBaseURL;
-  VideoBaseURL: string = environment.VideoBaseURL;
 
   constructor(private http: HttpClient, private router: Router) {}
 
