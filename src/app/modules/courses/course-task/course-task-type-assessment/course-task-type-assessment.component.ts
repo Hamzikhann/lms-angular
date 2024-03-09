@@ -335,6 +335,7 @@ export class CourseTaskTypeAssessmentComponent {
           this.courseId,
           this.enrollmentId
         );
+
         window.scroll({
           top: 0,
           behavior: 'smooth',
@@ -353,6 +354,7 @@ export class CourseTaskTypeAssessmentComponent {
         this.goToNextTask();
       }
 
+      this.courseTaskService.callEnrollmentAPI(this.enrollmentId);
       this.reloadCourseModules();
     });
   }

@@ -168,15 +168,10 @@
                 </h6>
                 <div class="text-ellipsis-2">
                   <h5 class="course-title">
-                    <a [routerLink]="['/courses', course.id]" class="text-primary">{{ course.title }}</a>
+                    <a [routerLink]="['/courses', course.courseEnrollmentId]" class="text-primary">{{ course.title
+                      }}</a>
                   </h5>
                 </div>
-                <!-- <div>
-                    <a [routerLink]="['update', course.id]" *ngIf="permission.update">
-                      <i class="material-icons fa-lg mr-2">edit</i></a>
-                    <a href="#" data-toggle="modal" data-target="#deleteCourse" (click)="setCourse(course)"
-                      *ngIf="permission.delete"><i class="material-icons fa-lg">delete</i></a>
-                  </div> -->
                 <div class="course-stats" *ngIf="loggedInUser.role.title == 'User'">
                   <div class="course-stats-info">
                     <span class="course-tasks-count"><strong>{{ course.tasks.completed }}</strong> /
@@ -526,7 +521,6 @@
       </ng-container>
       <div class="page-component" *ngIf="!loading">
         <h5 class="component-title">Courses</h5>
-
         <div class="row">
           <div class="col-lg-4 col-sm-12 col-xs-12" *ngFor="let course of courses">
             <div class="card course">
@@ -538,29 +532,6 @@
                   <h5 class="course-title">
                     <a [routerLink]="['/courses', course.id]" class="text-primary">{{ course.title }}</a>
                   </h5>
-                </div>
-                <!-- <div>
-                    <a [routerLink]="['update', course.id]" *ngIf="permission.update">
-                      <i class="material-icons fa-lg mr-2">edit</i></a>
-                    <a href="#" data-toggle="modal" data-target="#deleteCourse" (click)="setCourse(course)"
-                      *ngIf="permission.delete"><i class="material-icons fa-lg">delete</i></a>
-                  </div> -->
-                <div class="course-stats" *ngIf="loggedInUser.role.title == 'User'">
-                  <div class="course-stats-info">
-                    <span class="course-tasks-count"><strong>{{ course.tasks.completed }}</strong> /
-                      {{ course.tasks.total }}</span>
-                    <span class="course-tasks-nav-icon"><i class="material-icons">keyboard_arrow_right</i></span>
-                  </div>
-                  <div class="course-progress progress">
-                    <div class="progress-bar" role="progressbar" [style]="'width: ' + course.progress + '%'"
-                      aria-valuemin="0" aria-valuemax="100"></div>
-                  </div>
-                </div>
-                <div class="buttons mt-3">
-                  <a *ngIf="loggedInUser.role.title == 'Client'" [routerLink]="[
-                      'courseAssignmentReport',
-                      course.courseAssignmentId
-                    ]" class="btn btn-dark btn-sm">View Report</a>
                 </div>
               </div>
             </div>
