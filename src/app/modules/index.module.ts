@@ -24,9 +24,6 @@ import { ChangePasswordComponent } from './settings/change-password/change-passw
 import { AssignmentsComponent } from './assignments/assignments.component';
 import { TeamsComponent } from './teams/teams.component';
 import { DataTablesModule } from 'angular-datatables';
-import { DashboardUserComponent } from './dashboard/dashboard-user/dashboard-user.component';
-import { DashboardClientComponent } from './dashboard/dashboard-client/dashboard-client.component';
-import { DashboardAdminComponent } from './dashboard/dashboard-admin/dashboard-admin.component';
 import { NgApexchartsModule } from 'ng-apexcharts';
 
 const routes: Routes = [
@@ -38,10 +35,6 @@ const routes: Routes = [
       {
         path: '',
         component: DashboardComponent,
-      },
-      {
-        path: 'client',
-        component: DashboardClientComponent,
       },
       {
         path: 'courses',
@@ -120,9 +113,6 @@ const routes: Routes = [
     AssignmentsComponent,
     EnrollmentsComponent,
     TeamsComponent,
-    DashboardUserComponent,
-    DashboardClientComponent,
-    DashboardAdminComponent,
   ],
   imports: [
     CommonModule,
