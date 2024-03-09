@@ -15,12 +15,12 @@ export class CourseTaskComponent {
 
   courseId: any;
   courseDetails: any;
-  syllabus: any = {
+  courseSyllabus: any = {
     id: '',
     title: '',
   };
-  modules: any = [];
   enrollmentId: string = '';
+  modules: any = [];
   taskId: any;
   taskIdPrevious: any;
   taskIdNext: any;
@@ -41,9 +41,23 @@ export class CourseTaskComponent {
 
   ngOnInit(): void {
     this.loggedInUser = JSON.parse(this.authService.getUser());
-    this.route.parent?.params.subscribe((params: any) => {
-      this.courseId = params.id;
-      this.getCourseDetails();
+
+    this.courseTaskService.getEnrollmentId().subscribe((data: any) => {
+      this.enrollmentId = data;
+    });
+
+    this.courseTaskService.getCourseId().subscribe((data: any) => {
+      this.courseId = data;
+    });
+
+    this.courseTaskService.getCourseDetails().subscribe((data: any) => {
+      this.courseDetails = data;
+      if (this.courseDetails) {
+        this.courseSyllabus = {
+          id: this.courseDetails.courseSyllabus?.id,
+          title: this.courseDetails.courseSyllabus?.title,
+        };
+      }
     });
 
     this.courseTaskService.getTaskDetails().subscribe((data: any) => {
@@ -57,52 +71,31 @@ export class CourseTaskComponent {
     this.courseTaskService.getLoading().subscribe((data: any) => {
       this.loading = data;
     });
-  }
 
-  getCourseDetails() {
-    const data = {
-      path: 'courses/detail',
-      payload: {
-        courseId: this.courseId,
-      },
-    };
-
-    this.apiServices.postRequest(data).subscribe((response) => {
-      this.courseDetails = response;
-      this.courseTaskService.setCourse(this.courseId, this.courseDetails);
-
-      this.syllabus = {
-        id: this.courseDetails.courseSyllabus?.id,
-        title: this.courseDetails.courseSyllabus?.title,
-      };
-      this.getEnrollmentDetails();
-    });
-  }
-
-  getEnrollmentDetails() {
-    const data = {
-      path: 'course/tasks/enrollment',
-      payload: {
-        courseId: this.courseId,
-      },
-    };
-    this.apiServices.postRequest(data).subscribe((response) => {
-      this.enrollmentId = response.data?.id;
-      this.courseTaskService.setEnrollmentId(this.enrollmentId);
-      this.courseTaskService.callModulesAPI();
-
+    setTimeout(() => {
       this.route.paramMap.subscribe((data: any) => {
         this.taskId = data.params.taskId;
+        this.courseTaskService.setTaskId(this.taskId);
+        this.courseTaskService.callTaskDetailsAPI(
+          this.taskId,
+          this.courseId,
+          this.enrollmentId
+        );
+        this.courseTaskService.callAssessmentAPI(this.taskId);
         window.scrollTo({
           top: 0,
           left: 0,
           behavior: 'smooth',
         });
-        this.courseTaskService.setTaskId(this.taskId);
-        this.courseTaskService.callTaskDetailsAPI(this.taskId);
-        this.courseTaskService.callAssessmentAPI(this.taskId);
       });
-    });
+    }, 500);
+  }
+
+  reloadCourseModules() {
+    this.courseTaskService.callModulesAPI(
+      this.courseSyllabus.id,
+      this.enrollmentId
+    );
   }
 
   afterLoadComplete(pdf: any): void {

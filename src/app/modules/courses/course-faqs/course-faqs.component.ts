@@ -3,6 +3,7 @@ import { ApiService } from 'src/app/services/users/api.service';
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from 'src/app/services/auth/auth.service';
+import { CourseTaskService } from 'src/app/services/course-task/course-task.service';
 import { Editor, Toolbar } from 'ngx-editor';
 
 @Component({
@@ -33,7 +34,8 @@ export class CourseFaqsComponent {
     private toastr: ToastrService,
     private apiServices: ApiService,
     private route: ActivatedRoute,
-    private authService: AuthService
+    private authService: AuthService,
+    private courseTaskService: CourseTaskService
   ) {}
 
   ngOnInit(): void {
@@ -42,8 +44,8 @@ export class CourseFaqsComponent {
       this.permission = { create: true, update: true, delete: true };
     }
 
-    this.route.parent?.params.subscribe((params: any) => {
-      this.courseId = params.id;
+    this.courseTaskService.getCourseId().subscribe((data: any) => {
+      this.courseId = data;
       this.getFaqs();
     });
   }

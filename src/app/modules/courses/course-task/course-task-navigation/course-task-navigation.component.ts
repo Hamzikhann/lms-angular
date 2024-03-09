@@ -15,6 +15,7 @@ import { CourseTaskService } from 'src/app/services/course-task/course-task.serv
 })
 export class CourseTaskNavigationComponent {
   courseId: any;
+  enrollmentId: any;
   taskIdPrevious: any;
   taskIdNext: any;
   taskDetails: any;
@@ -28,7 +29,13 @@ export class CourseTaskNavigationComponent {
   ngOnInit(): void {
     this.loggedInUser = JSON.parse(this.authService.getUser());
 
-    this.courseId = this.courseTaskService.getCourseId();
+    this.courseTaskService.getEnrollmentId().subscribe((data: any) => {
+      this.enrollmentId = data;
+    });
+
+    this.courseTaskService.getCourseId().subscribe((data: any) => {
+      this.courseId = data;
+    });
 
     this.courseTaskService.getTaskDetails().subscribe((data: any) => {
       this.taskDetails = data;

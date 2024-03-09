@@ -11,12 +11,13 @@ import { AuthService } from '../auth/auth.service';
 export class CourseTaskService {
   loggedInUser: any;
 
-  courseId: string = '';
+  courseId: any = '';
   courseDetails: any;
 
-  modules: any = [];
+  enrollmentId: any = '';
+  enrollmentDetails: any = '';
 
-  enrollmentId: string = '';
+  modules: any = [];
 
   taskId: any = '';
   taskDetails: any;
@@ -35,6 +36,11 @@ export class CourseTaskService {
   ) {
     this.loggedInUser = JSON.parse(this.authService.getUser());
 
+    this.courseId = new BehaviorSubject<any>('');
+    this.courseDetails = new BehaviorSubject<any>(null);
+    this.enrollmentId = new BehaviorSubject<any>('');
+    this.enrollmentDetails = new BehaviorSubject<any>('');
+
     this.taskId = new BehaviorSubject<any>('');
     this.taskIdPrevious = new BehaviorSubject<any>('');
     this.taskIdNext = new BehaviorSubject<any>('');
@@ -45,29 +51,27 @@ export class CourseTaskService {
   }
 
   setCourse(id: string, data: any) {
-    this.courseId = id;
-    this.courseDetails = data;
-    // this.taskId = '';
-    // this.taskIdPrevious = '';
-    // this.taskIdNext = '';
-    // this.taskDetails = null;
-    // this.modules = [];
-    // this.assessments = [];
+    this.courseId.next(id);
+    this.courseDetails.next(data);
   }
   getCourseId() {
-    return this.courseId;
+    return this.courseId.asObservable();
   }
   getCourseDetails() {
-    return this.courseDetails;
+    return this.courseDetails.asObservable();
   }
-
-  setEnrollmentId(id: string) {
-    this.enrollmentId = id;
+  setEnrollmentId(id: any) {
+    this.enrollmentId.next(id);
+  }
+  setEnrollmentDetails(data: any) {
+    this.enrollmentDetails.next(data);
   }
   getEnrollmentId() {
-    return this.enrollmentId;
+    return this.enrollmentId.asObservable();
   }
-
+  getEnrollmentDetails() {
+    return this.enrollmentDetails.asObservable();
+  }
   setTaskId(id: any) {
     this.taskId.next(id);
   }
@@ -92,6 +96,25 @@ export class CourseTaskService {
   getTaskIdNext() {
     return this.taskIdNext.asObservable();
   }
+  setLoading(type: boolean) {
+    this.loading.next(type);
+  }
+  getLoading() {
+    return this.loading.asObservable();
+  }
+  setModule(data: any) {
+    this.modules.next(data);
+  }
+  getModules() {
+    return this.modules.asObservable();
+  }
+  setAssessments(data: any) {
+    this.assessments.next(data);
+  }
+  getAssessments() {
+    return this.assessments.asObservable();
+  }
+
   setPreviousNextTaskIds(currentTaskId: string) {
     this.taskIdPrevious.next(0);
     this.taskIdNext.next(0);
@@ -118,54 +141,29 @@ export class CourseTaskService {
     });
   }
 
-  setLoading(type: boolean) {
-    this.loading.next(type);
-  }
-  getLoading() {
-    return this.loading.asObservable();
-  }
-
-  callTaskDetailsAPI(currentTaskId: string) {
-    this.setLoading(true);
-    var data: any = {
-      path: 'course/tasks/detail',
+  callEnrollmentAPI(enrollmentId: string) {
+    const data = {
+      path: 'courses/enrollment/detail/',
       payload: {
-        courseTaskId: currentTaskId,
+        enrollmentId: enrollmentId,
       },
     };
-    if (this.loggedInUser.role.title == 'User') {
-      data.payload.courseId = this.courseId;
-      data.payload.courseEnrollmentId = this.enrollmentId;
-    }
     this.apiServices.postRequest(data).subscribe((response) => {
-      var taskData = response.data;
-      if (taskData?.courseTaskProgresses.length > 0) {
-        taskData.progress = taskData?.courseTaskProgresses[0].percentage;
-      } else {
-        taskData.progress = '0';
-      }
-
-      this.setLoading(false);
-      this.setTaskDetails(taskData);
-      this.setPreviousNextTaskIds(currentTaskId);
+      const enrollmentDetails = response.data.enrollment;
+      this.setEnrollmentDetails(enrollmentDetails);
     });
   }
 
-  setModule(data: any) {
-    this.modules.next(data);
-  }
-  getModules() {
-    return this.modules.asObservable();
-  }
-  callModulesAPI() {
+  callModulesAPI(courseSyllabusId: string, enrollmentId: string) {
+    this.setModule([]);
     var data: any = {
       path: 'course/modules/list',
       payload: {
-        courseSyllabusId: this.courseDetails.courseSyllabus.id,
+        courseSyllabusId: courseSyllabusId,
       },
     };
-    if (this.loggedInUser.role.title == 'User') {
-      data.payload.courseEnrollmentId = this.enrollmentId;
+    if (enrollmentId) {
+      data.payload.courseEnrollmentId = enrollmentId;
     }
     this.apiServices.postRequest(data).subscribe((response) => {
       var modulesData = response.data;
@@ -189,6 +187,7 @@ export class CourseTaskService {
           taskTodo = tasks[key + 1] ? tasks[key + 1] : null;
         }
       });
+
       if (this.loggedInUser.role.title == 'User' && taskTodo) {
         for (let index = taskTodo.index + 1; index < tasks.length; index++) {
           if (tasks[index]) {
@@ -199,12 +198,37 @@ export class CourseTaskService {
     });
   }
 
-  setAssessments(data: any) {
-    this.assessments.next(data);
+  callTaskDetailsAPI(
+    currentTaskId: string,
+    courseId: string,
+    enrollmentId: string
+  ) {
+    this.setLoading(true);
+    this.setTaskDetails(null);
+    var data: any = {
+      path: 'course/tasks/detail',
+      payload: {
+        courseTaskId: currentTaskId,
+      },
+    };
+    if (this.enrollmentId) {
+      data.payload.courseId = courseId;
+      data.payload.courseEnrollmentId = enrollmentId;
+    }
+    this.apiServices.postRequest(data).subscribe((response) => {
+      var taskData = response.data;
+      if (taskData?.courseTaskProgresses.length > 0) {
+        taskData.progress = taskData?.courseTaskProgresses[0].percentage;
+      } else {
+        taskData.progress = '0';
+      }
+
+      this.setLoading(false);
+      this.setTaskDetails(taskData);
+      this.setPreviousNextTaskIds(currentTaskId);
+    });
   }
-  getAssessments() {
-    return this.assessments.asObservable();
-  }
+
   callAssessmentAPI(currentTaskId: string) {
     const data = {
       path: 'course/task/assessments/list ',
@@ -223,6 +247,7 @@ export class CourseTaskService {
       this.setAssessments(assessmentsData);
     });
   }
+
   shuffleAssessmentOptions(array: any) {
     let currentIndex = array.length,
       randomIndex;

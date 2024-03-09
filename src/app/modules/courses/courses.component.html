@@ -33,7 +33,8 @@
               <h6 class="course-attributes">{{ course.code }} - {{ course.courseDepartment.title }}</h6>
               <div class="text-ellipsis-2">
                 <h5 class="course-title">
-                  <a [routerLink]="['/courses', course.id]" class="text-dark">{{ course.title }}</a>
+                  <a [routerLink]="loggedInUser.role.title == 'User' ? ['/courses', course.courseEnrollmentId] : ['/courses', course.id]"
+                    class="text-dark">{{ course.title }}</a>
                 </h5>
               </div>
               <div>

@@ -1,36 +1,20 @@
 <div class="transcript" *ngIf="taskDetails">
   <h5>
     Transcript
-    <span
-      *ngIf="permission.videoTranscript.update"
-      class="heading-icon"
-      data-toggle="modal"
-      data-target="#transcriptModal"
-      (click)="setVideoTranscript(taskDetails.transcript)"
-    >
+    <span *ngIf="permission.videoTranscript.update" class="heading-icon" data-toggle="modal"
+      data-target="#transcriptModal" (click)="setVideoTranscript(taskDetails.transcript)">
       <i class="material-icons">edit</i>
     </span>
   </h5>
   <p [innerHTML]="taskDetails.transcript?.content"></p>
 </div>
 
-<div
-  class="modal"
-  id="transcriptModal"
-  tabindex="-1"
-  role="dialog"
-  *ngIf="permission.videoTranscript.update"
->
+<div class="modal" id="transcriptModal" tabindex="-1" role="dialog" *ngIf="permission.videoTranscript.update">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">Transcript</h5>
-        <button
-          type="button"
-          class="close"
-          data-dismiss="modal"
-          aria-label="Close"
-        >
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -39,27 +23,17 @@
           <div class="form-group">
             <label>Content</label>
             <div class="editor editor-content">
-              <ngx-editor-menu
-                [editor]="editorVideoTranscript"
-                [toolbar]="toolbar"
-              >
+              <ngx-editor-menu [editor]="editorVideoTranscript" [toolbar]="toolbar">
               </ngx-editor-menu>
-              <ngx-editor
-                [editor]="editorVideoTranscript"
-                [(ngModel)]="videoTranscript.content"
-                name="transcriptContent"
-              >
+              <ngx-editor [editor]="editorVideoTranscript" [(ngModel)]="videoTranscript.content"
+                name="transcriptContent">
               </ngx-editor>
             </div>
           </div>
         </form>
       </div>
       <div class="modal-footer">
-        <button
-          class="btn btn-primary"
-          (click)="updateVideoTranscript()"
-          data-dismiss="modal"
-        >
+        <button class="btn btn-primary" (click)="updateVideoTranscript()" data-dismiss="modal">
           Update
         </button>
       </div>

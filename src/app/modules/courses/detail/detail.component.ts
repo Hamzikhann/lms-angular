@@ -4,6 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ConfigService } from 'src/app/config/config.service';
 import { AuthService } from 'src/app/services/auth/auth.service';
+import { CourseTaskService } from 'src/app/services/course-task/course-task.service';
 
 @Component({
   selector: 'app-detail',
@@ -15,7 +16,8 @@ export class DetailComponent {
   loggedInUser: any;
   courseId: any;
   courseDetails: any;
-  courseEnrollmentDetails: any = null;
+  enrollmentDetails: any;
+  enrollmentId: any;
   instructor: any;
 
   sections: any = {
@@ -32,6 +34,7 @@ export class DetailComponent {
     private toastr: ToastrService,
     private authService: AuthService,
     private apiServices: ApiService,
+    private courseTaskService: CourseTaskService,
     private config: ConfigService,
     private route: ActivatedRoute,
     private router: Router
@@ -39,8 +42,15 @@ export class DetailComponent {
 
   ngOnInit(): void {
     this.loggedInUser = JSON.parse(this.authService.getUser());
-    this.courseId = this.route.snapshot.paramMap.get('id');
-    this.getCourseDetails();
+
+    console.log(this.loggedInUser.role.title);
+    if (this.loggedInUser.role.title == 'User') {
+      this.enrollmentId = this.route.snapshot.paramMap.get('id');
+      this.getCourseEnrollmentDetails();
+    } else {
+      this.courseId = this.route.snapshot.paramMap.get('id');
+      this.getCourseDetails();
+    }
 
     if (this.router.url.includes('task')) {
       this.sections.index = true;
@@ -68,7 +78,27 @@ export class DetailComponent {
     };
     this.apiServices.postRequest(data).subscribe((data) => {
       this.courseDetails = data;
-      // console.log(this.courseDetails);
+      this.courseTaskService.setCourse(this.courseId, this.courseDetails);
+      this.courseTaskService.setEnrollmentId(null);
+      this.courseTaskService.setEnrollmentDetails(null);
+    });
+  }
+
+  getCourseEnrollmentDetails() {
+    const data = {
+      path: 'courses/enrollment/detail/',
+      payload: {
+        enrollmentId: this.enrollmentId,
+      },
+    };
+    this.apiServices.postRequest(data).subscribe((response) => {
+      this.courseId = response.data.courseId;
+      this.courseDetails = response.data.course;
+      this.enrollmentDetails = response.data.enrollment;
+
+      this.courseTaskService.setCourse(this.courseId, this.courseDetails);
+      this.courseTaskService.setEnrollmentId(this.enrollmentDetails.id);
+      this.courseTaskService.setEnrollmentDetails(this.enrollmentDetails);
     });
   }
 

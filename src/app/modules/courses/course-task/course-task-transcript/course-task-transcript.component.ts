@@ -22,6 +22,7 @@ export class CourseTaskTranscriptComponent {
   };
 
   courseId: any;
+  enrollmentId: any;
   taskId: any;
   taskDetails: any;
 
@@ -47,11 +48,18 @@ export class CourseTaskTranscriptComponent {
       this.permission = { videoTranscript: { update: true } };
     }
 
-    this.courseId = this.courseTaskService.getCourseId();
+    this.courseTaskService.getEnrollmentId().subscribe((data: any) => {
+      this.enrollmentId = data;
+    });
+
+    this.courseTaskService.getCourseId().subscribe((data: any) => {
+      this.courseId = data;
+    });
 
     this.courseTaskService.getTaskId().subscribe((data: any) => {
       this.taskId = data;
     });
+
     this.courseTaskService.getTaskDetails().subscribe((data: any) => {
       this.taskDetails = data;
     });
@@ -70,7 +78,11 @@ export class CourseTaskTranscriptComponent {
     }
     this.apiServices.postRequest(data).subscribe((data) => {
       this.toastr.success('Transcript updated successfully!');
-      this.courseTaskService.callTaskDetailsAPI(this.taskId);
+      this.courseTaskService.callTaskDetailsAPI(
+        this.taskId,
+        this.courseId,
+        this.enrollmentId
+      );
     });
   }
 

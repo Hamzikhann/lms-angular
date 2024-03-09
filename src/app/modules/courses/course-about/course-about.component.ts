@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ConfigService } from 'src/app/config/config.service';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { Editor, Toolbar } from 'ngx-editor';
+import { CourseTaskService } from 'src/app/services/course-task/course-task.service';
 
 @Component({
   selector: 'app-course-about',
@@ -17,7 +18,8 @@ export class CourseAboutComponent {
 
   courseId: any;
   courseDetails: any;
-  courseEnrollmentDetails: any;
+  enrollmentId: any;
+  enrollmentDetails: any;
 
   objective: any = {
     id: '',
@@ -53,50 +55,39 @@ export class CourseAboutComponent {
     private apiServices: ApiService,
     private config: ConfigService,
     private route: ActivatedRoute,
-    private authService: AuthService
+    private authService: AuthService,
+    private courseTaskService: CourseTaskService
   ) {}
 
   ngOnInit(): void {
     this.loggedInUser = JSON.parse(this.authService.getUser());
-    if (this.loggedInUser.role.title == 'Administrator') {
+    const userRole = this.loggedInUser.role.title;
+    if (userRole == 'Administrator') {
       this.permission = { create: true, update: true, delete: true };
     }
 
-    this.courseId = this.route.snapshot.paramMap.get('id');
-    this.getCourseDetails();
-  }
+    this.courseTaskService.getCourseId().subscribe((data: any) => {
+      this.courseId = data;
+    });
 
-  getCourseDetails() {
-    this.loading = true;
-
-    const data = {
-      path: 'courses/detail',
-      payload: {
-        courseId: this.courseId,
-      },
-    };
-    this.apiServices.postRequest(data).subscribe((data) => {
+    this.courseTaskService.getCourseDetails().subscribe((data: any) => {
       this.courseDetails = data;
+    });
 
-      if (this.loggedInUser.role.title == 'User') {
-        if (
-          this.courseDetails.courseAssignments.length > 0 &&
-          this.courseDetails.courseAssignments[0].courseEnrollments.length > 0
-        ) {
-          this.courseEnrollmentDetails =
-            this.courseDetails.courseAssignments[0].courseEnrollments[0];
-          console.log(this.courseEnrollmentDetails);
-        }
-      }
-      this.loading = false;
+    this.courseTaskService.getEnrollmentId().subscribe((data: any) => {
+      this.enrollmentId = data;
+    });
+
+    this.courseTaskService.getEnrollmentDetails().subscribe((data: any) => {
+      this.enrollmentDetails = data;
     });
   }
 
   resetCourseProgress() {
     const data = {
-      path: 'course/enrollments/progress/reset ',
+      path: 'course/enrollments/progress/reset',
       payload: {
-        courseEnrollmentId: this.courseEnrollmentDetails.id,
+        courseEnrollmentId: this.enrollmentId,
       },
     };
     this.apiServices.postRequest(data).subscribe((response) => {
@@ -104,7 +95,25 @@ export class CourseAboutComponent {
         this.closeResetModal.nativeElement.click();
       }
       this.toastr.success('Course progress reset successfully!');
-      this.getCourseDetails();
+      this.getCourseEnrollmentDetails();
+    });
+  }
+
+  getCourseEnrollmentDetails() {
+    const data = {
+      path: 'courses/enrollment/detail/',
+      payload: {
+        enrollmentId: this.enrollmentId,
+      },
+    };
+    this.apiServices.postRequest(data).subscribe((response) => {
+      const courseId = response.data.courseId;
+      const courseDetails = response.data.course;
+      const enrollmentDetails = response.data.enrollment;
+
+      this.courseTaskService.setCourse(courseId, courseDetails);
+      this.courseTaskService.setEnrollmentId(enrollmentDetails.id);
+      this.courseTaskService.setEnrollmentDetails(enrollmentDetails);
     });
   }
 

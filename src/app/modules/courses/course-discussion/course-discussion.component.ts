@@ -158,12 +158,14 @@ export class CourseDiscussionComponent {
   // Scroll to bottom function
   scrollToBottom(): void {
     this.cdr.detectChanges(); // Trigger change detection
-    const container = this.scrollMe.nativeElement;
-    container.scrollIntoView({
-      behavior: 'smooth',
-      block: 'end',
-      inline: 'nearest',
-    });
+    if (this.scrollMe) {
+      const container = this.scrollMe.nativeElement;
+      container.scrollIntoView({
+        behavior: 'smooth',
+        block: 'end',
+        inline: 'nearest',
+      });
+    }
   }
 
   // Trigger scroll to bottom after view initialization

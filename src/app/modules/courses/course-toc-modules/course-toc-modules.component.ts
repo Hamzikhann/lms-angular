@@ -27,6 +27,7 @@ export class CourseTocModulesComponent {
   };
   modules: any = [];
   enrollmentId: string = '';
+  enrollmentDetails: any;
   taskId: any;
   taskIdPrevious: any;
   taskIdNext: any;
@@ -86,20 +87,28 @@ export class CourseTocModulesComponent {
         task: { create: true, update: true, delete: true },
       };
     }
-    this.route.parent?.params.subscribe((params: any) => {
-      this.courseId = params.id;
-      this.getCourseDetails();
-      this.courseTaskService.setModule([]);
-      this.getTaskTypes();
+
+    this.courseTaskService.getEnrollmentId().subscribe((data: any) => {
+      this.enrollmentId = data;
     });
 
-    this.route.paramMap.subscribe((data: any) => {
-      this.taskId = data.params.taskId;
-      this.courseTaskService.setTaskId(this.taskId);
+    this.courseTaskService.getEnrollmentDetails().subscribe((data: any) => {
+      this.enrollmentDetails = data;
     });
 
-    this.courseTaskService.getTaskId().subscribe((data: any) => {
-      this.taskId = data;
+    this.courseTaskService.getCourseId().subscribe((data: any) => {
+      this.courseId = data;
+    });
+
+    this.courseTaskService.getCourseDetails().subscribe((data: any) => {
+      this.courseDetails = data;
+      if (this.courseDetails) {
+        this.syllabus = {
+          id: this.courseDetails.courseSyllabus?.id,
+          title: this.courseDetails.courseSyllabus?.title,
+        };
+        this.reloadCourseModules();
+      }
     });
 
     this.courseTaskService.getModules().subscribe((data: any) => {
@@ -109,39 +118,61 @@ export class CourseTocModulesComponent {
     this.courseTaskService.getLoading().subscribe((data: any) => {
       this.loading = data;
     });
-  }
 
-  getCourseDetails() {
-    const data = {
-      path: 'courses/detail',
-      payload: {
-        courseId: this.courseId,
-      },
-    };
+    this.getTaskTypes();
 
-    this.apiServices.postRequest(data).subscribe((response) => {
-      this.courseDetails = response;
-      this.courseTaskService.setCourse(this.courseId, this.courseDetails);
+    this.route.paramMap.subscribe((data: any) => {
+      this.taskId = data.params.taskId;
+      this.courseTaskService.setTaskId(this.taskId);
+    });
 
-      this.syllabus = {
-        id: this.courseDetails.courseSyllabus?.id,
-        title: this.courseDetails.courseSyllabus?.title,
-      };
-      this.getEnrollmentDetails();
+    this.courseTaskService.getTaskId().subscribe((data: any) => {
+      this.taskId = data;
     });
   }
 
-  getEnrollmentDetails() {
-    const data = {
-      path: 'course/tasks/enrollment',
-      payload: {
-        courseId: this.courseId,
-      },
-    };
-    this.apiServices.postRequest(data).subscribe((response) => {
-      this.enrollmentId = response.data?.id;
-      this.courseTaskService.setEnrollmentId(this.enrollmentId);
-      this.courseTaskService.callModulesAPI();
+  // getCourseDetails() {
+  //   const data = {
+  //     path: 'courses/detail',
+  //     payload: {
+  //       courseId: this.courseId,
+  //     },
+  //   };
+
+  //   this.apiServices.postRequest(data).subscribe((response) => {
+  //     this.courseDetails = response;
+  //     this.courseTaskService.setCourse(this.courseId, this.courseDetails);
+
+  //     this.syllabus = {
+  //       id: this.courseDetails.courseSyllabus?.id,
+  //       title: this.courseDetails.courseSyllabus?.title,
+  //     };
+  //     this.getEnrollmentDetails();
+  //   });
+  // }
+
+  // getEnrollmentDetails() {
+  //   const data = {
+  //     path: 'course/tasks/enrollment',
+  //     payload: {
+  //       courseId: this.courseId,
+  //     },
+  //   };
+  //   this.apiServices.postRequest(data).subscribe((response) => {
+  //     this.enrollmentId = response.data?.id;
+  //     this.courseTaskService.setEnrollmentId(this.enrollmentId);
+  //     this.reloadCourseModules();
+  //   });
+  // }
+
+  reloadCourseModules() {
+    this.courseTaskService.getEnrollmentId().subscribe((data: any) => {
+      this.enrollmentId = data;
+
+      this.courseTaskService.callModulesAPI(
+        this.syllabus.id,
+        this.enrollmentId
+      );
     });
   }
 
@@ -159,8 +190,7 @@ export class CourseTocModulesComponent {
         this.closeModuleModal.nativeElement.click();
       }
       this.toastr.success('Module added successfully!');
-      this.courseTaskService.callModulesAPI();
-
+      this.reloadCourseModules();
       this.resetModuleData();
     });
   }
@@ -178,7 +208,7 @@ export class CourseTocModulesComponent {
         this.closeModuleModal.nativeElement.click();
       }
       this.toastr.success('Module updated successfully!');
-      this.courseTaskService.callModulesAPI();
+      this.reloadCourseModules();
 
       this.resetModuleData();
     });
@@ -195,7 +225,7 @@ export class CourseTocModulesComponent {
         this.closeModuleModal.nativeElement.click();
       }
       this.toastr.success('Module deleted successfully!');
-      this.courseTaskService.callModulesAPI();
+      this.reloadCourseModules();
 
       this.resetModuleData();
     });
@@ -251,7 +281,7 @@ export class CourseTocModulesComponent {
         this.closeTaskModal.nativeElement.click();
       }
       this.toastr.success('Task added successfully!');
-      this.courseTaskService.callModulesAPI();
+      this.reloadCourseModules();
 
       this.resetTaskData();
     });
@@ -279,7 +309,7 @@ export class CourseTocModulesComponent {
         this.closeTaskModal.nativeElement.click();
       }
       this.toastr.success('Task updated successfully!');
-      this.courseTaskService.callModulesAPI();
+      this.reloadCourseModules();
 
       this.resetTaskData();
     });
@@ -296,7 +326,7 @@ export class CourseTocModulesComponent {
         this.closeTaskModal.nativeElement.click();
       }
       this.toastr.success('Task deleted successfully!');
-      this.courseTaskService.callModulesAPI();
+      this.reloadCourseModules();
 
       this.resetTaskData();
     });

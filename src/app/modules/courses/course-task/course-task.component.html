@@ -1,39 +1,39 @@
-<div
-  class="container page__container"
-  *ngIf="taskDetails && taskDetails.courseTaskContent"
->
+<div class="container page__container" *ngIf="taskDetails && taskDetails.courseTaskContent">
   <div class="row">
     <div class="col-lg-4 col-sm-12">
       <div class="page-separator mb-32pt">
-        <div class="page-separator__text" *ngIf="syllabus.id">
-          {{ syllabus.title }}
+        <div class="page-separator__text" *ngIf="courseSyllabus.id">
+          {{ courseSyllabus.title }}
         </div>
       </div>
-      <app-course-toc-modules></app-course-toc-modules>
+      <ng-container *ngIf="loading">
+        <div class="text-center loading-icon">
+          <img src="/assets/images/loading.svg" />
+        </div>
+      </ng-container>
+      <ng-container *ngIf="!loading">
+        <app-course-toc-modules></app-course-toc-modules>
+      </ng-container>
     </div>
     <div class="col-lg-8 col-sm-12">
       <div class="page-separator d-flex justify-content-between mb-32pt">
         <div class="page-separator__text">{{ taskDetails.title }}</div>
         <div *ngIf="taskDetails.reference">
-          <a
-            class="active"
-            [routerLink]="[
+          <a class="active" [routerLink]="[
               '/courses',
               courseId,
               'books',
               taskDetails.reference
-            ]"
-            >View eBook Reference</a
-          >
+            ]">View eBook Reference</a>
         </div>
       </div>
       <div class="page-task">
-        <!-- <ng-container *ngIf="loading">
+        <ng-container *ngIf="loading">
           <div class="text-center loading-icon">
             <img src="/assets/images/loading.svg" />
           </div>
-        </ng-container> -->
-        <ng-container>
+        </ng-container>
+        <ng-container *ngIf="!loading">
           <div class="card mb-0">
             <div class="card-header">
               <!--
@@ -63,39 +63,31 @@
             Task i.e Reading
            -->
           <app-course-task-type-reading
-            *ngIf="taskDetails.courseTaskType.title == 'Reading'"
-          ></app-course-task-type-reading>
+            *ngIf="taskDetails.courseTaskType.title == 'Reading'"></app-course-task-type-reading>
 
           <!--
             Task i.e Assessment
            -->
-          <app-course-task-type-assessment
-            *ngIf="
+          <app-course-task-type-assessment *ngIf="
               taskDetails.courseTaskType.title == 'Assessment' ||
               (taskDetails.courseTaskType.title == 'Video' &&
                 loggedInUser.role.title == 'Administrator')
-            "
-          ></app-course-task-type-assessment>
+            "></app-course-task-type-assessment>
 
           <!--
             Task i.e Mark as Complete
            -->
-          <app-course-task-mark-complete
-            *ngIf="
+          <app-course-task-mark-complete *ngIf="
               loggedInUser.role.title == 'User' &&
               taskDetails.courseTaskType.title != 'Assessment'
-            "
-          ></app-course-task-mark-complete>
+            "></app-course-task-mark-complete>
 
           <!--
             Task Description
            -->
-          <app-course-task-description
-            *ngIf="
-              taskDetails.courseTaskType.title != 'Reading' &&
+          <app-course-task-description *ngIf="
               taskDetails.courseTaskContent.description.trim() != ''
-            "
-          ></app-course-task-description>
+            "></app-course-task-description>
         </ng-container>
       </div>
 
@@ -107,9 +99,4 @@
   </div>
 </div>
 
-<button
-  #questionModalBtn
-  data-toggle="modal"
-  data-target="#questionModal"
-  style="display: none"
-></button>
+<button #questionModalBtn data-toggle="modal" data-target="#questionModal" style="display: none"></button>

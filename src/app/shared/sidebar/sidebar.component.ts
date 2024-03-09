@@ -34,7 +34,6 @@ export class SidebarComponent {
 
   ngOnInit(): void {
     this.loggedInUser = JSON.parse(this.authService.getUser());
-    console.log(this.loggedInUser);
     this.loggedInUserRole = this.loggedInUser.role.title;
     this.client = this.loggedInUser.client;
 

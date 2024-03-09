@@ -82,7 +82,7 @@
                   <h6 class="task-title">
                     <a [routerLink]="[
                         '/courses',
-                        task.courseId,
+                        task.enrollmentId,
                         'task',
                         task.taskId
                       ]" class="text-primary">{{ task.taskName }}</a>
@@ -124,7 +124,8 @@
                   ">
                   <div class="task-info">
                     <h6 class="task-title">
-                      <a [routerLink]="['/courses', course.id]" class="text-primary">{{ course.title }}</a>
+                      <a [routerLink]="['/courses', course.courseAssignments[0].courseEnrollments[0].id]"
+                        class="text-primary">{{ course.title }}</a>
                     </h6>
                     <div class="task-attributes justify-content-between" *ngFor="
                         let enrollment of course.courseAssignments[0]

@@ -4,6 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ConfigService } from 'src/app/config/config.service';
 import { AuthService } from 'src/app/services/auth/auth.service';
+import { CourseTaskService } from 'src/app/services/course-task/course-task.service';
 import * as moment from 'moment';
 
 @Component({
@@ -21,14 +22,15 @@ export class CourseAchievementsComponent {
     private toastr: ToastrService,
     private authService: AuthService,
     private apiServices: ApiService,
+    private courseTaskService: CourseTaskService,
     private config: ConfigService,
     private route: ActivatedRoute,
     private router: Router
   ) {}
 
   ngOnInit(): void {
-    this.route.parent?.params.subscribe((params: any) => {
-      this.courseId = params.id;
+    this.courseTaskService.getCourseId().subscribe((data: any) => {
+      this.courseId = data;
       this.getAchievements();
     });
   }

@@ -34,7 +34,9 @@ export class CourseTaskTypeReadingComponent {
   ) {}
 
   ngOnInit(): void {
-    this.courseId = this.courseTaskService.getCourseId();
+    this.courseTaskService.getCourseId().subscribe((data: any) => {
+      this.courseId = data;
+    });
 
     this.courseTaskService.getTaskId().subscribe((data: any) => {
       this.taskId = data;
@@ -72,7 +74,6 @@ export class CourseTaskTypeReadingComponent {
   }
 
   goToPage() {
-    console.log(this.pageNumber);
     if (
       this.pageNumber &&
       this.pageNumber >= 1 &&

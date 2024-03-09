@@ -53,7 +53,6 @@ export class TeamsComponent {
     };
     this.apiServices.postRequest(data).subscribe((data) => {
       this.teams = data.data;
-      console.log(this.teams);
       this.loading = false;
     });
   }

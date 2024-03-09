@@ -234,7 +234,6 @@ export class LectureComponent {
     }
     this.apiServices.postRequest(data).subscribe((response) => {
       this.taskDetails = response.data;
-      console.log(this.taskDetails);
       if (this.taskDetails?.courseTaskProgresses.length > 0) {
         this.taskDetails.progress =
           this.taskDetails?.courseTaskProgresses[0].percentage;
@@ -282,7 +281,6 @@ export class LectureComponent {
     };
     this.apiServices.postRequest(data).subscribe((response) => {
       this.assessments = response.data;
-      console.log(this.assessments);
       this.assessments.forEach((assignment: any) => {
         assignment.courseTaskAssessmentQuestions.forEach((question: any) => {
           var options = question.options.split(',');
@@ -569,8 +567,6 @@ export class LectureComponent {
 
   checkPauseTime() {
     this.videoPlayer?.nativeElement.addEventListener('timeupdate', () => {
-      // console.log(this.videoPlayer.nativeElement);
-      // console.log(this.assessments);
       if (
         this.assessments.length > 0 &&
         this.videoPlayer.nativeElement.currentTime >=

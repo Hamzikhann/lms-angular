@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { ConfigService } from 'src/app/config/config.service';
 import { PdfViewerComponent } from 'ng2-pdf-viewer';
+import { CourseTaskService } from 'src/app/services/course-task/course-task.service';
 
 @Component({
   selector: 'app-course-books',
@@ -49,6 +50,7 @@ export class CourseBooksComponent {
     private apiServices: ApiService,
     private route: ActivatedRoute,
     private authService: AuthService,
+    private courseTaskService: CourseTaskService,
     private config: ConfigService
   ) {}
 
@@ -58,8 +60,8 @@ export class CourseBooksComponent {
       this.permission = { create: true, update: true, delete: true };
     }
 
-    this.route.parent?.params.subscribe((params: any) => {
-      this.courseId = params.id;
+    this.courseTaskService.getCourseId().subscribe((data: any) => {
+      this.courseId = data;
       this.getBooks();
     });
   }
@@ -77,7 +79,6 @@ export class CourseBooksComponent {
     };
     this.apiServices.postRequest(data).subscribe((response) => {
       this.books = response.data;
-      console.log(this.books);
       this.filteredBooks = this.books;
       this.loading = false;
     });
@@ -117,7 +118,6 @@ export class CourseBooksComponent {
     if (this.book.eBook) {
       payload.append('ebook', this.book.eBook);
     }
-    console.log(this.book.eBook);
 
     const data = {
       path: 'course/books/update ',
@@ -234,7 +234,6 @@ export class CourseBooksComponent {
   }
 
   goToPage() {
-    console.log(this.pageNumber);
     if (
       this.pageNumber &&
       this.pageNumber >= 1 &&

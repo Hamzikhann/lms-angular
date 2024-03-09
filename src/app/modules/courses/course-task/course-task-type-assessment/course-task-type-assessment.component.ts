@@ -31,6 +31,8 @@ export class CourseTaskTypeAssessmentComponent {
   };
 
   courseId: any;
+  courseDetails: any;
+  courseSyllabus: any;
   enrollmentId: any;
   taskId: any;
   taskIdNext: any;
@@ -93,8 +95,23 @@ export class CourseTaskTypeAssessmentComponent {
       };
     }
 
-    this.courseId = this.courseTaskService.getCourseId();
-    this.enrollmentId = this.courseTaskService.getEnrollmentId();
+    this.courseTaskService.getEnrollmentId().subscribe((data: any) => {
+      this.enrollmentId = data;
+    });
+
+    this.courseTaskService.getCourseId().subscribe((data: any) => {
+      this.courseId = data;
+    });
+
+    this.courseTaskService.getCourseDetails().subscribe((data: any) => {
+      this.courseDetails = data;
+      if (this.courseDetails) {
+        this.courseSyllabus = {
+          id: this.courseDetails.courseSyllabus?.id,
+          title: this.courseDetails.courseSyllabus?.title,
+        };
+      }
+    });
 
     this.courseTaskService.getTaskId().subscribe((data: any) => {
       this.taskId = data;
@@ -267,7 +284,6 @@ export class CourseTaskTypeAssessmentComponent {
       answer: question.answer,
       type: question.type,
     };
-    console.log(this.question);
   }
   setAssessmentQuestionFormType(name: any) {
     this.questionFormType = name;
@@ -314,32 +330,47 @@ export class CourseTaskTypeAssessmentComponent {
     };
     this.apiServices.postRequest(data).subscribe((data) => {
       if (this.taskDetails.courseTaskType.title == 'Assessment') {
-        this.courseTaskService.callTaskDetailsAPI(this.taskId);
+        this.courseTaskService.callTaskDetailsAPI(
+          this.taskId,
+          this.courseId,
+          this.enrollmentId
+        );
         window.scroll({
           top: 0,
           behavior: 'smooth',
         });
         setTimeout(() => {
           if (!this.taskIdNext && this.taskDetails.progress != '0') {
-            this.router.navigate(['/courses', this.courseId, 'achievements']);
+            const userRole = this.loggedInUser.role.title;
+            this.router.navigate([
+              '/courses',
+              userRole == 'User' ? this.enrollmentId : this.courseId,
+              'achievements',
+            ]);
           }
         }, 5000);
       } else {
         this.goToNextTask();
       }
-      this.courseTaskService.callModulesAPI();
+
+      this.reloadCourseModules();
     });
   }
   goToNextTask() {
+    const userRole = this.loggedInUser.role.title;
     if (this.taskIdNext) {
       this.router.navigate([
         '/courses',
-        this.courseId,
+        userRole == 'User' ? this.enrollmentId : this.courseId,
         'task',
         this.taskIdNext,
       ]);
     } else {
-      this.router.navigate(['/courses', this.courseId, 'achievements']);
+      this.router.navigate([
+        '/courses',
+        userRole == 'User' ? this.enrollmentId : this.courseId,
+        'achievements',
+      ]);
     }
   }
   validateAssessmentAnswer() {
@@ -382,5 +413,12 @@ export class CourseTaskTypeAssessmentComponent {
     this.submitted = false;
     this.error = false;
     this.courseTaskService.callAssessmentAPI(this.taskId);
+  }
+
+  reloadCourseModules() {
+    this.courseTaskService.callModulesAPI(
+      this.courseSyllabus.id,
+      this.enrollmentId
+    );
   }
 }

@@ -47,7 +47,6 @@ export class CourseAssignmnetReportComponent {
     };
     this.apiServices.postRequest(data).subscribe((response) => {
       this.courseDetail = response.data.courseDetail;
-      console.log(this.courseDetail);
       this.courseEnrollments = response.data.courseEnrollments;
       this.loading = false;
     });

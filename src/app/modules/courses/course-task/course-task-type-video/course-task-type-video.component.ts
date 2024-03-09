@@ -33,8 +33,13 @@ export class CourseTaskTypeVideoComponent {
     | undefined;
 
   ngOnInit(): void {
-    this.courseId = this.courseTaskService.getCourseId();
-    this.enrollmentId = this.courseTaskService.getEnrollmentId();
+    this.courseTaskService.getCourseId().subscribe((data: any) => {
+      this.courseId = data;
+    });
+
+    this.courseTaskService.getEnrollmentId().subscribe((data: any) => {
+      this.enrollmentId = data;
+    });
 
     this.courseTaskService.getTaskId().subscribe((data: any) => {
       this.taskId = data;
@@ -46,6 +51,7 @@ export class CourseTaskTypeVideoComponent {
         this.taskDetails = data;
       }, 100);
     });
+
     this.courseTaskService.getAssessments().subscribe((data: any) => {
       this.assessments = data;
     });
