@@ -34,6 +34,7 @@
                     name="fname"
                     [(ngModel)]="user.firstName"
                     [disabled]="formType == 'delete'"
+                    placeholder="Enter first name"
                   />
                 </div>
               </div>
@@ -47,6 +48,7 @@
                     name="lname"
                     [(ngModel)]="user.lastName"
                     [disabled]="formType == 'delete'"
+                    placeholder="Enter last name"
                   />
                 </div>
               </div>
@@ -62,6 +64,7 @@
                     autocomplete="off"
                     required
                     [disabled]="formType == 'delete'"
+                    placeholder="Enter email"
                   />
                 </div>
               </div>
@@ -76,6 +79,7 @@
                     name="upassword"
                     autocomplete="off"
                     [(ngModel)]="user.password"
+                    placeholder="Enter password"
                   />
                 </div>
               </div>
@@ -347,6 +351,7 @@
             id="newPassword"
             name="newPassword"
             [(ngModel)]="newPassword"
+            placeholder="Enter new password"
           />
         </div>
       </div>

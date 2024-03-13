@@ -117,12 +117,28 @@ export class DashboardComponent implements OnInit {
 
       if (
         this.courseStats.courses.enrolled &&
+        this.courseStats.courses.enrolled.length > 3
+      ) {
+        this.courseStats.courses.enrolled =
+          this.courseStats.courses.enrolled.slice(0, 3);
+      }
+      if (
+        this.courseStats.courses.enrolled &&
         this.courseStats.courses.enrolled.length
       )
         this.courseStats.courses.enrolled.forEach((element: any) => {
           element.createdAt = moment(element.createdAt).format('MM/DD/YYYY');
         });
 
+      if (
+        this.courseStats?.achievements &&
+        this.courseStats.achievements.length > 4
+      ) {
+        this.courseStats.achievements = this.courseStats.achievements.slice(
+          0,
+          4
+        );
+      }
       if (this.courseStats?.achievements)
         this.courseStats.achievements.forEach((element: any) => {
           element.createdAt = moment(element.createdAt).format('MM/DD/YYYY');

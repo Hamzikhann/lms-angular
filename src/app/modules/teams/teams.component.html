@@ -28,7 +28,7 @@
             <div class="form-group">
               <label for="title" class="form-label">Title</label>
               <input type="text" class="form-control" id="title" name="title" [(ngModel)]="team.title"
-                [disabled]="teamsFormType == 'delete'" />
+                [disabled]="teamsFormType == 'delete'" placeholder="Enter team title"/>
             </div>
             <div class="form-buttons">
               <button type="submit" class="btn btn-primary" (click)="addTeam()" *ngIf="teamsFormType == 'create'"
