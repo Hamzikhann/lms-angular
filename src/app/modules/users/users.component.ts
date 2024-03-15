@@ -93,32 +93,38 @@ export class UsersComponent {
   }
 
   getDepartments() {
+    this.loading = true;
     const data = {
       path: 'users/list/departments',
       payload: {},
     };
     this.apiServices.postRequest(data).subscribe((data) => {
       this.departments = data.data;
+      this.loading = false;
     });
   }
 
   getDesignations() {
+    this.loading = true;
     const data = {
       path: 'users/list/designations',
       payload: {},
     };
     this.apiServices.postRequest(data).subscribe((data) => {
       this.designations = data.data;
+      this.loading = false;
     });
   }
 
   getClients() {
+    this.loading = true;
     const data = {
       path: 'clients/list',
       payload: {},
     };
     this.apiServices.postRequest(data).subscribe((data) => {
       this.clients = data.data;
+      this.loading = false;
     });
   }
 

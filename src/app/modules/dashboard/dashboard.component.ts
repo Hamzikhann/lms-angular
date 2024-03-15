@@ -103,6 +103,7 @@ export class DashboardComponent implements OnInit {
   }
 
   getCourseStatistics() {
+    this.loading = true;
     const data = {
       path: 'dashboard',
       payload: {},
@@ -143,6 +144,7 @@ export class DashboardComponent implements OnInit {
         this.courseStats.achievements.forEach((element: any) => {
           element.createdAt = moment(element.createdAt).format('MM/DD/YYYY');
         });
+      this.loading = false;
     });
   }
 
