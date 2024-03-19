@@ -8,9 +8,13 @@
     <div class="page-separator__text" *ngIf="syllabus.id">
       {{ syllabus.title }}
     </div>
-    <button class="btn btn-primary btn-sm ml-5" *ngIf="loggedInUser.role.title == 'User' && taskTodo"
+    <button class="btn btn-primary btn-sm ml-5" *ngIf="loggedInUser.role.title == 'User' && taskTodo && !zeroCourseProgress"
       [routerLink]="['/courses', loggedInUser.role.title == 'User' ? enrollmentId : courseId, 'task', taskTodo.id]">
       Resume Course
+    </button>
+    <button class="btn btn-primary btn-sm ml-5" *ngIf="loggedInUser.role.title == 'User' && taskTodo && zeroCourseProgress"
+      [routerLink]="['/courses', loggedInUser.role.title == 'User' ? enrollmentId : courseId, 'task', taskTodo.id]">
+      Start Course
     </button>
   </div>
 

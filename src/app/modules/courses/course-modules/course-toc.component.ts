@@ -13,6 +13,7 @@ import { CourseTaskService } from 'src/app/services/course-task/course-task.serv
   styleUrls: ['./course-toc.component.css'],
 })
 export class CourseTocComponent {
+  zeroCourseProgress: boolean = false;
   loggedInUser: any;
   permission: any = {
     module: { create: false, update: false, delete: false },
@@ -79,6 +80,7 @@ export class CourseTocComponent {
   ) {}
 
   ngOnInit(): void {
+    this.loading = true;
     this.loggedInUser = JSON.parse(this.authService.getUser());
     if (this.loggedInUser.role.title == 'Administrator') {
       this.permission = {
@@ -89,14 +91,22 @@ export class CourseTocComponent {
 
     this.courseTaskService.getEnrollmentId().subscribe((data: any) => {
       this.enrollmentId = data;
+      this.loading = false;
     });
 
     this.courseTaskService.getEnrollmentDetails().subscribe((data: any) => {
       this.enrollmentDetails = data;
+      if (this.enrollmentDetails.progress == 0) {
+        this.zeroCourseProgress = true;
+      } else {
+        this.zeroCourseProgress = false;
+      }
+      this.loading = false;
     });
 
     this.courseTaskService.getCourseId().subscribe((data: any) => {
       this.courseId = data;
+      this.loading = false;
     });
 
     this.courseTaskService.getCourseDetails().subscribe((data: any) => {
@@ -107,6 +117,7 @@ export class CourseTocComponent {
           title: this.courseDetails.courseSyllabus?.title,
         };
       }
+      this.loading = false;
     });
 
     this.courseTaskService.getModules().subscribe((data: any) => {
@@ -139,6 +150,7 @@ export class CourseTocComponent {
           }
         }
       }
+      this.loading = false;
     });
   }
 

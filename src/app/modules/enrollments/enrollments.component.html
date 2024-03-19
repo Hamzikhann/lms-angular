@@ -182,6 +182,10 @@
                 [(ngModel)]="enrollment.completionDateTwo"
                 [disabled]="enrollmentFormType == 'delete'"
               />
+              <div class="text-danger" *ngIf="enrollment.completionDateTwo && enrollment.completionDateOne &&
+                enrollment.completionDateTwo < enrollment.completionDateOne">
+                  Completion Date 2 cannot be before Completion Date 1.
+              </div>
             </div>
             <div class="form-buttons">
               <button

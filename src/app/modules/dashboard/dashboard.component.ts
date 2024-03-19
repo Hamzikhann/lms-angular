@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { Router } from '@angular/router';
 import { ChartComponent } from 'ng-apexcharts';
 import { AuthService } from 'src/app/services/auth/auth.service';
@@ -13,7 +14,10 @@ import * as moment from 'moment';
 })
 export class DashboardComponent implements OnInit {
   ImgBaseURL: string = this.config.ImgBaseURL;
-
+  showAllEnrollments = false;
+  showAllAchievements = false;
+  enrollments$: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
+  achievements$: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
   courses: any;
   loggedInUser: any;
   loggedInUserRole: string = '';
@@ -79,7 +83,6 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     this.loggedInUser = JSON.parse(this.authService.getUser());
     this.loggedInUserRole = this.loggedInUser.role.title;
-
     this.getCourseStatistics();
     this.getCourses();
   }
@@ -118,28 +121,21 @@ export class DashboardComponent implements OnInit {
 
       if (
         this.courseStats.courses.enrolled &&
-        this.courseStats.courses.enrolled.length > 3
-      ) {
-        this.courseStats.courses.enrolled =
-          this.courseStats.courses.enrolled.slice(0, 3);
-      }
-      if (
-        this.courseStats.courses.enrolled &&
         this.courseStats.courses.enrolled.length
       )
         this.courseStats.courses.enrolled.forEach((element: any) => {
           element.createdAt = moment(element.createdAt).format('MM/DD/YYYY');
         });
 
-      if (
-        this.courseStats?.achievements &&
-        this.courseStats.achievements.length > 4
-      ) {
-        this.courseStats.achievements = this.courseStats.achievements.slice(
-          0,
-          4
-        );
-      }
+      // if (
+      //   this.courseStats?.achievements &&
+      //   this.courseStats.achievements.length > 4
+      // ) {
+      //   this.courseStats.achievements = this.courseStats.achievements.slice(
+      //     0,
+      //     4
+      //   );
+      // }
       if (this.courseStats?.achievements)
         this.courseStats.achievements.forEach((element: any) => {
           element.createdAt = moment(element.createdAt).format('MM/DD/YYYY');

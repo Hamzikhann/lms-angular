@@ -11,6 +11,7 @@ import * as moment from 'moment';
   styleUrls: ['./enrollments.component.css'],
 })
 export class EnrollmentsComponent {
+  wrongDate: boolean = false;
   loggedInUser: any;
   courses: any = [];
   userDepartments: any = [];
@@ -56,8 +57,21 @@ export class EnrollmentsComponent {
       this.getUsers();
       this.getTeams();
       this.getEnrollments();
+      this.validateDates();
     } else {
       this.router.navigate(['/']);
+    }
+  }
+
+  validateDates() {
+    if (
+      this.enrollment.completionDateTwo &&
+      this.enrollment.completionDateOne &&
+      this.enrollment.completionDateTwo < this.enrollment.completionDateOne
+    ) {
+      this.wrongDate = true;
+    } else {
+      this.wrongDate = false;
     }
   }
 
@@ -135,6 +149,11 @@ export class EnrollmentsComponent {
   }
 
   createEnrollment() {
+    this.validateDates();
+    if (this.wrongDate) {
+      this.toastr.error('Completion Date 2 cannot be before Completion Date 1');
+      return;
+    }
     const data: any = {
       path: 'course/enrollments/create',
       payload: {
@@ -160,6 +179,11 @@ export class EnrollmentsComponent {
   }
 
   updateEnrollment() {
+    this.validateDates();
+    if (this.wrongDate) {
+      this.toastr.error('Completion Date 2 cannot be before Completion Date 1');
+      return;
+    }
     const data: any = {
       path: 'course/enrollments/update',
       payload: {

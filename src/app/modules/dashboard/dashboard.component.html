@@ -276,7 +276,10 @@
           </div>
         </div>
         <div class="page-component">
-          <h5 class="component-title">Active Enrollments</h5>
+          <div class="d-flex justify-content-between">
+            <h5 class="component-title">Active Enrollments</h5>
+            <a [routerLink]="['/enrollments']" *ngIf="courseStats.courses.enrolled.length > 3">View All</a>
+          </div>
           <div class="card">
             <div class="card-body p-0">
               <ng-container *ngIf="courseStats.courses.enrolled.length == 0">
@@ -284,7 +287,7 @@
               </ng-container>
               <ng-container *ngIf="courseStats.courses.enrolled.length > 0">
                 <div class="tasks-list-widget">
-                  <div class="task-row" *ngFor="let enrollment of courseStats.courses.enrolled">
+                  <div class="task-row" *ngFor="let enrollment of courseStats.courses.enrolled.slice(0,3)">
                     <div class="task-info">
                       <div class="d-flex justify-content-between">
                         <h6 class="task-title">
