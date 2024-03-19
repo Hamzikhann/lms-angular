@@ -11,6 +11,7 @@ import { CourseTaskService } from 'src/app/services/course-task/course-task.serv
 export class CourseTaskTypeVideoComponent {
   VideoBaseURL: string = this.config.VideoBaseURL;
 
+  allowMarkAsComplete: boolean = false;
   courseId: any;
   enrollmentId: string = '';
   taskId: any;
@@ -92,7 +93,6 @@ export class CourseTaskTypeVideoComponent {
   }
   validateVideoAssessmentAnswer() {
     this.showError = false;
-
     this.submission.forEach((questionSubmission: any) => {
       this.assessments[0].courseTaskAssessmentQuestions.forEach(
         (question: any) => {
@@ -110,11 +110,16 @@ export class CourseTaskTypeVideoComponent {
     });
 
     if (!this.showError) {
+      this.allowMarkAsComplete = true;
       this.passAssessment = true;
       this.closeVideoAssessmentModal?.nativeElement.click();
       this.videoPlayer.nativeElement.play();
+      this.courseTaskService.updateAllowMarkAsComplete(true);
     }
   }
+  // send_Allow_Mark_As_Complete_Flag() {
+  //   return this.allowMarkAsComplete;
+  // }
   retryVideoAssessment() {
     this.showError = false;
     this.passAssessment = true;

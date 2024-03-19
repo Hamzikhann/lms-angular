@@ -4,6 +4,7 @@ import { ApiService } from 'src/app/services/users/api.service';
 import { CourseTaskService } from 'src/app/services/course-task/course-task.service';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth/auth.service';
+// import {send_Allow_Mark_As_Complete_Flag} from 'src/app/modules/courses/course-task/course-task-type-video/course-task-type-video.component'
 
 @Component({
   selector: 'app-course-task-mark-complete',
@@ -11,6 +12,7 @@ import { AuthService } from 'src/app/services/auth/auth.service';
   styleUrls: ['./course-task-mark-complete.component.css'],
 })
 export class CourseTaskMarkCompleteComponent {
+  markComplete: boolean = false;
   loggedInUser: any;
   courseId: any;
   courseDetails: any;
@@ -28,6 +30,7 @@ export class CourseTaskMarkCompleteComponent {
   ) {}
 
   ngOnInit(): void {
+    // console.log(this.courseDetails);
     this.loggedInUser = JSON.parse(this.authService.getUser());
 
     this.courseTaskService.getEnrollmentId().subscribe((data: any) => {
@@ -58,6 +61,9 @@ export class CourseTaskMarkCompleteComponent {
 
     this.courseTaskService.getTaskDetails().subscribe((data: any) => {
       this.taskDetails = data;
+    });
+    this.courseTaskService.currentAllowMarkAsComplete.subscribe((status) => {
+      this.markComplete = status;
     });
   }
 

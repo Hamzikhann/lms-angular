@@ -33,6 +33,7 @@ export class CoursesComponent {
       this.permission = { create: true, update: true, delete: true };
     }
     this.getCourses();
+    // console.log(this.courseDetails);
   }
 
   getCourses() {

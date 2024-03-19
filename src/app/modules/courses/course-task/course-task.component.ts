@@ -44,6 +44,7 @@ export class CourseTaskComponent {
 
     this.courseTaskService.getEnrollmentId().subscribe((data: any) => {
       this.enrollmentId = data;
+      console.log(this.taskDetails);
     });
 
     this.courseTaskService.getCourseId().subscribe((data: any) => {

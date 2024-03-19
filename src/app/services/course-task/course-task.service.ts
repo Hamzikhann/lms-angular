@@ -49,6 +49,12 @@ export class CourseTaskService {
     this.assessments = new BehaviorSubject<any>([]);
     this.loading = new BehaviorSubject<any>(false);
   }
+  private allowMarkAsCompleteSource = new BehaviorSubject<boolean>(false);
+  currentAllowMarkAsComplete = this.allowMarkAsCompleteSource.asObservable();
+
+  updateAllowMarkAsComplete(status: boolean) {
+    this.allowMarkAsCompleteSource.next(status);
+  }
 
   setCourse(id: string, data: any) {
     this.courseId.next(id);
