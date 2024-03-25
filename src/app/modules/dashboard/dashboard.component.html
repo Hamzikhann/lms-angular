@@ -421,10 +421,12 @@
         </div>
         <div class="page-component">
           <h5 class="component-title">Teams</h5>
+          <a [routerLink]="['/teams']" *ngIf="courseStats.teams.length > 2">View All</a>
           <div class="card card-users">
             <div class="card-body">
+              <!-- <a [routerLink]="['/teams']" *ngIf="courseStats.teams.length > 2">View All</a> -->
               <ng-container *ngIf="courseStats.teams && courseStats.teams.length > 0">
-                <div class="team-row" *ngFor="let team of courseStats.teams">
+                <div class="team-row" *ngFor="let team of courseStats.teams.slice(0,3)">
                   <h6 class="team-title">{{ team.title }}</h6>
                   <div class="team-images">
                     <ng-container *ngIf="team.teamUsers.length > 3">
