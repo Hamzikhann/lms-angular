@@ -58,6 +58,13 @@ export class CourseTaskTypeVideoComponent {
     });
   }
 
+  isFormComplete(): boolean {
+    return (
+      this.submission.length ===
+      this.assessments[0].courseTaskAssessmentQuestions.length
+    );
+  }
+
   getSubmissions(event: any, questionId: string) {
     var updated = false;
     var value = event.target.value;
