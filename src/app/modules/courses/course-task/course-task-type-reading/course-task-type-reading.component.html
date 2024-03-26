@@ -1,6 +1,103 @@
 <div class="card card-brt-0" *ngIf="taskDetails">
   <div class="card-body">
     <div
+      class="description-container"
+      *ngIf="taskDetails.courseTaskContent.description"
+      [innerHTML]="taskDetails.courseTaskContent.description"
+    ></div>
+
+    <div
+      class="pdf-container"
+      *ngIf="taskDetails.courseTaskContent.handoutLink"
+    >
+      <div class="row mb-4">
+        <div class="col-6">
+          <div class="search-form search-form--light">
+            <button class="btn" style="white-space: nowrap">Search</button>
+            <input
+              type="text"
+              class="form-control form-input"
+              placeholder="Text or Keyword"
+              (change)="search($event.target)"
+            />
+            <button class="btn" type="submit">
+              <i class="material-icons">search</i>
+            </button>
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="search-form search-form--light">
+            <button class="btn" style="white-space: nowrap">Page #</button>
+            <input
+              type="number"
+              min="1"
+              class="form-control form-input p-0"
+              [(ngModel)]="pageNumber"
+              (change)="goToPage()"
+            />
+            <button class="btn pl-0" type="submit">
+              <i class="material-icons">search</i>
+            </button>
+          </div>
+        </div>
+        <div class="col">
+          <div
+            class="search-form search-form--light p-1"
+            style="width: 13vh; height: 6vh"
+          >
+            <button (click)="ZoomOutPdf()" class="border-0">
+              <i class="material-icons">zoom_out</i>
+            </button>
+            <button (click)="ZoomInPdf()" class="border-0">
+              <i class="material-icons">zoom_in</i>
+            </button>
+          </div>
+        </div>
+      </div>
+      <pdf-viewer
+        [src]="ImgBaseURL + taskDetails.courseTaskContent.handoutLink"
+        [original-size]="false"
+        [show-all]="true"
+        [fit-to-page]="false"
+        [zoom]="zoom"
+        [zoom-scale]="'page-width'"
+        [stick-to-page]="false"
+        [render-text]="true"
+        [external-link-target]="'blank'"
+        [autoresize]="true"
+        [page]="currentPage"
+        (after-load-complete)="afterLoadComplete($event)"
+        style="
+          width: 100%;
+          height: 600px;
+          border: 1px solid #edf0f2;
+          box-shadow: inset 0 1px 1px rgba(39, 44, 51, 0.075);
+        "
+      ></pdf-viewer>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <div class="card card-brt-0" *ngIf="taskDetails">
+  <div class="card-body">
+    <div
       class="pdf-container"
       *ngIf="taskDetails.courseTaskContent.handoutLink"
     >
@@ -75,4 +172,4 @@
       [innerHTML]="taskDetails.courseTaskContent.description"
     ></div>
   </div>
-</div>
+</div> -->
