@@ -229,7 +229,7 @@
           <ng-container *ngIf="loading">
             <img src="/assets/images/loading.svg" width="20" class="mb-3" />
           </ng-container>
-          <ng-container *ngIf="!loading && enrollments.length > 0">
+          <ng-container *ngIf="!loading || enrollments.length > 0">
             <table
               class="table table-sm table-hover table-bordered mb-0"
               datatable
@@ -322,12 +322,15 @@
                 </ng-container>
               </tbody>
             </table>
+            <!-- <div *ngIf="enrollments.length === 0" class="no-enrollments-message">
+              No enrollment found
+            </div> -->
           </ng-container>
-          <ng-container *ngIf="!enrollments || enrollments.length === 0 ">
+          <!-- <ng-container *ngIf="!enrollments || enrollments.length === 0 ">
             <div class="no-enrollmennts-message">
                No enrollment found
             </div>
-          </ng-container>
+          </ng-container> -->
         </div>
       </div>
     </div>
