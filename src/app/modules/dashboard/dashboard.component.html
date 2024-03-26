@@ -421,7 +421,7 @@
         </div>
         <div class="page-component">
           <h5 class="component-title">Teams</h5>
-          <a [routerLink]="['/teams']" *ngIf="courseStats.teams.length > 2">View All</a>
+          <a [routerLink]="['/teams']" *ngIf="courseStats.teams.length > 3">View All</a>
           <div class="card card-users">
             <div class="card-body">
               <!-- <a [routerLink]="['/teams']" *ngIf="courseStats.teams.length > 2">View All</a> -->
@@ -449,6 +449,11 @@
                       </ng-container>
                     </ng-container>
                   </div>
+                </div>
+              </ng-container>
+              <ng-container *ngIf="!courseStats.teams || courseStats.teams.length === 0">
+                <div class="no-teams-message">
+                   No team found
                 </div>
               </ng-container>
             </div>

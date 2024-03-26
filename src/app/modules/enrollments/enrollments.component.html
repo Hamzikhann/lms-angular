@@ -323,6 +323,11 @@
               </tbody>
             </table>
           </ng-container>
+          <ng-container *ngIf="!enrollments || enrollments.length === 0 ">
+            <div class="no-enrollmennts-message">
+               No enrollment found
+            </div>
+          </ng-container>
         </div>
       </div>
     </div>

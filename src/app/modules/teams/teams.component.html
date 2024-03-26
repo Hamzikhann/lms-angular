@@ -57,6 +57,11 @@
           <ng-container *ngIf="loading">
             <img src="/assets/images/loading.svg" width="20" class="mb-3" />
           </ng-container>
+          <ng-container *ngIf="!teams || teams.length === 0">
+            <div class="no-teams-message">
+               No team found
+            </div>
+          </ng-container>
           <table *ngIf="!loading && teams.length > 0" class="table table-sm table-hover table-bordered mb-0" datatable
             [dtOptions]="dtOptions">
             <thead class="bg-light">

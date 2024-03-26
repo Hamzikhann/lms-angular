@@ -1,6 +1,7 @@
 <div class="card mt-4" *ngIf="taskDetails && taskDetails.progress == '0'">
   <div class="card-body">
-    <div class="d-flex align-items-center justify-content-between" *ngIf="markComplete">
+    <!-- <div class="d-flex align-items-center justify-content-between" *ngIf="markComplete"> -->
+    <div class="d-flex align-items-center justify-content-between">
       <h6 class="mb-0">Have you completed this task?</h6>
       <button type="button" class="btn btn-outline-dark btn-sm" (click)="updateTaskProgress()">
         Mark as Completed
