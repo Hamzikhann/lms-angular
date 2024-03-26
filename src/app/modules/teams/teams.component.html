@@ -57,53 +57,51 @@
           <ng-container *ngIf="loading">
             <img src="/assets/images/loading.svg" width="20" class="mb-3" />
           </ng-container>
-          <ng-container *ngIf="!teams || teams.length === 0">
+          <!-- <ng-container *ngIf="!teams || teams.length === 0">
             <div class="no-teams-message">
                No team found
             </div>
-          </ng-container>
-          <!-- <ng-container *ngIf="!loading || teams.length > 0"> -->
-            <table *ngIf="!loading && teams.length > 0" class="table table-sm table-hover table-bordered mb-0" datatable
-              [dtOptions]="dtOptions">
-              <thead class="bg-light">
+          </ng-container> -->
+          <table *ngIf="!loading || teams.length > 0" class="table table-sm table-hover table-bordered mb-0" datatable
+            [dtOptions]="dtOptions">
+            <thead class="bg-light">
+              <tr>
+                <th scope="col">Title</th>
+                <th scope="col">Users</th>
+                <th scope="col" class="text-center">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <ng-container *ngFor="let team of teams; let i = index">
                 <tr>
-                  <th scope="col">Title</th>
-                  <th scope="col">Users</th>
-                  <th scope="col" class="text-center">Actions</th>
+                  <td>{{ team.title }}</td>
+                  <td>
+                    <div class="badge badge-primary mr-1" data-toggle="modal" data-target="#classModal"
+                      (click)="setTeam(team); setUserFormType('create')">
+                      Add <span class="material-icons ml-1">add</span>
+                    </div>
+                    <ng-container *ngFor="let user of team.teamUsers">
+                      <div class="badge badge-light mr-1">
+                        {{ user.user.firstName + user.user.lastName }}
+                        <span class="material-icons" data-toggle="modal" data-target="#classModal"
+                          (click)="setUser(user); setUserFormType('delete')">delete</span>
+                      </div>
+                    </ng-container>
+                  </td>
+                  <td class="text-center">
+                    <div class="buttons">
+                      <span class="badge badge-primary p-1 mr-2" (click)="setTeam(team); setTeamFormType('update')">
+                        <i class="material-icons mr-0">edit</i>
+                      </span>
+                      <span class="badge badge-primary p-1 mr-2" (click)="setTeam(team); setTeamFormType('delete')">
+                        <i class="material-icons mr-0">delete</i>
+                      </span>
+                    </div>
+                  </td>
                 </tr>
-              </thead>
-              <tbody>
-                <ng-container *ngFor="let team of teams; let i = index">
-                  <tr>
-                    <td>{{ team.title }}</td>
-                    <td>
-                      <div class="badge badge-primary mr-1" data-toggle="modal" data-target="#classModal"
-                        (click)="setTeam(team); setUserFormType('create')">
-                        Add <span class="material-icons ml-1">add</span>
-                      </div>
-                      <ng-container *ngFor="let user of team.teamUsers">
-                        <div class="badge badge-light mr-1">
-                          {{ user.user.firstName + user.user.lastName }}
-                          <span class="material-icons" data-toggle="modal" data-target="#classModal"
-                            (click)="setUser(user); setUserFormType('delete')">delete</span>
-                        </div>
-                      </ng-container>
-                    </td>
-                    <td class="text-center">
-                      <div class="buttons">
-                        <span class="badge badge-primary p-1 mr-2" (click)="setTeam(team); setTeamFormType('update')">
-                          <i class="material-icons mr-0">edit</i>
-                        </span>
-                        <span class="badge badge-primary p-1 mr-2" (click)="setTeam(team); setTeamFormType('delete')">
-                          <i class="material-icons mr-0">delete</i>
-                        </span>
-                      </div>
-                    </td>
-                  </tr>
-                </ng-container>
-              </tbody>
-            </table>
-          <!-- </ng-container> -->
+              </ng-container>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
