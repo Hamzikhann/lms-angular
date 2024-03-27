@@ -1,4 +1,61 @@
 <div class="mdk-drawer-layout js-mdk-drawer-layout">
+  <div class="mdk-drawer-layout__content page-content" style="background-image: url('../../../assets/images/signin-background.jpeg'); background-size: 1000px 1000px;background-position: right; background-repeat: no-repeat;">
+    <div class="container page__container">
+
+      <div class="col-md-5 fvc-content">
+        <div class="login-form">
+          <div class="login-form-overlay">  <div class="logo">
+              <a href="javascript:void(0)" class="navbar-brand w-50">
+                <img src="/assets/images/logo/logo-senastic.png" class="img-fluid" alt="logo" />
+              </a>
+            </div>
+            <div class="auth-form mt-48pt">
+              <form #signin="ngForm" (ngSubmit)="signIn(signin)">
+                <div class="form-group">
+                  <label class="form-label" for="lms-email">Email:</label>
+                  <input id="lms-email" name="email" type="text" class="form-control" placeholder="Your email address ..."
+                    ngModel autocomplete="false" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="lms-password">Password:</label>
+                  <input id="lms-password" name="password" type="password" class="form-control"
+                    placeholder="Your password ..." autocomplete="false" ngModel required>
+                </div>
+                <div class="actions mt-4">
+                  <button class="btn btn-dark" [disabled]="signin.invalid">Sign In</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <div class="mdk-drawer-layout js-mdk-drawer-layout">
   <div class="mdk-drawer-layout__content page-content">
     <div class="container page__container">
       <div class="col-md-5 fvc-content">
@@ -29,4 +86,4 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->

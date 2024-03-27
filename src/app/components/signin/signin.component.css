@@ -3,3 +3,12 @@
   align-items: center;
   height: 100vh;
 }
+.login-form-overlay {
+  background-color: rgba(57, 149, 231, 0.15);
+  padding: 20px;
+  border-radius: 20px;
+}
+.login-form {
+  position: relative;
+  z-index: 1;
+}
