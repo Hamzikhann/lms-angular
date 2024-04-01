@@ -164,7 +164,9 @@
         </ng-container>
         <div class="page-component" *ngIf="!loading">
           <h5 class="component-title">My Courses</h5>
-
+          <div *ngIf="courses.length === 0">
+            <p>No courses found</p>
+          </div>
           <div class="row">
             <div class="col-lg-4 col-sm-12 col-xs-12" *ngFor="let course of courses">
               <div class="card course">
