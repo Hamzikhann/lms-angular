@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ApiService } from 'src/app/services/users/api.service';
 import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-change-password',
@@ -11,7 +12,11 @@ export class ChangePasswordComponent implements OnInit {
   @ViewChild('oldPasswordInput') oldPasswordInput: ElementRef | undefined;
   newPassword = '';
   oldPassword = '';
-  constructor(private toastr: ToastrService, private apiServices: ApiService) {}
+  constructor(
+    private toastr: ToastrService,
+    private apiServices: ApiService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {}
 
@@ -32,7 +37,25 @@ export class ChangePasswordComponent implements OnInit {
     this.apiServices.postRequest(data).subscribe((data) => {
       form.reset();
       this.toastr.success('Password changed successfully!');
+      this.router.navigate(['/']);
     });
+  }
+  togglePassword(fieldId: string) {
+    const passwordInput = document.getElementById(fieldId) as HTMLInputElement;
+    if (passwordInput) {
+      passwordInput.type =
+        passwordInput.type === 'password' ? 'text' : 'password';
+      const toggleButton = document.querySelector(
+        `button[data-for="${fieldId}"]`
+      ) as HTMLElement;
+      if (toggleButton) {
+        const iElement = toggleButton.querySelector('i') as HTMLElement;
+        if (iElement) {
+          iElement.classList.toggle('fa-eye-slash');
+          iElement.classList.toggle('fa-eye');
+        }
+      }
+    }
   }
 }
 
