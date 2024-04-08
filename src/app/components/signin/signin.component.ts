@@ -10,6 +10,8 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./signin.component.css'],
 })
 export class SigninComponent {
+  password = '';
+  showPassword = false;
   constructor(
     private router: Router,
     private toastr: ToastrService,
@@ -32,5 +34,14 @@ export class SigninComponent {
       this.toastr.success('Logged in successfull!');
       this.router.navigate(['/']);
     });
+  }
+  togglePassword() {
+    this.showPassword = !this.showPassword;
+    const passwordInput = document.getElementById(
+      'lms-password'
+    ) as HTMLInputElement;
+    if (passwordInput) {
+      passwordInput.type = this.showPassword ? 'text' : 'password';
+    }
   }
 }

@@ -12,3 +12,11 @@
   position: relative;
   z-index: 1;
 }
+.toggle-password {
+  position: relative;
+  top: -30px;
+  left: 80%;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
