@@ -71,16 +71,20 @@
               <div class="col-lg-12" *ngIf="formType == 'create'">
                 <div class="form-group">
                   <label for="upassword" class="form-label">Password</label>
-                  <input
-                    type="password"
-                    required
-                    class="form-control"
-                    id="upassword"
-                    name="upassword"
-                    autocomplete="off"
-                    [(ngModel)]="user.password"
-                    placeholder="Enter password"
-                  />
+                  <div class="password-input-container">
+                    <input type="password"
+                          required
+                          class="form-control"
+                          id="upassword"
+                          name="upassword"
+                          autocomplete="off"
+                          [(ngModel)]="user.password"
+                          placeholder="Enter password"
+                    />
+                    <button type="button" class="toggle-password" (click)="togglePassword('upassword')">
+                      <i class="fa fa-eye-slash"></i>
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -345,14 +349,19 @@
       <div class="modal-body">
         <div class="form-group">
           <label for="newPassword" class="form-label">New Password</label>
-          <input
-            type="password"
-            class="form-control"
-            id="newPassword"
-            name="newPassword"
-            [(ngModel)]="newPassword"
-            placeholder="Enter new password"
-          />
+          <div class="password-input-container">
+            <input
+              type="password"
+              class="form-control"
+              id="newPassword"
+              name="newPassword"
+              [(ngModel)]="newPassword"
+              placeholder="Enter new password"
+            />
+            <button type="button" class="toggle-password" (click)="togglePassword('newPassword')">
+              <i class="fa fa-eye-slash"></i>
+            </button>
+          </div>
         </div>
       </div>
       <div class="modal-footer">

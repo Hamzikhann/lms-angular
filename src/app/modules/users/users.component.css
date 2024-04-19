@@ -1,3 +1,17 @@
 .btn-create {
   margin-left: 970px;
 }
+.password-input-container {
+  position: relative;
+}
+
+
+.toggle-password {
+  position: absolute;
+  right: 30px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+}
