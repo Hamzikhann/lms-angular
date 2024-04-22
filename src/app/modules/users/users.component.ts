@@ -134,6 +134,24 @@ export class UsersComponent {
     });
   }
 
+  togglePassword(fieldId: string) {
+    const passwordInput = document.getElementById(fieldId) as HTMLInputElement;
+    if (passwordInput) {
+      passwordInput.type =
+        passwordInput.type === 'password' ? 'text' : 'password';
+      const toggleButton = document.querySelector(
+        `button[data-for="${fieldId}"]`
+      ) as HTMLElement;
+      if (toggleButton) {
+        const iElement = toggleButton.querySelector('i') as HTMLElement;
+        if (iElement) {
+          iElement.classList.toggle('fa-eye-slash');
+          iElement.classList.toggle('fa-eye');
+        }
+      }
+    }
+  }
+
   addUser() {
     this.users = [];
     const data = {
