@@ -243,7 +243,7 @@
           </ng-container>
           <table
             class="table table-sm table-hover table-bordered mb-0"
-            *ngIf="!loading && users.length > 0"
+            *ngIf="!loading && users.length > 0; else noData"
             datatable
             [dtOptions]="dtOptions"
           >
@@ -316,6 +316,13 @@
               </ng-container>
             </tbody>
           </table>
+          <ng-template #noData>
+            <!-- <div class="alert alert-warning" role="alert"> -->
+            <div>
+              No data available
+            </div>
+          </ng-template>
+
         </div>
       </div>
     </div>
