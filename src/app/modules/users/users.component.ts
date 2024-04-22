@@ -75,6 +75,12 @@ export class UsersComponent {
     };
     this.apiServices.postRequest(data).subscribe((data) => {
       this.roles = data.data;
+
+      if (this.loggedInUser.role.title == 'Administrator') {
+        this.roles = this.roles.filter(
+          (role: { title: string }) => role.title !== 'User'
+        );
+      }
     });
   }
 
