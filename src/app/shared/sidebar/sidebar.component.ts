@@ -25,6 +25,7 @@ export class SidebarComponent {
     enrollments: false,
     changePassword: false,
   };
+  clientname: any;
 
   constructor(
     private router: Router,
@@ -36,6 +37,7 @@ export class SidebarComponent {
     this.loggedInUser = JSON.parse(this.authService.getUser());
     this.loggedInUserRole = this.loggedInUser.role.title;
     this.client = this.loggedInUser.client;
+    this.clientname=this.client.name
 
     if (this.router.url.includes('dashboard')) {
       this.sections.dashboard = true;

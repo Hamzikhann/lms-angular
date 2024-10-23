@@ -2,6 +2,7 @@
   <div class="app-logo border-bottom-1">
     <img [src]="'/assets/images/logo/logo-senastic.png'" class="h-32px" *ngIf="!client" />
     <img [src]="imageBaseUrl + client?.logoURL" class="h-32px" *ngIf="client" />
+    <span class="m-2">{{clientname}}</span>
   </div>
   <div class="app-navigation">
     <h4 class="nav-title">Navigation</h4>
