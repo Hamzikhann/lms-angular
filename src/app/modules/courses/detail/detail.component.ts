@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ConfigService } from 'src/app/config/config.service';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { CourseTaskService } from 'src/app/services/course-task/course-task.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-detail',
@@ -37,7 +38,8 @@ export class DetailComponent {
     private courseTaskService: CourseTaskService,
     private config: ConfigService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private location: Location
   ) {}
 
   ngOnInit(): void {
@@ -113,5 +115,10 @@ export class DetailComponent {
       discussion: false,
     };
     this.sections[name] = true;
+  }
+
+
+  goBack(): void {
+    this.location.back();
   }
 }

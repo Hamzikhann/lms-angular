@@ -39,7 +39,9 @@
 .h-32px {
   height: 32px;
 }
-
+.h-90px{
+  height: 90px;
+}
 .form-label {
   font-weight: 500;
   font-size: 12px;
@@ -268,8 +270,8 @@
 
 .app-content {
   padding: 32px;
-  margin-left: 220px;
-  width: calc(100% - 220px);
+  /* margin-left: 220px; */
+  /* width: calc(100% - 220px); */
 }
 
 .progress {
