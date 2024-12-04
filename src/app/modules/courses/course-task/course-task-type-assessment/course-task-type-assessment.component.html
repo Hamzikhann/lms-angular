@@ -8,7 +8,7 @@
           <i class="material-icons">add_circle</i>
         </span>
       </h5>
-      <div *ngFor="let assessment of assessments">
+      <!-- <div *ngFor="let assessment of assessments">
         <div class="assessment" *ngIf="!submitted">
           <div class="d-flex justify-content-between">
             <h5>{{ assessment.title }}</h5>
@@ -105,7 +105,128 @@
             </button>
           </div>
         </ng-container>
+      </div> -->
+      <div *ngFor="let assessment of assessments">
+        <div class="assessment" *ngIf="!submitted">
+          <div class="d-flex justify-content-between">
+            <h5>{{ assessment.title }}</h5>
+            <div class="buttons">
+              <a href="javascript:void(0)" data-toggle="modal" data-target="#assessmentModal"
+                *ngIf="permission.assessment.update"
+                (click)="setAssessment(assessment); setAssessmentFormType('update')">
+                <i class="material-icons fa-lg fs-14pt mx-1">edit</i>
+              </a>
+              <a href="javascript:void(0)" data-toggle="modal" data-target="#assessmentModal"
+                *ngIf="permission.assessment.delete"
+                (click)="setAssessment(assessment); setAssessmentFormType('delete')">
+                <i class="material-icons fa-lg fs-14pt">delete</i>
+              </a>
+            </div>
+          </div>
+          <p>{{ assessment.description }}</p>
+          <hr class="mb-4" />
+        </div>
+        <ng-container *ngIf="!submitted">
+          <div class="assessment-questions" *ngFor="let question of assessment.courseTaskAssessmentQuestions; let i = index">
+            <div class="d-flex justify-content-between">
+              <p>
+                <strong>{{ i + 1 }}. {{ question.title }}</strong>
+              </p>
+              <div class="buttons" *ngIf="loggedInUser.role.title == 'Administrator'">
+                <a href="javascript:void(0)" data-toggle="modal" data-target="#assessmentQuestionModal"
+                  *ngIf="permission.question.update"
+                  (click)="setAssessmentQuestion(question); setAssessmentQuestionFormType('update')">
+                  <i class="material-icons fa-lg fs-14pt mx-1">edit</i>
+                </a>
+                <a href="javascript:void(0)" data-toggle="modal" data-target="#assessmentQuestionModal"
+                  *ngIf="permission.question.delete"
+                  (click)="setAssessmentQuestion(question); setAssessmentQuestionFormType('delete')">
+                  <i class="material-icons fa-lg fs-14pt">delete</i>
+                </a>
+              </div>
+            </div>
+      
+            <!-- Render MCQs -->
+            <ng-container *ngIf="question.type === 'mcqs'">
+              <ul class="pl-2" style="list-style: none">
+                <li *ngFor="let option of question.options; let y = index">
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="radio"
+                      [name]="question.id"
+                      [id]="'option-' + i + y"
+                      [value]="option"
+                      [disabled]="submitted"
+                      (change)="getSubmissions($event, question.id,question.type)" />
+                    <label class="form-check-label fw-400" [for]="'option-' + i + y" style="color: #303840">
+                      {{ option }}
+                    </label>
+                    <span
+                      *ngIf="permission.question.view.answer && option.trim() == question.answer.trim()"
+                      class="badge badge-info ml-2">
+                      correct
+                    </span>
+                  </div>
+                </li>
+              </ul>
+              <ng-container *ngFor="let data of submission">
+                <div *ngIf="error && !(data.id == question.id && data.answer.trim() == question.answer.trim())">
+                  <div class="badge badge-danger mb-4 ml-2" *ngIf="data.id == question.id">
+                    Incorrect Answer
+                  </div>
+                </div>
+              </ng-container>
+            </ng-container>
+      
+            <!-- Render Descriptive Questions -->
+            <ng-container *ngIf="question.type === 'questions'">
+              <div class="form-group">
+                <textarea
+                  class="form-control"
+                  [id]="'question-' + question.id"
+                  [name]="question.id"
+                  rows="3"
+                  placeholder="Type your answer here"
+                  [disabled]="submitted"
+                  (blur)="getSubmissions($event, question.id,question.type)">
+                </textarea>
+              </div>
+            </ng-container>
+          </div>
+          <button
+            type="submit"
+            class="btn btn-primary mt-2 mr-2"
+            *ngIf="permission.assessment.submit && !error"
+            (click)="validateAssessmentAnswer()">
+            Submit
+          </button>
+          <button
+            type="submit"
+            class="btn btn-outline-primary btn-sm"
+            data-toggle="modal"
+            data-target="#assessmentQuestionModal"
+            *ngIf="permission.question.create"
+            (click)="setAssessmentQuestionFormType('create'); setAssessment(assessment)">
+            Add Question
+          </button>
+        </ng-container>
+        <ng-container *ngIf="submitted">
+          <div class="text-center mt-5">
+            <span class="icon-holder icon-holder--outline-success rounded-circle d-inline-flex m-0">
+              <i class="material-icons">emoji_events</i>
+            </span>
+            <div class="flex mt-3">
+              <p class="text-70 mb-0"><strong>Result</strong></p>
+              <h4>{{ taskDetails?.progress }}<small>%</small></h4>
+            </div>
+            <button type="submit" class="btn btn-outline-primary mt-2" (click)="retryAssessment()">
+              Retry
+            </button>
+          </div>
+        </ng-container>
       </div>
+      
     </div>
   </div>
 </div>
@@ -143,6 +264,19 @@
       <div class="modal-body text-primary">
         <form #formTask="ngForm">
           <div class="row">
+            <!-- <div class="col-12">
+              <div class="form-group">
+                <label for="assessmentType" class="form-label">Type</label>
+                <select 
+                  class="form-control" 
+                  id="assessmentType" 
+                  name="assessmentType" 
+                  [(ngModel)]="assessment.type">
+                  <option value="mcqs">MCQs</option>
+                  <option value="questions">Questions</option>
+                </select>
+              </div>
+            </div> -->
             <div class="col-12">
               <div class="form-group">
                 <label for="assessmentTitle" class="form-label">Title</label>
@@ -222,8 +356,27 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body text-primary">
-        <form #formTask="ngForm">
+     <form  #formTask="ngForm">
+
+       <div class="col-12">
+         <div class="form-group">
+           <label for="questionType" class="form-label">Type</label>
+           <select 
+           class="form-control" 
+           id="questionType" 
+           name="questionType" 
+           [(ngModel)]="questionType">
+           <option value="mcqs">MCQs</option>
+           <option value="questions">Questions</option>
+          </select>
+        </div>
+      </div>
+      
+    </form>
+      <div *ngIf="questionType=='mcqs'"  class="modal-body text-primary">
+        
+        
+        <form  #formTask="ngForm">
           <div class="row">
             <div class="col-12">
               <div class="form-group">
@@ -246,6 +399,52 @@
                   [(ngModel)]="question.answer" />
               </div>
             </div>
+            <div class="col-12">
+              <div class="buttons">
+                <button class="btn btn-primary" (click)="createAssessmentQuestion()" *ngIf="
+                    questionFormType == 'create' && permission.question.create
+                  ">
+                  Create
+                </button>
+                <button class="btn btn-primary" (click)="updateAssessmentQuestion()" *ngIf="
+                    questionFormType == 'update' && permission.question.update
+                  ">
+                  Update
+                </button>
+                <button class="btn btn-danger" (click)="deleteAssessmentQuestion()" *ngIf="
+                    questionFormType == 'delete' && permission.question.delete
+                  ">
+                  Delete
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div *ngIf="questionType=='questions'" class="modal-body text-primary">
+        <form #formTask="ngForm" >
+          <div class="row">
+            <div class="col-12">
+              <div class="form-group">
+                <label for="assessmentQuestionTitle" class="form-label">Title</label>
+                <input type="text" class="form-control" id="assessmentQuestionTitle" name="assessmentQuestionTitle"
+                  [(ngModel)]="question.title" />
+              </div>
+            </div>
+            <!-- <div class="col-12">
+              <div class="form-group">
+                <label for="assessmentQuestionOptions" class="form-label">Options (Comma Separated)</label>
+                <textarea class="form-control" id="assessmentQuestionOptions" name="assessmentQuestionOptions"
+                  [(ngModel)]="question.options">{{ question.options }}</textarea>
+              </div>
+            </div> -->
+            <!-- <div class="col-12">
+              <div class="form-group">
+                <label for="assessmentQuestionAnswer" class="form-label">Answer</label>
+                <input type="text" class="form-control" id="assessmentQuestionAnswer" name="assessmentQuestionAnswer"
+                  [(ngModel)]="question.answer" />
+              </div>
+            </div> -->
             <div class="col-12">
               <div class="buttons">
                 <button class="btn btn-primary" (click)="createAssessmentQuestion()" *ngIf="

@@ -43,6 +43,7 @@ export class ClientsComponent {
     ],
     order: [[0, 'desc']],
   };
+  addClientbool: boolean=false;
 
   constructor(
     private router: Router,
@@ -146,6 +147,7 @@ export class ClientsComponent {
 
   setFormType(name: string) {
     this.formType = name;
+    this.addusertoogle()
   }
 
   updateLogo() {
@@ -183,5 +185,19 @@ export class ClientsComponent {
 
   onRemoveLogo(event: any) {
     this.logo = null;
+  }
+
+  addusertoogle(){
+    this.addClientbool=true
+  }
+  onclose(){
+    this.addClientbool=false
+    this.formType = 'create';
+    this.client={
+      id: '',
+      name: '',
+      website: '',
+      logoURL: '',
+    };
   }
 }

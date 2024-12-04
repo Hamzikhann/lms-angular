@@ -46,6 +46,7 @@ export class CourseTaskTypeAssessmentComponent {
     description: '',
     estimatedTime: '',
     startTime: '',
+    type: '',
   };
 
   question: any = {
@@ -53,8 +54,10 @@ export class CourseTaskTypeAssessmentComponent {
     title: '',
     options: '',
     answer: '',
-    type: '',
+    // type: '',
   };
+  questionType: string = '';
+
   questionFormType: string = '';
 
   submission: any = [];
@@ -132,6 +135,7 @@ export class CourseTaskTypeAssessmentComponent {
     });
 
     this.courseTaskService.getAssessments().subscribe((data: any) => {
+      console.log(data);
       this.assessments = data;
     });
   }
@@ -145,6 +149,7 @@ export class CourseTaskTypeAssessmentComponent {
         description: this.assessment.description,
         estimatedTime: this.assessment.estimatedTime,
         startTime: this.assessment.startTime,
+        // questionType: this.assessment.type,
         questions: [],
       },
     };
@@ -221,9 +226,23 @@ export class CourseTaskTypeAssessmentComponent {
         title: this.question.title,
         options: this.question.options,
         answer: this.question.answer,
-        type: 'MCQ',
+        type: this.questionType,
       },
     };
+    // if(this.assessments[0].questionType=='mcqs'){
+
+    //   data.payload.title=this.question.title
+    //   data.payload.courseTaskAssessmentId=this.assessment.id
+    //   data.payload.options=this.question.options
+    //   data.payload.answer=this.question.answer
+    //   data.payload.type=this.questionType
+    // }else{
+    //   data.payload.courseTaskAssessmentId=this.assessment.id
+    //   data.payload.title=this.question.title
+    //   data.payload.type=this.questionType
+
+    // }
+    console.log(data);
     this.apiServices.postRequest(data).subscribe((data) => {
       if (this.closeQuestionModal) {
         this.closeQuestionModal.nativeElement.click();
@@ -299,21 +318,24 @@ export class CourseTaskTypeAssessmentComponent {
     };
   }
 
-  getSubmissions(event: any, questionId: string) {
+  getSubmissions(event: any, questionId: string, type: string) {
     var updated = false;
     var value = event.target.value;
+    console.log(type);
 
     this.submission.forEach((question: any) => {
       if (question.id == questionId) {
         question.answer = value.trim();
+        // question.type=type.trim()
         updated = true;
       }
     });
-
+    console.log('submision', this.submission);
     if (!updated) {
       this.submission.push({
         id: questionId,
         answer: value.trim(),
+        type: type.trim(),
       });
     }
   }
@@ -329,6 +351,8 @@ export class CourseTaskTypeAssessmentComponent {
       },
     };
     this.apiServices.postRequest(data).subscribe((data) => {
+      console.log(data);
+      console.log(this.taskDetails.courseTaskType.title);
       if (this.taskDetails.courseTaskType.title == 'Assessment') {
         this.courseTaskService.callTaskDetailsAPI(
           this.taskId,
@@ -380,11 +404,12 @@ export class CourseTaskTypeAssessmentComponent {
     var questionsTotal =
       this.assessments[0].courseTaskAssessmentQuestions.length;
     var questionsCorrect = 0;
-
+    console.log('assesment', this.assessments);
+    console.log('valid submission', this.submission);
     this.submission.forEach((questionSubmission: any) => {
       this.assessments[0].courseTaskAssessmentQuestions.forEach(
         (question: any) => {
-          if (questionSubmission.id == question.id) {
+          if (questionSubmission.id == question.id && question.type == 'mcqs') {
             if (questionSubmission.answer.trim() == question.answer.trim()) {
               questionSubmission.message = 'Correct';
               questionsCorrect++;
@@ -392,6 +417,27 @@ export class CourseTaskTypeAssessmentComponent {
               questionSubmission.message = 'Incorrect';
               this.error = true;
             }
+          } else if (
+            questionSubmission.id == question.id &&
+            question.type == 'questions'
+          ) {
+            const data = {
+              path: 'course/task/assessments/question/check',
+              payload: {
+                answer: questionSubmission.answer,
+                question: question.title,
+              },
+            };
+            this.apiServices.postRequest(data).subscribe((res) => {
+              console.log('res of question', res);
+              if (res.result == 'true') {
+                questionSubmission.message = 'Correct';
+                questionsCorrect++;
+              } else {
+                questionSubmission.message = 'Incorrect';
+                this.error = true;
+              }
+            });
           }
         }
       );
@@ -404,12 +450,23 @@ export class CourseTaskTypeAssessmentComponent {
       this.submitted = true;
     }, 5000);
 
-    var result = (questionsCorrect / questionsTotal) * 100;
-    this.toastr.success('Assessment submitted!');
+    setTimeout(() => {
+      console.log(questionsCorrect);
+      var result = (questionsCorrect / questionsTotal) * 100;
+      this.toastr.success('Assessment submitted!');
+      console.log('result', result);
+      if (this.loggedInUser.role.title == 'User') {
+        this.updateTaskProgress(result);
+      }
+    }, 1000);
 
-    if (this.loggedInUser.role.title == 'User') {
-      this.updateTaskProgress(result);
-    }
+    // console.log(questionsCorrect)
+    //     var result = (questionsCorrect / questionsTotal) * 100;
+    //     this.toastr.success('Assessment submitted!');
+    // console.log("result",result)
+    //     if (this.loggedInUser.role.title == 'User') {
+    //       this.updateTaskProgress(result);
+    //     }
   }
   retryAssessment() {
     this.submitted = false;

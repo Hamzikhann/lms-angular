@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./users.component.css'],
 })
 export class UsersComponent {
+  permission: any = { create: false, update: false, delete: false };
   roles: any;
   clients: any;
   departments: any;
@@ -43,7 +44,7 @@ export class UsersComponent {
   };
 
   newPassword: string = '';
-
+adduserbool:boolean=false
   constructor(
     private router: Router,
     private toastr: ToastrService,
@@ -54,12 +55,17 @@ export class UsersComponent {
   @ViewChild('closeModal') closeModal: ElementRef | undefined;
 
   ngOnInit(): void {
+
     this.loggedInUser = JSON.parse(this.authService.getUser());
     if (this.loggedInUser.role.title == 'Administrator') {
+      this.permission = { create: true, update: true, delete: true };
+
       this.getRoles();
       this.getClients();
       this.getUsers();
     } else if (this.loggedInUser.role.title == 'Client') {
+      this.permission = { create: true, update: true, delete: true };
+
       this.getDepartments();
       this.getDesignations();
       this.getUsers();
@@ -244,11 +250,32 @@ export class UsersComponent {
 
   setFormType(name: string) {
     this.formType = name;
+    this.addusertoogle()
   }
 
   resetUserData() {
     this.formType = 'create';
     this.user = {
+      id: '',
+      firstName: '',
+      lastName: '',
+      email: '',
+      password: '',
+      departmentId: '',
+      designationId: '',
+      managerId: '',
+      clientId: '',
+      roleId: '',
+    };
+  }
+
+  addusertoogle(){
+    this.adduserbool=true
+  }
+  onclose(){
+    this.adduserbool=false
+    this.formType = 'create';
+    this.user={
       id: '',
       firstName: '',
       lastName: '',

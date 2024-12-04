@@ -10,11 +10,114 @@
       </ol>
     </div>
   </div>
+  <div class="row" role="tablist">
+    <div class="col-auto">
+      <button class="btn btn-outline-primary" *ngIf="permission.create && !adduserbool" (click)="addusertoogle()">Add User</button>
+      <button class="btn btn-outline-primary" *ngIf="permission.create && adduserbool" (click)="onclose()">Close</button>
+    
+    </div>
+  </div>
 </div>
 
 <div class="container">
   <div class="row">
-    <div class="col-lg-4 col-sm-12">
+    
+    
+    <div class="col-lg-8 col-sm-12">
+      <div class="card">
+        <div class="card-header">
+          <h6 class="mb-0">List of Users</h6>
+        </div>
+        <div class="card-body">
+          <ng-container *ngIf="loading">
+            <img src="/assets/images/loading.svg" width="20" class="mb-3" />
+          </ng-container>
+          <table
+            class="table table-sm table-hover table-bordered mb-0"
+            *ngIf="!loading && users.length > 0; else noData"
+            datatable
+            [dtOptions]="dtOptions"
+          >
+            <thead class="bg-light">
+              <tr>
+                <th scope="col">Full Name</th>
+                <th scope="col">Email</th>
+                <ng-container
+                  *ngIf="loggedInUser.role.title == 'Administrator'"
+                >
+                  <th scope="col">Client</th>
+                  <th scope="col">Role</th>
+                </ng-container>
+                <ng-container *ngIf="loggedInUser.role.title == 'Client'">
+                  <th scope="col">Department</th>
+                  <th scope="col">Manager</th>
+                </ng-container>
+                <th scope="col" class="text-center">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <ng-container *ngFor="let user of users; let i = index">
+                <tr>
+                  <td>{{ user.firstName + " " + user.lastName }}</td>
+                  <td>{{ user.email }}</td>
+                  <ng-container
+                    *ngIf="loggedInUser.role.title == 'Administrator'"
+                  >
+                    <td>{{ user.client?.name }}</td>
+                    <td>{{ user.role.title }}</td>
+                  </ng-container>
+                  <ng-container *ngIf="loggedInUser.role.title == 'Client'">
+                    <td>{{ user.userDepartment?.title }}</td>
+                    <td>
+                      <span *ngIf="user.manager">{{
+                        user.manager.firstName + " " + user.manager.lastName
+                      }}</span>
+                    </td>
+                  </ng-container>
+                  <td class="text-center">
+                    <div class="buttons" *ngIf="loggedInUser.id != user.id">
+                      <span
+                        class="badge badge-primary p-1 mr-2"
+                        (click)="setUser(user); setFormType('update')"
+                      >
+                        <i class="material-icons mr-0">edit</i>
+                      </span>
+                      <span
+                        class="badge badge-primary p-1 mr-2"
+                        (click)="setUser(user); setFormType('delete')"
+                      >
+                        <i class="material-icons mr-0">delete</i>
+                      </span>
+                      <span
+                        *ngIf="
+                          loggedInUser.role.title == 'Administrator' ||
+                          loggedInUser.role.title == 'Client'
+                        "
+                        class="badge badge-primary p-1 mr-2"
+                        href="#"
+                        data-toggle="modal"
+                        data-target="#updateUserPassword"
+                        (click)="setUser(user)"
+                      >
+                        <i class="material-icons mr-0">vpn_key</i>
+                      </span>
+                    </div>
+                  </td>
+                </tr>
+              </ng-container>
+            </tbody>
+          </table>
+          <ng-template #noData>
+            <!-- <div class="alert alert-warning" role="alert"> -->
+            <div>
+              No data available
+            </div>
+          </ng-template>
+
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-4 col-sm-12" *ngIf="adduserbool">
       <div class="card">
         <div class="card-header">
           <h6 class="mb-0" *ngIf="formType == 'create'">Create New</h6>
@@ -229,100 +332,6 @@
               </div>
             </div>
           </form>
-        </div>
-      </div>
-    </div>
-    <div class="col-lg-8 col-sm-12">
-      <div class="card">
-        <div class="card-header">
-          <h6 class="mb-0">List of Users</h6>
-        </div>
-        <div class="card-body">
-          <ng-container *ngIf="loading">
-            <img src="/assets/images/loading.svg" width="20" class="mb-3" />
-          </ng-container>
-          <table
-            class="table table-sm table-hover table-bordered mb-0"
-            *ngIf="!loading && users.length > 0; else noData"
-            datatable
-            [dtOptions]="dtOptions"
-          >
-            <thead class="bg-light">
-              <tr>
-                <th scope="col">Full Name</th>
-                <th scope="col">Email</th>
-                <ng-container
-                  *ngIf="loggedInUser.role.title == 'Administrator'"
-                >
-                  <th scope="col">Client</th>
-                  <th scope="col">Role</th>
-                </ng-container>
-                <ng-container *ngIf="loggedInUser.role.title == 'Client'">
-                  <th scope="col">Department</th>
-                  <th scope="col">Manager</th>
-                </ng-container>
-                <th scope="col" class="text-center">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              <ng-container *ngFor="let user of users; let i = index">
-                <tr>
-                  <td>{{ user.firstName + " " + user.lastName }}</td>
-                  <td>{{ user.email }}</td>
-                  <ng-container
-                    *ngIf="loggedInUser.role.title == 'Administrator'"
-                  >
-                    <td>{{ user.client?.name }}</td>
-                    <td>{{ user.role.title }}</td>
-                  </ng-container>
-                  <ng-container *ngIf="loggedInUser.role.title == 'Client'">
-                    <td>{{ user.userDepartment?.title }}</td>
-                    <td>
-                      <span *ngIf="user.manager">{{
-                        user.manager.firstName + " " + user.manager.lastName
-                      }}</span>
-                    </td>
-                  </ng-container>
-                  <td class="text-center">
-                    <div class="buttons" *ngIf="loggedInUser.id != user.id">
-                      <span
-                        class="badge badge-primary p-1 mr-2"
-                        (click)="setUser(user); setFormType('update')"
-                      >
-                        <i class="material-icons mr-0">edit</i>
-                      </span>
-                      <span
-                        class="badge badge-primary p-1 mr-2"
-                        (click)="setUser(user); setFormType('delete')"
-                      >
-                        <i class="material-icons mr-0">delete</i>
-                      </span>
-                      <span
-                        *ngIf="
-                          loggedInUser.role.title == 'Administrator' ||
-                          loggedInUser.role.title == 'Client'
-                        "
-                        class="badge badge-primary p-1 mr-2"
-                        href="#"
-                        data-toggle="modal"
-                        data-target="#updateUserPassword"
-                        (click)="setUser(user)"
-                      >
-                        <i class="material-icons mr-0">vpn_key</i>
-                      </span>
-                    </div>
-                  </td>
-                </tr>
-              </ng-container>
-            </tbody>
-          </table>
-          <ng-template #noData>
-            <!-- <div class="alert alert-warning" role="alert"> -->
-            <div>
-              No data available
-            </div>
-          </ng-template>
-
         </div>
       </div>
     </div>

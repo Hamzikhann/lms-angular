@@ -223,6 +223,7 @@ export class CourseTaskService {
     }
     this.apiServices.postRequest(data).subscribe((response) => {
       var taskData = response.data;
+      console.log(taskData);
       if (taskData?.courseTaskProgresses.length > 0) {
         taskData.progress = taskData?.courseTaskProgresses[0].percentage;
       } else {

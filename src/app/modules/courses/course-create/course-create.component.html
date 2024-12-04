@@ -184,11 +184,106 @@
                     >Publish</label
                   >
                 </div>
+                
               </div>
+            </div>
+            <div class="form-group">
+              <label>Course Code</label>
+              <input
+                type="text"
+                class="form-control"
+                name="code"
+                [(ngModel)]="course.code"
+                placeholder="Enter course code"
+              />
+            </div>
+            <div class="form-group">
+              <label>Level of Difficulty</label>
+              <!-- <input
+                type="text"
+                class="form-control"
+                name="level"
+                [(ngModel)]="course.level"
+                placeholder="Enter level of difficulty"
+              /> -->
+              <select
+              class="form-control"
+              name="level"
+              [(ngModel)]="course.level"
+            >
+              <option disabled></option>
+              <!-- <ng-container *ngFor="let learningPath of learningPaths"> -->
+                <!-- <ng-container *ngFor="let class of learningPath.classes"> -->
+                  <option value="Begineer">Begineer</option>
+                  <option value="Professional">Professional</option>
+                  <option value="Master">Master</option>
+                <!-- </ng-container> -->
+              <!-- </ng-container> -->
+            </select>
+            </div>
+            <div class="form-group mb-2">
+              <label>Language</label>
+              <input
+                type="text"
+                class="form-control"
+                name="language"
+                [(ngModel)]="course.language"
+                placeholder="Enter language"
+              />
+            </div>
+            <div class="form-group mb-2">
+              <label>Approximate Time</label>
+              <input
+                type="text"
+                class="form-control"
+                name="approximateTime"
+                [(ngModel)]="course.approximateTime"
+                placeholder="Enter approximate time"
+              />
+            </div>
+            <div class="form-group mb-2">
+              <label>Passing Threshold</label>
+              <input
+                type="text"
+                class="form-control"
+                name="passingThreshold "
+                [(ngModel)]="course.passingThreshold"
+                placeholder="Enter passing threshold"
+              />
+            </div>
+            <div class="form-group">
+              <label>Class</label>
+              <select
+                class="form-control"
+                name="classId"
+                [(ngModel)]="course.classId"
+              >
+                <option>...</option>
+                <ng-container *ngFor="let learningPath of learningPaths">
+                  <ng-container *ngFor="let class of learningPath.classes">
+                    <option [value]="class.id">{{ class.title }}</option>
+                  </ng-container>
+                </ng-container>
+              </select>
+            </div>
+            <div class="form-group mb-2">
+              <label>Department</label>
+              <select
+                class="form-control"
+                name="courseDepartmentId"
+                [(ngModel)]="course.courseDepartmentId"
+              >
+                <option>...</option>
+                <ng-container *ngFor="let department of courseDepartments">
+                  <option [value]="department.id">
+                    {{ department.title }}
+                  </option>
+                </ng-container>
+              </select>
             </div>
           </div>
         </div>
-        <div class="card">
+        <!-- <div class="card">
           <div class="card-body">
             <div class="form-group">
               <label>Course Code</label>
@@ -241,8 +336,8 @@
               />
             </div>
           </div>
-        </div>
-        <div class="card">
+        </div> -->
+        <!-- <div class="card">
           <div class="card-body">
             <div class="form-group">
               <label>Class</label>
@@ -275,7 +370,7 @@
               </select>
             </div>
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>
